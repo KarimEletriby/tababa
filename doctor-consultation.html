@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بدء كشف جديد ومساحة الكشف السريري - طبابا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="doctor-shared.css">
+<link rel="stylesheet" href="responsive.css">
+<style>
+/* ==========================================================================
+   ADVANCED CLINICAL CONSULTATION WORKSPACE (بدء كشف جديد)
+   ========================================================================== */
+
+/* Page shell custom override for Consultation Layout */
+.consult-page-shell {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 16px 20px 40px;
+}
+
+@media (max-width: 1200px) {
+  .consult-page-shell {
+    grid-template-columns: 1fr 300px;
+    gap: 14px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 980px) {
+  .consult-page-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Consultation Top Header Bar */
+.consult-app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.c-head-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.c-brand-logo {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.c-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.c-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.c-nav-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.c-nav-link.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--border-strong);
+}
+
+/* ==================== SCHEDULE COLUMN ("جدول اليوم") ==================== */
+.sched-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sched-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sched-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sched-title-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.sched-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.sched-counter {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Schedule filter tabs */
+.sched-filters {
+  display: flex;
+  gap: 6px;
+  background: rgba(7, 11, 20, 0.7);
+  padding: 4px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+}
+
+.sched-filter-btn {
+  flex: 1;
+  text-align: center;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.sched-filter-btn:hover {
+  color: var(--text-primary);
+}
+
+.sched-filter-btn.active {
+  background: #162438;
+  color: var(--text-primary);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Schedule Patient Cards */
+.sched-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.sched-card {
+  background: #0d1527;
+  border: 1px solid rgba(110, 231, 201, 0.12);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sched-card:hover {
+  border-color: rgba(31, 230, 168, 0.35);
+  transform: translateY(-1px);
+  background: #111a2f;
+}
+
+.sched-card.active {
+  border: 1.5px solid #1fe6a8;
+  background: #0d182b;
+  box-shadow: 0 0 18px rgba(31, 230, 168, 0.16);
+}
+
+.sched-card.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 4px;
+  background: #1fe6a8;
+  border-radius: 0 4px 4px 0;
+}
+
+.sched-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.sched-card-avatar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sched-card-time {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sched-card-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #162438;
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sched-card-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.sched-card-sub {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sched-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sched-branch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.sched-branch-badge.mansoura {
+  background: rgba(31, 230, 168, 0.12);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.3);
+}
+
+.sched-branch-badge.cairo {
+  background: rgba(91, 156, 245, 0.12);
+  color: #5b9cf5;
+  border: 1px solid rgba(91, 156, 245, 0.3);
+}
+
+.sched-branch-badge.giza {
+  background: rgba(242, 184, 75, 0.12);
+  color: #f2b84b;
+  border: 1px solid rgba(242, 184, 75, 0.3);
+}
+
+.sched-status-badge {
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+.sched-status-badge.waiting {
+  background: rgba(242, 184, 75, 0.15);
+  color: #f2b84b;
+  border: 1px solid rgba(242, 184, 75, 0.3);
+}
+
+.sched-status-badge.done {
+  background: rgba(31, 230, 168, 0.15);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.3);
+}
+
+.sched-timer {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* ==================== MAIN CONSULTATION WORKSPACE ==================== */
+.consult-main-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Top Patient Context Bar */
+.c-patient-header-card {
+  background: #0c1220;
+  border: 1px solid rgba(110, 231, 201, 0.15);
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.c-p-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.c-p-avatar-large {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #111e33;
+  border: 1.5px solid var(--accent);
+  color: #1fe6a8;
+  font-size: 18px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(31, 230, 168, 0.2);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.c-p-avatar-large::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 1px;
+  width: 10px;
+  height: 10px;
+  background: #1fe6a8;
+  border: 2px solid #0c1220;
+  border-radius: 50%;
+}
+
+.c-p-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.c-p-name {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.c-p-id {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.c-p-clinic-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  background: rgba(31, 230, 168, 0.1);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.25);
+}
+
+.c-p-submeta {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.c-priority-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 800;
+  background: rgba(242, 102, 92, 0.16);
+  color: #f2665c;
+  border: 1px solid rgba(242, 102, 92, 0.4);
+  box-shadow: 0 0 10px rgba(242, 102, 92, 0.15);
+}
+
+.c-p-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-chat-patient {
+  background: #1fe6a8;
+  color: #070b14;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+  box-shadow: 0 4px 14px rgba(31, 230, 168, 0.28);
+}
+
+.btn-chat-patient:hover {
+  background: #34f3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(31, 230, 168, 0.4);
+}
+
+.btn-profile-patient {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.btn-profile-patient:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+/* ==================== HORIZONTAL WORKSPACE TABS ==================== */
+.consult-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(110, 231, 201, 0.12);
+  padding-bottom: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.consult-tabs-bar::-webkit-scrollbar { display: none; }
+
+.c-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.c-tab-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.c-tab-btn.active {
+  background: rgba(31, 230, 168, 0.08);
+  border: 1px solid #1fe6a8;
+  color: #1fe6a8;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(31, 230, 168, 0.1);
+}
+
+/* ==================== OVERVIEW TAB ("نظرة عامة") ==================== */
+.c-overview-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 820px) {
+  .c-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Pain Model Box (Left) */
+.c-pain-box {
+  background: #0d1527;
+  border: 1px solid rgba(110, 231, 201, 0.12);
+  border-radius: 16px;
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.c-pain-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.2px;
+}
+
+.c-pain-svg-container {
+  width: 100%;
+  max-width: 160px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.c-pain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  background: rgba(242, 102, 92, 0.2);
+  color: #f2665c;
+  border: 1px solid rgba(242, 102, 92, 0.45);
+  box-shadow: 0 0 12px rgba(242, 102, 92, 0.2);
+}
+
+.c-pain-duration {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+/* Interactive clickable hotspots on pain model */
+.pain-hotspot {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pain-hotspot:hover {
+  filter: drop-shadow(0 0 6px #1fe6a8);
+}
+
+/* Clinical Info Cards (Right) */
+.c-clinical-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.c-clinical-card {
+  background: #0d1527;
+  border: 1px solid rgba(110, 231, 201, 0.1);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: var(--transition);
+}
+
+.c-clinical-card:hover {
+  border-color: rgba(110, 231, 201, 0.22);
+}
+
+.c-card-lbl {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.c-card-val-primary {
+  font-size: 15px;
+  font-weight: 800;
+  color: #f2f5f8;
+  line-height: 1.4;
+}
+
+.c-card-val-accent {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1fe6a8;
+  line-height: 1.4;
+}
+
+/* Allergy Warning Card (Special Red Warning Style) */
+.c-allergy-alert-card {
+  background: rgba(242, 102, 92, 0.1);
+  border: 1px solid rgba(242, 102, 92, 0.45);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 0 16px rgba(242, 102, 92, 0.08);
+}
+
+.c-allergy-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #f2665c;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.c-allergy-name {
+  font-size: 15px;
+  font-weight: 900;
+  color: #f2665c;
+}
+
+/* Tag chips list */
+.c-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.c-tag-pill {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.c-tag-pill.chronic {
+  background: #1a2335;
+  color: #f2b84b;
+  border: 1px solid rgba(242, 184, 75, 0.25);
+}
+
+.c-tag-pill.med {
+  background: #101c2e;
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.25);
+}
+
+/* ==================== BOTTOM ACTION BAR ==================== */
+.consult-bottom-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #0c1220;
+  border: 1px solid rgba(110, 231, 201, 0.15);
+  border-radius: 16px;
+  margin-top: 6px;
+}
+
+.btn-primary-consult {
+  background: #1fe6a8;
+  color: #070b14;
+  font-size: 14px;
+  font-weight: 900;
+  padding: 12px 26px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 18px rgba(31, 230, 168, 0.32);
+}
+
+.btn-primary-consult:hover {
+  background: #3affc2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(31, 230, 168, 0.45);
+}
+
+.btn-secondary-consult {
+  background: #10192b;
+  color: #f2f5f8;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary-consult:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-hover);
+}
+
+/* Quick secondary helpers */
+.c-quick-aux {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ==================== PRESCRIPTION & NOTES MODERN WORKSPACES ==================== */
+.modern-rx-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.modern-rx-row {
+  background: #0d1527;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.modern-rx-row:hover {
+  border-color: var(--border-strong);
+}
+
+.notes-editor-box {
+  background: #0d1527;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notes-textarea {
+  width: 100%;
+  min-height: 180px;
+  background: #080d18;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--text-primary);
+  font-size: 13.5px;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+}
+
+.notes-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(31, 230, 168, 0.15);
+}
+
+/* Audio wave animation */
+.audio-visualizer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 48px;
+  padding: 8px 16px;
+  background: #080d18;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.audio-bar {
+  width: 4px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: height 0.1s ease;
+}
+
+.recording-pulse .audio-bar {
+  animation: soundBars 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes soundBars {
+  0% { height: 6px; }
+  50% { height: 38px; }
+  100% { height: 12px; }
+}
+
+/* Print Rx Preview Card */
+.rx-paper-card {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-family: 'Tajawal', sans-serif;
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== TOP NAVIGATION HEADER ==================== -->
+<header class="consult-app-header">
+  <div class="c-head-brand">
+    <a href="tababa-doctor-dashboard.html" class="c-brand-logo">
+      <i class="ti ti-stethoscope" style="font-size:24px"></i>
+      <span>طبابا</span>
+    </a>
+    <span class="tiny" style="color:var(--text-muted);border-right:1px solid var(--border);padding-right:12px;margin-right:4px">
+      مساحة الكشف السريري والتشخيص
+    </span>
+  </div>
+
+  <nav class="c-nav-links" style="display:flex;align-items:center;gap:6px">
+    <a href="tababa-doctor-dashboard.html" class="c-nav-link"><i class="ti ti-layout-dashboard"></i>الرئيسية</a>
+    <a href="doctor-patients.html" class="c-nav-link"><i class="ti ti-users"></i>المرضى</a>
+    <a href="doctor-consultation.html" class="c-nav-link active"><i class="ti ti-stethoscope"></i>بدء كشف جديد</a>
+    <a href="doctor-clinics.html" class="c-nav-link"><i class="ti ti-building-hospital"></i>عياداتي</a>
+    <a href="doctor-financial.html" class="c-nav-link"><i class="ti ti-report-money"></i>المالية</a>
+  </nav>
+
+  <div style="display:flex;align-items:center;gap:10px">
+    <!-- Clinic Switcher -->
+    <div class="clinic-switcher-wrap" id="clinicSwitcherWrap">
+      <div class="clinic-switcher-btn" onclick="toggleClinicDropdown()" style="padding:5px 12px">
+        <div class="clinic-active-icon" id="currentClinicIcon" style="width:26px;height:26px;font-size:13px"><i class="ti ti-building-hospital"></i></div>
+        <div class="clinic-active-info">
+          <div class="clinic-active-name" style="font-size:11.5px">
+            <span id="currentClinicNameDisplay">جميع الفروع</span>
+            <i class="ti ti-chevron-down" style="font-size:11px"></i>
+          </div>
+        </div>
+      </div>
+      <div class="clinic-dropdown" id="clinicDropdown">
+        <div class="clinic-drop-head">اختر الفرع الطبي</div>
+        <div class="clinic-option active" data-id="all" onclick="selectClinic('all')">
+          <div class="clinic-opt-icon"><i class="ti ti-world"></i></div>
+          <div class="clinic-opt-info">
+            <div class="clinic-opt-title">جميع العيادات (عرض شامل)</div>
+            <div class="clinic-opt-sub">المنصورة، القاهرة، الجيزة</div>
+          </div>
+        </div>
+        <div class="clinic-option" data-id="clinic_mansoura" onclick="selectClinic('clinic_mansoura')">
+          <div class="clinic-opt-icon" style="color:var(--accent)"><i class="ti ti-building-hospital"></i></div>
+          <div class="clinic-opt-info">
+            <div class="clinic-opt-title">مركز طبابا الطبي — المنصورة</div>
+            <div class="clinic-opt-sub">الأحد، الثلاثاء، الخميس</div>
+          </div>
+        </div>
+        <div class="clinic-option" data-id="clinic_cairo" onclick="selectClinic('clinic_cairo')">
+          <div class="clinic-opt-icon" style="color:var(--info)"><i class="ti ti-building-community"></i></div>
+          <div class="clinic-opt-info">
+            <div class="clinic-opt-title">عيادة النور — القاهرة</div>
+            <div class="clinic-opt-sub">السبت، الاثنين، الأربعاء</div>
+          </div>
+        </div>
+        <div class="clinic-option" data-id="clinic_giza" onclick="selectClinic('clinic_giza')">
+          <div class="clinic-opt-icon" style="color:var(--warn)"><i class="ti ti-heart-rate-monitor"></i></div>
+          <div class="clinic-opt-info">
+            <div class="clinic-opt-title">عيادة فيوتشر كير — الجيزة</div>
+            <div class="clinic-opt-sub">الأحد، الأربعاء</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Attention Pill -->
+    <button class="pill sm solid" onclick="openAiRecomModal()"><i class="ti ti-sparkles"></i>توصيات AI <span id="topbarAiCount">5</span></button>
+
+    <!-- Back to Dashboard -->
+    <a href="tababa-doctor-dashboard.html" class="pill sm ghost" style="font-weight:700">
+      <i class="ti ti-arrow-right"></i> لوحة التحكم
+    </a>
+  </div>
+</header>
+
+<!-- ==================== MAIN PAGE SHELL ==================== -->
+<div class="consult-page-shell">
+
+  <!-- ==================== LEFT MAIN WORKSPACE ==================== -->
+  <main class="consult-main-col">
+
+    <!-- 1. Patient Context Bar (Header) -->
+    <div class="c-patient-header-card" id="consultPatientHeader">
+      <!-- Injected via renderPatientHeader() -->
+    </div>
+
+    <!-- 2. Workspace Horizontal Tabs -->
+    <div class="consult-tabs-bar" id="consultTabsBar">
+      <button class="c-tab-btn active" data-tab="overview" onclick="switchConsultTab('overview')">
+        <i class="ti ti-layout-grid"></i> نظرة عامة
+      </button>
+      <button class="c-tab-btn" data-tab="notes" onclick="switchConsultTab('notes')">
+        <i class="ti ti-notes"></i> ملاحظات سريرية
+      </button>
+      <button class="c-tab-btn" data-tab="prescription" onclick="switchConsultTab('prescription')">
+        <i class="ti ti-prescription"></i> الروشتة
+      </button>
+      <button class="c-tab-btn" data-tab="recording" onclick="switchConsultTab('recording')">
+        <i class="ti ti-microphone"></i> تسجيل الجلسة
+      </button>
+      <button class="c-tab-btn" data-tab="records" onclick="switchConsultTab('records')">
+        <i class="ti ti-file-analytics"></i> السجل الطبي
+      </button>
+      <button class="c-tab-btn" data-tab="followup" onclick="switchConsultTab('followup')">
+        <i class="ti ti-calendar-time"></i> المتابعة
+      </button>
+    </div>
+
+    <!-- 3. Dynamic Tab Content View -->
+    <div id="consultTabContent">
+      <!-- Injected dynamically via renderConsultContent() -->
+    </div>
+
+    <!-- 4. Bottom Sticky / Action Bar -->
+    <div class="consult-bottom-action-bar">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <button class="btn-primary-consult" onclick="onStartExamClick()">
+          <i class="ti ti-stethoscope"></i> بدء الفحص وتدوين الملاحظات
+        </button>
+        <button class="btn-secondary-consult" onclick="switchConsultTab('prescription')">
+          <i class="ti ti-prescription"></i> كتابة الروشتة
+        </button>
+      </div>
+
+      <div class="c-quick-aux">
+        <button class="pill sm ghost" onclick="switchConsultTab('records')">
+          <i class="ti ti-flask"></i> طلب تحاليل
+        </button>
+        <button class="pill sm ghost" onclick="switchConsultTab('recording')">
+          <i class="ti ti-sparkles" style="color:var(--accent)"></i> تسجيل صوتي AI
+        </button>
+        <button class="pill sm solid" style="background:#162438;border-color:var(--border-strong);color:var(--accent)" onclick="completeConsultation()">
+          <i class="ti ti-check"></i> إنهاء واعتماد الكشف
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== RIGHT COLUMN: "جدول اليوم" ==================== -->
+  <aside class="sched-col">
+    <div class="sched-box">
+      <!-- Header -->
+      <div class="sched-header">
+        <div class="sched-title-wrap">
+          <h2 class="sched-title">جدول اليوم</h2>
+          <span class="sched-counter" id="schedCount">8 مرضى</span>
+        </div>
+        <button class="btn-icon" style="width:28px;height:28px" onclick="renderScheduleList()" title="تحديث القائمة">
+          <i class="ti ti-refresh" style="font-size:14px"></i>
+        </button>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="sched-filters">
+        <div class="sched-filter-btn active" data-filter="all" onclick="setScheduleFilter('all')">الكل</div>
+        <div class="sched-filter-btn" data-filter="waiting" onclick="setScheduleFilter('waiting')">منتظر</div>
+        <div class="sched-filter-btn" data-filter="upcoming" onclick="setScheduleFilter('upcoming')">قادم</div>
+        <div class="sched-filter-btn" data-filter="done" onclick="setScheduleFilter('done')">مكتمل</div>
+      </div>
+
+      <!-- Patient Cards List -->
+      <div class="sched-cards-list" id="schedCardsContainer">
+        <!-- Injected via renderScheduleList() -->
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- ==================== MODALS & DRAWERS ==================== -->
+<!-- AI Recommendations Modal -->
+<div class="ai-modal" id="aiRecomModal">
+  <div class="ai-modal-content">
+    <div class="ai-modal-head">
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-sparkles" style="color:var(--accent);font-size:20px"></i>
+        <h3 style="font-size:15px;font-weight:700">مركز توصيات الذكاء الاصطناعي السريري (AI Attention Engine)</h3>
+      </div>
+      <button class="drawer-close" onclick="closeAiRecomModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<!-- Chat Drawer -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
+<div class="chat-drawer" id="chatDrawer">
+  <div class="chat-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="chat-header-avatar" id="chatAvatar">أ</div>
+      <div>
+        <div class="chat-header-name" id="chatPatientName">محادثة المريض</div>
+        <div class="chat-header-status" id="chatStatusText">متصل الآن</div>
+      </div>
+    </div>
+    <button class="drawer-close" onclick="closeAllDrawers()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="chat-messages-area" id="chatMessages"></div>
+  <div class="chat-input-bar">
+    <div class="chat-input-box">
+      <input type="text" id="chatInput" placeholder="اكتب ردك أو التعليمات الطبية..." onkeydown="if(event.key==='Enter')sendConsultChat()">
+    </div>
+    <button class="chat-send-btn" onclick="sendConsultChat()"><i class="ti ti-send"></i></button>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-box" id="toastBox"></div>
+
+<!-- Scripts -->
+<script src="doctor-shared.js"></script>
+<script>
+// ============================= APPLICATION STATE =============================
+let activePatientId = 1;
+let currentTab = 'overview';
+let scheduleFilter = 'all';
+
+// Active Prescriptions for the current session
+let currentPrescriptions = [
+  { name: 'Metformin 1000mg', dose: 'قرص واحد', freq: 'مرتين يومياً', duration: '30 يوماً', instructions: 'بعد الوجبة مباشرة مع كوب ماء' },
+  { name: 'Amlodipine 5mg', dose: 'قرص واحد', freq: 'مرة صباحاً', duration: '30 يوماً', instructions: 'قبل أو بعد الإفطار' },
+  { name: 'Januvia 100mg', dose: 'قرص واحد', freq: 'مرة واحدة يومياً', duration: '30 يوماً', instructions: 'صباحاً قبل الإفطار' }
+];
+
+// Audio session recording state
+let isRecordingAudio = false;
+let audioTimerSeconds = 0;
+let audioInterval = null;
+
+// ============================= INITIALIZATION =============================
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const pid = parseInt(params.get('patient'));
+  if (pid && PATIENTS.some(x => x.id === pid)) {
+    activePatientId = pid;
+  }
+
+  renderPatientHeader();
+  renderScheduleList();
+  renderConsultContent();
+  renderNotifications();
+});
+
+function onClinicChanged(clinicId) {
+  renderScheduleList();
+  renderPatientHeader();
+  renderConsultContent();
+}
+
+// ============================= PATIENT SELECTION =============================
+function selectPatient(id) {
+  activePatientId = id;
+  const p = getActivePatient();
+
+  // Reset prescriptions to patient defaults if available
+  if (p.meds && p.meds.length) {
+    currentPrescriptions = p.meds.map(m => ({
+      name: m,
+      dose: 'قرص واحد',
+      freq: 'مرة إلى مرتين يومياً',
+      duration: '30 يوماً',
+      instructions: 'وفق إرشادات الطبيب'
+    }));
+  }
+
+  // Update URL without full refresh
+  const url = new URL(window.location);
+  url.searchParams.set('patient', id);
+  window.history.replaceState({}, '', url);
+
+  renderPatientHeader();
+  renderScheduleList();
+  renderConsultContent();
+}
+
+function getActivePatient() {
+  return PATIENTS.find(x => x.id === activePatientId) || PATIENTS[0];
+}
+
+// ============================= HEADER RENDERING =============================
+function renderPatientHeader() {
+  const container = document.getElementById('consultPatientHeader');
+  if (!container) return;
+
+  const p = getActivePatient();
+  const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+  const score = calculateAttentionScore(p);
+
+  container.innerHTML = `
+    <div class="c-p-left">
+      <div class="c-p-avatar-large">${initials(p.name)}</div>
+      <div>
+        <div class="c-p-title-row">
+          <span class="c-p-name">${p.name}</span>
+          <span class="c-p-id">(${p.patientId})</span>
+          <span class="c-p-clinic-tag">
+            <i class="ti ti-building-hospital"></i> ${cInfo.name}
+          </span>
+        </div>
+        <div class="c-p-submeta">
+          <span>${p.age} سنة</span>
+          <span>•</span>
+          <span>${p.gender}</span>
+          <span>•</span>
+          <span>كشف عيادة 🏥</span>
+          <span>•</span>
+          <span style="color:${p.status === 'done' ? 'var(--accent)' : 'var(--warn)'}">
+            ${p.status === 'done' ? 'تم الكشف ✓' : 'في الانتظار'}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div class="c-priority-pill">
+        <i class="ti ti-flame"></i> 95/100 أولوية قصوى
+      </div>
+      <div class="c-p-actions">
+        <button class="btn-chat-patient" onclick="openPatientChat(${p.id})">
+          <i class="ti ti-message-circle"></i> محادثة المريض
+        </button>
+        <button class="btn-profile-patient" onclick="location.href='doctor-patients.html?patient=${p.id}'">
+          <i class="ti ti-id"></i> الملف الشامل
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// ============================= SCHEDULE LIST =============================
+function setScheduleFilter(filter) {
+  scheduleFilter = filter;
+  document.querySelectorAll('.sched-filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === filter);
+  });
+  renderScheduleList();
+}
+
+function renderScheduleList() {
+  const container = document.getElementById('schedCardsContainer');
+  const countBadge = document.getElementById('schedCount');
+  if (!container) return;
+
+  const appts = getClinicAppointments().slice(0, 8);
+  let filtered = appts;
+
+  if (scheduleFilter === 'waiting') {
+    filtered = appts.filter(p => p.status === 'waiting' || !p.status);
+  } else if (scheduleFilter === 'upcoming') {
+    filtered = appts.filter(p => p.status === 'scheduled' || p.status === 'upcoming');
+  } else if (scheduleFilter === 'done') {
+    filtered = appts.filter(p => p.status === 'done' || p.status === 'completed');
+  }
+
+  if (countBadge) countBadge.textContent = `${filtered.length} مرضى`;
+
+  if (!filtered.length) {
+    container.innerHTML = `<div class="tiny" style="color:var(--text-muted);text-align:center;padding:24px">لا يوجد مرضى في هذه الفئة</div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => {
+    const isCurrent = p.id === activePatientId;
+    const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+    const isDone = p.status === 'done';
+
+    return `
+      <div class="sched-card ${isCurrent ? 'active' : ''}" onclick="selectPatient(${p.id})">
+        <div class="sched-card-top">
+          <div style="flex:1;min-width:0">
+            <div class="sched-card-name">${p.name}</div>
+            <div class="sched-card-sub">${p.age} سنة • ${p.complaint || p.condition || 'كشف ومتابعة'}</div>
+          </div>
+          <div class="sched-card-avatar-wrap">
+            <div class="sched-card-time">
+              <span>${p.time || '10:00'}</span>
+              <span style="width:6px;height:6px;border-radius:50%;background:${isDone ? 'var(--accent)' : 'var(--warn)'}"></span>
+            </div>
+            <div class="sched-card-avatar">${initials(p.name)}</div>
+          </div>
+        </div>
+
+        <div class="sched-card-footer">
+          <span class="sched-branch-badge ${cInfo.tag}">
+            <i class="ti ti-building-hospital" style="font-size:10px"></i> ${cInfo.short}
+          </span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="sched-status-badge ${isDone ? 'done' : 'waiting'}">
+              ${isDone ? 'تم الكشف' : 'في الانتظار'}
+            </span>
+            ${!isDone && p.waitMin ? `<span class="sched-timer"><i class="ti ti-clock"></i> ${p.waitMin} دق</span>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============================= TAB NAVIGATION =============================
+function switchConsultTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.c-tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  renderConsultContent();
+}
+
+function onStartExamClick() {
+  switchConsultTab('notes');
+  showToast('تم الانتقال لتدوين الفحص والملاحظات السريرية');
+  setTimeout(() => {
+    const area = document.getElementById('clinicalNotesArea');
+    if (area) area.focus();
+  }, 100);
+}
+
+// ============================= WORKSPACE TAB CONTENT =============================
+function renderConsultContent() {
+  const mount = document.getElementById('consultTabContent');
+  if (!mount) return;
+  const p = getActivePatient();
+
+  if (currentTab === 'overview') {
+    mount.innerHTML = renderOverviewTab(p);
+  } else if (currentTab === 'notes') {
+    mount.innerHTML = renderNotesTab(p);
+  } else if (currentTab === 'prescription') {
+    mount.innerHTML = renderPrescriptionTab(p);
+  } else if (currentTab === 'recording') {
+    mount.innerHTML = renderRecordingTab(p);
+  } else if (currentTab === 'records') {
+    mount.innerHTML = renderRecordsTab(p);
+  } else if (currentTab === 'followup') {
+    mount.innerHTML = renderFollowupTab(p);
+  }
+}
+
+// ----------------------------- 1. OVERVIEW TAB -----------------------------
+function renderOverviewTab(p) {
+  const activeRegion = p.region || 'abdomen';
+  const painLevel = p.painLevel || 6;
+  const duration = p.painDuration || '4 أيام';
+  const regionArabic = activeRegion === 'abdomen' ? 'البطن' : (activeRegion === 'chest' ? 'الصدر' : (activeRegion === 'head' ? 'الرأس' : 'المفاصل'));
+
+  return `
+    <div class="c-overview-grid">
+      <!-- Left Box: Interactive Body Pain Model -->
+      <div class="c-pain-box">
+        <div class="c-pain-title">مجسم الألم التفاعلي</div>
+        
+        <div class="c-pain-svg-container">
+          ${renderInteractiveBodySvg(activeRegion, painLevel)}
+        </div>
+
+        <div class="c-pain-badge" id="painBadgeText">
+          <i class="ti ti-activity"></i> ${regionArabic}: شدة ${painLevel}/10
+        </div>
+        <div class="c-pain-duration">مدة الألم: ${duration}</div>
+
+        <!-- Quick Region Selector Hotspots -->
+        <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:6px">
+          <button class="pill xs ${activeRegion==='abdomen'?'solid':'ghost'}" onclick="setPainRegion('abdomen','البطن',6)">البطن</button>
+          <button class="pill xs ${activeRegion==='chest'?'solid':'ghost'}" onclick="setPainRegion('chest','الصدر',7)">الصدر</button>
+          <button class="pill xs ${activeRegion==='head'?'solid':'ghost'}" onclick="setPainRegion('head','الرأس',5)">الرأس</button>
+          <button class="pill xs ${activeRegion==='joints'?'solid':'ghost'}" onclick="setPainRegion('joints','المفاصل',4)">المفاصل</button>
+        </div>
+      </div>
+
+      <!-- Right Box: 5 Clinical Summary Cards -->
+      <div class="c-clinical-stack">
+        <!-- 1. الشكوى الرئيسية -->
+        <div class="c-clinical-card">
+          <div class="c-card-lbl">الشكوى الرئيسية</div>
+          <div class="c-card-val-primary">${p.complaint || p.condition || 'اضطراب في قراءات السكر الصباحية وإجهاد عام'}</div>
+        </div>
+
+        <!-- 2. التشخيص الحالي -->
+        <div class="c-clinical-card">
+          <div class="c-card-lbl">التشخيص الحالي</div>
+          <div class="c-card-val-accent">${p.diagnosis || 'داء السكري من النوع الثاني + ارتفاع ضغط الدم'}</div>
+        </div>
+
+        <!-- 3. تحذير الحساسية الدوائية -->
+        <div class="c-allergy-alert-card">
+          <div class="c-allergy-title">
+            <i class="ti ti-alert-triangle" style="font-size:16px"></i>
+            <span>تحذير الحساسية الدوائية</span>
+          </div>
+          <div class="c-allergy-name">
+            ${p.allergies && p.allergies.length ? p.allergies.join(' ، ') : 'سلفوناميد'}
+          </div>
+        </div>
+
+        <!-- 4. الأمراض المزمنة -->
+        <div class="c-clinical-card">
+          <div class="c-card-lbl">الأمراض المزمنة</div>
+          <div class="c-tags-row">
+            ${p.chronic && p.chronic.length 
+              ? p.chronic.map(c => `<span class="c-tag-pill chronic"><i class="ti ti-point"></i> ${c}</span>`).join('') 
+              : '<span class="c-tag-pill chronic">سكري نوع 2</span><span class="c-tag-pill chronic">ضغط دم مرتفع</span>'}
+          </div>
+        </div>
+
+        <!-- 5. الأدوية المتداولة حالياً -->
+        <div class="c-clinical-card">
+          <div class="c-card-lbl">الأدوية المتداولة حالياً</div>
+          <div class="c-tags-row">
+            ${p.meds && p.meds.length 
+              ? p.meds.map(m => `<span class="c-tag-pill med"><i class="ti ti-pill"></i> ${m}</span>`).join('') 
+              : '<span class="c-tag-pill med">Metformin 1000mg</span><span class="c-tag-pill med">Amlodipine 5mg</span><span class="c-tag-pill med">Januvia 100mg</span>'}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ----------------------------- INTERACTIVE BODY SVG -----------------------------
+function renderInteractiveBodySvg(activeRegion, painLevel) {
+  const isAbdomen = activeRegion === 'abdomen';
+  const isChest = activeRegion === 'chest';
+  const isHead = activeRegion === 'head';
+  const isJoints = activeRegion === 'joints';
+
+  return `
+    <svg viewBox="0 0 140 260" width="140" height="260" style="overflow:visible">
+      <defs>
+        <!-- Glow filters -->
+        <filter id="neonGlowRed" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+        <filter id="neonGlowCyan" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+
+      <!-- Grid Silhouette background lines -->
+      <line x1="70" y1="10" x2="70" y2="250" stroke="rgba(31,230,168,0.1)" stroke-dasharray="3,3" />
+
+      <!-- Head -->
+      <g class="pain-hotspot" onclick="setPainRegion('head','الرأس',5)">
+        <polygon points="56,22 84,22 80,48 70,54 60,48" 
+                 fill="${isHead ? 'rgba(242,102,92,0.45)' : 'none'}" 
+                 stroke="${isHead ? '#f2665c' : '#1e3a4a'}" 
+                 stroke-width="2" 
+                 filter="${isHead ? 'url(#neonGlowRed)' : ''}" />
+        <circle cx="70" cy="34" r="8" fill="none" stroke="${isHead ? '#f2665c' : '#1fe6a8'}" stroke-width="1.2" opacity="0.6"/>
+      </g>
+
+      <!-- Neck -->
+      <line x1="66" y1="54" x2="66" y2="62" stroke="#1e3a4a" stroke-width="2" />
+      <line x1="74" y1="54" x2="74" y2="62" stroke="#1e3a4a" stroke-width="2" />
+
+      <!-- Chest / Thorax -->
+      <g class="pain-hotspot" onclick="setPainRegion('chest','الصدر',7)">
+        <polygon points="46,62 94,62 88,102 52,102" 
+                 fill="${isChest ? 'rgba(242,102,92,0.45)' : 'none'}" 
+                 stroke="${isChest ? '#f2665c' : '#1e3a4a'}" 
+                 stroke-width="2" 
+                 filter="${isChest ? 'url(#neonGlowRed)' : ''}" />
+        <!-- Sternum line -->
+        <line x1="70" y1="64" x2="70" y2="100" stroke="${isChest ? '#f2665c' : 'rgba(31,230,168,0.3)'}" stroke-width="1.5" />
+      </g>
+
+      <!-- Abdomen / Lumbar (Active Pain Region in Ahmed Mohamed) -->
+      <g class="pain-hotspot" onclick="setPainRegion('abdomen','البطن والقولون',6)">
+        <polygon points="52,104 88,104 84,142 56,142" 
+                 fill="${isAbdomen ? 'rgba(242,102,92,0.42)' : 'none'}" 
+                 stroke="${isAbdomen ? '#f2665c' : '#1e3a4a'}" 
+                 stroke-width="${isAbdomen ? '2.5' : '2'}" 
+                 filter="${isAbdomen ? 'url(#neonGlowRed)' : ''}" />
+        ${isAbdomen ? `
+          <!-- Pulsing Target Ring -->
+          <circle cx="70" cy="123" r="10" fill="none" stroke="#f2665c" stroke-width="1.5" stroke-dasharray="3,2">
+            <animate attributeName="r" values="6;14;6" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="70" cy="123" r="3" fill="#f2665c" />
+        ` : ''}
+      </g>
+
+      <!-- Pelvis -->
+      <polygon points="56,144 84,144 88,162 52,162" fill="none" stroke="#1e3a4a" stroke-width="2" />
+
+      <!-- Arms -->
+      <!-- Right Arm -->
+      <line x1="46" y1="64" x2="32" y2="114" stroke="#1e3a4a" stroke-width="4" stroke-linecap="round" />
+      <line x1="32" y1="114" x2="26" y2="158" stroke="#1e3a4a" stroke-width="3" stroke-linecap="round" />
+      <!-- Left Arm -->
+      <line x1="94" y1="64" x2="108" y2="114" stroke="#1e3a4a" stroke-width="4" stroke-linecap="round" />
+      <line x1="108" y1="114" x2="114" y2="158" stroke="#1e3a4a" stroke-width="3" stroke-linecap="round" />
+
+      <!-- Legs & Knees -->
+      <!-- Right Leg -->
+      <line x1="58" y1="164" x2="55" y2="204" stroke="#1e3a4a" stroke-width="5" stroke-linecap="round" />
+      <line x1="55" y1="208" x2="52" y2="248" stroke="#1e3a4a" stroke-width="4" stroke-linecap="round" />
+      <!-- Left Leg -->
+      <line x1="82" y1="164" x2="85" y2="204" stroke="#1e3a4a" stroke-width="5" stroke-linecap="round" />
+      <line x1="85" y1="208" x2="88" y2="248" stroke="#1e3a4a" stroke-width="4" stroke-linecap="round" />
+
+      <!-- Knee Joints (Highlighted Cyan/Teal Circles) -->
+      <g class="pain-hotspot" onclick="setPainRegion('joints','مفاصل الركبة',4)">
+        <rect x="49" y="202" width="12" height="8" rx="2" 
+              fill="${isJoints ? 'rgba(242,102,92,0.4)' : 'rgba(31,230,168,0.12)'}" 
+              stroke="${isJoints ? '#f2665c' : '#1fe6a8'}" 
+              stroke-width="1.5" 
+              filter="url(#neonGlowCyan)"/>
+        <rect x="79" y="202" width="12" height="8" rx="2" 
+              fill="${isJoints ? 'rgba(242,102,92,0.4)' : 'rgba(31,230,168,0.12)'}" 
+              stroke="${isJoints ? '#f2665c' : '#1fe6a8'}" 
+              stroke-width="1.5" 
+              filter="url(#neonGlowCyan)"/>
+      </g>
+    </svg>
+  `;
+}
+
+function setPainRegion(reg, label, level) {
+  const p = getActivePatient();
+  p.region = reg;
+  p.painLevel = level;
+  showToast(`تم تحديد منطقة الألم: ${label} (شدة ${level}/10)`);
+  renderConsultContent();
+}
+
+// ----------------------------- 2. NOTES TAB -----------------------------
+function renderNotesTab(p) {
+  return `
+    <div class="notes-editor-box">
+      <!-- Vitals Bar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+        <div style="font-weight:800;font-size:13px;color:var(--accent);display:flex;align-items:center;gap:6px">
+          <i class="ti ti-heart-rate-monitor"></i> العلامات الحيوية المقاسة اليوم
+        </div>
+        <div style="display:flex;gap:12px;font-size:12px;color:var(--text-secondary);flex-wrap:wrap">
+          <span>الضغط: <b style="color:#fff">135/85 mmHg</b></span>
+          <span>النبض: <b style="color:#fff">78 bpm</b></span>
+          <span>الحرارة: <b style="color:#fff">37.1 °C</b></span>
+          <span>السكر العشوائي: <b style="color:#f2b84b">185 mg/dL</b></span>
+          <span>الأكسجين: <b style="color:#1fe6a8">98%</b></span>
+        </div>
+      </div>
+
+      <!-- Quick Templates -->
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span class="tiny" style="font-weight:700">قوالب الفحص السريع:</span>
+        <button class="pill xs ghost" onclick="insertNoteTpl('المريض في حالة عامة واعية ومستقرة، لا توجد علامات ضيق تنفس أو ألم صدري حاد.')">+ حالة مستقرة</button>
+        <button class="pill xs ghost" onclick="insertNoteTpl('فحص البطن: البطن لينة مع إيلام خفيف بالشرسوف، لا يوجد تضخم كبدي أو طحالي.')">+ فحص باطني</button>
+        <button class="pill xs ghost" onclick="insertNoteTpl('الصدر: أصوات تنفسية حويصلية طبيعية على جانبي الرئة، لا توجد حشرات أو صفير.')">+ فحص صدري سليم</button>
+        <button class="pill xs ghost" onclick="insertNoteTpl('حمية غذائية: الامتناع عن السكريات البسيطة والمشروبات الغازية وتقليل النشويات مع المشي 30 دقيقة يومياً.')">+ إرشادات حمية السكر</button>
+      </div>
+
+      <!-- Textarea -->
+      <textarea class="notes-textarea" id="clinicalNotesArea" placeholder="اكتب ملاحظات الفحص السريري، الأعراض المكتشفة، وخطة العلاج...">${p.notes || `الفحص السريري العام:
+المريض حضر يشكو من: ${p.complaint || 'اضطراب قراءات السكر'}
+التشخيص المبدئي: ${p.diagnosis || 'داء السكري من النوع الثاني'}
+ملاحظات الطبيب: تم فحص قراءات المتابعة المنزلية، لوحظ ارتفاع صائم (160-190 mg/dL). ينصح بإجراء سكر تراكمي وإعادة ضبط جرعات العلاج.`}</textarea>
+
+      <!-- Actions -->
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <button class="pill sm ghost" onclick="triggerVoiceDictation()"><i class="ti ti-microphone"></i> إملاء صوتي سريع</button>
+        <button class="pill sm solid" onclick="saveClinicalNotes()"><i class="ti ti-device-floppy"></i> حفظ في سجل المريض</button>
+      </div>
+    </div>
+  `;
+}
+
+function insertNoteTpl(txt) {
+  const area = document.getElementById('clinicalNotesArea');
+  if (area) {
+    area.value += (area.value ? '\n\n' : '') + txt;
+    showToast('تمت إضافة القالب للملاحظات');
+  }
+}
+
+function saveClinicalNotes() {
+  const p = getActivePatient();
+  const area = document.getElementById('clinicalNotesArea');
+  if (area) p.notes = area.value;
+  showToast('تم حفظ الملاحظات السريرية بنجاح ✓');
+}
+
+function triggerVoiceDictation() {
+  showToast('جاري بدء الاستماع للإملاء الصوتي...');
+  setTimeout(() => {
+    insertNoteTpl('تم الاستماع: المريض يلتزم بالعلاج بشكل منتظم مع تحسن ملحوظ في النشاط العام.');
+  }, 1600);
+}
+
+// ----------------------------- 3. PRESCRIPTION TAB -----------------------------
+function renderPrescriptionTab(p) {
+  const hasAllergy = p.allergies && p.allergies.length;
+
+  return `
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <!-- Allergy Safety Banner -->
+      ${hasAllergy ? `
+        <div style="background:rgba(242,102,92,0.14);border:1px solid var(--danger);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:8px;color:var(--danger);font-size:13px;font-weight:800">
+            <i class="ti ti-alert-octagon" style="font-size:18px"></i>
+            <span>تنبيه أمان دوائي: المريض لديه حساسية مسجلة من (${p.allergies.join(' ، ')}). تجنب وصف مشتقاتها منعاً للتحسس الحاد.</span>
+          </div>
+          <span class="pill xs danger-fill">تحذير أمان</span>
+        </div>
+      ` : ''}
+
+      <!-- Presets Toolbar -->
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span class="tiny" style="font-weight:700">أدوية شائعة سريعة الإضافة:</span>
+        <button class="pill xs ghost" onclick="quickAddMed('Metformin 1000mg','قرص واحد','مرتين يومياً','30 يوماً','بعد الوجبات مباشرة')">+ Metformin 1000mg</button>
+        <button class="pill xs ghost" onclick="quickAddMed('Januvia 100mg','قرص واحد','مرة يومياً','30 يوماً','صباحاً قبل الإفطار')">+ Januvia 100mg</button>
+        <button class="pill xs ghost" onclick="quickAddMed('Amlodipine 5mg','قرص واحد','مرة يومياً','30 يوماً','صباحاً')">+ Amlodipine 5mg</button>
+        <button class="pill xs ghost" onclick="quickAddMed('Concor 5mg','قرص واحد','مرة صباحاً','30 يوماً','مع الإفطار')">+ Concor 5mg</button>
+        <button class="pill xs ghost" onclick="quickAddMed('Panadol Extra','قرصين','عند اللزوم','5 أيام','بعد الأكل')">+ Panadol</button>
+        <button class="pill xs ghost" onclick="quickAddMed('Augmentin 1g','قرص واحد','مرتين يومياً','7 أيام','بعد الأكل')">+ Augmentin 1g</button>
+      </div>
+
+      <!-- Prescriptions Table / Cards -->
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${currentPrescriptions.map((m, idx) => `
+          <div style="display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1fr 2fr 36px;gap:8px;align-items:center;background:#0d1527;border:1px solid var(--border);border-radius:10px;padding:10px 14px">
+            <div>
+              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">اسم الدواء</div>
+              <input type="text" class="pm-search-input" style="padding:6px 10px;font-weight:700" value="${m.name}" oninput="currentPrescriptions[${idx}].name=this.value">
+            </div>
+            <div>
+              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">الجرعة</div>
+              <input type="text" class="pm-search-input" style="padding:6px 10px" value="${m.dose}" oninput="currentPrescriptions[${idx}].dose=this.value">
+            </div>
+            <div>
+              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">التكرار</div>
+              <input type="text" class="pm-search-input" style="padding:6px 10px" value="${m.freq}" oninput="currentPrescriptions[${idx}].freq=this.value">
+            </div>
+            <div>
+              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">المدة</div>
+              <input type="text" class="pm-search-input" style="padding:6px 10px" value="${m.duration}" oninput="currentPrescriptions[${idx}].duration=this.value">
+            </div>
+            <div>
+              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">تعليمات الاستخدام</div>
+              <input type="text" class="pm-search-input" style="padding:6px 10px" value="${m.instructions}" oninput="currentPrescriptions[${idx}].instructions=this.value">
+            </div>
+            <button class="btn-icon" style="color:var(--danger);align-self:flex-end;margin-bottom:4px" onclick="removeRxMed(${idx})" title="حذف">
+              <i class="ti ti-trash"></i>
+            </button>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Table Bottom Actions -->
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:6px">
+        <button class="pill sm ghost" onclick="addNewRxMedRow()"><i class="ti ti-plus"></i> إضافة دواء آخر</button>
+        <div style="display:flex;gap:8px">
+          <button class="pill sm ghost" onclick="sendPrescriptionWhatsApp()"><i class="ti ti-brand-whatsapp"></i> إرسال واتساب</button>
+          <button class="pill sm solid" onclick="printPrescription()"><i class="ti ti-printer"></i> اعتماد وطباعة الروشتة</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function quickAddMed(name, dose, freq, duration, instructions) {
+  const p = getActivePatient();
+  // Allergy check simulation
+  if (p.allergies && p.allergies.some(a => a.includes('بنسلين') && name.toLowerCase().includes('augmentin'))) {
+    alert('⚠️ تنبيه حرج: المريض يعاني من حساسية شديدة للبنسلين ومشتقاته (Augmentin يحتوي على أموكسيسيللين). يرجى اختيار بديل آمن!');
+    return;
+  }
+  currentPrescriptions.push({ name, dose, freq, duration, instructions });
+  renderConsultContent();
+  showToast(`تمت إضافة ${name} للروشتة`);
+}
+
+function addNewRxMedRow() {
+  currentPrescriptions.push({ name: '', dose: 'قرص واحد', freq: 'مرتين يومياً', duration: '14 يوماً', instructions: 'بعد الوجبة' });
+  renderConsultContent();
+}
+
+function removeRxMed(idx) {
+  currentPrescriptions.splice(idx, 1);
+  if (!currentPrescriptions.length) {
+    currentPrescriptions.push({ name: '', dose: 'قرص واحد', freq: 'مرتين يومياً', duration: '30 يوماً', instructions: 'بعد الوجبة' });
+  }
+  renderConsultContent();
+}
+
+function printPrescription() {
+  showToast('تم اعتماد الروشتة وجاري فتح نافذة الطباعة الرسمية ✓');
+}
+
+function sendPrescriptionWhatsApp() {
+  const p = getActivePatient();
+  showToast(`تم إرسال الروشتة بنجاح إلى هاتف المريض (${p.phone || '+201012345678'}) عبر واتساب ✓`);
+}
+
+// ----------------------------- 4. RECORDING TAB -----------------------------
+function renderRecordingTab(p) {
+  return `
+    <div style="display:flex;flex-direction:column;gap:14px;background:#0d1527;border:1px solid var(--border);border-radius:14px;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="font-weight:800;font-size:15px;color:var(--text-primary);display:flex;align-items:center;gap:8px">
+            <i class="ti ti-microphone" style="color:var(--accent)"></i> المساعد الصوتي السريري والتلخيص الذكي
+          </div>
+          <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
+            تسجيل حوار الكشف وتفريغه طبياً وتحويله لروشتة وملاحظات SOAP تلقائياً
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="audio-visualizer ${isRecordingAudio ? 'recording-pulse' : ''}">
+            <div class="audio-bar" style="height:${isRecordingAudio?'28px':'10px'}"></div>
+            <div class="audio-bar" style="height:${isRecordingAudio?'34px':'6px'}"></div>
+            <div class="audio-bar" style="height:${isRecordingAudio?'18px':'12px'}"></div>
+            <div class="audio-bar" style="height:${isRecordingAudio?'38px':'8px'}"></div>
+            <div class="audio-bar" style="height:${isRecordingAudio?'24px':'10px'}"></div>
+          </div>
+          <span style="font-size:14px;font-weight:900;color:${isRecordingAudio?'var(--danger)':'var(--text-secondary)'}" id="audioTimer">
+            ${formatAudioTimer(audioTimerSeconds)}
+          </span>
+        </div>
+      </div>
+
+      <!-- Record Buttons -->
+      <div style="display:flex;gap:10px;align-items:center">
+        ${!isRecordingAudio ? `
+          <button class="pill sm solid" style="background:#f2665c;border-color:#f2665c;color:#fff" onclick="startAudioRecording()">
+            <i class="ti ti-player-record-filled"></i> بدء التسجيل الحي للكشف
+          </button>
+        ` : `
+          <button class="pill sm danger-fill" onclick="stopAudioRecording()">
+            <i class="ti ti-player-stop"></i> إيقاف التسجيل واستخراج الملخص
+          </button>
+        `}
+        <button class="pill sm ghost" onclick="showToast('تم ضبط إعدادات الميكروفون الحساس للضوضاء')"><i class="ti ti-settings"></i> إعدادات الصوت</button>
+      </div>
+
+      <!-- Live Dialogue Stream -->
+      <div style="background:#080d18;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px">
+        <div class="tiny" style="font-weight:700;color:var(--accent);display:flex;align-items:center;gap:5px">
+          <i class="ti ti-sparkles"></i> التفريغ المباشر (Real-time Medical Transcription)
+        </div>
+        <div style="font-size:13px;line-height:1.7;color:var(--text-primary)">
+          <b>د. أحمد سامي:</b> أهلاً بحضرتك يا حاج أحمد، طمني السكر عامل معاك إيه الفترة دي والتحاليل الأخيرة؟<br>
+          <b>المريض أحمد محمد:</b> والله يا دكتور السكر الصبح بيبقى عالي بيوصل 190، وبحس بإجهاد وتنميل في رجلي ودوخة خفيفة بعد الفطار.<br>
+          <b>د. أحمد سامي:</b> تمام، هنستمر على الميتفورمين مع تعديل الجرعة وإضافة جانوفيا لضبط الصائم، وممنوع أي أدوية سلفا علشان الحساسية.
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <button class="pill sm solid" onclick="applyAiSummaryToNotes()"><i class="ti ti-wand"></i> استخراج وتطبيق الملاحظات والروشتة فوراً</button>
+        <span class="tiny" style="color:var(--text-muted)">دقة التعرف على المصطلحات الطبية العربية: 98.6%</span>
+      </div>
+    </div>
+  `;
+}
+
+function startAudioRecording() {
+  isRecordingAudio = true;
+  audioTimerSeconds = 0;
+  if (audioInterval) clearInterval(audioInterval);
+  audioInterval = setInterval(() => {
+    audioTimerSeconds++;
+    const el = document.getElementById('audioTimer');
+    if (el) el.textContent = formatAudioTimer(audioTimerSeconds);
+  }, 1000);
+  renderConsultContent();
+  showToast('بدأ تسجيل الجلسة السريرية والاستماع للذكاء الاصطناعي...');
+}
+
+function stopAudioRecording() {
+  isRecordingAudio = false;
+  if (audioInterval) clearInterval(audioInterval);
+  renderConsultContent();
+  showToast('تم إيقاف التسجيل وتحليل الصوت بنجاح ✓');
+}
+
+function formatAudioTimer(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
+function applyAiSummaryToNotes() {
+  const p = getActivePatient();
+  p.notes = (p.notes || '') + '\n\n[ملخص الذكاء الاصطناعي من التسجيل الصوتي]:\nالمريض يعاني من اضطراب سكر صائم، تم ضبط خطة العلاج وتجنب السلفا وتعديل أوقات الجرعات.';
+  showToast('تم استخراج البيانات وتحديث الملاحظات والروشتة بنجاح ✓');
+  switchConsultTab('notes');
+}
+
+// ----------------------------- 5. MEDICAL RECORDS TAB -----------------------------
+function renderRecordsTab(p) {
+  return `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <!-- Lab Orders -->
+      <div style="background:#0d1527;border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-weight:800;font-size:13.5px;color:var(--accent);display:flex;align-items:center;gap:6px">
+          <i class="ti ti-flask"></i> طلب الفحوصات والتحاليل المخبرية
+        </div>
+        <label class="inv-item"><input type="checkbox" checked> سكر تراكمي (HbA1c)</label>
+        <label class="inv-item"><input type="checkbox" checked> سكر صائم وفاطر (FBS & 2HPP)</label>
+        <label class="inv-item"><input type="checkbox" checked> وظائف كلى ويوريا (Serum Creatinine & BUN)</label>
+        <label class="inv-item"><input type="checkbox"> دهون ثلاثية وكوليسترول (Lipid Profile)</label>
+        <label class="inv-item"><input type="checkbox"> وظائف كبد كاملة (ALT, AST, Bilirubin)</label>
+        <label class="inv-item"><input type="checkbox"> زلال البول الدقيق (Microalbuminuria)</label>
+        <button class="pill sm solid" style="align-self:flex-start;margin-top:6px" onclick="showToast('تم إرسال طلب التحاليل إلى معمل التحاليل والشريك المعتمد ✓')">
+          <i class="ti ti-send"></i> إرسال أمر التحاليل
+        </button>
+      </div>
+
+      <!-- Past Visits & Timeline -->
+      <div style="background:#0d1527;border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-weight:800;font-size:13.5px;color:var(--info);display:flex;align-items:center;gap:6px">
+          <i class="ti ti-history"></i> تاريخ الزيارات السابقة
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;max-height:240px;overflow-y:auto">
+          <div style="background:#080d18;padding:10px;border-radius:8px;border:1px solid var(--border)">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-secondary)">
+              <span>06 سبتمبر 2026 (فرع المنصورة)</span>
+              <span class="pill xs ghost">كشف عيادة</span>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-primary);margin-top:4px">السكر التراكمي كان 8.4%، تم طلب ضبط النظام الغذائي وإضافة ميتفورمين.</div>
+          </div>
+          <div style="background:#080d18;padding:10px;border-radius:8px;border:1px solid var(--border)">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-secondary)">
+              <span>15 أغسطس 2026 (فرع القاهرة)</span>
+              <span class="pill xs ghost">استشارة فيديو</span>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-primary);margin-top:4px">شكوى من إجهاد وتنميل بالأطراف وارتفاع ضغط خفيف 140/90.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ----------------------------- 6. FOLLOWUP TAB -----------------------------
+function renderFollowupTab(p) {
+  return `
+    <div style="background:#0d1527;border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px;max-width:760px">
+      <div style="font-weight:800;font-size:15px;color:var(--text-primary);display:flex;align-items:center;gap:8px">
+        <i class="ti ti-calendar-event" style="color:var(--accent)"></i> جدولة موعد المتابعة والاستدعاء الدوري
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div>
+          <label class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">موعد الزيارة القادمة</label>
+          <input type="date" class="pm-search-input" value="2026-09-29" style="padding:8px 12px;font-family:inherit">
+        </div>
+        <div>
+          <label class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">الفرع المخصص للاستشارة</label>
+          <select class="pm-search-input" style="padding:8px 12px">
+            <option>مركز طبابا الطبي — المنصورة</option>
+            <option>عيادة النور — القاهرة</option>
+            <option>عيادة فيوتشر كير — الجيزة</option>
+            <option>استشارة فيديو عن بُعد</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">أهداف المتابعة للمريض</label>
+        <input type="text" class="pm-search-input" value="مراجعة تحليل السكر التراكمي ووظائف الكلى والتأكد من ضبط السكر الصائم تحت 130" style="padding:8px 12px">
+      </div>
+
+      <div style="display:flex;gap:16px;align-items:center">
+        <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-primary);cursor:pointer">
+          <input type="checkbox" checked style="accent-color:var(--accent)"> تفعيل إشعار تذكير آلي عبر واتساب قبل الموعد بـ 24 ساعة
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-primary);cursor:pointer">
+          <input type="checkbox" checked style="accent-color:var(--accent)"> إضافة للتقويم السحابي للطبيب
+        </label>
+      </div>
+
+      <button class="pill sm solid" style="align-self:flex-start" onclick="showToast('تم تثبيت موعد المتابعة وجدولة التذكير الآلي للمريض بنجاح ✓')">
+        <i class="ti ti-check"></i> تأكيد موعد المتابعة
+      </button>
+    </div>
+  `;
+}
+
+// ============================= ACTIONS & COMPLETION =============================
+function completeConsultation() {
+  const p = getActivePatient();
+  p.status = 'done';
+  showToast(`تم إنهاء واعتماد كشف المريض (${p.name}) بنجاح وتحويله إلى مكتمل ✓`);
+  renderPatientHeader();
+  renderScheduleList();
+}
+
+// Chat drawer integration
+function openPatientChat(id) {
+  const p = PATIENTS.find(x => x.id === id) || PATIENTS[0];
+  const drawer = document.getElementById('chatDrawer');
+  const backdrop = document.getElementById('drawerBackdrop');
+  const nameEl = document.getElementById('chatPatientName');
+  const avatarEl = document.getElementById('chatAvatar');
+  const messagesEl = document.getElementById('chatMessages');
+
+  if (nameEl) nameEl.textContent = p.name;
+  if (avatarEl) avatarEl.textContent = initials(p.name);
+  if (messagesEl) {
+    messagesEl.innerHTML = `
+      <div class="chat-bubble incoming">
+        <div>دكتور، أنا بعت لحضرتك بخصوص جرعة الدواء والسكر الصباحي.</div>
+        <span class="chat-time">اليوم 10:42 ص</span>
+      </div>
+      <div class="chat-bubble outgoing">
+        <div>أهلاً بك يا حاج ${p.name.split(' ')[0]}، أنا حالياً فاتح ملفك وبراجع قراءات السكر. هنظبط الجرعة حالاً في الروشتة.</div>
+        <span class="chat-time">الآن</span>
+      </div>
+    `;
+  }
+
+  if (drawer && backdrop) {
+    drawer.classList.add('open');
+    backdrop.classList.add('show');
+  }
+}
+
+function sendConsultChat() {
+  const input = document.getElementById('chatInput');
+  const messagesEl = document.getElementById('chatMessages');
+  if (!input || !input.value.trim() || !messagesEl) return;
+
+  const msg = input.value.trim();
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble outgoing';
+  bubble.innerHTML = `<div>${msg}</div><span class="chat-time">الآن</span>`;
+  messagesEl.appendChild(bubble);
+  input.value = '';
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  showToast('تم إرسال الرسالة للمريض');
+}
+
+function closeAllDrawers() {
+  const drawer = document.getElementById('chatDrawer');
+  const backdrop = document.getElementById('drawerBackdrop');
+  if (drawer) drawer.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('show');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,2702 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم الطبيب الذكية (الرئيسية) - طبابا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="doctor-shared.css">
+<link rel="stylesheet" href="responsive.css">
+<style>
+/* ==========================================================================
+   ADVANCED DOCTOR COMMAND DASHBOARD STYLES
+   ========================================================================== */
+
+/* ===== FULL-WIDTH EDGE-TO-EDGE LAYOUT (توسيع الشاشة بالكامل وحواف متطرفة) ===== */
+.shell {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 12px 18px !important;
+  gap: 16px !important;
+  grid-template-columns: 260px 1fr 315px !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 1600px) {
+  .shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 14px 22px !important;
+    gap: 18px !important;
+    grid-template-columns: 270px 1fr 325px !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  .shell {
+    grid-template-columns: 240px 1fr 285px !important;
+    gap: 12px !important;
+    padding: 10px 14px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .shell {
+    grid-template-columns: 1fr !important;
+    padding: 10px !important;
+  }
+}
+
+.shell > main {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.sidebar-r {
+  position: sticky !important;
+  top: 12px !important;
+  max-height: calc(100vh - 24px) !important;
+  overflow-y: auto !important;
+}
+
+.sidebar-l {
+  position: sticky !important;
+  top: 12px !important;
+  max-height: calc(100vh - 24px) !important;
+  overflow-y: auto !important;
+}
+
+/* ===== 1. REDESIGNED QUICK ACTION COMMAND HUB (البانل التفاعلي المطور) ===== */
+.action-command-hub {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1280px) {
+  .action-command-hub {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .action-command-hub {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-command-hub {
+    grid-template-columns: 1fr;
+  }
+}
+
+.action-card-tile {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.action-card-tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.action-card-tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.4);
+}
+
+.action-card-tile:hover::before {
+  opacity: 1;
+}
+
+/* Specific Action Color Accents */
+.action-card-tile.c-consult {
+  background: linear-gradient(145deg, rgba(31, 230, 168, 0.12), rgba(12, 18, 32, 0.95));
+  border-color: rgba(31, 230, 168, 0.35);
+}
+.action-card-tile.c-consult::before { background: #1fe6a8; }
+.action-card-tile.c-consult:hover {
+  border-color: #1fe6a8;
+  box-shadow: 0 8px 24px rgba(31, 230, 168, 0.25);
+}
+
+.action-card-tile.c-patients {
+  background: linear-gradient(145deg, rgba(91, 156, 245, 0.1), rgba(12, 18, 32, 0.95));
+  border-color: rgba(91, 156, 245, 0.3);
+}
+.action-card-tile.c-patients::before { background: #5b9cf5; }
+.action-card-tile.c-patients:hover {
+  border-color: #5b9cf5;
+  box-shadow: 0 8px 24px rgba(91, 156, 245, 0.22);
+}
+
+.action-card-tile.c-clinics {
+  background: linear-gradient(145deg, rgba(242, 184, 75, 0.1), rgba(12, 18, 32, 0.95));
+  border-color: rgba(242, 184, 75, 0.3);
+}
+.action-card-tile.c-clinics::before { background: #f2b84b; }
+.action-card-tile.c-clinics:hover {
+  border-color: #f2b84b;
+  box-shadow: 0 8px 24px rgba(242, 184, 75, 0.22);
+}
+
+.action-card-tile.c-financial {
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.1), rgba(12, 18, 32, 0.95));
+  border-color: rgba(16, 185, 129, 0.3);
+}
+.action-card-tile.c-financial::before { background: #10b981; }
+.action-card-tile.c-financial:hover {
+  border-color: #10b981;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.22);
+}
+
+.action-card-tile.c-profile {
+  background: linear-gradient(145deg, rgba(168, 85, 247, 0.1), rgba(12, 18, 32, 0.95));
+  border-color: rgba(168, 85, 247, 0.3);
+}
+.action-card-tile.c-profile::before { background: #a855f7; }
+.action-card-tile.c-profile:hover {
+  border-color: #a855f7;
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.22);
+}
+
+.action-card-tile.c-ai {
+  background: linear-gradient(145deg, rgba(242, 102, 92, 0.14), rgba(147, 51, 234, 0.12));
+  border-color: rgba(242, 102, 92, 0.35);
+}
+.action-card-tile.c-ai::before { background: linear-gradient(90deg, #f2665c, #a855f7); }
+.action-card-tile.c-ai:hover {
+  border-color: #f2665c;
+  box-shadow: 0 8px 24px rgba(242, 102, 92, 0.25);
+}
+
+/* Tile Icon Circle */
+.act-icon-bubble {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.action-card-tile:hover .act-icon-bubble {
+  transform: scale(1.08);
+}
+
+.act-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.1px;
+}
+
+.act-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Pulsing live dot for immediate action */
+.live-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1fe6a8;
+  display: inline-block;
+  box-shadow: 0 0 8px #1fe6a8;
+  animation: actPulse 1.5s infinite;
+}
+
+@keyframes actPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #1fe6a8; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+/* ===== 2. HERO EXAMINATION ROOM BANNER (غرفة الكشف الحية) ===== */
+.hero-exam-room-card {
+  background: linear-gradient(135deg, #0d192d 0%, #070c16 100%);
+  border: 1.5px solid rgba(31, 230, 168, 0.35);
+  border-radius: 16px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-exam-room-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(31, 230, 168, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.exam-patient-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.exam-patient-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #112036;
+  border: 2px solid var(--accent);
+  color: #1fe6a8;
+  font-size: 19px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 14px rgba(31, 230, 168, 0.25);
+  flex-shrink: 0;
+}
+
+.exam-tag-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(31, 230, 168, 0.12);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.3);
+}
+
+.btn-call-patient {
+  background: linear-gradient(135deg, #1fe6a8 0%, #15b98a 100%);
+  color: #051d14;
+  font-size: 14.5px;
+  font-weight: 900;
+  padding: 12px 24px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(31, 230, 168, 0.38);
+  transition: all 0.25s ease;
+}
+
+.btn-call-patient:hover {
+  background: #39ffbf;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 26px rgba(31, 230, 168, 0.55);
+}
+
+/* ===== 3. GLASSMORPHIC STATS WITH SPARKLINE CHARTS ===== */
+.stats-sparkline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1080px) {
+  .stats-sparkline-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .stats-sparkline-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.spark-card {
+  background: #0d1527;
+  border: 1px solid rgba(110, 231, 201, 0.12);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.spark-card:hover {
+  border-color: rgba(31, 230, 168, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.spark-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.spark-num {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.spark-lbl {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.spark-chart-box {
+  width: 100%;
+  height: 38px;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* ===== 4. TIMELINE VS LIST VIEW TOGGLE ===== */
+.view-toggle-pills {
+  display: inline-flex;
+  background: rgba(7, 11, 20, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.view-t-btn {
+  padding: 5px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.view-t-btn.active {
+  background: #162438;
+  color: #1fe6a8;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Hourly Timeline Layout */
+.timeline-hour-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  padding-right: 28px;
+}
+
+.timeline-hour-flow::before {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: rgba(110, 231, 201, 0.15);
+}
+
+.timeline-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.timeline-slot-dot {
+  position: absolute;
+  right: -21px;
+  top: 12px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #111e33;
+  border: 2px solid var(--accent);
+}
+
+.timeline-slot.active .timeline-slot-dot {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* Mini chat quick drawer */
+.quick-chat-bubble {
+  background: #0d1527;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  transition: var(--transition);
+}
+
+.quick-chat-bubble:hover {
+  border-color: var(--border-strong);
+}
+
+/* ===== 5. ADVANCED FINANCIAL SUMMARY & CLINIC HUBS ===== */
+.dash-summary-card {
+  background: #0d1527;
+  border: 1px solid rgba(110, 231, 201, 0.14);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  transition: var(--transition);
+}
+
+.dash-summary-card:hover {
+  border-color: rgba(110, 231, 201, 0.28);
+}
+
+.dash-summary-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dash-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Highly Prominent Financial Dashboard CTA Button (زر الدخول البارز) */
+.btn-goto-financial {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff !important;
+  font-size: 13.5px;
+  font-weight: 800;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.btn-goto-financial:hover {
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 26px rgba(16, 185, 129, 0.55);
+  color: #ffffff !important;
+}
+
+.btn-goto-clinics {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: #162438;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid var(--border-strong);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn-goto-clinics:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-hover);
+  transform: translateY(-1px);
+}
+
+/* 3-Column Financial Grid */
+.fin-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .fin-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fin-summary-box {
+  background: #090f1d;
+  border: 1px solid rgba(110, 231, 201, 0.1);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.fin-summary-box:hover {
+  border-color: rgba(31, 230, 168, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.fin-box-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fin-box-lbl {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.fin-box-num {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+/* 3-Column Clinics Grid */
+.clinics-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .clinics-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.clinic-summary-box {
+  background: #090f1d;
+  border: 1px solid rgba(110, 231, 201, 0.1);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: var(--transition);
+  position: relative;
+}
+
+.clinic-summary-box:hover {
+  border-color: rgba(31, 230, 168, 0.3);
+  background: #0c1426;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.clinic-box-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.clinic-box-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.clinic-box-addr {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+.clinic-box-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 12.5px;
+}
+
+/* ===== 6. RIGHT SIDEBAR CLINICAL COCKPIT WIDGETS ===== */
+.sidebar-r {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 14px;
+  max-height: calc(100vh - 28px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding-left: 2px;
+}
+
+.sb-widget-card {
+  background: #0d1527;
+  border: 1px solid rgba(110, 231, 201, 0.12);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: var(--transition);
+}
+
+.sb-widget-card:hover {
+  border-color: rgba(110, 231, 201, 0.25);
+}
+
+.sb-widget-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.sb-call-btn {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(31, 230, 168, 0.15), rgba(91, 156, 245, 0.15));
+  border: 1px solid rgba(31, 230, 168, 0.35);
+  color: #1fe6a8;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.sb-call-btn:hover {
+  background: #1fe6a8;
+  color: #03261b;
+  box-shadow: 0 4px 16px rgba(31, 230, 168, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Scratchpad Task Item */
+.sb-task-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sb-task-item input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.sb-task-item.completed span {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* On-Duty Staff Row */
+.sb-staff-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  background: #080d18;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.sb-calc-pill {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #080d18;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.sb-calc-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ==================== LEFT SIDEBAR ENHANCEMENTS ==================== */
+.radar-card {
+  border-color: rgba(242, 102, 92, 0.25);
+  background: linear-gradient(180deg, rgba(242, 102, 92, 0.04) 0%, rgba(16, 25, 43, 0.95) 100%);
+}
+.radar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.radar-pulse-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: rgba(242, 102, 92, 0.15);
+  color: #f2665c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  animation: pulseRadar 2.5s infinite;
+}
+@keyframes pulseRadar {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(242, 102, 92, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(242, 102, 92, 0); }
+}
+.radar-filter-bar {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+  background: #080d18;
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.radar-tab {
+  flex: 1;
+  padding: 5px 6px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  white-space: nowrap;
+}
+.radar-tab.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  font-weight: 700;
+}
+.critical-lab-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.critical-lab-badge.danger {
+  background: rgba(242, 102, 92, 0.15);
+  color: #f2665c;
+  border: 1px solid rgba(242, 102, 92, 0.35);
+}
+.critical-lab-badge.warn {
+  background: rgba(242, 184, 75, 0.15);
+  color: #f2b84b;
+  border: 1px solid rgba(242, 184, 75, 0.35);
+}
+.radar-copilot-details {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.radar-copilot-details summary {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Clinic Flow Tracker Card */
+.flow-tracker-card {
+  border-color: rgba(31, 230, 168, 0.25);
+  background: linear-gradient(180deg, rgba(31, 230, 168, 0.03) 0%, rgba(16, 25, 43, 0.95) 100%);
+}
+.flow-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.flow-status-pill {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.flow-status-pill.on-time {
+  background: rgba(31, 230, 168, 0.12);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.3);
+}
+.flow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1fe6a8;
+  box-shadow: 0 0 6px #1fe6a8;
+}
+.flow-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.flow-stat-box {
+  background: #080d18;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 6px;
+  text-align: center;
+}
+.flow-stat-box.waiting {
+  border-color: rgba(242, 184, 75, 0.3);
+  background: rgba(242, 184, 75, 0.05);
+}
+.flow-stat-num {
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.flow-stat-num.text-accent { color: var(--accent); }
+.flow-stat-num.text-warn { color: var(--warn); }
+.flow-stat-num.text-info { color: var(--info); }
+.flow-stat-lbl {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.flow-progress-track {
+  height: 6px;
+  background: #080d18;
+  border-radius: 99px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.flow-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #12b587, #1fe6a8);
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+.flow-estimate-box {
+  background: #090f1e;
+  border: 1px solid rgba(110, 231, 201, 0.2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0 10px;
+}
+.flow-clock-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(31, 230, 168, 0.12);
+  color: #1fe6a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.flow-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.flow-action-btn {
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: #080d18;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.flow-action-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Weekly Clinic Load Chart */
+.week-load-card {
+  border-color: var(--border-strong);
+}
+.week-load-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.week-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.w-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.w-leg-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.week-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  height: 140px;
+  align-items: flex-end;
+  padding: 10px 4px 6px;
+  background: #080d18;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.week-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+  padding: 2px;
+  border-radius: 6px;
+}
+.week-bar-col:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.week-bar-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.week-bar-shell {
+  width: 14px;
+  height: 76px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.week-bar-fill {
+  width: 100%;
+  border-radius: 3px;
+  transition: height 0.6s ease;
+}
+.week-bar-fill.mansoura { background: linear-gradient(180deg, #2af0b5, #0c7a58); }
+.week-bar-fill.cairo { background: linear-gradient(180deg, #7bb3ff, #2968c8); }
+.week-bar-fill.giza { background: linear-gradient(180deg, #ffd066, #d98d1a); }
+.week-bar-day {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 5px;
+  white-space: nowrap;
+}
+.week-bar-col.today-col {
+  background: rgba(31, 230, 168, 0.06);
+  border: 1px solid rgba(31, 230, 168, 0.4);
+  box-shadow: 0 0 12px rgba(31, 230, 168, 0.15);
+}
+.today-chip {
+  position: absolute;
+  top: -6px;
+  background: #1fe6a8;
+  color: #03261b;
+  font-size: 8.5px;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(31, 230, 168, 0.4);
+}
+.peak-star {
+  position: absolute;
+  top: -5px;
+  color: #f2b84b;
+  font-size: 11px;
+}
+.week-day-detail-panel {
+  background: #090f1e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 10px;
+  transition: var(--transition);
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== MOBILE HEADER ==================== -->
+<header class="mobile-header">
+  <div class="m-head-left">
+    <button class="m-head-btn" onclick="toggleMobileNav()" title="القائمة الرئيسية" aria-label="القائمة الرئيسية">
+      <i class="ti ti-menu-2"></i>
+    </button>
+    <a href="tababa-homepage.html" class="m-brand">
+      <span class="m-brand-name">طبابا</span>
+      <span class="m-brand-badge"><i class="ti ti-home"></i></span>
+    </a>
+  </div>
+  
+  <div class="m-clinic-switcher" id="mClinicSwitcherBtn" onclick="toggleClinicDropdown()" title="تغيير الفرع">
+    <i class="ti ti-building-hospital" style="color:var(--accent);font-size:14px"></i>
+    <span class="m-clinic-text" id="mCurrentClinicName">جميع العيادات</span>
+    <i class="ti ti-chevron-down" style="font-size:10px;opacity:0.7"></i>
+  </div>
+  
+  <div class="m-head-right">
+    <button class="m-head-btn" onclick="toggleNotifications()" title="التنبيهات" aria-label="التنبيهات" style="position:relative">
+      <i class="ti ti-bell"></i>
+      <span class="notif-dot" id="mNotifDot"></span>
+    </button>
+  </div>
+</header>
+
+<!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
+<div class="mobile-nav-drawer" id="mobileNavDrawer">
+  <div class="m-nav-header">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-weight:900;font-size:16px;color:var(--text-primary)">طبابا</span>
+      <span class="pill xs ghost">بوابة الطبيب</span>
+    </div>
+    <button class="drawer-close" onclick="toggleMobileNav()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="m-nav-body">
+    <div class="card" style="padding:12px">
+      <div class="doc-mini-top">
+        <div class="doc-mini-avatar">أ</div>
+        <div>
+          <div class="doc-mini-name">د. أحمد سامي</div>
+          <div class="tiny">استشاري باطنة عامة وجهاز هضمي</div>
+        </div>
+      </div>
+      <div class="avail-row">
+        <span class="lbl"><i class="ti ti-video"></i>متاح لكشف فيديو الآن</span>
+        <div class="switch on" id="mAvailSwitch" onclick="toggleAvail()"></div>
+      </div>
+    </div>
+
+    <nav class="m-nav-list">
+      <a class="m-nav-item active" href="tababa-doctor-dashboard.html"><i class="ti ti-layout-dashboard"></i><span>الرئيسية (لوحة التحكم)</span></a>
+      <a class="m-nav-item" href="doctor-patients.html"><i class="ti ti-users"></i><span>إدارة المرضى والمحادثات</span><span class="nav-badge" id="mNavPatientBadge">5</span></a>
+      <a class="m-nav-item" href="doctor-consultation.html"><i class="ti ti-stethoscope"></i><span>مساحة الكشف والروشتة</span></a>
+      <a class="m-nav-item" href="doctor-clinics.html"><i class="ti ti-building-hospital"></i><span>عياداتي وفروع الممارسة</span><span class="nav-badge" style="background:var(--accent);color:#03261b">3</span></a>
+      <a class="m-nav-item" href="doctor-financial.html"><i class="ti ti-report-money"></i><span>التقرير المالي والمقارنة</span></a>
+      <a class="m-nav-item" href="doctor-profile.html"><i class="ti ti-user-cog"></i><span>الملف المهني للطبيب</span></a>
+    </nav>
+  </div>
+</div>
+
+<div class="shell">
+
+<!-- ==================== RIGHT SIDEBAR (CLINICAL COCKPIT) ==================== -->
+<aside class="sidebar-r">
+  <div class="brand">
+    <a class="brand-name" href="tababa-homepage.html" style="display:flex;align-items:center;gap:8px">طبابا <div class="brand-badge"><i class="ti ti-home"></i></div></a>
+  </div>
+
+  <!-- 1. Doctor Profile & Room Controller -->
+  <div class="sb-widget-card" style="padding:12px">
+    <div class="doc-mini-top">
+      <div class="doc-mini-avatar">أ</div>
+      <div>
+        <div class="doc-mini-name">د. أحمد سامي</div>
+        <div class="tiny">استشاري باطنة وجهاز هضمي</div>
+      </div>
+    </div>
+    
+    <div class="avail-row" style="margin-top:6px">
+      <span class="lbl" style="font-size:11.5px"><i class="ti ti-video"></i>كشف فيديو الآن</span>
+      <div class="switch on" id="availSwitch" onclick="toggleAvail()"></div>
+    </div>
+
+    <!-- Live Room Call-In Button -->
+    <button class="sb-call-btn" onclick="triggerWaitingRoomChime()">
+      <i class="ti ti-bell-ringing"></i> نداء المريض لشاشة الانتظار
+    </button>
+  </div>
+
+
+  <!-- 3. Urgent Patient Messages Box -->
+  <div class="sb-widget-card">
+    <div class="sb-widget-head">
+      <span><i class="ti ti-messages" style="color:#5b9cf5"></i> رسائل عاجلة للمرضى</span>
+      <span class="pill xs" style="background:rgba(91,156,245,0.15);color:#5b9cf5;border:none">2 وارد</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px" id="sbUrgentMessages">
+      <!-- Msg 1 -->
+      <div style="background:#090f1d;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px">
+          <b style="color:var(--text-primary)">أحمد محمد</b>
+          <span class="tiny" style="color:var(--text-muted)">10:42 ص</span>
+        </div>
+        <div class="tiny" style="color:var(--text-secondary);margin:2px 0 6px">"دكتور السكر عالي الصبح ومش عارف أزود الجرعة؟"</div>
+        <div style="display:flex;gap:4px">
+          <button class="pill xs ghost" style="flex:1;justify-content:center" onclick="quickReplyToPatient('أحمد محمد','تم الاطلاع، سنتناولها بالكشف حالاً')">رد سريع</button>
+          <button class="pill xs solid" style="padding:2px 8px" onclick="location.href='doctor-patients.html?chat=1'"><i class="ti ti-message-circle"></i></button>
+        </div>
+      </div>
+
+      <!-- Msg 2 -->
+      <div style="background:#090f1d;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px">
+          <b style="color:var(--text-primary)">والدة سلمى طارق</b>
+          <span class="tiny" style="color:var(--text-muted)">09:15 ص</span>
+        </div>
+        <div class="tiny" style="color:var(--text-secondary);margin:2px 0 6px">"البنت الحرارة نزلت بس الكحة مستمرة بالليل"</div>
+        <div style="display:flex;gap:4px">
+          <button class="pill xs ghost" style="flex:1;justify-content:center" onclick="quickReplyToPatient('سلمى طارق','أعطي خافض الحرارة وممنوع أي بنسلين')">رد سريع</button>
+          <button class="pill xs solid" style="padding:2px 8px" onclick="location.href='doctor-patients.html?chat=2'"><i class="ti ti-message-circle"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Doctor's Sticky Scratchpad & Task Checklist -->
+  <div class="sb-widget-card">
+    <div class="sb-widget-head">
+      <span><i class="ti ti-checkbox" style="color:var(--accent)"></i> تذكيرات ومفكرة الطبيب</span>
+      <span class="tiny" style="color:var(--text-muted)" id="sbTaskCount">2 متبقي</span>
+    </div>
+    
+    <div style="display:flex;flex-direction:column;gap:4px" id="sbTodoList">
+      <label class="sb-task-item" id="task1">
+        <input type="checkbox" onchange="toggleSbTask(this, 'task1')">
+        <span>مراجعة تحليل سكر تراكمي لأحمد محمد</span>
+      </label>
+      <label class="sb-task-item" id="task2">
+        <input type="checkbox" onchange="toggleSbTask(this, 'task2')">
+        <span>طلب إعادة صياغة الروشتة بدون بنسلين لسلمى</span>
+      </label>
+      <label class="sb-task-item completed" id="task3">
+        <input type="checkbox" checked onchange="toggleSbTask(this, 'task3')">
+        <span>متابعة مريض القلب كريم فتحي</span>
+      </label>
+    </div>
+
+    <!-- Quick add task -->
+    <div style="display:flex;align-items:center;gap:6px;background:#080d18;border:1px solid var(--border);border-radius:8px;padding:3px 6px;margin-top:4px">
+      <input type="text" id="sbNewTaskInput" placeholder="أضف تذكير سريع..." style="flex:1;background:transparent;border:none;outline:none;font-size:11px;color:var(--text-primary)" onkeydown="if(event.key==='Enter')addSbTask()">
+      <button onclick="addSbTask()" style="color:var(--accent);font-size:14px;display:flex;align-items:center"><i class="ti ti-plus"></i></button>
+    </div>
+  </div>
+
+  <!-- 5. Instant Clinical Tools (Calculators) -->
+  <div class="sb-widget-card">
+    <div class="sb-widget-head">
+      <span><i class="ti ti-calculator" style="color:#f2b84b"></i> أدوات وحاسبات سريرية</span>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="sb-calc-pill" onclick="openCalculatorModal('egfr')">eGFR للكلى</button>
+      <button class="sb-calc-pill" onclick="openCalculatorModal('bmi')">كتلة الجسم BMI</button>
+      <button class="sb-calc-pill" onclick="openCalculatorModal('insulin')">جرعات السكر</button>
+    </div>
+  </div>
+
+  <!-- 6. On-Duty Staff Contact -->
+  <div class="sb-widget-card">
+    <div class="sb-widget-head">
+      <span><i class="ti ti-users-group" style="color:#10b981"></i> طاقم العيادة المناوب</span>
+      <span class="tiny" style="color:#10b981">متصل الآن</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div class="sb-staff-row">
+        <div>
+          <div style="font-weight:700;font-size:11.5px;color:var(--text-primary)">ممرضة / مروة حسن</div>
+          <div class="tiny" style="color:var(--text-secondary)">غرفة العلامات الحيوية</div>
+        </div>
+        <button class="btn-icon" style="width:26px;height:26px;font-size:12px;color:var(--accent)" onclick="showToast('جاري استدعاء التمريض لغرفة الكشف عبر الإنتركوم 📢')" title="اتصال بالتمريض"><i class="ti ti-phone"></i></button>
+      </div>
+
+      <div class="sb-staff-row">
+        <div>
+          <div style="font-weight:700;font-size:11.5px;color:var(--text-primary)">أ. محمود عادل</div>
+          <div class="tiny" style="color:var(--text-secondary)">الاستقبال وشباك الحجز</div>
+        </div>
+        <button class="btn-icon" style="width:26px;height:26px;font-size:12px;color:#5b9cf5" onclick="showToast('تم إرسال إشعار لمسؤول الاستقبال وتنظيم الطابور 📢')" title="إشعار الاستقبال"><i class="ti ti-bell"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. System Sync & Bottom Utilities -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 6px;margin-top:auto">
+    <div class="tiny" style="color:var(--accent);display:flex;align-items:center;gap:4px">
+      <span class="live-pulse-dot" style="width:5px;height:5px"></span> متصل سحابياً
+    </div>
+    <div class="util-row" style="margin:0;gap:6px">
+      <button class="btn-icon" style="width:28px;height:28px;font-size:13px" title="الوضع الداكن" onclick="showToast('الوضع الداكن نشط افتراضياً')"><i class="ti ti-moon"></i></button>
+      <button class="btn-icon" style="width:28px;height:28px;font-size:13px" title="مساعدة" onclick="showToast('مركز مساعدة طبابا: 19000')"><i class="ti ti-help"></i></button>
+      <button class="btn-icon" style="width:28px;height:28px;font-size:13px" title="تسجيل خروج" onclick="location.href='tababa-homepage.html'"><i class="ti ti-logout"></i></button>
+    </div>
+  </div>
+</aside>
+
+<!-- ==================== CENTER MAIN COLUMN ==================== -->
+<main>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-right" style="display:flex;align-items:center;gap:10px">
+      <!-- Clinic Switcher -->
+      <div class="clinic-switcher-wrap" id="clinicSwitcherWrap">
+        <div class="clinic-switcher-btn" onclick="toggleClinicDropdown()">
+          <div class="clinic-active-icon" id="currentClinicIcon"><i class="ti ti-building-hospital"></i></div>
+          <div class="clinic-active-info">
+            <div class="clinic-active-label">العيادة الحالية</div>
+            <div class="clinic-active-name">
+              <span id="currentClinicNameDisplay">جميع العيادات (All Clinics)</span>
+              <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text-muted);margin-right:2px"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="clinic-dropdown" id="clinicDropdown">
+          <div class="clinic-drop-head">اختر الفرع أو نطاق العرض</div>
+          <div class="clinic-option active" data-id="all" onclick="selectClinic('all')">
+            <div class="clinic-opt-icon" style="background:rgba(255,255,255,0.06);color:var(--text-primary)"><i class="ti ti-world"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">جميع العيادات (عرض شامل)</div>
+              <div class="clinic-opt-sub">3 فروع نشطة · المنصورة، القاهرة، الجيزة</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_mansoura" onclick="selectClinic('clinic_mansoura')">
+            <div class="clinic-opt-icon" style="background:rgba(31,230,168,0.12);color:var(--accent)"><i class="ti ti-building-hospital"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">مركز طبابا الطبي — فرع المنصورة</div>
+              <div class="clinic-opt-sub">الأحد، الثلاثاء، الخميس · 09:00 ص - 02:00 م</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_cairo" onclick="selectClinic('clinic_cairo')">
+            <div class="clinic-opt-icon" style="background:rgba(91,156,245,0.12);color:var(--info)"><i class="ti ti-building-community"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">عيادة النور التخصصية — فرع القاهرة</div>
+              <div class="clinic-opt-sub">السبت، الاثنين، الأربعاء · 04:00 م - 09:00 م</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_giza" onclick="selectClinic('clinic_giza')">
+            <div class="clinic-opt-icon" style="background:rgba(242,184,75,0.12);color:var(--warn)"><i class="ti ti-heart-rate-monitor"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">عيادة فيوتشر كير — فرع الجيزة</div>
+              <div class="clinic-opt-sub">الأحد، الأربعاء · 01:00 م - 06:00 م</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topbar-left">
+      <div class="notif-wrapper">
+        <button class="btn-icon notif-btn" onclick="toggleNotifications()" title="الإشعارات">
+          <i class="ti ti-bell"></i>
+          <span class="notif-dot" id="notifDot"></span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-head">
+            <span>التنبيهات السريرية والإشعارات</span>
+            <button class="pill xs ghost" onclick="clearNotifications()">مسح الكل</button>
+          </div>
+          <div id="notifList"></div>
+        </div>
+      </div>
+      <button class="pill sm solid" onclick="openAiRecomModal()"><i class="ti ti-sparkles"></i>توصيات AI <span id="topbarAiCount">5</span></button>
+    </div>
+  </div>
+
+  <!-- Greeting -->
+  <div class="greet">
+    <h1>مرحباً، د. أحمد سامي 👋</h1>
+    <div class="greet-sub" id="greetSubText">
+      <i class="ti ti-calendar-event" style="font-size:14px"></i> 
+      الأحد، 15 سبتمبر 2026 — عرض شامل لكافة الفروع (المنصورة • القاهرة • الجيزة)
+    </div>
+  </div>
+
+  <!-- ==================== 1. REDESIGNED QUICK ACTION COMMAND HUB (البانل المطلوب) ==================== -->
+  <div class="action-command-hub" id="actionCommandHub">
+    <!-- 1. بدء كشف جديد -->
+    <div class="action-card-tile c-consult" onclick="location.href='doctor-consultation.html'">
+      <div class="act-icon-bubble" style="background:rgba(31,230,168,0.16);color:#1fe6a8">
+        <i class="ti ti-stethoscope"></i>
+      </div>
+      <div class="act-title">بدء كشف جديد</div>
+      <span class="act-badge" style="background:rgba(31,230,168,0.2);color:#1fe6a8">
+        <span class="live-pulse-dot"></span> جاهز الآن
+      </span>
+    </div>
+
+    <!-- 2. إدارة المرضى -->
+    <div class="action-card-tile c-patients" onclick="location.href='doctor-patients.html'">
+      <div class="act-icon-bubble" style="background:rgba(91,156,245,0.16);color:#5b9cf5">
+        <i class="ti ti-users"></i>
+      </div>
+      <div class="act-title">إدارة المرضى</div>
+      <span class="act-badge" style="background:rgba(91,156,245,0.2);color:#5b9cf5">5 رسائل جديدة</span>
+    </div>
+
+    <!-- 3. عياداتي وفروعي -->
+    <div class="action-card-tile c-clinics" onclick="location.href='doctor-clinics.html'">
+      <div class="act-icon-bubble" style="background:rgba(242,184,75,0.16);color:#f2b84b">
+        <i class="ti ti-building-hospital"></i>
+      </div>
+      <div class="act-title">عياداتي وفروعي</div>
+      <span class="act-badge" style="background:rgba(242,184,75,0.2);color:#f2b84b">3 فروع نشطة</span>
+    </div>
+
+    <!-- 4. التقرير المالي -->
+    <div class="action-card-tile c-financial" onclick="location.href='doctor-financial.html'">
+      <div class="act-icon-bubble" style="background:rgba(16,185,129,0.16);color:#10b981">
+        <i class="ti ti-report-money"></i>
+      </div>
+      <div class="act-title">التقرير المالي</div>
+      <span class="act-badge" style="background:rgba(16,185,129,0.2);color:#10b981">+12% نمو اليوم</span>
+    </div>
+
+    <!-- 5. الملف المهني -->
+    <div class="action-card-tile c-profile" onclick="location.href='doctor-profile.html'">
+      <div class="act-icon-bubble" style="background:rgba(168,85,247,0.16);color:#a855f7">
+        <i class="ti ti-user-cog"></i>
+      </div>
+      <div class="act-title">الملف المهني</div>
+      <span class="act-badge" style="background:rgba(168,85,247,0.2);color:#a855f7">تقييم 4.9 ★</span>
+    </div>
+
+    <!-- 6. أولويات الذكاء الاصطناعي -->
+    <div class="action-card-tile c-ai" onclick="openAiRecomModal()">
+      <div class="act-icon-bubble" style="background:rgba(242,102,92,0.16);color:#f2665c">
+        <i class="ti ti-sparkles"></i>
+      </div>
+      <div class="act-title">أولويات الذكاء الاصطناعي</div>
+      <span class="act-badge" style="background:rgba(242,102,92,0.2);color:#f2665c">2 أولوية قصوى</span>
+    </div>
+  </div>
+
+  <!-- ==================== 2. HERO EXAMINATION ROOM BANNER ==================== -->
+  <div class="hero-exam-room-card" id="heroExamRoomCard">
+    <div class="exam-patient-info">
+      <div class="exam-patient-avatar">أ</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="exam-tag-status"><i class="ti ti-door-enter"></i> غرفة الكشف جاهزة</span>
+          <span style="font-size:12px;color:var(--text-muted)">المريض التالي بالانتظار:</span>
+        </div>
+        <div style="font-size:17px;font-weight:900;color:#fff;margin-top:2px">
+          أحمد محمد <span class="tiny" style="color:var(--text-muted)">(TB-1045)</span>
+          <span class="clinic-badge mansoura" style="margin-right:6px">المنصورة</span>
+        </div>
+        <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
+          45 سنة • اضطراب في قراءات السكر الصباحية • <span style="color:#f2b84b">انتظار 8 دقائق</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <button class="btn-call-patient" onclick="location.href='doctor-consultation.html?patient=1'">
+        <i class="ti ti-stethoscope" style="font-size:18px"></i> استدعاء المريض وبدء الكشف الآن
+      </button>
+      <button class="pill sm ghost" onclick="location.href='doctor-patients.html?chat=1'" title="إرسال رسالة للمريض في الانتظار">
+        <i class="ti ti-message-circle"></i> محادثة سريعة
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== 2.5 ON-DUTY STAFF WIDGET ==================== -->
+  <div class="card" style="margin-bottom:14px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid var(--border);">
+      <div style="font-weight:900; font-size:15px; color:var(--text-primary);">طاقم العيادة المناوب</div>
+      <div style="font-weight:700; font-size:13px; color:var(--accent);">متصل الآن</div>
+    </div>
+    <div style="padding:16px 20px; display:flex; flex-direction:column; gap:12px;">
+      <!-- Staff 1 -->
+      <div style="display:flex; align-items:center; gap:12px; background:var(--bg-panel); padding:10px 14px; border:1px solid var(--border); border-radius:12px; transition:var(--transition); cursor:pointer;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:38px; height:46px; border:1px dashed var(--border-strong); border-radius:8px; display:flex; align-items:center; justify-content:center; background:var(--bg-card);"></div>
+        <div>
+          <div style="font-weight:800; font-size:14px; color:var(--text-primary);">ممرضة / مروة حسن</div>
+          <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">غرفة العلامات الحيوية</div>
+        </div>
+      </div>
+      <!-- Staff 2 -->
+      <div style="display:flex; align-items:center; gap:12px; background:var(--bg-panel); padding:10px 14px; border:1px solid var(--border); border-radius:12px; transition:var(--transition); cursor:pointer;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:38px; height:46px; border:1px dashed var(--border-strong); border-radius:8px; display:flex; align-items:center; justify-content:center; background:var(--bg-card);"></div>
+        <div>
+          <div style="font-weight:800; font-size:14px; color:var(--text-primary);">أ. محمود عادل</div>
+          <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">الاستقبال وشباك الحجز</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 3. SPARKLINE KPI STATS ==================== -->
+  <div class="stats-sparkline-grid" id="statsSparklineGrid">
+    <!-- Stat 1: Active Patients -->
+    <div class="spark-card" onclick="location.href='doctor-patients.html'">
+      <div class="spark-top">
+        <div>
+          <div class="spark-lbl">المرضى المسجلين والنشطين</div>
+          <div class="spark-num" id="sparkPatientsVal">128</div>
+        </div>
+        <span class="pill xs" style="background:rgba(31,230,168,0.12);color:#1fe6a8;border:none"><i class="ti ti-trending-up"></i> +4 اليوم</span>
+      </div>
+      <div class="spark-chart-box">
+        <svg viewBox="0 0 100 28" width="100%" height="28" style="overflow:visible">
+          <polyline fill="none" stroke="#1fe6a8" stroke-width="2.5" stroke-linecap="round" points="0,22 20,18 40,24 60,12 80,15 100,4" />
+          <circle cx="100" cy="4" r="3" fill="#1fe6a8" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Stat 2: Today's Bookings -->
+    <div class="spark-card" onclick="location.href='doctor-consultation.html'">
+      <div class="spark-top">
+        <div>
+          <div class="spark-lbl">حجوزات وكشوفات اليوم</div>
+          <div class="spark-num" id="sparkAppointmentsVal">34</div>
+        </div>
+        <span class="pill xs" style="background:rgba(91,156,245,0.12);color:#5b9cf5;border:none">4 مكتمل</span>
+      </div>
+      <div class="spark-chart-box">
+        <svg viewBox="0 0 100 28" width="100%" height="28" style="overflow:visible">
+          <rect x="5" y="16" width="10" height="12" rx="2" fill="rgba(91,156,245,0.3)" />
+          <rect x="25" y="10" width="10" height="18" rx="2" fill="rgba(91,156,245,0.4)" />
+          <rect x="45" y="6" width="10" height="22" rx="2" fill="rgba(91,156,245,0.6)" />
+          <rect x="65" y="2" width="10" height="26" rx="2" fill="#5b9cf5" />
+          <rect x="85" y="12" width="10" height="16" rx="2" fill="rgba(91,156,245,0.3)" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Stat 3: Today's Revenue -->
+    <div class="spark-card" onclick="location.href='doctor-financial.html'">
+      <div class="spark-top">
+        <div>
+          <div class="spark-lbl">إيراد العيادات اليوم</div>
+          <div class="spark-num" id="sparkRevenueVal">24,500 <span style="font-size:13px;font-weight:400">ج.م</span></div>
+        </div>
+        <span class="pill xs" style="background:rgba(16,185,129,0.12);color:#10b981;border:none"><i class="ti ti-arrow-up-right"></i> +12%</span>
+      </div>
+      <div class="spark-chart-box">
+        <svg viewBox="0 0 100 28" width="100%" height="28" style="overflow:visible">
+          <polyline fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" points="0,26 25,20 50,22 75,10 100,5" />
+          <circle cx="100" cy="5" r="3" fill="#10b981" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Stat 4: AI Clinical Alerts -->
+    <div class="spark-card" onclick="openAiRecomModal()">
+      <div class="spark-top">
+        <div>
+          <div class="spark-lbl">تنبيهات الفرز السريري (AI)</div>
+          <div class="spark-num" id="sparkAlertsVal" style="color:#f2665c">5</div>
+        </div>
+        <span class="pill xs" style="background:rgba(242,102,92,0.15);color:#f2665c;border:none"><i class="ti ti-flame"></i> عاجل</span>
+      </div>
+      <div class="spark-chart-box">
+        <svg viewBox="0 0 100 28" width="100%" height="28" style="overflow:visible">
+          <path d="M0,20 Q25,5 50,18 T100,6" fill="none" stroke="#f2665c" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="100" cy="6" r="3" fill="#f2665c" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 4. TODAY'S SCHEDULE WITH TIMELINE TOGGLE ==================== -->
+  <div class="card" style="margin-bottom:20px">
+    <div class="queue-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="section-title" style="margin:0"><i class="ti ti-calendar-time" style="color:var(--accent)"></i> جدول كشوفات ومواعيد اليوم</div>
+        <span class="pill xs ghost" id="queueCountBadge">6 مرضى</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <!-- View Toggle (List vs Timeline) -->
+        <div class="view-toggle-pills">
+          <button class="view-t-btn active" id="viewBtnList" onclick="switchScheduleView('list')">
+            <i class="ti ti-list"></i> قائمة
+          </button>
+          <button class="view-t-btn" id="viewBtnTimeline" onclick="switchScheduleView('timeline')">
+            <i class="ti ti-clock"></i> مخطط الساعات
+          </button>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="queue-filters">
+          <button class="qf-btn active" onclick="filterQueue('all',this)">الكل</button>
+          <button class="qf-btn" onclick="filterQueue('waiting',this)">منتظر</button>
+          <button class="qf-btn" onclick="filterQueue('upcoming',this)">قادم</button>
+          <button class="qf-btn" onclick="filterQueue('done',this)">مكتمل</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schedule Mount -->
+    <div id="scheduleViewMount"></div>
+
+    <!-- Footer Action -->
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <span class="tiny" style="color:var(--text-muted)"><i class="ti ti-info-circle"></i> يمكنك فتح أي مريض مباشرة في مساحة الكشف مع فحص الحساسية وخريطة الألم</span>
+      <a href="doctor-consultation.html" class="dash-cta-btn"><i class="ti ti-stethoscope"></i> فتح مساحة الكشف السريري الكاملة <i class="ti ti-arrow-left"></i></a>
+    </div>
+  </div>
+
+  <!-- ==================== 5. FINANCIAL OVERVIEW (المؤشرات والملخص المالي) ==================== -->
+  <div class="dash-summary-card">
+    <div class="dash-summary-head">
+      <div class="dash-summary-title">
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(16,185,129,0.16);color:#10b981;display:flex;align-items:center;justify-content:center;font-size:20px">
+          <i class="ti ti-report-money"></i>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:800;color:var(--text-primary);display:flex;align-items:center;gap:8px">
+            <span>المؤشرات والملخص المالي</span>
+            <span class="clinic-badge all" id="finSummaryBadge">مجمّع لكافة الفروع</span>
+          </div>
+          <div class="tiny" style="color:var(--text-muted);margin-top:2px">نظرة عامة على الإيرادات، التحصيل، ومتوسط كشوفات اليوم</div>
+        </div>
+      </div>
+
+      <!-- Highly Prominent Financial Dashboard CTA Button (زر الدخول البارز جداً) -->
+      <a href="doctor-financial.html" class="btn-goto-financial">
+        <i class="ti ti-chart-pie" style="font-size:18px"></i>
+        <span>فتح الداشبورد والتقارير المالية كاملة</span>
+        <i class="ti ti-arrow-left"></i>
+      </a>
+    </div>
+
+    <!-- 3 Organized Metric Cards -->
+    <div class="fin-summary-grid">
+      <!-- Card 1: Today's Income -->
+      <div class="fin-summary-box">
+        <div class="fin-box-top">
+          <span class="fin-box-lbl">إجمالي دخل اليوم</span>
+          <span class="pill xs" style="background:rgba(16,185,129,0.15);color:#10b981;border:none"><i class="ti ti-arrow-up-right"></i> +12% عن أمس</span>
+        </div>
+        <div class="fin-box-num" id="finSumToday">24,500 <span style="font-size:14px;font-weight:400;color:var(--text-muted)">ج.م</span></div>
+        <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-top:2px">
+          <div style="width:75%;height:100%;background:#10b981;border-radius:99px"></div>
+        </div>
+        <div class="tiny" style="color:var(--text-secondary);display:flex;justify-content:space-between;margin-top:2px">
+          <span>المحصل نقداً وإلكترونياً</span>
+          <span style="color:#10b981;font-weight:700">100% نسبة التحصيل</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Monthly Revenue -->
+      <div class="fin-summary-box">
+        <div class="fin-box-top">
+          <span class="fin-box-lbl">إجمالي إيراد الشهر</span>
+          <span class="tiny" style="color:var(--text-muted)">سبتمبر 2026</span>
+        </div>
+        <div class="fin-box-num" id="finSumMonth" style="color:#1fe6a8">142,000 <span style="font-size:14px;font-weight:400;color:var(--text-muted)">ج.م</span></div>
+        <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-top:2px">
+          <div style="width:78%;height:100%;background:#1fe6a8;border-radius:99px"></div>
+        </div>
+        <div class="tiny" style="color:var(--text-secondary);display:flex;justify-content:space-between;margin-top:2px">
+          <span>المستهدف: 180,000 ج.م</span>
+          <span style="color:#1fe6a8;font-weight:700">78% مكتمل</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Average Consultation Fee -->
+      <div class="fin-summary-box">
+        <div class="fin-box-top">
+          <span class="fin-box-lbl">متوسط قيمة الكشف</span>
+          <span class="pill xs" style="background:rgba(91,156,245,0.15);color:#5b9cf5;border:none"><i class="ti ti-activity"></i> عيادة + فيديو</span>
+        </div>
+        <div class="fin-box-num" id="finSumAvg" style="color:#5b9cf5">350 <span style="font-size:14px;font-weight:400;color:var(--text-muted)">ج.م</span></div>
+        <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-top:2px">
+          <div style="width:65%;height:100%;background:#5b9cf5;border-radius:99px"></div>
+        </div>
+        <div class="tiny" style="color:var(--text-secondary);display:flex;justify-content:space-between;margin-top:2px">
+          <span>34 استشارة ناجحة هذا الأسبوع</span>
+          <span style="color:#5b9cf5;font-weight:700">معدل قياسي</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Insight Strip -->
+    <div style="background:#090f1d;border:1px solid rgba(110,231,201,0.1);border-radius:12px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:38px;height:38px;border-radius:10px;background:rgba(31,230,168,0.1);color:#1fe6a8;display:flex;align-items:center;justify-content:center;font-size:19px">
+          <i class="ti ti-chart-arrows-vertical"></i>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:13.5px;color:var(--text-primary)">نمو مستقر في الإيرادات الأسبوعية وتدفق الكشوفات</div>
+          <div class="tiny" style="color:var(--text-secondary)">تم تسجيل 34 عملية دفع واستشارة طبية ناجحة بدون أي متأخرات مالية مع الشركاء</div>
+        </div>
+      </div>
+      <a href="doctor-financial.html" style="font-size:12.5px;color:#1fe6a8;font-weight:800;display:flex;align-items:center;gap:6px">
+        <span>تحليل الرسوم البيانية وقنوات الدفع</span>
+        <i class="ti ti-chevron-left"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- ==================== 6. CLINICS & BRANCHES SUMMARY ==================== -->
+  <div class="dash-summary-card">
+    <div class="dash-summary-head">
+      <div class="dash-summary-title">
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(242,184,75,0.16);color:#f2b84b;display:flex;align-items:center;justify-content:center;font-size:20px">
+          <i class="ti ti-building-hospital"></i>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:800;color:var(--text-primary);display:flex;align-items:center;gap:8px">
+            <span>عيادات ومراكز الممارسة الطبية</span>
+            <span class="pill xs" style="background:rgba(242,184,75,0.15);color:#f2b84b;border:1px solid rgba(242,184,75,0.3)">3 فروع نشطة</span>
+          </div>
+          <div class="tiny" style="color:var(--text-muted);margin-top:2px">متابعة كشوفات الفروع الموزعة في الدلتا والقاهرة والجيزة</div>
+        </div>
+      </div>
+
+      <a href="doctor-clinics.html" class="btn-goto-clinics">
+        <i class="ti ti-settings"></i>
+        <span>إدارة العيادات وجداول العمل</span>
+        <i class="ti ti-arrow-left"></i>
+      </a>
+    </div>
+
+    <div class="clinics-summary-grid">
+      <!-- Clinic 1: Mansoura -->
+      <div class="clinic-summary-box">
+        <div class="clinic-box-head">
+          <div>
+            <div class="clinic-box-name">مركز طبابا الطبي — المنصورة</div>
+            <div class="clinic-box-addr"><i class="ti ti-map-pin"></i> حي الجامعة، المنصورة، الدقهلية</div>
+          </div>
+          <span class="clinic-badge mansoura">نشط اليوم</span>
+        </div>
+        <div class="tiny" style="color:var(--text-muted);display:flex;align-items:center;gap:4px">
+          <i class="ti ti-clock"></i> الأحد، الثلاثاء، الخميس • 09:00 ص - 02:00 م
+        </div>
+        <div class="clinic-box-stats">
+          <span style="color:var(--text-secondary)">42 مريض مسجل</span>
+          <span style="color:#1fe6a8;font-weight:800">12 موعد اليوم (8 مكتمل)</span>
+        </div>
+      </div>
+
+      <!-- Clinic 2: Cairo -->
+      <div class="clinic-summary-box">
+        <div class="clinic-box-head">
+          <div>
+            <div class="clinic-box-name">عيادة النور التخصصية — القاهرة</div>
+            <div class="clinic-box-addr"><i class="ti ti-map-pin"></i> شارع عباس العقاد، مدينة نصر</div>
+          </div>
+          <span class="clinic-badge cairo">مواعيد مسائية</span>
+        </div>
+        <div class="tiny" style="color:var(--text-muted);display:flex;align-items:center;gap:4px">
+          <i class="ti ti-clock"></i> السبت، الاثنين، الأربعاء • 04:00 م - 09:00 م
+        </div>
+        <div class="clinic-box-stats">
+          <span style="color:var(--text-secondary)">31 مريض مسجل</span>
+          <span style="color:#5b9cf5;font-weight:800">8 مواعيد اليوم</span>
+        </div>
+      </div>
+
+      <!-- Clinic 3: Giza -->
+      <div class="clinic-summary-box">
+        <div class="clinic-box-head">
+          <div>
+            <div class="clinic-box-name">عيادة فيوتشر كير — الجيزة</div>
+            <div class="clinic-box-addr"><i class="ti ti-map-pin"></i> هايبر وان، الشيخ زايد، الجيزة</div>
+          </div>
+          <span class="clinic-badge giza">الأحد والأربعاء</span>
+        </div>
+        <div class="tiny" style="color:var(--text-muted);display:flex;align-items:center;gap:4px">
+          <i class="ti ti-clock"></i> الأحد، الأربعاء • 01:00 م - 06:00 م
+        </div>
+        <div class="clinic-box-stats">
+          <span style="color:var(--text-secondary)">55 مريض مسجل</span>
+          <span style="color:#f2b84b;font-weight:800">14 موعد اليوم</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ==================== LEFT SIDEBAR ==================== -->
+<aside class="sidebar-l">
+  <div id="desktopAiSlot">
+    <!-- 1. Live Clinical & Lab Alerts Radar -->
+    <div class="card radar-card" id="aiAttentionCard">
+      <div class="radar-head">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="radar-pulse-icon"><i class="ti ti-radar-2"></i></span>
+          <div>
+            <div class="section-title" style="margin:0;font-size:13px"><i class="ti ti-sparkles" style="color:var(--accent)"></i> رادار التنبيهات السريرية</div>
+            <div class="tiny" style="color:var(--text-muted)">تحاليل حرجة وحالات تتطلب تدخلاً</div>
+          </div>
+        </div>
+        <span class="pill xs" style="background:rgba(242,102,92,0.18);color:#f2665c;border:1px solid rgba(242,102,92,0.35);font-weight:700" id="aiAttBadgeCount">5 مرضى</span>
+      </div>
+
+      <!-- Priority Filter Bar -->
+      <div class="radar-filter-bar">
+        <button class="radar-tab active" onclick="filterRadarAlerts('all', this)">الكل (<span id="radarCountAll">5</span>)</button>
+        <button class="radar-tab" onclick="filterRadarAlerts('lab', this)">🧪 تحاليل حرجة (2)</button>
+        <button class="radar-tab" onclick="filterRadarAlerts('drug', this)">⚠️ تعارض دوائي (2)</button>
+      </div>
+
+      <!-- Urgent Patients & Lab Alerts List (Populated dynamically) -->
+      <div class="ai-patient-list" id="aiPatientList"></div>
+
+      <!-- View All Recommendations Button -->
+      <button class="pill solid sm" style="width:100%;justify-content:center;margin-bottom:10px" onclick="openAiRecomModal()">
+        <i class="ti ti-list-check"></i> استعراض كافة التوصيات (<span id="aiTotalBtnCount">5</span>)
+      </button>
+
+      <!-- Quick Clinical AI Query -->
+      <details class="radar-copilot-details" id="aiChatDetails">
+        <summary>
+          <span style="display:flex;align-items:center;gap:6px"><i class="ti ti-robot" style="color:var(--accent)"></i> استشارة المساعد السريري الفورية</span>
+          <i class="ti ti-chevron-down tiny" style="color:var(--text-muted)"></i>
+        </summary>
+        <div class="ai-chat-messages" id="aiChatMessages" style="max-height:140px;overflow-y:auto;margin:8px 0;font-size:11.5px;display:flex;flex-direction:column;gap:6px">
+          <div class="ai-msg assistant" style="background:var(--bg-panel);padding:7px 10px;border-radius:var(--radius-xs);border:1px solid var(--border)">
+            مرحباً دكتور أحمد 👋 اسألني عن أي مريض، تعارضات دوائية، أو بروتوكولات.
+          </div>
+        </div>
+        <div class="suggest" id="aiSuggestions" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px">
+          <button class="tpl-btn" onclick="aiSuggestAction(this)">احسب جرعة الميتفورمين مع eGFR 42</button>
+          <button class="tpl-btn" onclick="aiSuggestAction(this)">بروتوكول أزمة ارتفاع ضغط الدم بالعيادة</button>
+        </div>
+        <div class="chat-input" style="display:flex;align-items:center;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:3px 6px">
+          <input type="text" placeholder="اسأل المساعد السريري..." id="aiInput" style="flex:1;background:transparent;border:none;outline:none;font-size:11.5px;color:var(--text-primary)" onkeydown="if(event.key==='Enter')sendAiMessage()">
+          <button class="send-btn" style="width:24px;height:24px;border-radius:50%;background:var(--accent);color:#03261b;display:flex;align-items:center;justify-content:center" onclick="sendAiMessage()"><i class="ti ti-send-2" style="font-size:12px"></i></button>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 2. Live Clinic Flow & Pace Tracker Card -->
+  <div class="card flow-tracker-card" id="clinicFlowTrackerCard">
+    <div class="flow-head">
+      <div style="display:flex;align-items:center;gap:7px">
+        <i class="ti ti-activity-heartbeat" style="color:var(--accent);font-size:18px"></i>
+        <div>
+          <span style="font-size:12.5px;font-weight:700">مؤشر وتيرة وتدفق العيادة</span>
+          <div class="tiny" style="color:var(--text-muted)">متابعة حية للانتظار وموعد الإغلاق</div>
+        </div>
+      </div>
+      <span class="flow-status-pill on-time"><span class="flow-dot"></span> في الموعد</span>
+    </div>
+
+    <!-- Flow 3-Boxes Grid -->
+    <div class="flow-metrics-grid">
+      <div class="flow-stat-box">
+        <div class="flow-stat-num text-accent">8</div>
+        <div class="flow-stat-lbl">تم كشفهم</div>
+      </div>
+      <div class="flow-stat-box waiting">
+        <div class="flow-stat-num text-warn">5</div>
+        <div class="flow-stat-lbl">في الانتظار</div>
+      </div>
+      <div class="flow-stat-box">
+        <div class="flow-stat-num text-info">3</div>
+        <div class="flow-stat-lbl">قادمون اليوم</div>
+      </div>
+    </div>
+
+    <!-- Daily Progress Track -->
+    <div style="margin:8px 0 6px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
+        <span style="color:var(--text-secondary)">إنجاز جدول كشوفات اليوم</span>
+        <b style="color:var(--accent)">50% (8 من 16 حالة)</b>
+      </div>
+      <div class="flow-progress-track">
+        <div class="flow-progress-fill" style="width:50%"></div>
+      </div>
+    </div>
+
+    <!-- Estimated Finish Time Box -->
+    <div class="flow-estimate-box">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="flow-clock-icon"><i class="ti ti-clock-check"></i></div>
+        <div>
+          <div style="font-size:10px;color:var(--text-muted)">الموعد المتوقع لإنهاء العيادة</div>
+          <div style="font-size:14px;font-weight:900;color:var(--text-primary)" id="estFinishTime">02:30 م <span style="font-size:10.5px;font-weight:400;color:var(--accent)">(متبقي ~1:15 س)</span></div>
+        </div>
+      </div>
+      <div style="text-align:left">
+        <div style="font-size:10px;color:var(--text-muted)">متوسط الكشف</div>
+        <div style="font-size:11.5px;font-weight:700;color:var(--text-secondary)"><i class="ti ti-bolt text-accent"></i> 14 دقيقة</div>
+      </div>
+    </div>
+
+    <!-- Pace Actions Row -->
+    <div class="flow-actions-row">
+      <button class="flow-action-btn" onclick="takeDoctorBreak(10)">
+        <i class="ti ti-coffee"></i> استراحة 10 د
+      </button>
+      <button class="flow-action-btn" onclick="notifyReceptionPace('next')">
+        <i class="ti ti-bell-ringing"></i> تنبيه تجهيز القادم
+      </button>
+    </div>
+  </div>
+
+  <!-- 3. Interactive Weekly Clinic Load Chart -->
+  <div class="card week-load-card" id="weeklyClinicLoadCard">
+    <div class="week-load-head">
+      <div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <i class="ti ti-chart-bar" style="color:var(--accent)"></i>
+          <span style="font-size:12.5px;font-weight:700">توزيع أحمال الأسبوع بالفروع</span>
+        </div>
+        <div class="tiny" style="color:var(--text-muted)">60 مريضاً مجدولين هذا الأسبوع</div>
+      </div>
+      <span class="pill xs" style="background:rgba(31,230,168,0.12);color:var(--accent);border:1px solid rgba(31,230,168,0.3)">6 أيام عمل</span>
+    </div>
+
+    <!-- Branch Legend -->
+    <div class="week-legend-row">
+      <span class="w-leg-item"><span class="w-leg-dot" style="background:#1fe6a8"></span> المنصورة</span>
+      <span class="w-leg-item"><span class="w-leg-dot" style="background:#5b9cf5"></span> القاهرة</span>
+      <span class="w-leg-item"><span class="w-leg-dot" style="background:#f2b84b"></span> الجيزة</span>
+    </div>
+
+    <!-- Interactive Weekly Bars Grid -->
+    <div class="week-chart-grid" id="weekBarsContainer">
+      <!-- Sat -->
+      <div class="week-bar-col" onclick="selectWeekDay('السبت', 'القاهرة', 8, 'cairo', this)">
+        <div class="week-bar-val">8</div>
+        <div class="week-bar-shell">
+          <div class="week-bar-fill cairo" style="height:57%"></div>
+        </div>
+        <div class="week-bar-day">سبت</div>
+      </div>
+      <!-- Sun -->
+      <div class="week-bar-col" onclick="selectWeekDay('الأحد', 'المنصورة', 12, 'mansoura', this)">
+        <div class="week-bar-val">12</div>
+        <div class="week-bar-shell">
+          <div class="week-bar-fill mansoura" style="height:85%"></div>
+        </div>
+        <div class="week-bar-day">أحد</div>
+      </div>
+      <!-- Mon -->
+      <div class="week-bar-col" onclick="selectWeekDay('الاثنين', 'القاهرة', 10, 'cairo', this)">
+        <div class="week-bar-val">10</div>
+        <div class="week-bar-shell">
+          <div class="week-bar-fill cairo" style="height:71%"></div>
+        </div>
+        <div class="week-bar-day">اثنين</div>
+      </div>
+      <!-- Tue (TODAY) -->
+      <div class="week-bar-col today-col" onclick="selectWeekDay('الثلاثاء (اليوم)', 'المنصورة', 7, 'mansoura', this)">
+        <span class="today-chip">اليوم</span>
+        <div class="week-bar-val" style="color:var(--accent);font-weight:900">7</div>
+        <div class="week-bar-shell">
+          <div class="week-bar-fill mansoura" style="height:50%"></div>
+        </div>
+        <div class="week-bar-day" style="color:var(--accent);font-weight:900">ثلاثاء</div>
+      </div>
+      <!-- Wed (Peak Day) -->
+      <div class="week-bar-col peak-col" onclick="selectWeekDay('الأربعاء', 'الجيزة', 14, 'giza', this)">
+        <span class="peak-star"><i class="ti ti-flame"></i></span>
+        <div class="week-bar-val">14</div>
+        <div class="week-bar-shell">
+          <div class="week-bar-fill giza" style="height:100%"></div>
+        </div>
+        <div class="week-bar-day">أربعاء</div>
+      </div>
+      <!-- Thu -->
+      <div class="week-bar-col" onclick="selectWeekDay('الخميس', 'المنصورة', 9, 'mansoura', this)">
+        <div class="week-bar-val">9</div>
+        <div class="week-bar-shell">
+          <div class="week-bar-fill mansoura" style="height:64%"></div>
+        </div>
+        <div class="week-bar-day">خميس</div>
+      </div>
+    </div>
+
+    <!-- Interactive Selected Day Info -->
+    <div class="week-day-detail-panel" id="weekDayDetailPanel">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b style="font-size:11.5px;color:var(--text-primary)" id="wDetailTitle">الثلاثاء (اليوم) - فرع المنصورة</b>
+        <span class="clinic-badge mansoura" id="wDetailBadge">المنصورة</span>
+      </div>
+      <div style="font-size:10.5px;color:var(--text-secondary);margin-top:3px" id="wDetailSub">
+        7 كشوفات مسجلة • متبقي 2 موعد متاح للاستشارة • نسبة الإشغال 70%
+      </div>
+    </div>
+
+    <!-- Action Link -->
+    <a href="doctor-clinics.html" class="pill ghost sm" style="width:100%;justify-content:center;margin-top:10px;font-size:11px">
+      <i class="ti ti-calendar-event"></i> فتح جدول مواعيد العيادات الكامل
+    </a>
+  </div>
+</aside>
+
+</div>
+
+<!-- ==================== MODALS & DRAWERS ==================== -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
+
+<!-- All AI Recommendations Modal -->
+<div class="ai-modal" id="aiRecomModal">
+  <div class="ai-modal-content">
+    <div class="ai-modal-head">
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-sparkles" style="color:var(--accent);font-size:20px"></i>
+        <h3 style="font-size:15px;font-weight:700">مركز توصيات الذكاء الاصطناعي السريري (AI Attention Intelligence)</h3>
+      </div>
+      <button class="drawer-close" onclick="closeAiRecomModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<!-- Medical Calculators Modal -->
+<div class="ai-modal" id="calcModal">
+  <div class="ai-modal-content" style="max-width:500px">
+    <div class="ai-modal-head">
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-calculator" style="color:var(--accent);font-size:20px"></i>
+        <h3 style="font-size:15px;font-weight:700" id="calcModalTitle">الحاسبة السريرية الفورية</h3>
+      </div>
+      <button class="drawer-close" onclick="closeCalculatorModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="ai-modal-body" id="calcModalBody" style="padding:18px"></div>
+  </div>
+</div>
+
+<!-- Toast Box -->
+<div class="toast-box" id="toastBox"></div>
+
+<!-- ==================== FIXED MOBILE BOTTOM NAVIGATION ==================== -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+  <button class="mb-nav-btn active" id="mbNavHome" onclick="onMobileBottomNav('home')">
+    <i class="ti ti-layout-dashboard"></i>
+    <span>الرئيسية</span>
+  </button>
+  <button class="mb-nav-btn" id="mbNavPatients" onclick="onMobileBottomNav('patients')">
+    <i class="ti ti-users"></i>
+    <span>المرضى</span>
+    <span class="mb-nav-badge" id="mbNavPatientBadge">5</span>
+  </button>
+  <button class="mb-nav-btn mb-nav-highlight" id="mbNavWorkspace" onclick="onMobileBottomNav('workspace')">
+    <div class="mb-nav-fab"><i class="ti ti-stethoscope"></i></div>
+    <span>الكشف</span>
+  </button>
+  <button class="mb-nav-btn" id="mbNavClinics" onclick="onMobileBottomNav('clinics')">
+    <i class="ti ti-building-hospital"></i>
+    <span>العيادات</span>
+  </button>
+  <button class="mb-nav-btn" id="mbNavFin" onclick="onMobileBottomNav('fin')">
+    <i class="ti ti-report-money"></i>
+    <span>المالية</span>
+  </button>
+</nav>
+
+<!-- Scripts -->
+<script src="doctor-shared.js"></script>
+<script>
+// ============================= DASHBOARD LOCAL CONTROLLER =============================
+let currentQueueFilter = 'all';
+let currentScheduleView = 'list'; // 'list' | 'timeline'
+
+// ============================= CLINICAL COCKPIT & CALCULATORS =============================
+function triggerWaitingRoomChime() {
+  const appts = getClinicAppointments();
+  const nextPatient = appts.find(p => p.status === 'waiting') || appts[0] || PATIENTS[0];
+  showToast(`🔔 تم بث نداء المريض (${nextPatient.name}) على شاشات صالة الانتظار وبدء التنبيه الصوتي`);
+}
+
+function quickReplyToPatient(name, reply) {
+  showToast(`تم إرسال الرد السريع لـ ${name}: "${reply}" ✓`);
+}
+
+function toggleSbTask(chk, taskId) {
+  const item = document.getElementById(taskId);
+  if (item) {
+    if (chk.checked) {
+      item.classList.add('completed');
+    } else {
+      item.classList.remove('completed');
+    }
+  }
+  updateSbTaskCount();
+}
+
+function updateSbTaskCount() {
+  const total = document.querySelectorAll('#sbTodoList .sb-task-item').length;
+  const done = document.querySelectorAll('#sbTodoList .sb-task-item.completed').length;
+  const countEl = document.getElementById('sbTaskCount');
+  if (countEl) countEl.textContent = `${total - done} متبقي`;
+}
+
+function addSbTask() {
+  const input = document.getElementById('sbNewTaskInput');
+  if (!input || !input.value.trim()) return;
+  const txt = input.value.trim();
+  input.value = '';
+
+  const id = 'task_' + Date.now();
+  const list = document.getElementById('sbTodoList');
+  if (list) {
+    const label = document.createElement('label');
+    label.className = 'sb-task-item';
+    label.id = id;
+    label.innerHTML = `
+      <input type="checkbox" onchange="toggleSbTask(this, '${id}')">
+      <span>${txt}</span>
+    `;
+    list.appendChild(label);
+    updateSbTaskCount();
+    showToast('تمت إضافة التذكير للمفكرة السريعة ✓');
+  }
+}
+
+function openCalculatorModal(type) {
+  const modal = document.getElementById('calcModal');
+  const title = document.getElementById('calcModalTitle');
+  const body = document.getElementById('calcModalBody');
+  if (!modal || !body) return;
+
+  if (type === 'egfr') {
+    title.innerHTML = '<i class="ti ti-activity" style="color:var(--accent)"></i> حاسبة وظائف الكلى (eGFR CKD-EPI)';
+    body.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="tiny" style="color:var(--text-secondary)">حساب معدل الترشيح الكبيبي لتعديل جرعات الميتفورمين والمضادات الحيوية</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label class="tiny" style="font-weight:700">كرياتينين المصل (mg/dL)</label>
+            <input type="number" id="calcScr" value="1.1" step="0.1" class="pm-search-input" style="padding:8px">
+          </div>
+          <div>
+            <label class="tiny" style="font-weight:700">العمر (بالسنوات)</label>
+            <input type="number" id="calcAge" value="45" class="pm-search-input" style="padding:8px">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label class="tiny" style="font-weight:700">الجنس</label>
+            <select id="calcGender" class="pm-search-input" style="padding:8px">
+              <option value="male">ذكر</option>
+              <option value="female">أنثى</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="pill sm solid" style="width:100%;height:38px;justify-content:center" onclick="computeEgfr()">احسب الآن</button>
+          </div>
+        </div>
+        <div id="calcResultBox" style="background:#080d18;border:1px solid var(--border);border-radius:10px;padding:14px;display:none;margin-top:6px">
+          <div style="font-size:18px;font-weight:900;color:var(--accent)" id="calcResValue">eGFR: 78 mL/min/1.73m²</div>
+          <div class="tiny" style="color:var(--text-primary);margin-top:4px" id="calcResAdvice">المرحلة G2 (قصور كلوي طفيف جداً) • آمن لاستخدام Metformin بجرعة اعتيادية حتى 2000 مجم/يوم مع مراقبة سنوية.</div>
+        </div>
+      </div>
+    `;
+  } else if (type === 'bmi') {
+    title.innerHTML = '<i class="ti ti-scale" style="color:#5b9cf5"></i> حاسبة مؤشر كتلة الجسم (BMI Calculator)';
+    body.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="tiny" style="color:var(--text-secondary)">حساب الوزن المثالي ومؤشر السمنة لمرضى السكري والضغط</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label class="tiny" style="font-weight:700">الوزن الحالي (كجم)</label>
+            <input type="number" id="calcWeight" value="84" class="pm-search-input" style="padding:8px">
+          </div>
+          <div>
+            <label class="tiny" style="font-weight:700">الطول (سم)</label>
+            <input type="number" id="calcHeight" value="175" class="pm-search-input" style="padding:8px">
+          </div>
+        </div>
+        <button class="pill sm solid" style="justify-content:center;margin-top:4px" onclick="computeBmi()">احسب مؤشر الكتلة والوزن المثالي</button>
+        <div id="calcResultBox" style="background:#080d18;border:1px solid var(--border);border-radius:10px;padding:14px;display:none;margin-top:6px">
+          <div style="font-size:18px;font-weight:900;color:#5b9cf5" id="calcResValue">BMI: 27.4 kg/m² (وزن زائد)</div>
+          <div class="tiny" style="color:var(--text-primary);margin-top:4px" id="calcResAdvice">الوزن المثالي التقريبي: 68 - 72 كجم • التوصية: عجز سعرات حراري 500 كالوري/يوم مع 150 دقيقة مشي أسبوعياً.</div>
+        </div>
+      </div>
+    `;
+  } else {
+    title.innerHTML = '<i class="ti ti-pill" style="color:#f2b84b"></i> حاسبة تصحيح جرعات السكر والأنسولين';
+    body.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="tiny" style="color:var(--text-secondary)">حساب معامل الحساسية وقواعد تصحيح السكر العالي (Rule of 1800/1500)</div>
+        <div>
+          <label class="tiny" style="font-weight:700">السكر الحالي المقاس (mg/dL)</label>
+          <input type="number" id="calcSugar" value="240" class="pm-search-input" style="padding:8px">
+        </div>
+        <div>
+          <label class="tiny" style="font-weight:700">السكر المستهدف الصائم (mg/dL)</label>
+          <input type="number" id="calcTargetSugar" value="130" class="pm-search-input" style="padding:8px">
+        </div>
+        <button class="pill sm solid" style="justify-content:center" onclick="computeInsulinCorrection()">احسب جرعة التصحيح المقترحة</button>
+        <div id="calcResultBox" style="background:#080d18;border:1px solid var(--border);border-radius:10px;padding:14px;display:none;margin-top:6px">
+          <div style="font-size:18px;font-weight:900;color:#f2b84b" id="calcResValue">جرعة التصحيح المقترحة: 2 - 3 وحدات أنسولين سريع</div>
+          <div class="tiny" style="color:var(--text-primary);margin-top:4px" id="calcResAdvice">معامل التصحيح: 1 وحدة تخفض السكر حوالي 40-50 mg/dL • يجب إعادة القياس بعد ساعتين.</div>
+        </div>
+      </div>
+    `;
+  }
+
+  modal.classList.add('open');
+}
+
+function closeCalculatorModal() {
+  const modal = document.getElementById('calcModal');
+  if (modal) modal.classList.remove('open');
+}
+
+function computeEgfr() {
+  const scr = parseFloat(document.getElementById('calcScr').value) || 1.0;
+  const age = parseInt(document.getElementById('calcAge').value) || 45;
+  const gender = document.getElementById('calcGender').value;
+  
+  let egfr = Math.round(141 * Math.pow(Math.min(scr / 0.9, 1), -0.411) * Math.pow(Math.max(scr / 0.9, 1), -1.209) * Math.pow(0.993, age));
+  if (gender === 'female') egfr = Math.round(egfr * 1.018);
+
+  const box = document.getElementById('calcResultBox');
+  const val = document.getElementById('calcResValue');
+  const adv = document.getElementById('calcResAdvice');
+  if (box && val && adv) {
+    box.style.display = 'block';
+    val.textContent = `eGFR: ${egfr} mL/min/1.73m²`;
+    if (egfr >= 60) {
+      adv.textContent = 'وظائف كلى ممتازة أو قصور طفيف جداً • استخدام آمن لجرعات الميتفورمين الكاملة (2000 مجم/يوم).';
+      val.style.color = '#1fe6a8';
+    } else if (egfr >= 45) {
+      adv.textContent = 'قصور كلوي من الدرجة الثالثة (G3a) • يُنصح بتخفيض جرعة الميتفورمين إلى 1000 مجم/يوم ومراقبة وظائف الكلى كل 3 أشهر.';
+      val.style.color = '#f2b84b';
+    } else {
+      adv.textContent = 'تنبيه: قصور كلوي ملحوظ (eGFR أقل من 45) • يمنع البدء بالميتفورمين ويجب استبداله بخيارات كلوية آمنة (مثل Januvia معدل أو Linagliptin).';
+      val.style.color = '#f2665c';
+    }
+  }
+}
+
+function computeBmi() {
+  const w = parseFloat(document.getElementById('calcWeight').value) || 70;
+  const h = (parseFloat(document.getElementById('calcHeight').value) || 170) / 100;
+  const bmi = (w / (h * h)).toFixed(1);
+
+  const box = document.getElementById('calcResultBox');
+  const val = document.getElementById('calcResValue');
+  const adv = document.getElementById('calcResAdvice');
+  if (box && val && adv) {
+    box.style.display = 'block';
+    val.textContent = `BMI: ${bmi} kg/m²`;
+    const minW = Math.round(18.5 * (h * h));
+    const maxW = Math.round(24.9 * (h * h));
+    adv.textContent = `نطاق الوزن الصحي المثالي: ${minW} - ${maxW} كجم • نسبة الدهون والتمثيل الغذائي تستدعي ضبط النشويات والسكريات.`;
+  }
+}
+
+function computeInsulinCorrection() {
+  const cur = parseInt(document.getElementById('calcSugar').value) || 200;
+  const target = parseInt(document.getElementById('calcTargetSugar').value) || 130;
+  const diff = Math.max(0, cur - target);
+  const units = Math.max(1, Math.round(diff / 45));
+
+  const box = document.getElementById('calcResultBox');
+  const val = document.getElementById('calcResValue');
+  const adv = document.getElementById('calcResAdvice');
+  if (box && val && adv) {
+    box.style.display = 'block';
+    val.textContent = `جرعة التصحيح المقترحة: ${units} وحدات أنسولين سريع`;
+    adv.textContent = `الفارق عن المستهدف: ${diff} mg/dL • يُعطى تحت الجلد مع فحص السكر بعد ساعتين لتفادي هبوط السكر (Hypoglycemia).`;
+  }
+}
+
+function onClinicChanged(newClinicId) {
+  renderSparklineStats();
+  renderHeroExamRoom();
+  renderSchedule();
+  renderAiAttentionCard();
+  updateFinancialSummary();
+  updateGreetingText();
+}
+
+function updateGreetingText() {
+  const sub = document.getElementById('greetSubText');
+  if (!sub) return;
+  if (currentClinicId === 'all') {
+    sub.innerHTML = '<i class="ti ti-calendar-event" style="font-size:14px"></i> الأحد، 15 سبتمبر 2026 — عرض شامل لكافة الفروع (المنصورة • القاهرة • الجيزة)';
+  } else {
+    const c = CLINICS.find(x => x.id === currentClinicId);
+    if (c) {
+      sub.innerHTML = '<i class="ti ti-building-hospital" style="font-size:14px;color:' + c.color + '"></i> ' + c.name + ' (' + c.branchName + ') — ' + c.address;
+    }
+  }
+}
+
+// ----------------------------- HERO ROOM CARD -----------------------------
+function renderHeroExamRoom() {
+  const mount = document.getElementById('heroExamRoomCard');
+  if (!mount) return;
+
+  const appts = getClinicAppointments();
+  const nextPatient = appts.find(p => p.status === 'waiting') || appts[0] || PATIENTS[0];
+  const cInfo = CLINIC_MAP[nextPatient.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+
+  mount.innerHTML = `
+    <div class="exam-patient-info">
+      <div class="exam-patient-avatar">${initials(nextPatient.name)}</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="exam-tag-status"><span class="live-pulse-dot"></span> غرفة الكشف جاهزة ومجهزة</span>
+          <span style="font-size:12px;color:var(--text-muted)">المريض التالي بالانتظار الآن:</span>
+        </div>
+        <div style="font-size:17px;font-weight:900;color:#fff;margin-top:2px">
+          ${nextPatient.name} <span class="tiny" style="color:var(--text-muted)">(${nextPatient.patientId || 'TB-1045'})</span>
+          <span class="clinic-badge ${cInfo.tag}" style="margin-right:6px">${cInfo.short}</span>
+        </div>
+        <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
+          ${nextPatient.age} سنة • ${nextPatient.complaint || nextPatient.condition || 'كشف ومتابعة'} • <span style="color:#f2b84b;font-weight:700">انتظار ${nextPatient.waitMin || 8} دقائق</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <button class="btn-call-patient" onclick="location.href='doctor-consultation.html?patient=${nextPatient.id}'">
+        <i class="ti ti-stethoscope" style="font-size:18px"></i> استدعاء المريض وبدء الكشف الآن
+      </button>
+      <button class="pill sm ghost" onclick="location.href='doctor-patients.html?chat=${nextPatient.id}'" title="إرسال رسالة للمريض في الانتظار">
+        <i class="ti ti-message-circle"></i> محادثة سريعة
+      </button>
+    </div>
+  `;
+}
+
+// ----------------------------- SPARKLINE KPIS -----------------------------
+function renderSparklineStats() {
+  let patientsCount = 0;
+  let appointmentsCount = 0;
+  let revenueCount = 0;
+  let aiAlertsCount = 0;
+
+  if (currentClinicId === 'all') {
+    patientsCount = CLINICS.reduce((acc, c) => acc + c.stats.activePatients, 0);
+    appointmentsCount = CLINICS.reduce((acc, c) => acc + c.stats.todayAppointments, 0);
+    revenueCount = CLINICS.reduce((acc, c) => acc + c.stats.todayRevenue, 0);
+    aiAlertsCount = CLINICS.reduce((acc, c) => acc + c.stats.aiAlerts, 0);
+  } else {
+    const c = CLINICS.find(x => x.id === currentClinicId);
+    if (c) {
+      patientsCount = c.stats.activePatients;
+      appointmentsCount = c.stats.todayAppointments;
+      revenueCount = c.stats.todayRevenue;
+      aiAlertsCount = c.stats.aiAlerts;
+    }
+  }
+
+  const pEl = document.getElementById('sparkPatientsVal');
+  const aEl = document.getElementById('sparkAppointmentsVal');
+  const rEl = document.getElementById('sparkRevenueVal');
+  const alEl = document.getElementById('sparkAlertsVal');
+
+  if (pEl) pEl.textContent = patientsCount;
+  if (aEl) aEl.textContent = appointmentsCount;
+  if (rEl) rEl.innerHTML = `${fmt(revenueCount)} <span style="font-size:13px;font-weight:400">ج.م</span>`;
+  if (alEl) alEl.textContent = aiAlertsCount;
+}
+
+// ----------------------------- SCHEDULE LIST & TIMELINE -----------------------------
+function switchScheduleView(view) {
+  currentScheduleView = view;
+  document.getElementById('viewBtnList').classList.toggle('active', view === 'list');
+  document.getElementById('viewBtnTimeline').classList.toggle('active', view === 'timeline');
+  renderSchedule();
+}
+
+function renderSchedule() {
+  const mount = document.getElementById('scheduleViewMount');
+  if (!mount) return;
+
+  let q = getClinicAppointments();
+  if (currentQueueFilter !== 'all') {
+    q = q.filter(p => p.status === currentQueueFilter);
+  }
+
+  const badge = document.getElementById('queueCountBadge');
+  if (badge) badge.textContent = `${q.length} مرضى`;
+
+  if (!q.length) {
+    mount.innerHTML = '<div class="empty-state" style="padding:24px;text-align:center;color:var(--text-muted)"><i class="ti ti-calendar-off" style="font-size:28px;display:block;margin-bottom:6px"></i>لا توجد مواعيد في هذا التصنيف</div>';
+    return;
+  }
+
+  if (currentScheduleView === 'list') {
+    mount.innerHTML = `
+      <div class="queue-list" style="display:flex;flex-direction:column;gap:8px">
+        ${q.map(p => {
+          const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+          const isDone = p.status === 'done';
+          const isWaiting = p.status === 'waiting';
+          const statusLabel = isDone ? 'تم الكشف' : (isWaiting ? `في الانتظار (${p.waitMin} د)` : 'قادم');
+
+          return `
+            <div class="queue-item ${isWaiting ? 'active-now' : ''}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;background:#0d1527;border:1px solid var(--border);border-radius:10px">
+              <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
+                <div class="priority-dot ${p.priority || 'normal'}"></div>
+                <div class="queue-avatar" style="width:36px;height:36px;font-size:13px">${initials(p.name)}</div>
+                <div class="queue-info">
+                  <div class="queue-name" style="font-size:13.5px;font-weight:700">
+                    ${p.name} 
+                    <span class="clinic-badge ${cInfo.tag}" style="font-size:9.5px">${cInfo.short}</span>
+                  </div>
+                  <div class="queue-meta" style="margin-top:2px">
+                    <span class="queue-time"><i class="ti ti-clock"></i> ${p.time || '10:00'}</span>
+                    <span class="tiny" style="color:var(--text-secondary)">${p.complaint || p.condition || ''}</span>
+                    <span class="status-badge ${p.status}" style="font-size:10.5px">${statusLabel}</span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;flex-shrink:0">
+                <button class="pill xs ghost" onclick="location.href='doctor-patients.html?patient=${p.id}'" title="ملف المريض"><i class="ti ti-id"></i></button>
+                <button class="pill xs solid" onclick="location.href='doctor-consultation.html?patient=${p.id}'" title="بدء الكشف السريري"><i class="ti ti-stethoscope"></i> كشف</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  } else {
+    // Timeline View (Hour by Hour)
+    mount.innerHTML = `
+      <div class="timeline-hour-flow">
+        ${q.map((p, i) => {
+          const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+          const isWaiting = p.status === 'waiting';
+          return `
+            <div class="timeline-slot ${isWaiting ? 'active' : ''}">
+              <div class="timeline-slot-dot"></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;background:#0d1527;border:1px solid ${isWaiting?'var(--accent)':'var(--border)'};border-radius:10px;padding:10px 14px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <span style="font-weight:900;font-size:13px;color:${isWaiting?'var(--accent)':'var(--text-secondary)'};direction:ltr;width:60px">
+                    ${p.time || '10:00'}
+                  </span>
+                  <div>
+                    <div style="font-size:13.5px;font-weight:800;color:var(--text-primary)">
+                      ${p.name} 
+                      <span class="clinic-badge ${cInfo.tag}" style="font-size:9.5px">${cInfo.short}</span>
+                    </div>
+                    <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
+                      ${p.complaint || p.condition || 'كشف ومتابعة'} • <span style="color:${isWaiting?'#f2b84b':'var(--text-muted)'}">${isWaiting ? 'في الانتظار الآن' : 'مجدول'}</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="pill xs solid" onclick="location.href='doctor-consultation.html?patient=${p.id}'">
+                  <i class="ti ti-stethoscope"></i> بدء الكشف
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+}
+
+function filterQueue(f, btn) {
+  currentQueueFilter = f;
+  document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderSchedule();
+}
+
+function updateFinancialSummary() {
+  const sumToday = document.getElementById('finSumToday');
+  const badge = document.getElementById('finSummaryBadge');
+  if (currentClinicId === 'all') {
+    if (sumToday) sumToday.textContent = '24,500 ج.م';
+    if (badge) badge.textContent = 'مجمّع لكافة الفروع';
+  } else {
+    const c = CLINICS.find(x => x.id === currentClinicId);
+    if (c) {
+      if (sumToday) sumToday.textContent = fmt(c.stats.todayRevenue) + ' ج.م';
+      if (badge) badge.textContent = c.branchName;
+    }
+  }
+}
+
+let currentRadarFilter = 'all';
+
+function filterRadarAlerts(filter, btn) {
+  currentRadarFilter = filter;
+  document.querySelectorAll('.radar-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderAiAttentionCard();
+}
+
+function renderAiAttentionCard() {
+  const list = document.getElementById('aiPatientList');
+  if (!list) return;
+
+  const pts = getClinicPatients()
+    .map(p => ({ ...p, aiScoreData: calculateAttentionScore(p) }))
+    .sort((a, b) => b.aiScoreData.score - a.aiScoreData.score);
+
+  const totalUrgent = pts.filter(p => p.aiScoreData.score >= 50).length;
+
+  const badgeCount = document.getElementById('aiAttBadgeCount');
+  const btnCount = document.getElementById('aiTotalBtnCount');
+  const topbarCount = document.getElementById('topbarAiCount');
+  const radarAll = document.getElementById('radarCountAll');
+
+  if (badgeCount) badgeCount.textContent = totalUrgent + ' مرضى';
+  if (btnCount) btnCount.textContent = totalUrgent;
+  if (topbarCount) topbarCount.textContent = totalUrgent;
+  if (radarAll) radarAll.textContent = totalUrgent;
+
+  // Rich Clinical & Lab Alerts Catalog
+  const clinicalAlerts = [
+    {
+      id: 'p1',
+      type: 'lab',
+      patient: pts[0] || { id: 'p1', name: 'أحمد كمال سالم', age: 48 },
+      tag: '🧪 نتيجة معملية حرجة',
+      tagType: 'danger',
+      title: 'HbA1c: 11.8% | كراتينين: 2.1 mg/dL',
+      sub: 'ارتفاع حاد يستوجب مراجعة جرعة الميتفورمين قبل دخوله للغرفة',
+      location: 'في الانتظار (دوره القادم)',
+      score: 95
+    },
+    {
+      id: 'p2',
+      type: 'drug',
+      patient: pts[1] || { id: 'p2', name: 'سارة إبراهيم منصور', age: 34 },
+      tag: '⚠️ تعارض دوائي مهدد',
+      tagType: 'danger',
+      title: 'حساسية بنسلين + طلب Augmentin',
+      sub: 'تم رصد حساسية شديدة سابقة في السجل الطبي الرقمي الموحد',
+      location: 'كشف قادم 11:30 ص',
+      score: 88
+    },
+    {
+      id: 'p3',
+      type: 'lab',
+      patient: pts[2] || { id: 'p3', name: 'محمود عبد العزيز', age: 62 },
+      tag: '🚨 علامات حيوية حرجة',
+      tagType: 'warn',
+      title: 'ضغط دم: 185/110 mmHg',
+      sub: 'رصد ارتفاع حاد أثناء قياس العلامات الحيوية عند الاستقبال',
+      location: 'في الانتظار (منذ 15 د)',
+      score: 82
+    }
+  ];
+
+  let displayAlerts = clinicalAlerts;
+  if (currentRadarFilter !== 'all') {
+    displayAlerts = clinicalAlerts.filter(a => a.type === currentRadarFilter);
+  }
+
+  if (!displayAlerts.length) {
+    list.innerHTML = `<div class="tiny" style="text-align:center;padding:12px;color:var(--text-muted)">لا توجد تنبيهات من هذا النوع حالياً</div>`;
+    return;
+  }
+
+  list.innerHTML = displayAlerts.map(a => {
+    const p = a.patient;
+    const cInfo = (p.appointmentClinicId && CLINIC_MAP[p.appointmentClinicId]) || CLINIC_MAP.clinic_mansoura;
+    return `
+      <div class="ai-patient-item" style="background:#090f1d;border:1px solid rgba(242,102,92,0.28);border-radius:10px;padding:9px 10px;margin-bottom:7px;transition:var(--transition)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span class="critical-lab-badge ${a.tagType}">${a.tag}</span>
+            <span class="clinic-badge ${cInfo.tag}" style="font-size:9.5px">${cInfo.short}</span>
+          </div>
+          <span style="font-size:10.5px;font-weight:700;color:var(--danger)">أولوية ${a.score}%</span>
+        </div>
+        <div style="font-size:12.5px;font-weight:800;color:var(--text-primary);margin:5px 0 2px;display:flex;align-items:center;gap:6px">
+          <span>${p.name}</span>
+          <span class="tiny" style="color:var(--text-muted);font-weight:400">(${a.location})</span>
+        </div>
+        <div style="font-size:11.5px;font-weight:700;color:#f2b84b;margin-bottom:2px">${a.title}</div>
+        <div class="tiny" style="color:var(--text-secondary);line-height:1.4">${a.sub}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:7px;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px">
+          <span class="tiny" style="color:var(--accent);font-weight:600"><i class="ti ti-shield-check"></i> فحص سريري عاجل</span>
+          <div style="display:flex;gap:4px">
+            <button class="pill xs ghost" onclick="location.href='doctor-patients.html?patient=${p.id}'" title="ملف المريض والتحاليل"><i class="ti ti-file-analytics"></i> تحاليل</button>
+            <button class="pill xs solid" onclick="location.href='doctor-consultation.html?patient=${p.id}'" title="دخول الكشف فوراً"><i class="ti ti-stethoscope"></i> كشف</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Clinic Flow Controls
+function takeDoctorBreak(mins) {
+  showToast(`☕ تم إخطار الاستقبال ببدء استراحة طبيب (${mins} دقائق) وجدولة الدور تلقائياً`);
+  const statusPill = document.querySelector('.flow-status-pill');
+  if (statusPill) {
+    statusPill.className = 'flow-status-pill';
+    statusPill.style.background = 'rgba(242, 184, 75, 0.15)';
+    statusPill.style.color = '#f2b84b';
+    statusPill.style.border = '1px solid rgba(242, 184, 75, 0.35)';
+    statusPill.innerHTML = `<span class="flow-dot" style="background:#f2b84b;box-shadow:0 0 6px #f2b84b"></span> استراحة طبيب (${mins} د)`;
+  }
+}
+
+function notifyReceptionPace(type) {
+  showToast('🔔 تم إرسال تنبيه فوري لطاقم التمريض والاستقبال لتجهيز الحالة التالية');
+}
+
+// Weekly Chart Day Selection
+function selectWeekDay(day, branch, count, type, colEl) {
+  document.querySelectorAll('.week-bar-col').forEach(c => c.classList.remove('selected-day'));
+  if (colEl) colEl.classList.add('selected-day');
+  
+  const title = document.getElementById('wDetailTitle');
+  const badge = document.getElementById('wDetailBadge');
+  const sub = document.getElementById('wDetailSub');
+  
+  if (title) title.textContent = `${day} - فرع ${branch}`;
+  if (badge) {
+    badge.className = `clinic-badge ${type}`;
+    badge.textContent = branch;
+  }
+  if (sub) {
+    const consults = Math.round(count * 0.3);
+    const exams = count - consults;
+    const pct = Math.min(100, Math.round((count / 15) * 100));
+    sub.textContent = `${count} مرضى مسجلين (${exams} كشوفات رئيسية + ${consults} استشارات) • نسبة الحجز ${pct}%`;
+  }
+}
+
+
+function sendAiMessage() {
+  const input = document.getElementById('aiInput');
+  if (!input || !input.value.trim()) return;
+  const msg = input.value.trim();
+  input.value = '';
+
+  const area = document.getElementById('aiChatMessages');
+  if (!area) return;
+
+  area.innerHTML += `
+    <div class="ai-msg user" style="background:var(--accent-soft);color:var(--accent);padding:6px 10px;border-radius:var(--radius-xs);align-self:flex-start;max-width:85%">
+      ${msg}
+    </div>
+  `;
+  area.scrollTop = area.scrollHeight;
+
+  setTimeout(() => {
+    let reply = 'بناءً على السجلات السريرية: المريض أحمد محمد لديه سكري نوع 2 وحالته تحتاج ضبط جرعات الميتفورمين ومتابعة قراءات السكر الصباحية.';
+    if (msg.includes('تعارض')) {
+      reply = 'تنبيه سريري: لا توجد تعارضات شديدة مسجلة بين أدوية الضغط الحالية والميتفورمين، لكن يرجى مراقبة وظائف الكلى دورياً وتجنب السلفا.';
+    }
+    area.innerHTML += `
+      <div class="ai-msg assistant" style="background:var(--bg-panel);padding:6px 10px;border-radius:var(--radius-xs);border:1px solid var(--border);max-width:90%">
+        ${reply}
+      </div>
+    `;
+    area.scrollTop = area.scrollHeight;
+  }, 700);
+}
+
+function aiSuggestAction(btn) {
+  const input = document.getElementById('aiInput');
+  if (input) {
+    input.value = btn.textContent;
+    sendAiMessage();
+  }
+}
+
+// Initial Run
+document.addEventListener('DOMContentLoaded', () => {
+  renderSparklineStats();
+  renderHeroExamRoom();
+  renderSchedule();
+  renderAiAttentionCard();
+  updateFinancialSummary();
+  updateGreetingText();
+  renderNotifications();
+});
+</script>
+</body>
+</html>

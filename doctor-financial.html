@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التقرير والملف المالي الشامل - طبابا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="doctor-shared.css">
+<link rel="stylesheet" href="responsive.css">
+<style>
+/* Financial Dashboard Dedicated Styles */
+.fin-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.fin-hero-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: relative;
+  transition: var(--transition);
+}
+.fin-hero-box:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-glow);
+}
+.fin-hero-box .num {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin: 6px 0 2px;
+}
+.fin-analytics-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.fin-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12.5px;
+}
+.fin-breakdown-row:last-child {
+  border-bottom: none;
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  font-size: 12.5px;
+}
+.comparison-table th {
+  background: var(--bg-panel);
+  padding: 10px 14px;
+  color: var(--text-muted);
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+}
+.comparison-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+@media(max-width: 1080px) {
+  .fin-hero-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fin-analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media(max-width: 600px) {
+  .fin-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== MOBILE HEADER ==================== -->
+<header class="mobile-header">
+  <div class="m-head-left">
+    <button class="m-head-btn" onclick="toggleMobileNav()" title="القائمة الرئيسية" aria-label="القائمة الرئيسية">
+      <i class="ti ti-menu-2"></i>
+    </button>
+    <a href="tababa-homepage.html" class="m-brand">
+      <span class="m-brand-name">طبابا</span>
+      <span class="m-brand-badge"><i class="ti ti-home"></i></span>
+    </a>
+  </div>
+  
+  <div class="m-clinic-switcher" id="mClinicSwitcherBtn" onclick="toggleClinicDropdown()" title="تغيير الفرع أو العيادة">
+    <i class="ti ti-building-hospital" style="color:var(--accent);font-size:14px"></i>
+    <span class="m-clinic-text" id="mCurrentClinicName">جميع العيادات</span>
+    <i class="ti ti-chevron-down" style="font-size:10px;opacity:0.7"></i>
+  </div>
+  
+  <div class="m-head-right">
+    <button class="m-head-btn" onclick="toggleNotifications()" title="التنبيهات" aria-label="التنبيهات" style="position:relative">
+      <i class="ti ti-bell"></i>
+      <span class="notif-dot" id="mNotifDot"></span>
+    </button>
+  </div>
+</header>
+
+<!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
+<div class="mobile-nav-drawer" id="mobileNavDrawer">
+  <div class="m-nav-header">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-weight:900;font-size:16px;color:var(--text-primary)">طبابا</span>
+      <span class="pill xs ghost">بوابة الطبيب</span>
+    </div>
+    <button class="drawer-close" onclick="toggleMobileNav()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="m-nav-body">
+    <div class="card" style="padding:12px">
+      <div class="doc-mini-top">
+        <div class="doc-mini-avatar">أ</div>
+        <div>
+          <div class="doc-mini-name">د. أحمد سامي</div>
+          <div class="tiny">استشاري باطنة عامة وجهاز هضمي</div>
+        </div>
+      </div>
+      <div class="avail-row">
+        <span class="lbl"><i class="ti ti-video"></i>متاح لكشف فيديو الآن</span>
+        <div class="switch on" id="mAvailSwitch" onclick="toggleAvail()"></div>
+      </div>
+    </div>
+
+    <nav class="m-nav-list">
+      <a class="m-nav-item" href="tababa-doctor-dashboard.html">
+        <i class="ti ti-layout-dashboard"></i><span>الرئيسية (لوحة التحكم)</span>
+      </a>
+      <a class="m-nav-item" href="doctor-patients.html">
+        <i class="ti ti-users"></i><span>إدارة المرضى والمحادثات</span>
+        <span class="nav-badge" id="mNavPatientBadge" style="margin-right:auto">5</span>
+      </a>
+      <a class="m-nav-item" href="doctor-consultation.html">
+        <i class="ti ti-stethoscope"></i><span>مساحة الكشف والروشتة</span>
+      </a>
+      <a class="m-nav-item" href="doctor-clinics.html">
+        <i class="ti ti-building-hospital"></i><span>عياداتي وفروع الممارسة</span>
+        <span class="nav-badge" style="background:var(--accent);color:#03261b;margin-right:auto">3</span>
+      </a>
+      <a class="m-nav-item active" href="doctor-financial.html">
+        <i class="ti ti-report-money"></i><span>التقرير المالي والمقارنة</span>
+      </a>
+      <a class="m-nav-item" href="doctor-profile.html">
+        <i class="ti ti-user-cog"></i><span>الملف المهني للطبيب</span>
+      </a>
+      <a class="m-nav-item" href="javascript:void(0)" onclick="toggleMobileNav();openAiRecomModal()">
+        <i class="ti ti-sparkles" style="color:var(--accent)"></i><span>أولويات الذكاء الاصطناعي</span>
+        <span class="nav-badge" style="background:var(--danger-soft);color:var(--danger);margin-right:auto">5</span>
+      </a>
+      <a class="m-nav-item" href="tababa-homepage.html">
+        <i class="ti ti-home"></i><span>الصفحة الرئيسية للمنصة</span>
+      </a>
+    </nav>
+
+    <div class="m-nav-footer">
+      <div class="util-row" style="justify-content:center;gap:12px;margin-bottom:12px">
+        <button class="btn-icon" title="الوضع الداكن" onclick="showToast('الوضع الداكن نشط')"><i class="ti ti-moon"></i></button>
+        <button class="btn-icon" title="مساعدة" onclick="showToast('مركز الدعم: 19000')"><i class="ti ti-help"></i></button>
+        <button class="btn-icon" title="تسجيل خروج" onclick="location.href='tababa-homepage.html'"><i class="ti ti-logout"></i></button>
+      </div>
+      <div class="tiny" style="text-align:center;color:var(--text-muted)">منظومة طبابة السحابية للأطباء © 2026</div>
+    </div>
+  </div>
+</div>
+
+<div class="shell" style="grid-template-columns: 260px 1fr;">
+
+<!-- ==================== RIGHT SIDEBAR ==================== -->
+<aside class="sidebar-r">
+  <div class="brand">
+    <a class="brand-name" href="tababa-homepage.html" style="display:flex;align-items:center;gap:8px">طبابا <div class="brand-badge"><i class="ti ti-home"></i></div></a>
+  </div>
+
+  <div class="card">
+    <div class="doc-mini-top">
+      <div class="doc-mini-avatar">أ</div>
+      <div>
+        <div class="doc-mini-name">د. أحمد سامي</div>
+        <div class="tiny">استشاري باطنة عامة وجهاز هضمي</div>
+      </div>
+    </div>
+    <div class="avail-row">
+      <span class="lbl"><i class="ti ti-video"></i>متاح لكشف فيديو الآن</span>
+      <div class="switch on" id="availSwitch" onclick="toggleAvail()"></div>
+    </div>
+  </div>
+
+  <nav class="mainnav">
+    <a class="navitem" href="tababa-doctor-dashboard.html"><i class="ti ti-layout-dashboard"></i>الرئيسية (لوحة التحكم)</a>
+    <a class="navitem" href="doctor-patients.html"><i class="ti ti-users"></i>إدارة المرضى والمحادثات <span class="nav-badge" id="navPatientBadge">5</span></a>
+    <a class="navitem" href="doctor-consultation.html"><i class="ti ti-stethoscope"></i>مساحة الكشف والروشتة</a>
+    <a class="navitem" href="doctor-clinics.html"><i class="ti ti-building-hospital"></i>عياداتي وفروع الممارسة <span class="nav-badge" style="background:var(--accent);color:#03261b">3</span></a>
+    <a class="navitem active" href="doctor-financial.html"><i class="ti ti-report-money"></i>التقرير المالي والمقارنة</a>
+    <a class="navitem" href="doctor-profile.html"><i class="ti ti-user-cog"></i>الملف المهني للطبيب</a>
+  </nav>
+
+  <div class="util-row">
+    <button class="btn-icon" title="الوضع الداكن" onclick="showToast('الوضع الداكن نشط افتراضياً')"><i class="ti ti-moon"></i></button>
+    <button class="btn-icon" title="مساعدة" onclick="showToast('مركز مساعدة أطباء طبابا: 19000')"><i class="ti ti-help"></i></button>
+    <button class="btn-icon" title="تسجيل خروج" onclick="location.href='tababa-homepage.html'"><i class="ti ti-logout"></i></button>
+  </div>
+</aside>
+
+<!-- ==================== MAIN COLUMN ==================== -->
+<main>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-right" style="display:flex;align-items:center;gap:10px">
+      <div class="clinic-switcher-wrap" id="clinicSwitcherWrap">
+        <div class="clinic-switcher-btn" onclick="toggleClinicDropdown()">
+          <div class="clinic-active-icon" id="currentClinicIcon"><i class="ti ti-building-hospital"></i></div>
+          <div class="clinic-active-info">
+            <div class="clinic-active-label">العيادة الحالية</div>
+            <div class="clinic-active-name">
+              <span id="currentClinicNameDisplay">جميع العيادات (All Clinics)</span>
+              <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text-muted);margin-right:2px"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="clinic-dropdown" id="clinicDropdown">
+          <div class="clinic-drop-head">اختر الفرع أو نطاق العرض</div>
+          <div class="clinic-option active" data-id="all" onclick="selectClinic('all')">
+            <div class="clinic-opt-icon" style="background:rgba(255,255,255,0.06);color:var(--text-primary)"><i class="ti ti-world"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">جميع العيادات (عرض شامل)</div>
+              <div class="clinic-opt-sub">3 فروع نشطة · المنصورة، القاهرة، الجيزة</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_mansoura" onclick="selectClinic('clinic_mansoura')">
+            <div class="clinic-opt-icon" style="background:rgba(31,230,168,0.12);color:var(--accent)"><i class="ti ti-building-hospital"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">مركز طبابا الطبي — فرع المنصورة</div>
+              <div class="clinic-opt-sub">الأحد، الثلاثاء، الخميس · 09:00 ص - 02:00 م</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_cairo" onclick="selectClinic('clinic_cairo')">
+            <div class="clinic-opt-icon" style="background:rgba(91,156,245,0.12);color:var(--info)"><i class="ti ti-building-community"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">عيادة النور التخصصية — فرع القاهرة</div>
+              <div class="clinic-opt-sub">السبت، الاثنين، الأربعاء · 04:00 م - 09:00 م</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_giza" onclick="selectClinic('clinic_giza')">
+            <div class="clinic-opt-icon" style="background:rgba(242,184,75,0.12);color:var(--warn)"><i class="ti ti-heart-rate-monitor"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">عيادة فيوتشر كير — فرع الجيزة</div>
+              <div class="clinic-opt-sub">الأحد، الأربعاء · 01:00 م - 06:00 م</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topbar-left">
+      <div class="notif-wrapper">
+        <button class="btn-icon notif-btn" onclick="toggleNotifications()" title="الإشعارات">
+          <i class="ti ti-bell"></i>
+          <span class="notif-dot" id="notifDot"></span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-head">
+            <span>التنبيهات السريرية والإشعارات</span>
+            <button class="pill xs ghost" onclick="clearNotifications()">مسح الكل</button>
+          </div>
+          <div id="notifList"></div>
+        </div>
+      </div>
+      <button class="pill sm solid" onclick="openAiRecomModal()"><i class="ti ti-sparkles"></i>توصيات AI <span id="topbarAiCount">5</span></button>
+    </div>
+  </div>
+
+  <!-- Breadcrumbs & Title -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h1 style="font-size:20px;font-weight:900;color:var(--text-primary);display:flex;align-items:center;gap:8px">
+        <i class="ti ti-report-money" style="color:var(--accent)"></i>
+        التقرير والتحليل المالي المتقدم
+      </h1>
+      <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
+        تحليل الإيرادات، المدفوعات، التوزيع حسب الفروع والخدمات، ومقارنة أداء العيادات
+      </div>
+    </div>
+    <!-- Period Filters -->
+    <div style="display:flex;gap:4px;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:3px">
+      <button class="qf-btn active" id="finBtnToday" onclick="setFinPeriod('today',this)">اليوم</button>
+      <button class="qf-btn" id="finBtnWeek" onclick="setFinPeriod('week',this)">هذا الأسبوع</button>
+      <button class="qf-btn" id="finBtnMonth" onclick="setFinPeriod('month',this)">هذا الشهر</button>
+      <button class="qf-btn" id="finBtnYear" onclick="setFinPeriod('year',this)">هذا العام</button>
+    </div>
+  </div>
+
+  <!-- Hero KPI Grid -->
+  <div class="fin-hero-grid" id="finHeroGrid"></div>
+
+  <!-- Analytics Grid: Chart + Breakdown -->
+  <div class="fin-analytics-grid">
+    <!-- Chart Box -->
+    <div class="card" style="padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div style="font-weight:700;font-size:13.5px;color:var(--text-primary)">
+          <i class="ti ti-chart-line" style="color:var(--accent)"></i> منحنى الإيرادات وحجم الكشوفات
+        </div>
+        <div style="display:flex;gap:4px">
+          <button class="qf-btn active" id="chartRevBtn" onclick="setChartMetric('revenue',this)">الإيراد (ج.م)</button>
+          <button class="qf-btn" id="chartVolBtn" onclick="setChartMetric('volume',this)">عدد الكشوفات</button>
+        </div>
+      </div>
+
+      <div style="position:relative;width:100%;height:180px;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px;display:flex;align-items:flex-end;justify-content:space-between;gap:8px" id="finChartBars"></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:6px;padding:0 8px" id="finChartLabels"></div>
+    </div>
+
+    <!-- Revenue Breakdown Box -->
+    <div class="card" style="padding:16px">
+      <div style="font-weight:700;font-size:13.5px;color:var(--text-primary);margin-bottom:12px">
+        <i class="ti ti-pie-chart" style="color:var(--info)"></i> توزيع مصادر الدخل
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="fin-breakdown-row">
+          <div>
+            <div style="font-weight:700;color:var(--text-primary)">كشف عيادة حضوري</div>
+            <div class="tiny" style="color:var(--text-muted)">68% من إجمالي الدخل</div>
+          </div>
+          <div style="font-weight:700;color:var(--accent)" id="bdClinic">16,660 ج.م</div>
+        </div>
+        <div class="fin-breakdown-row">
+          <div>
+            <div style="font-weight:700;color:var(--text-primary)">استشارات فيديو عن بعد</div>
+            <div class="tiny" style="color:var(--text-muted)">18% من إجمالي الدخل</div>
+          </div>
+          <div style="font-weight:700;color:var(--info)" id="bdVideo">4,410 ج.م</div>
+        </div>
+        <div class="fin-breakdown-row">
+          <div>
+            <div style="font-weight:700;color:var(--text-primary)">إجراءات وفحوصات وسونار</div>
+            <div class="tiny" style="color:var(--text-muted)">14% من إجمالي الدخل</div>
+          </div>
+          <div style="font-weight:700;color:var(--warn)" id="bdProcedures">3,430 ج.م</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px;text-align:center">
+        <span class="tiny" style="color:var(--accent);font-weight:700">نسبة التحصيل الإلكتروني الفوري: 100%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Clinic Financial Comparison Table -->
+  <div class="card" style="padding:16px;margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div style="font-weight:700;font-size:14px;color:var(--text-primary)">
+        <i class="ti ti-arrows-diff" style="color:var(--accent)"></i> مقارنة الأداء المالي بين الفروع والعيادات
+      </div>
+      <button class="pill xs ghost" onclick="showToast('جاري تصدير التقرير المالي بصيغة Excel...')"><i class="ti ti-download"></i> تصدير Excel</button>
+    </div>
+
+    <div style="overflow-x:auto">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>الفرع / العيادة</th>
+            <th>إيراد اليوم</th>
+            <th>إيراد الشهر</th>
+            <th>عدد الكشوفات</th>
+            <th>متوسط الكشف</th>
+            <th>نسبة عدم الحضور</th>
+            <th>معدل النمو</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="clinic-badge mansoura">المنصورة</span>
+                <b>مركز طبابا الطبي</b>
+              </div>
+            </td>
+            <td style="font-weight:700;color:var(--accent)">8,500 ج.م</td>
+            <td>52,000 ج.م</td>
+            <td>92 حالة</td>
+            <td>350 ج.م</td>
+            <td style="color:var(--accent)">4%</td>
+            <td style="color:var(--accent);font-weight:700">+14% ↑</td>
+          </tr>
+          <tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="clinic-badge cairo">القاهرة</span>
+                <b>عيادة النور التخصصية</b>
+              </div>
+            </td>
+            <td style="font-weight:700;color:var(--info)">6,200 ج.م</td>
+            <td>41,000 ج.م</td>
+            <td>71 حالة</td>
+            <td>400 ج.م</td>
+            <td style="color:var(--warn)">6%</td>
+            <td style="color:var(--accent);font-weight:700">+8% ↑</td>
+          </tr>
+          <tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="clinic-badge giza">الجيزة</span>
+                <b>عيادة فيوتشر كير</b>
+              </div>
+            </td>
+            <td style="font-weight:700;color:var(--warn)">9,800 ج.م</td>
+            <td>49,000 ج.م</td>
+            <td>121 حالة</td>
+            <td>350 ج.م</td>
+            <td style="color:var(--accent)">5%</td>
+            <td style="color:var(--accent);font-weight:700">+18% ↑</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recent Transactions Ledger -->
+  <div class="card" style="padding:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div style="font-weight:700;font-size:14px;color:var(--text-primary)">
+        <i class="ti ti-receipt" style="color:var(--accent)"></i> سجل أحدث المعاملات المالية المكتملة
+      </div>
+      <span class="tiny" style="color:var(--text-muted)">آخر 5 معاملات مسجلة</span>
+    </div>
+
+    <div style="overflow-x:auto">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>رقم الفاتورة</th>
+            <th>المريض</th>
+            <th>الفرع</th>
+            <th>نوع الخدمة</th>
+            <th>المبلغ</th>
+            <th>طريقة الدفع</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tiny" style="font-family:monospace">INV-2026-901</td>
+            <td><b>أحمد محمد</b></td>
+            <td><span class="clinic-badge mansoura">المنصورة</span></td>
+            <td>كشف باطنة تخصصي</td>
+            <td style="font-weight:700;color:var(--accent)">350 ج.م</td>
+            <td>فيزا / مدى</td>
+            <td><span class="pill xs solid"><i class="ti ti-check"></i> مدفوع</span></td>
+          </tr>
+          <tr>
+            <td class="tiny" style="font-family:monospace">INV-2026-902</td>
+            <td><b>سلمى طارق</b></td>
+            <td><span class="clinic-badge cairo">القاهرة</span></td>
+            <td>استشارة أطفال وحساسية</td>
+            <td style="font-weight:700;color:var(--accent)">400 ج.م</td>
+            <td>فودافون كاش</td>
+            <td><span class="pill xs solid"><i class="ti ti-check"></i> مدفوع</span></td>
+          </tr>
+          <tr>
+            <td class="tiny" style="font-family:monospace">INV-2026-903</td>
+            <td><b>محمود سيد</b></td>
+            <td><span class="clinic-badge giza">الجيزة</span></td>
+            <td>استشارة فيديو عاجلة</td>
+            <td style="font-weight:700;color:var(--accent)">250 ج.م</td>
+            <td>بطاقة ائتمان</td>
+            <td><span class="pill xs solid"><i class="ti ti-check"></i> مدفوع</span></td>
+          </tr>
+          <tr>
+            <td class="tiny" style="font-family:monospace">INV-2026-904</td>
+            <td><b>مريم إبراهيم</b></td>
+            <td><span class="clinic-badge mansoura">المنصورة</span></td>
+            <td>فحص سونار بطن وحوض</td>
+            <td style="font-weight:700;color:var(--accent)">200 ج.م</td>
+            <td>نقدي</td>
+            <td><span class="pill xs solid"><i class="ti ti-check"></i> مدفوع</span></td>
+          </tr>
+          <tr>
+            <td class="tiny" style="font-family:monospace">INV-2026-905</td>
+            <td><b>خالد عبد الرحمن</b></td>
+            <td><span class="clinic-badge giza">الجيزة</span></td>
+            <td>متابعة ضغط وسكر</td>
+            <td style="font-weight:700;color:var(--accent)">150 ج.م</td>
+            <td>فيزا</td>
+            <td><span class="pill xs solid"><i class="ti ti-check"></i> مدفوع</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+</div>
+
+<!-- ==================== MODALS & DRAWERS ==================== -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
+
+<!-- All AI Recommendations Modal -->
+<div class="ai-modal" id="aiRecomModal">
+  <div class="ai-modal-content">
+    <div class="ai-modal-head">
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-sparkles" style="color:var(--accent);font-size:20px"></i>
+        <h3 style="font-size:15px;font-weight:700">مركز توصيات الذكاء الاصطناعي السريري (AI Attention Intelligence)</h3>
+      </div>
+      <button class="drawer-close" onclick="closeAiRecomModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<!-- Toast Box -->
+<div class="toast-box" id="toastBox"></div>
+
+<!-- ==================== FIXED MOBILE BOTTOM NAVIGATION ==================== -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+  <button class="mb-nav-btn" id="mbNavHome" onclick="onMobileBottomNav('home')">
+    <i class="ti ti-layout-dashboard"></i>
+    <span>الرئيسية</span>
+  </button>
+  <button class="mb-nav-btn" id="mbNavPatients" onclick="onMobileBottomNav('patients')">
+    <i class="ti ti-users"></i>
+    <span>المرضى</span>
+    <span class="mb-nav-badge" id="mbNavPatientBadge">5</span>
+  </button>
+  <button class="mb-nav-btn mb-nav-highlight" id="mbNavWorkspace" onclick="onMobileBottomNav('workspace')">
+    <div class="mb-nav-fab"><i class="ti ti-stethoscope"></i></div>
+    <span>الكشف</span>
+  </button>
+  <button class="mb-nav-btn" id="mbNavClinics" onclick="onMobileBottomNav('clinics')">
+    <i class="ti ti-building-hospital"></i>
+    <span>العيادات</span>
+  </button>
+  <button class="mb-nav-btn active" id="mbNavFin" onclick="onMobileBottomNav('fin')">
+    <i class="ti ti-report-money"></i>
+    <span>المالية</span>
+  </button>
+</nav>
+
+<!-- Scripts -->
+<script src="doctor-shared.js"></script>
+<script>
+let finPeriod = 'today';
+let chartMetric = 'revenue';
+
+function onClinicChanged(newClinicId) {
+  renderFinHeroes();
+  renderChart();
+}
+
+function setFinPeriod(p, btn) {
+  finPeriod = p;
+  document.querySelectorAll('#finBtnToday, #finBtnWeek, #finBtnMonth, #finBtnYear').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderFinHeroes();
+  renderChart();
+}
+
+function setChartMetric(m, btn) {
+  chartMetric = m;
+  document.getElementById('chartRevBtn').classList.toggle('active', m === 'revenue');
+  document.getElementById('chartVolBtn').classList.toggle('active', m === 'volume');
+  renderChart();
+}
+
+function renderFinHeroes() {
+  const grid = document.getElementById('finHeroGrid');
+  if (!grid) return;
+
+  let totalToday = 24500;
+  let totalConsults = 34;
+  let avgFee = 350;
+
+  if (currentClinicId !== 'all') {
+    const c = CLINICS.find(x => x.id === currentClinicId);
+    if (c) {
+      totalToday = c.stats.todayRevenue;
+      totalConsults = c.stats.todayAppointments;
+      avgFee = Math.round(totalToday / (totalConsults || 1));
+    }
+  }
+
+  let periodMultiplier = finPeriod === 'today' ? 1 : (finPeriod === 'week' ? 6 : (finPeriod === 'month' ? 24 : 280));
+  let revDisplay = fmt(totalToday * (finPeriod === 'today' ? 1 : (periodMultiplier * 0.85)));
+  let consultsDisplay = Math.round(totalConsults * periodMultiplier);
+
+  grid.innerHTML = `
+    <div class="fin-hero-box">
+      <div class="tiny" style="color:var(--text-secondary)">إجمالي الإيرادات (${finPeriod === 'today' ? 'اليوم' : (finPeriod === 'week' ? 'الأسبوع' : 'الشهر')})</div>
+      <div class="num" style="color:var(--accent)">${revDisplay} <span style="font-size:13px;font-weight:400">ج.م</span></div>
+      <div class="tiny" style="color:var(--accent)"><i class="ti ti-trending-up"></i> +12% مقارنة بالفترة السابقة</div>
+    </div>
+    <div class="fin-hero-box">
+      <div class="tiny" style="color:var(--text-secondary)">الكشوفات المنفذة</div>
+      <div class="num" style="color:var(--info)">${consultsDisplay} <span style="font-size:13px;font-weight:400">كشف</span></div>
+      <div class="tiny" style="color:var(--info)"><i class="ti ti-users"></i> إجمالي الحضور الفعلي</div>
+    </div>
+    <div class="fin-hero-box">
+      <div class="tiny" style="color:var(--text-secondary)">متوسط الدخل لكل كشف</div>
+      <div class="num" style="color:var(--warn)">${avgFee} <span style="font-size:13px;font-weight:400">ج.م</span></div>
+      <div class="tiny" style="color:var(--text-muted)">شامل الكشوفات التخصصية</div>
+    </div>
+    <div class="fin-hero-box">
+      <div class="tiny" style="color:var(--text-secondary)">صافي الدخل بعد المصروفات</div>
+      <div class="num" style="color:var(--accent)">${fmt(Math.round(totalToday * 0.82 * (finPeriod === 'today' ? 1 : periodMultiplier * 0.85)))} <span style="font-size:13px;font-weight:400">ج.م</span></div>
+      <div class="tiny" style="color:var(--accent)"><i class="ti ti-shield-check"></i> هامش ربح 82%</div>
+    </div>
+  `;
+}
+
+function renderChart() {
+  const barsContainer = document.getElementById('finChartBars');
+  const labelsContainer = document.getElementById('finChartLabels');
+  if (!barsContainer || !labelsContainer) return;
+
+  const days = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
+  const revValues = [18200, 24500, 19800, 22400, 21000, 26000];
+  const volValues = [28, 34, 30, 32, 29, 38];
+
+  const values = chartMetric === 'revenue' ? revValues : volValues;
+  const max = Math.max(...values);
+
+  barsContainer.innerHTML = values.map((val, i) => {
+    const pct = Math.round((val / max) * 100);
+    const label = chartMetric === 'revenue' ? fmt(val) + ' ج.م' : val + ' كشف';
+    return `
+      <div style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px">
+        <span style="font-size:10px;color:var(--text-muted)">${label}</span>
+        <div style="width:100%;max-width:36px;height:${pct}%;background:linear-gradient(180deg, var(--accent) 0%, rgba(31,230,168,0.2) 100%);border-radius:4px 4px 0 0;transition:height .4s"></div>
+      </div>
+    `;
+  }).join('');
+
+  labelsContainer.innerHTML = days.map(d => `<span>${d}</span>`).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderFinHeroes();
+  renderChart();
+  renderNotifications();
+});
+</script>
+</body>
+</html>

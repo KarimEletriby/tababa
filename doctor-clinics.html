@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إدارة العيادات وفروع الممارسة - طبابا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="doctor-shared.css">
+<link rel="stylesheet" href="responsive.css">
+<style>
+/* Clinics Page Dedicated Styles */
+.clinics-management-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.clinic-detail-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  transition: var(--transition);
+}
+.clinic-detail-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-glow);
+}
+.clinic-detail-card.active-clinic {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(31,230,168,0.04) 0%, var(--bg-card) 100%);
+}
+.clinic-detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.clinic-icon-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.clinic-kpis-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 16px 0;
+}
+.clinic-kpi-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 10px 12px;
+  text-align: right;
+}
+.clinic-kpi-box .num {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+.clinic-services-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.clinic-service-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+@media(max-width: 768px) {
+  .clinic-kpis-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== MOBILE HEADER ==================== -->
+<header class="mobile-header">
+  <div class="m-head-left">
+    <button class="m-head-btn" onclick="toggleMobileNav()" title="القائمة الرئيسية" aria-label="القائمة الرئيسية">
+      <i class="ti ti-menu-2"></i>
+    </button>
+    <a href="tababa-homepage.html" class="m-brand">
+      <span class="m-brand-name">طبابا</span>
+      <span class="m-brand-badge"><i class="ti ti-home"></i></span>
+    </a>
+  </div>
+  
+  <div class="m-clinic-switcher" id="mClinicSwitcherBtn" onclick="toggleClinicDropdown()" title="تغيير الفرع أو العيادة">
+    <i class="ti ti-building-hospital" style="color:var(--accent);font-size:14px"></i>
+    <span class="m-clinic-text" id="mCurrentClinicName">جميع العيادات</span>
+    <i class="ti ti-chevron-down" style="font-size:10px;opacity:0.7"></i>
+  </div>
+  
+  <div class="m-head-right">
+    <button class="m-head-btn" onclick="toggleNotifications()" title="التنبيهات" aria-label="التنبيهات" style="position:relative">
+      <i class="ti ti-bell"></i>
+      <span class="notif-dot" id="mNotifDot"></span>
+    </button>
+  </div>
+</header>
+
+<!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
+<div class="mobile-nav-drawer" id="mobileNavDrawer">
+  <div class="m-nav-header">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-weight:900;font-size:16px;color:var(--text-primary)">طبابا</span>
+      <span class="pill xs ghost">بوابة الطبيب</span>
+    </div>
+    <button class="drawer-close" onclick="toggleMobileNav()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="m-nav-body">
+    <div class="card" style="padding:12px">
+      <div class="doc-mini-top">
+        <div class="doc-mini-avatar">أ</div>
+        <div>
+          <div class="doc-mini-name">د. أحمد سامي</div>
+          <div class="tiny">استشاري باطنة عامة وجهاز هضمي</div>
+        </div>
+      </div>
+      <div class="avail-row">
+        <span class="lbl"><i class="ti ti-video"></i>متاح لكشف فيديو الآن</span>
+        <div class="switch on" id="mAvailSwitch" onclick="toggleAvail()"></div>
+      </div>
+    </div>
+
+    <nav class="m-nav-list">
+      <a class="m-nav-item" href="tababa-doctor-dashboard.html">
+        <i class="ti ti-layout-dashboard"></i><span>الرئيسية (لوحة التحكم)</span>
+      </a>
+      <a class="m-nav-item" href="doctor-patients.html">
+        <i class="ti ti-users"></i><span>إدارة المرضى والمحادثات</span>
+        <span class="nav-badge" id="mNavPatientBadge" style="margin-right:auto">5</span>
+      </a>
+      <a class="m-nav-item" href="doctor-consultation.html">
+        <i class="ti ti-stethoscope"></i><span>مساحة الكشف والروشتة</span>
+      </a>
+      <a class="m-nav-item active" href="doctor-clinics.html">
+        <i class="ti ti-building-hospital"></i><span>عياداتي وفروع الممارسة</span>
+        <span class="nav-badge" style="background:var(--accent);color:#03261b;margin-right:auto">3</span>
+      </a>
+      <a class="m-nav-item" href="doctor-financial.html">
+        <i class="ti ti-report-money"></i><span>التقرير المالي والمقارنة</span>
+      </a>
+      <a class="m-nav-item" href="doctor-profile.html">
+        <i class="ti ti-user-cog"></i><span>الملف المهني للطبيب</span>
+      </a>
+      <a class="m-nav-item" href="javascript:void(0)" onclick="toggleMobileNav();openAiRecomModal()">
+        <i class="ti ti-sparkles" style="color:var(--accent)"></i><span>أولويات الذكاء الاصطناعي</span>
+        <span class="nav-badge" style="background:var(--danger-soft);color:var(--danger);margin-right:auto">5</span>
+      </a>
+      <a class="m-nav-item" href="tababa-homepage.html">
+        <i class="ti ti-home"></i><span>الصفحة الرئيسية للمنصة</span>
+      </a>
+    </nav>
+
+    <div class="m-nav-footer">
+      <div class="util-row" style="justify-content:center;gap:12px;margin-bottom:12px">
+        <button class="btn-icon" title="الوضع الداكن" onclick="showToast('الوضع الداكن نشط')"><i class="ti ti-moon"></i></button>
+        <button class="btn-icon" title="مساعدة" onclick="showToast('مركز الدعم: 19000')"><i class="ti ti-help"></i></button>
+        <button class="btn-icon" title="تسجيل خروج" onclick="location.href='tababa-homepage.html'"><i class="ti ti-logout"></i></button>
+      </div>
+      <div class="tiny" style="text-align:center;color:var(--text-muted)">منظومة طبابة السحابية للأطباء © 2026</div>
+    </div>
+  </div>
+</div>
+
+<div class="shell" style="grid-template-columns: 260px 1fr;">
+
+<!-- ==================== RIGHT SIDEBAR ==================== -->
+<aside class="sidebar-r">
+  <div class="brand">
+    <a class="brand-name" href="tababa-homepage.html" style="display:flex;align-items:center;gap:8px">طبابا <div class="brand-badge"><i class="ti ti-home"></i></div></a>
+  </div>
+
+  <div class="card">
+    <div class="doc-mini-top">
+      <div class="doc-mini-avatar">أ</div>
+      <div>
+        <div class="doc-mini-name">د. أحمد سامي</div>
+        <div class="tiny">استشاري باطنة عامة وجهاز هضمي</div>
+      </div>
+    </div>
+    <div class="avail-row">
+      <span class="lbl"><i class="ti ti-video"></i>متاح لكشف فيديو الآن</span>
+      <div class="switch on" id="availSwitch" onclick="toggleAvail()"></div>
+    </div>
+  </div>
+
+  <nav class="mainnav">
+    <a class="navitem" href="tababa-doctor-dashboard.html"><i class="ti ti-layout-dashboard"></i>الرئيسية (لوحة التحكم)</a>
+    <a class="navitem" href="doctor-patients.html"><i class="ti ti-users"></i>إدارة المرضى والمحادثات <span class="nav-badge" id="navPatientBadge">5</span></a>
+    <a class="navitem" href="doctor-consultation.html"><i class="ti ti-stethoscope"></i>مساحة الكشف والروشتة</a>
+    <a class="navitem active" href="doctor-clinics.html"><i class="ti ti-building-hospital"></i>عياداتي وفروع الممارسة <span class="nav-badge" style="background:var(--accent);color:#03261b">3</span></a>
+    <a class="navitem" href="doctor-financial.html"><i class="ti ti-report-money"></i>التقرير المالي والمقارنة</a>
+    <a class="navitem" href="doctor-profile.html"><i class="ti ti-user-cog"></i>الملف المهني للطبيب</a>
+  </nav>
+
+  <div class="util-row">
+    <button class="btn-icon" title="الوضع الداكن" onclick="showToast('الوضع الداكن نشط افتراضياً')"><i class="ti ti-moon"></i></button>
+    <button class="btn-icon" title="مساعدة" onclick="showToast('مركز مساعدة أطباء طبابا: 19000')"><i class="ti ti-help"></i></button>
+    <button class="btn-icon" title="تسجيل خروج" onclick="location.href='tababa-homepage.html'"><i class="ti ti-logout"></i></button>
+  </div>
+</aside>
+
+<!-- ==================== MAIN COLUMN ==================== -->
+<main>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-right" style="display:flex;align-items:center;gap:10px">
+      <div class="clinic-switcher-wrap" id="clinicSwitcherWrap">
+        <div class="clinic-switcher-btn" onclick="toggleClinicDropdown()">
+          <div class="clinic-active-icon" id="currentClinicIcon"><i class="ti ti-building-hospital"></i></div>
+          <div class="clinic-active-info">
+            <div class="clinic-active-label">العيادة الحالية</div>
+            <div class="clinic-active-name">
+              <span id="currentClinicNameDisplay">جميع العيادات (All Clinics)</span>
+              <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text-muted);margin-right:2px"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="clinic-dropdown" id="clinicDropdown">
+          <div class="clinic-drop-head">اختر الفرع أو نطاق العرض</div>
+          <div class="clinic-option active" data-id="all" onclick="selectClinic('all')">
+            <div class="clinic-opt-icon" style="background:rgba(255,255,255,0.06);color:var(--text-primary)"><i class="ti ti-world"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">جميع العيادات (عرض شامل)</div>
+              <div class="clinic-opt-sub">3 فروع نشطة · المنصورة، القاهرة، الجيزة</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_mansoura" onclick="selectClinic('clinic_mansoura')">
+            <div class="clinic-opt-icon" style="background:rgba(31,230,168,0.12);color:var(--accent)"><i class="ti ti-building-hospital"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">مركز طبابا الطبي — فرع المنصورة</div>
+              <div class="clinic-opt-sub">الأحد، الثلاثاء، الخميس · 09:00 ص - 02:00 م</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_cairo" onclick="selectClinic('clinic_cairo')">
+            <div class="clinic-opt-icon" style="background:rgba(91,156,245,0.12);color:var(--info)"><i class="ti ti-building-community"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">عيادة النور التخصصية — فرع القاهرة</div>
+              <div class="clinic-opt-sub">السبت، الاثنين، الأربعاء · 04:00 م - 09:00 م</div>
+            </div>
+          </div>
+          <div class="clinic-option" data-id="clinic_giza" onclick="selectClinic('clinic_giza')">
+            <div class="clinic-opt-icon" style="background:rgba(242,184,75,0.12);color:var(--warn)"><i class="ti ti-heart-rate-monitor"></i></div>
+            <div class="clinic-opt-info">
+              <div class="clinic-opt-title">عيادة فيوتشر كير — فرع الجيزة</div>
+              <div class="clinic-opt-sub">الأحد، الأربعاء · 01:00 م - 06:00 م</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topbar-left">
+      <div class="notif-wrapper">
+        <button class="btn-icon notif-btn" onclick="toggleNotifications()" title="الإشعارات">
+          <i class="ti ti-bell"></i>
+          <span class="notif-dot" id="notifDot"></span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-head">
+            <span>التنبيهات السريرية والإشعارات</span>
+            <button class="pill xs ghost" onclick="clearNotifications()">مسح الكل</button>
+          </div>
+          <div id="notifList"></div>
+        </div>
+      </div>
+      <button class="pill sm solid" onclick="openAiRecomModal()"><i class="ti ti-sparkles"></i>توصيات AI <span id="topbarAiCount">5</span></button>
+    </div>
+  </div>
+
+  <!-- Breadcrumbs & Title -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h1 style="font-size:20px;font-weight:900;color:var(--text-primary);display:flex;align-items:center;gap:8px">
+        <i class="ti ti-building-hospital" style="color:var(--accent)"></i>
+        إدارة العيادات وفروع الممارسة الطبية
+      </h1>
+      <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
+        متابعة مواعيد العمل، الحجوزات، والأداء التشغيلي والمالي لكل فرع من فروع ممارستك الطبية
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="pill sm solid" onclick="showToast('جاري فتح نموذج إضافة فرع طبي جديد...')"><i class="ti ti-plus"></i> إضافة عيادة أو فرع جديد</button>
+    </div>
+  </div>
+
+  <!-- Clinics List -->
+  <div class="clinics-management-grid" id="clinicsListMount"></div>
+</main>
+
+</div>
+
+<!-- ==================== MODALS & DRAWERS ==================== -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
+
+<!-- All AI Recommendations Modal -->
+<div class="ai-modal" id="aiRecomModal">
+  <div class="ai-modal-content">
+    <div class="ai-modal-head">
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-sparkles" style="color:var(--accent);font-size:20px"></i>
+        <h3 style="font-size:15px;font-weight:700">مركز توصيات الذكاء الاصطناعي السريري (AI Attention Intelligence)</h3>
+      </div>
+      <button class="drawer-close" onclick="closeAiRecomModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="ai-modal-body" id="aiModalBody"></div>
+  </div>
+</div>
+
+<!-- Toast Box -->
+<div class="toast-box" id="toastBox"></div>
+
+<!-- ==================== FIXED MOBILE BOTTOM NAVIGATION ==================== -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+  <button class="mb-nav-btn" id="mbNavHome" onclick="onMobileBottomNav('home')">
+    <i class="ti ti-layout-dashboard"></i>
+    <span>الرئيسية</span>
+  </button>
+  <button class="mb-nav-btn" id="mbNavPatients" onclick="onMobileBottomNav('patients')">
+    <i class="ti ti-users"></i>
+    <span>المرضى</span>
+    <span class="mb-nav-badge" id="mbNavPatientBadge">5</span>
+  </button>
+  <button class="mb-nav-btn mb-nav-highlight" id="mbNavWorkspace" onclick="onMobileBottomNav('workspace')">
+    <div class="mb-nav-fab"><i class="ti ti-stethoscope"></i></div>
+    <span>الكشف</span>
+  </button>
+  <button class="mb-nav-btn active" id="mbNavClinics" onclick="onMobileBottomNav('clinics')">
+    <i class="ti ti-building-hospital"></i>
+    <span>العيادات</span>
+  </button>
+  <button class="mb-nav-btn" id="mbNavFin" onclick="onMobileBottomNav('fin')">
+    <i class="ti ti-report-money"></i>
+    <span>المالية</span>
+  </button>
+</nav>
+
+<!-- Scripts -->
+<script src="doctor-shared.js"></script>
+<script>
+function onClinicChanged(newClinicId) {
+  renderClinicsList();
+}
+
+function renderClinicsList() {
+  const mount = document.getElementById('clinicsListMount');
+  if (!mount) return;
+
+  mount.innerHTML = CLINICS.map(c => {
+    const isCurrentActive = currentClinicId === c.id;
+    const iconName = c.id === 'clinic_mansoura' ? 'building-hospital' : (c.id === 'clinic_cairo' ? 'building-community' : 'heart-rate-monitor');
+
+    return `
+      <div class="clinic-detail-card ${isCurrentActive ? 'active-clinic' : ''}">
+        <div class="clinic-detail-head">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="clinic-icon-large" style="background:var(--bg-panel);border:1px solid var(--border);color:${c.color}">
+              <i class="ti ti-${iconName}"></i>
+            </div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <h3 style="font-size:16px;font-weight:900;color:var(--text-primary);margin:0">${c.name}</h3>
+                <span class="clinic-badge ${c.tag}">${c.branchName}</span>
+                ${isCurrentActive ? '<span class="pill xs solid"><i class="ti ti-check"></i> العيادة المحددة حالياً</span>' : ''}
+              </div>
+              <div class="tiny" style="color:var(--text-secondary);margin-top:2px"><i class="ti ti-map-pin"></i> ${c.address} · <i class="ti ti-phone"></i> ${c.phone}</div>
+              <div class="tiny" style="color:var(--text-muted);margin-top:2px"><i class="ti ti-stethoscope"></i> التخصص الفرعي: ${c.specialty}</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="pill sm ${isCurrentActive ? 'solid' : 'ghost'}" onclick="selectClinic('${c.id}')">
+              <i class="ti ti-check"></i> ${isCurrentActive ? 'نطاق العمل النشط' : 'تعيين كعيادة نشطة'}
+            </button>
+            <button class="pill sm ghost" onclick="showToast('جاري فتح إعدادات فرع ' + '${c.branchName}')"><i class="ti ti-settings"></i> الإعدادات</button>
+          </div>
+        </div>
+
+        <!-- Schedule & Hours -->
+        <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div>
+            <span class="tiny" style="font-weight:700;color:var(--text-secondary)"><i class="ti ti-calendar"></i> أيام العمل:</span>
+            <span style="font-size:12.5px;color:var(--text-primary);margin-right:4px">${c.workingDays.join(' · ')}</span>
+          </div>
+          <div>
+            <span class="tiny" style="font-weight:700;color:var(--text-secondary)"><i class="ti ti-clock"></i> ساعات الاستقبال:</span>
+            <span style="font-size:12.5px;color:var(--accent);font-weight:700;margin-right:4px">${c.workingHours}</span>
+          </div>
+          <div>
+            <span class="tiny" style="font-weight:700;color:var(--text-secondary)">نسبة عدم الحضور:</span>
+            <span style="font-size:12.5px;color:var(--warn);font-weight:700;margin-right:4px">${c.stats.noShowRate}</span>
+          </div>
+        </div>
+
+        <!-- Clinic KPIs -->
+        <div class="clinic-kpis-bar">
+          <div class="clinic-kpi-box">
+            <div class="tiny">المرضى المسجلين بالفرع</div>
+            <div class="num" style="color:var(--accent)">${c.stats.activePatients}</div>
+          </div>
+          <div class="clinic-kpi-box">
+            <div class="tiny">حجوزات اليوم</div>
+            <div class="num" style="color:var(--info)">${c.stats.todayAppointments}</div>
+          </div>
+          <div class="clinic-kpi-box">
+            <div class="tiny">إيراد اليوم المتوقع</div>
+            <div class="num">${fmt(c.stats.todayRevenue)} <span style="font-size:11px;font-weight:400">ج.م</span></div>
+          </div>
+          <div class="clinic-kpi-box">
+            <div class="tiny">إجمالي الكشوفات المنفذة</div>
+            <div class="num">${c.stats.consultations}</div>
+          </div>
+        </div>
+
+        <!-- Services & Quick Actions -->
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px;margin-top:8px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="tiny" style="font-weight:700;color:var(--text-muted)">الخدمات الطبية المتاحة بالفرع:</div>
+            <div class="clinic-services-chips">
+              <span class="clinic-service-chip"><i class="ti ti-stethoscope" style="color:var(--accent)"></i> كشف باطني حضوري (350 ج.م)</span>
+              <span class="clinic-service-chip"><i class="ti ti-video" style="color:var(--info)"></i> استشارة فيديو عن بعد (250 ج.م)</span>
+              <span class="clinic-service-chip"><i class="ti ti-scan" style="color:var(--warn)"></i> فحص موجات صوتية وسونار (200 ج.م)</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="pill xs ghost" onclick="location.href='doctor-patients.html'"><i class="ti ti-users"></i> عرض المرضى</button>
+            <button class="pill xs solid" onclick="location.href='doctor-consultation.html'"><i class="ti ti-stethoscope"></i> بدء كشوفات الفرع</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderClinicsList();
+  renderNotifications();
+});
+</script>
+</body>
+</html>
