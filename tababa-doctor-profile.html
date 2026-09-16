@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بروفايل الطبيب - طبابا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<style>
+  :root{
+    --bg-page:#070b14; --bg-panel:#0c1220; --bg-card:#111a2c; --bg-card-2:#16213590;
+    --border:rgba(110,231,201,0.12); --border-strong:rgba(110,231,201,0.32);
+    --accent:#1fe6a8; --accent-dim:#12b587; --accent-soft:rgba(31,230,168,0.12);
+    --text-primary:#f2f5f8; --text-secondary:#8d97ab; --text-muted:#57617a;
+    --radius:16px; --radius-sm:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:radial-gradient(circle at 80% 0%, #0d1a24 0%, var(--bg-page) 45%);color:var(--text-primary);
+    font-family:'Tajawal',sans-serif;direction:rtl;line-height:1.5;min-height:100vh;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  .shell{display:grid;grid-template-columns:280px 1fr 280px;gap:18px;max-width:1560px;margin:0 auto;padding:20px;}
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
+  .muted{color:var(--text-secondary);font-size:13px;}
+  .tiny{color:var(--text-muted);font-size:12px;}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:500;
+    border:1px solid var(--border-strong);background:transparent;color:var(--text-primary);white-space:nowrap;}
+  .pill.solid{background:var(--accent);color:#03261b;border-color:var(--accent);font-weight:700;}
+  .pill.ghost{border-color:var(--border);color:var(--text-secondary);}
+  .pill:hover{border-color:var(--accent);}
+  .pill:disabled{opacity:.5;cursor:default;}
+
+  .brand{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 18px;}
+  .brand-name{font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px;}
+  .brand-badge{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:16px;}
+  nav.mainnav{display:flex;flex-direction:column;gap:4px;margin-bottom:18px;}
+  .navitem{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:var(--radius-sm);
+    font-size:14px;color:var(--text-secondary);border:1px solid transparent;}
+  .navitem i{font-size:18px;}
+  .navitem.active{background:var(--accent-soft);color:var(--accent);font-weight:700;border-color:var(--border-strong);}
+  .navitem:hover:not(.active){background:var(--bg-card-2);color:var(--text-primary);}
+
+  .chatcard .chathead{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1fe6a8,#0c7a58);
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:#03261b;flex-shrink:0;}
+  .chathead .title{font-size:14px;font-weight:700;}
+  .status{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--accent);}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .bubble{background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--radius-sm);
+    border-top-right-radius:2px;padding:12px 14px;font-size:13px;margin-bottom:6px;}
+  .bubble .tiny{margin-top:8px;}
+  .chat-cta{width:100%;justify-content:center;margin:12px 0 10px;}
+  .chat-input{display:flex;align-items:center;gap:8px;background:var(--bg-panel);border:1px solid var(--border);
+    border-radius:999px;padding:6px 6px 6px 14px;}
+  .chat-input input{flex:1;background:transparent;border:none;outline:none;color:var(--text-primary);font-family:inherit;font-size:13px;}
+  .send-btn{width:32px;height:32px;border-radius:50%;border:none;background:var(--accent);color:#03261b;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .util-row{display:flex;justify-content:center;gap:22px;margin-top:16px;color:var(--text-muted);font-size:18px;}
+
+  .ai-head{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+  .ai-head .title{font-weight:900;font-size:15px;}
+  .ai-greet{font-size:13px;color:var(--text-secondary);margin:10px 0 8px;}
+  .ai-sub{font-size:13px;font-weight:700;margin-bottom:12px;}
+  .suggest{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+  .suggest button{text-align:right;background:var(--bg-panel);border:1px solid var(--border);color:var(--text-secondary);
+    border-radius:var(--radius-sm);padding:10px 12px;font-size:12.5px;font-family:inherit;}
+  .suggest button:hover{border-color:var(--border-strong);color:var(--text-primary);}
+  .trust-card{margin-top:16px;}
+  .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  .trust-item{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;
+    background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 6px;}
+  .trust-item i{font-size:18px;color:var(--accent);}
+  .trust-item span{font-size:11.5px;color:var(--text-secondary);}
+
+  .topbar{display:flex;justify-content:flex-start;gap:10px;margin-bottom:22px;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:13px;margin-bottom:18px;}
+  .back-link:hover{color:var(--accent);}
+
+  .profile-header{display:flex;gap:18px;align-items:center;margin-bottom:26px;flex-wrap:wrap;}
+  .profile-avatar{width:84px;height:84px;border-radius:20px;background:linear-gradient(135deg,#1fe6a8,#0c7a58);
+    color:#03261b;font-weight:900;font-size:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .profile-name-row{display:flex;align-items:center;gap:8px;}
+  .profile-name-row h1{font-size:22px;font-weight:900;}
+  .verified-badge{color:var(--accent);font-size:18px;}
+  .profile-title{color:var(--text-secondary);font-size:13.5px;margin:4px 0 8px;}
+  .profile-stats{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--text-secondary);}
+  .profile-stats span{display:flex;align-items:center;gap:5px;}
+  .profile-stats i{color:var(--accent);}
+
+  .profile-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;align-items:start;}
+  @media(max-width:900px){.profile-grid{grid-template-columns:1fr;}}
+
+  .section-title{font-size:15px;font-weight:700;margin-bottom:10px;}
+  .bio-card, .qual-card, .review-card{margin-bottom:18px;}
+  .bio-card p{color:var(--text-secondary);font-size:13.5px;line-height:1.8;}
+  .qual-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+  .qual-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);}
+  .qual-item i{color:var(--accent);}
+  .service-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .service-tag{background:var(--bg-panel);border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12px;color:var(--text-secondary);}
+
+  .review-item{border-top:1px solid var(--border);padding:14px 0;}
+  .review-item:first-child{border-top:none;padding-top:0;}
+  .review-head{display:flex;justify-content:space-between;margin-bottom:6px;}
+  .review-name{font-size:13px;font-weight:700;}
+  .review-stars{color:var(--accent);font-size:12px;}
+  .review-text{color:var(--text-secondary);font-size:13px;}
+
+  .booking-card{position:sticky;top:20px;}
+  .booking-card h3{font-size:15px;font-weight:700;margin-bottom:2px;}
+  .booking-price{color:var(--accent);font-weight:900;font-size:18px;margin-bottom:14px;}
+  .step-hint{color:var(--text-muted);font-size:11.5px;margin-bottom:14px;}
+  .day-tabs{display:flex;gap:8px;margin-bottom:14px;}
+  .day-tab{flex:1;text-align:center;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:9px 4px;font-size:12.5px;color:var(--text-secondary);}
+  .day-tab.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+  .time-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
+  .time-slot{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:9px 4px;font-size:12px;color:var(--text-secondary);text-align:center;}
+  .time-slot.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);font-weight:700;}
+
+  .booking-form{display:none;flex-direction:column;gap:10px;margin-top:6px;}
+  .booking-form.show{display:flex;}
+  .booking-form input{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:10px 12px;color:var(--text-primary);font-family:inherit;font-size:13px;outline:none;}
+  .booking-form input:focus{border-color:var(--border-strong);}
+  .book-confirm-btn{width:100%;justify-content:center;margin-top:2px;}
+  .field-error{color:#f2665c;font-size:12px;}
+
+  .booking-success{display:none;text-align:center;padding:10px 4px 4px;}
+  .booking-success.show{display:block;}
+  .booking-success i{font-size:36px;color:var(--accent);margin-bottom:10px;}
+  .booking-success h4{font-size:14.5px;font-weight:700;margin-bottom:6px;}
+  .booking-success p{color:var(--text-secondary);font-size:12.5px;}
+
+  
+/* ===== UNIFIED SYSTEM RESPONSIVE CSS ===== */
+.mobile-header{display:none;}
+.mobile-bottom-nav{display:none;}
+.mobile-nav-drawer{display:none;}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Mobile Header */
+.mobile-header {
+  position: sticky;
+  top: 0;
+  z-index: 800;
+  background: rgba(17, 26, 44, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 10px 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.m-head-left, .m-head-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.m-head-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 20px;
+  transition: var(--transition, .2s);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.m-head-btn:active {
+  transform: scale(0.95);
+  border-color: var(--accent);
+}
+.m-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--text-primary);
+}
+.m-brand-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+/* Drawer Backdrop */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 6, 12, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 920;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.drawer-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile Navigation Drawer */
+.mobile-nav-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 310px;
+  max-width: 85vw;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border-strong);
+  box-shadow: -12px 0 40px rgba(0,0,0,0.7);
+  z-index: 960;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mobile-nav-drawer.show {
+  transform: translateX(0);
+}
+.m-nav-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-panel);
+}
+.drawer-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+.m-nav-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.m-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.m-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  transition: .2s ease;
+  min-height: 44px;
+}
+.m-nav-item:hover, .m-nav-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+}
+.m-nav-item i {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.m-nav-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+/* Mobile Bottom Nav */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(17, 26, 44, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-strong);
+  z-index: 850;
+  display: none;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 4px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+}
+.mb-nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 100%;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  position: relative;
+  transition: .2s ease;
+  min-height: 44px;
+  text-decoration: none;
+}
+.mb-nav-btn i {
+  font-size: 19px;
+  transition: .2s ease;
+}
+.mb-nav-btn.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+.mb-nav-btn.active i {
+  transform: translateY(-2px);
+  color: var(--accent);
+}
+.mb-nav-emerg .mb-nav-fab {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-top: -18px;
+  box-shadow: 0 4px 16px rgba(242,102,92,0.4);
+  border: 2px solid var(--bg-card);
+  transition: .2s ease;
+}
+.mb-nav-emerg:active .mb-nav-fab {
+  transform: scale(0.92);
+}
+
+/* Common Responsive Breakpoints */
+@media(max-width:1080px){
+  body {
+    padding-bottom: 74px !important;
+  }
+  .shell {
+    grid-template-columns: 1fr !important;
+    padding: 12px !important;
+    gap: 14px !important;
+  }
+  .shell > aside {
+    display: none !important;
+  }
+  .mobile-header {
+    display: flex !important;
+  }
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
+  .mobile-nav-drawer {
+    display: flex;
+  }
+  .topbar {
+    display: none !important;
+  }
+}
+
+@media(max-width:768px){
+  .cat-row {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 10px !important;
+    padding-bottom: 8px !important;
+  }
+  .cat-row::-webkit-scrollbar { display: none; }
+  .cat-card {
+    min-width: 90px !important;
+    flex-shrink: 0 !important;
+  }
+  .doctor-grid, .recommended-grid, .how-steps, .articles-grid, .doctor-directory-grid, .spec-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .jump-row {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    padding: 8px 0 !important;
+  }
+  .jump-row::-webkit-scrollbar { display: none; }
+  .jump-chip {
+    flex-shrink: 0 !important;
+  }
+  .sym-chips {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 6px !important;
+    padding-bottom: 4px !important;
+  }
+  .sym-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0 !important;
+  }
+}
+
+@media(max-width:480px){
+  .shell {
+    padding: 8px !important;
+    gap: 10px !important;
+  }
+  .card {
+    padding: 12px !important;
+  }
+  .stats {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+  .search-row {
+    padding: 6px 12px !important;
+  }
+}
+
+@media(max-width:360px){
+  .card {
+    padding: 10px !important;
+  }
+  h1 {
+    font-size: 20px !important;
+  }
+  h2 {
+    font-size: 16px !important;
+  }
+}
+
+/* Ultra-wide Displays (>= 1600px) */
+@media(min-width:1600px){
+  .shell {
+    max-width: 1640px;
+    margin: 0 auto;
+  }
+}
+
+</style>
+  <link rel="stylesheet" crossorigin href="/tababa/assets/responsive-CNDdYzd9.css">
+</head>
+<body>
+
+<!-- ==================== MOBILE HEADER ==================== -->
+<header class="mobile-header">
+  <div class="m-head-left">
+    <button class="m-head-btn" onclick="toggleMobileNav()" title="القائمة الرئيسية" aria-label="القائمة الرئيسية">
+      <i class="ti ti-menu-2"></i>
+    </button>
+    <a href="tababa-homepage.html" class="m-brand">
+      <span class="m-brand-name">طبابا</span>
+      <span class="m-brand-badge"><i class="ti ti-heart-handshake"></i></span>
+    </a>
+  </div>
+  
+  <div class="m-head-right">
+    <button class="pill xs danger-fill" onclick="if(typeof openEmergModal==='function')openEmergModal();else location.href='tel:123';" style="font-size:11px;padding:5px 9px;">
+      <i class="ti ti-alert-triangle"></i> طوارئ 123
+    </button>
+    <a href="tababa-doctor-dashboard.html" class="pill xs ghost" title="بوابة الطبيب" style="font-size:11px;padding:5px 9px;">
+      <i class="ti ti-stethoscope"></i> الطبيب
+    </a>
+  </div>
+</header>
+
+<!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
+<div class="mobile-nav-drawer" id="mobileNavDrawer">
+  <div class="m-nav-header">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-weight:900;font-size:17px;color:var(--text-primary)">طبابا</span>
+      <span class="pill xs solid">منصة صحتك</span>
+    </div>
+    <button class="drawer-close" onclick="toggleMobileNav()"><i class="ti ti-x"></i></button>
+  </div>
+  
+  <div class="m-nav-body">
+    <!-- Patient mini profile -->
+    <div class="card" style="padding:12px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#1fe6a8,#0c7a58);color:#03261b;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:16px;">ك</div>
+        <div>
+          <div style="font-weight:700;font-size:13.5px;color:var(--text-primary)">كريم أحمد</div>
+          <div class="tiny">الملف الصحي نشط • بطاقة تأمين بوبا</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation links -->
+    <nav class="m-nav-list">
+      <a class="m-nav-item" href="tababa-homepage.html">
+        <i class="ti ti-home"></i><span>الصفحة الرئيسية</span>
+      </a>
+      <a class="m-nav-item" href="tababa-doctors.html">
+        <i class="ti ti-stethoscope"></i><span>الأطباء والعيادات</span>
+      </a>
+      <a class="m-nav-item" href="tababa-specialties.html">
+        <i class="ti ti-briefcase-medical"></i><span>التخصصات الطبية</span>
+      </a>
+      <a class="m-nav-item" href="tababa-doctor-dashboard.html" style="background:var(--accent-soft);color:var(--accent);font-weight:700">
+        <i class="ti ti-building-hospital"></i><span>لوحة تحكم الطبيب (Doctor OS)</span>
+        <span class="pill xs solid" style="margin-right:auto">طبيب</span>
+      </a>
+      <a class="m-nav-item" href="javascript:void(0)" onclick="if(typeof openEmergModal==='function')openEmergModal();toggleMobileNav();">
+        <i class="ti ti-alert-triangle" style="color:var(--danger)"></i><span>طوارئ طبية سريعة</span>
+      </a>
+    </nav>
+
+    <div class="m-nav-footer">
+      <div class="util-row" style="display:flex;justify-content:center;gap:16px;margin-bottom:10px;color:var(--text-muted);font-size:18px;">
+        <button class="btn-icon" title="الوضع الداكن"><i class="ti ti-moon"></i></button>
+        <button class="btn-icon" title="مساعدة"><i class="ti ti-help"></i></button>
+        <button class="btn-icon" title="تسجيل خروج"><i class="ti ti-logout"></i></button>
+      </div>
+      <div class="tiny" style="text-align:center;color:var(--text-muted)">منظومة طبابة للرعاية الطبية الذكية © 2026</div>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- RIGHT COLUMN -->
+  <aside>
+    <div class="brand">
+      <a class="brand-name" href="tababa-homepage.html">طبابا <div class="brand-badge"><i class="ti ti-home"></i></div></a>
+    </div>
+
+    <nav class="mainnav">
+      <a class="navitem" href="tababa-homepage.html"><i class="ti ti-home"></i>الصفحة الرئيسية</a>
+      <a class="navitem active" href="tababa-doctors.html"><i class="ti ti-stethoscope"></i>الأطباء والعيادات</a>
+      <a class="navitem" href="tababa-specialties.html"><i class="ti ti-briefcase-medical"></i>التخصصات الطبية</a>
+      <a class="navitem" href="#"><i class="ti ti-report-money"></i>حاسبة التكلفة</a>
+      <a class="navitem" href="#"><i class="ti ti-file-text"></i>المقالات والنتائج</a>
+      <a class="navitem" href="#"><i class="ti ti-user"></i>ملفي الشخصي</a>
+      <a class="navitem" href="#"><i class="ti ti-calendar"></i>حجوزاتي</a>
+      <a class="navitem" href="#"><i class="ti ti-heart"></i>المفضلة</a>
+    </nav>
+
+    <div class="card chatcard">
+      <div class="chathead">
+        <div class="avatar">د</div>
+        <div style="flex:1">
+          <div class="title">تحدث مع دكتورتك</div>
+          <div class="tiny">طبيبك الشخصي الذكي</div>
+        </div>
+      </div>
+      <div class="status" style="margin-bottom:10px"><span class="dot"></span>متصل الآن</div>
+      <div class="bubble">
+        لو عندك سؤال عن الدكتور أو المواعيد المتاحة، اسألني في أي وقت.
+        <div class="tiny">03:17 PM</div>
+      </div>
+      <button class="pill solid chat-cta"><i class="ti ti-microphone"></i>تحدث مع الدكتور</button>
+      <div class="chat-input">
+        <input type="text" placeholder="اكتب سؤالك هنا...">
+        <button class="send-btn" aria-label="إرسال"><i class="ti ti-send-2"></i></button>
+      </div>
+    </div>
+
+    <div class="util-row">
+      <i class="ti ti-moon"></i>
+      <i class="ti ti-bell"></i>
+      <i class="ti ti-settings"></i>
+    </div>
+  </aside>
+
+  <!-- CENTER COLUMN -->
+  <main>
+    <div class="topbar">
+      <span class="pill ghost"><i class="ti ti-world"></i>العربية</span>
+      <span class="pill solid"><i class="ti ti-door-exit"></i>تسجيل الخروج</span>
+      <a class="pill" href="tababa-doctor-dashboard.html"><i class="ti ti-user-plus"></i>انضم كطبيب</a>
+    </div>
+
+    <a class="back-link" href="tababa-doctors.html"><i class="ti ti-arrow-right"></i>الأطباء والعيادات</a>
+
+    <div id="profileRoot"></div>
+  </main>
+
+  <!-- LEFT COLUMN -->
+  <aside>
+    <div class="card">
+      <div class="ai-head">
+        <div class="brand-badge"><i class="ti ti-robot"></i></div>
+        <div class="title">AI Assistant</div>
+      </div>
+      <div class="ai-greet">مرحباً 👋</div>
+      <div class="ai-sub">عايز تعرف حاجة عن الدكتور؟</div>
+      <div class="suggest">
+        <button>هل الدكتور متاح النهاردة؟</button>
+        <button>قارنلي بينه وبين دكتور تاني</button>
+        <button>إيه رأي المرضى اللي حجزوا قبل كده؟</button>
+        <button>ذكرني بموعدي بعد الحجز</button>
+      </div>
+      <div class="chat-input">
+        <input type="text" placeholder="اكتب سؤالك هنا...">
+        <button class="send-btn" aria-label="إرسال"><i class="ti ti-send-2"></i></button>
+      </div>
+    </div>
+
+    <div class="card trust-card">
+      <div class="section-title" style="margin-bottom:0">لماذا تثق بطبابا؟</div>
+      <div class="trust-grid">
+        <div class="trust-item"><i class="ti ti-star"></i><span>تقييمات آمنة</span></div>
+        <div class="trust-item"><i class="ti ti-lock"></i><span>خصوصية تامة</span></div>
+        <div class="trust-item"><i class="ti ti-file-certificate"></i><span>بيانات موثوقة</span></div>
+        <div class="trust-item"><i class="ti ti-shield-check"></i><span>أطباء معتمدون</span></div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+
+<!-- ==================== FIXED MOBILE BOTTOM NAVIGATION ==================== -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+  <a href="tababa-homepage.html" class="mb-nav-btn ">
+    <i class="ti ti-home"></i>
+    <span>الرئيسية</span>
+  </a>
+  <a href="tababa-doctors.html" class="mb-nav-btn active">
+    <i class="ti ti-stethoscope"></i>
+    <span>الأطباء</span>
+  </a>
+  <a href="tababa-specialties.html" class="mb-nav-btn ">
+    <i class="ti ti-briefcase-medical"></i>
+    <span>التخصصات</span>
+  </a>
+  <a href="javascript:void(0)" onclick="if(typeof openEmergModal==='function')openEmergModal();else location.href='tel:123';" class="mb-nav-btn mb-nav-emerg">
+    <div class="mb-nav-fab" style="background:linear-gradient(135deg,#f2665c,#c93b32);"><i class="ti ti-alert-triangle"></i></div>
+    <span>طوارئ</span>
+  </a>
+  <a href="tababa-doctor-dashboard.html" class="mb-nav-btn ">
+    <i class="ti ti-heart-rate-monitor"></i>
+    <span>لوحة الطبيب</span>
+  </a>
+</nav>
+
+<script>
+
+// ============================= MOBILE NAVIGATION HELPERS =============================
+function toggleMobileNav(){
+  const nav = document.getElementById('mobileNavDrawer');
+  const backdrop = document.getElementById('drawerBackdrop');
+  if(!nav) return;
+  const isShow = nav.classList.toggle('show');
+  if(backdrop){
+    if(isShow) backdrop.classList.add('show');
+    else backdrop.classList.remove('show');
+  }
+}
+
+function closeAllDrawers(){
+  const bd = document.getElementById('drawerBackdrop'); if(bd) bd.classList.remove('show');
+  const md = document.getElementById('mobileNavDrawer'); if(md) md.classList.remove('show');
+  const em = document.getElementById('emergModal'); if(em) em.classList.remove('show');
+}
+
+  const SPECIALTIES = {
+    general:{label:'باطنة عامة', icon:'ti-stethoscope'},
+    dental:{label:'أسنان', icon:'ti-tooth'},
+    dermatology:{label:'جلدية', icon:'ti-droplet'},
+    orthopedic:{label:'عظام', icon:'ti-bone'},
+    obgyn:{label:'نساء وتوليد', icon:'ti-woman'},
+    pediatric:{label:'أطفال', icon:'ti-baby-carriage'},
+    ophthalmology:{label:'عيون', icon:'ti-eye'},
+    cardiology:{label:'قلب', icon:'ti-heart'},
+    neurology:{label:'مخ وأعصاب', icon:'ti-brain'}
+  };
+
+  const DOCTORS = [
+    {id:'general-1', specialty:'general', name:'د. أحمد سامي', title:'استشاري باطنة عامة', exp:12, city:'مدينة نصر، القاهرة', price:150, rating:4.8, reviews:212},
+    {id:'general-2', specialty:'general', name:'د. منى الشريف', title:'أخصائية باطنة عامة', exp:8, city:'المعادي، القاهرة', price:180, rating:4.7, reviews:154},
+    {id:'dental-1', specialty:'dental', name:'د. كريم عادل', title:'استشاري أسنان وتجميل ابتسامة', exp:10, city:'الدقي، الجيزة', price:200, rating:4.9, reviews:301},
+    {id:'dental-2', specialty:'dental', name:'د. سارة فؤاد', title:'أخصائية تقويم أسنان', exp:6, city:'المنصورة', price:170, rating:4.6, reviews:98},
+    {id:'dermatology-1', specialty:'dermatology', name:'د. ياسمين حسن', title:'استشارية جلدية وتجميل', exp:14, city:'الزمالك، القاهرة', price:250, rating:4.8, reviews:410},
+    {id:'dermatology-2', specialty:'dermatology', name:'د. عمرو الديب', title:'أخصائي جلدية وتناسلية', exp:9, city:'الإسكندرية', price:220, rating:4.7, reviews:187},
+    {id:'orthopedic-1', specialty:'orthopedic', name:'د. محمد رضا', title:'استشاري عظام ومفاصل', exp:16, city:'مصر الجديدة، القاهرة', price:300, rating:4.9, reviews:265},
+    {id:'orthopedic-2', specialty:'orthopedic', name:'د. هبة الليثي', title:'أخصائية عظام', exp:7, city:'طنطا', price:260, rating:4.6, reviews:112},
+    {id:'obgyn-1', specialty:'obgyn', name:'د. نور الهدى', title:'استشارية نساء وتوليد', exp:13, city:'الشيخ زايد، الجيزة', price:250, rating:4.9, reviews:389},
+    {id:'obgyn-2', specialty:'obgyn', name:'د. إيمان طلعت', title:'أخصائية نساء وتوليد', exp:9, city:'الزقازيق', price:230, rating:4.7, reviews:176},
+    {id:'pediatric-1', specialty:'pediatric', name:'د. أميرة سعد', title:'استشارية أطفال وحديثي ولادة', exp:11, city:'مدينة نصر، القاهرة', price:180, rating:4.9, reviews:298},
+    {id:'pediatric-2', specialty:'pediatric', name:'د. طارق نبيل', title:'أخصائي أطفال', exp:6, city:'أسيوط', price:170, rating:4.8, reviews:143},
+    {id:'ophthalmology-1', specialty:'ophthalmology', name:'د. سامح فوزي', title:'استشاري عيون وليزك', exp:15, city:'المهندسين، الجيزة', price:220, rating:4.7, reviews:221},
+    {id:'ophthalmology-2', specialty:'ophthalmology', name:'د. ريهام عصام', title:'أخصائية عيون', exp:5, city:'بورسعيد', price:200, rating:4.6, reviews:87},
+    {id:'cardiology-1', specialty:'cardiology', name:'د. وائل مجدي', title:'استشاري قلب وقسطرة', exp:18, city:'التجمع الخامس، القاهرة', price:350, rating:4.9, reviews:334},
+    {id:'cardiology-2', specialty:'cardiology', name:'د. لمياء خالد', title:'أخصائية قلب', exp:10, city:'الغردقة', price:320, rating:4.8, reviews:156},
+    {id:'neurology-1', specialty:'neurology', name:'د. حسام الدين', title:'استشاري مخ وأعصاب', exp:14, city:'الدقي، الجيزة', price:300, rating:4.8, reviews:245},
+    {id:'neurology-2', specialty:'neurology', name:'د. مريم عبد الله', title:'أخصائية مخ وأعصاب', exp:8, city:'المنصورة', price:280, rating:4.7, reviews:132}
+  ];
+
+  function initials(name){ return name.replace('د.','').trim()[0] || 'د'; }
+
+  function extrasFor(d){
+    const spec = SPECIALTIES[d.specialty].label;
+    const shortName = d.name.replace('د. ','');
+    return {
+      bio: 'الدكتور '+shortName+' من أطباء '+spec+' المعتمدين في طبابا، بخبرة '+d.exp+' سنة في تشخيص ومتابعة الحالات في هذا التخصص. بيهتم بشرح الحالة بوضوح للمريض والمتابعة بعد الكشف لحد ما تتحسن الحالة بالكامل.',
+      qualifications: [
+        'عضو الجمعية المصرية لتخصص '+spec,
+        'زمالة '+spec+' من كلية طب معتمدة',
+        d.exp+' سنة خبرة عملية متواصلة في '+spec
+      ],
+      services: ['كشف وتشخيص', 'متابعة دورية', 'استشارة عن بعد', 'تقرير طبي مفصل'],
+      reviewList: [
+        {name:'مريض سابق', stars:5, text:'دكتور محترم جدًا وبيشرح كويس، والمتابعة بعد الكشف كانت ممتازة.'},
+        {name:'مريضة', stars:5, text:'الحجز كان سهل والانتظار قليل، والدكتور مطمّن جدًا في الكشف.'},
+        {name:'مريض', stars:4, text:'تعامل راقي، بس كان في انتظار بسيط عن الميعاد المحدد.'}
+      ]
+    };
+  }
+
+  function slotsFor(){
+    return [
+      {day:'اليوم', times:['4:00 م','5:30 م','7:00 م']},
+      {day:'غدًا', times:['10:00 ص','12:30 م','6:00 م']},
+      {day:'بعد الغد', times:['11:00 ص','2:00 م','5:00 م']}
+    ];
+  }
+
+  const params = new URLSearchParams(location.search);
+  const requestedId = params.get('id');
+  const doctor = DOCTORS.find(d => d.id === requestedId) || DOCTORS[0];
+  const extras = extrasFor(doctor);
+  const slots = slotsFor();
+  const spec = SPECIALTIES[doctor.specialty];
+
+  let selectedDay = 0, selectedTime = null;
+
+  function renderTimeGrid(){
+    return slots[selectedDay].times.map(t =>
+      '<div class="time-slot'+(selectedTime===t?' active':'')+'" onclick="pickTime(\''+t+'\')">'+t+'</div>'
+    ).join('');
+  }
+
+  function renderDayTabs(){
+    return slots.map((s,i) =>
+      '<div class="day-tab'+(i===selectedDay?' active':'')+'" onclick="pickDay('+i+')">'+s.day+'</div>'
+    ).join('');
+  }
+
+  function renderBookingCard(){
+    return '<div class="card booking-card">'+
+      '<h3>احجز موعدك</h3>'+
+      '<div class="booking-price">'+doctor.price+' جنيه <span class="tiny">- سعر الكشف</span></div>'+
+      '<div class="step-hint">اختار اليوم والوقت، سجّل بياناتك، وهيتبعت تأكيد فوري بالواتساب.</div>'+
+      '<div class="day-tabs" id="dayTabs">'+renderDayTabs()+'</div>'+
+      '<div class="time-grid" id="timeGrid">'+renderTimeGrid()+'</div>'+
+      '<div id="bookingError" class="field-error" style="display:none;margin-bottom:8px;"></div>'+
+      '<div class="booking-form" id="bookingForm">'+
+        '<input type="text" id="patientName" placeholder="اسمك بالكامل">'+
+        '<input type="tel" id="patientPhone" placeholder="رقم الهاتف (واتساب)">'+
+        '<button class="pill solid book-confirm-btn" onclick="confirmBooking()"><i class="ti ti-check"></i>تأكيد الحجز</button>'+
+      '</div>'+
+      '<div class="booking-success" id="bookingSuccess">'+
+        '<i class="ti ti-circle-check"></i>'+
+        '<h4>تم الحجز بنجاح ✅</h4>'+
+        '<p id="successText"></p>'+
+      '</div>'+
+    '</div>';
+  }
+
+  function render(){
+    document.getElementById('profileRoot').innerHTML =
+      '<div class="profile-header">'+
+        '<div class="profile-avatar">'+initials(doctor.name)+'</div>'+
+        '<div>'+
+          '<div class="profile-name-row"><h1>'+doctor.name+'</h1><i class="ti ti-rosette-discount-check verified-badge" title="طبيب موثّق"></i></div>'+
+          '<div class="profile-title">'+doctor.title+' - '+spec.label+'</div>'+
+          '<div class="profile-stats">'+
+            '<span><i class="ti ti-star"></i>'+doctor.rating+' ('+doctor.reviews+' تقييم)</span>'+
+            '<span><i class="ti '+spec.icon+'"></i>'+doctor.exp+' سنة خبرة</span>'+
+            '<span><i class="ti ti-map-pin"></i>'+doctor.city+'</span>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="profile-grid">'+
+        '<div>'+
+          '<div class="card bio-card"><div class="section-title">نبذة عن الدكتور</div><p>'+extras.bio+'</p></div>'+
+          '<div class="card qual-card">'+
+            '<div class="section-title">المؤهلات والخبرات</div>'+
+            '<div class="qual-list">'+extras.qualifications.map(q=>'<div class="qual-item"><i class="ti ti-certificate"></i>'+q+'</div>').join('')+'</div>'+
+            '<div class="section-title" style="margin-top:6px">الخدمات المتاحة</div>'+
+            '<div class="service-list">'+extras.services.map(s=>'<span class="service-tag">'+s+'</span>').join('')+'</div>'+
+          '</div>'+
+          '<div class="card review-card">'+
+            '<div class="section-title">تقييمات المرضى</div>'+
+            extras.reviewList.map(r=>
+              '<div class="review-item"><div class="review-head"><span class="review-name">'+r.name+'</span>'+
+              '<span class="review-stars">'+'★'.repeat(r.stars)+'</span></div>'+
+              '<div class="review-text">'+r.text+'</div></div>'
+            ).join('')+
+          '</div>'+
+        '</div>'+
+        renderBookingCard()+
+      '</div>';
+  }
+
+  function pickDay(i){
+    selectedDay = i; selectedTime = null;
+    document.getElementById('dayTabs').innerHTML = renderDayTabs();
+    document.getElementById('timeGrid').innerHTML = renderTimeGrid();
+    document.getElementById('bookingForm').classList.remove('show');
+  }
+
+  function pickTime(t){
+    selectedTime = t;
+    document.getElementById('timeGrid').innerHTML = renderTimeGrid();
+    document.getElementById('bookingError').style.display = 'none';
+    document.getElementById('bookingForm').classList.add('show');
+  }
+
+  function confirmBooking(){
+    const nameInput = document.getElementById('patientName');
+    const phoneInput = document.getElementById('patientPhone');
+    const errBox = document.getElementById('bookingError');
+    if(!selectedTime){
+      errBox.textContent = 'اختار وقت الموعد الأول';
+      errBox.style.display = 'block';
+      return;
+    }
+    if(!nameInput.value.trim() || !phoneInput.value.trim()){
+      errBox.textContent = 'اكتب الاسم ورقم الهاتف عشان نأكد الحجز';
+      errBox.style.display = 'block';
+      return;
+    }
+    errBox.style.display = 'none';
+    document.getElementById('bookingForm').classList.remove('show');
+    document.getElementById('successText').textContent =
+      'حجزت مع '+doctor.name+' يوم '+slots[selectedDay].day+' الساعة '+selectedTime+
+      '. هيوصلك تأكيد فوري على واتساب، وهنفكرك قبل الموعد بيوم.';
+    document.getElementById('bookingSuccess').classList.add('show');
+  }
+
+  render();
+
+  // scroll straight to the booking widget if the profile was opened via "احجز الآن"
+  if(location.hash === '#book'){
+    setTimeout(()=>{
+      const el = document.querySelector('.booking-card');
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 50);
+  }
+</script>
+</body>
+</html>

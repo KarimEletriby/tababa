@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>طبابا - دكتورك ومتابعة علاجك في مكان واحد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<style>
+  :root{
+    --bg-page:#070b14;
+    --bg-panel:#0c1220;
+    --bg-card:#111a2c;
+    --bg-card-2:#16213590;
+    --border:rgba(110,231,201,0.12);
+    --border-strong:rgba(110,231,201,0.32);
+    --accent:#1fe6a8;
+    --accent-dim:#12b587;
+    --accent-soft:rgba(31,230,168,0.12);
+    --text-primary:#f2f5f8;
+    --text-secondary:#8d97ab;
+    --text-muted:#57617a;
+    --warn:#f2b84b;
+    --danger:#f2665c;
+    --danger-soft:rgba(242,102,92,0.15);
+    --radius:16px;
+    --radius-sm:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:radial-gradient(circle at 80% 0%, #0d1a24 0%, var(--bg-page) 45%);
+    color:var(--text-primary);
+    font-family:'Tajawal',sans-serif;
+    direction:rtl;
+    line-height:1.5;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  .shell{
+    display:grid;
+    grid-template-columns:280px 1fr 280px;
+    gap:18px;
+    max-width:1560px;
+    margin:0 auto;
+    padding:20px;
+  }
+  .card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+  }
+  .muted{color:var(--text-secondary);font-size:13px;}
+  .tiny{color:var(--text-muted);font-size:12px;}
+
+  /* ---------- pills / buttons ---------- */
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:9px 16px;border-radius:999px;font-size:13px;font-weight:500;
+    border:1px solid var(--border-strong);background:transparent;color:var(--text-primary);
+    white-space:nowrap;transition:all .2s ease;
+  }
+  .pill.solid{background:var(--accent);color:#03261b;border-color:var(--accent);font-weight:700;}
+  .pill.ghost{border-color:var(--border);color:var(--text-secondary);}
+  .pill.danger{background:var(--danger-soft);border-color:var(--danger);color:#ff968d;}
+  .pill.danger:hover{background:var(--danger);color:#fff;}
+  .pill:hover{border-color:var(--accent);transform:translateY(-1px);}
+  .pill.sm{padding:6px 12px;font-size:12px;}
+
+  /* ---------- right column: brand + nav + chat ---------- */
+  .brand{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 18px;}
+  .brand-name{font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px;}
+  .brand-badge{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:16px;}
+  nav.mainnav{display:flex;flex-direction:column;gap:4px;margin-bottom:18px;}
+  .navitem{
+    display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:var(--radius-sm);
+    font-size:14px;color:var(--text-secondary);border:1px solid transparent;transition:all .2s;
+  }
+  .navitem i{font-size:18px;}
+  .navitem.active{background:var(--accent-soft);color:var(--accent);font-weight:700;border-color:var(--border-strong);}
+  .navitem:hover:not(.active){background:var(--bg-card-2);color:var(--text-primary);}
+
+  .chatcard .chathead{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1fe6a8,#0c7a58);
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:#03261b;flex-shrink:0;}
+  .chathead .title{font-size:14px;font-weight:700;}
+  .status{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--accent);}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .bubble{background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--radius-sm);
+    border-top-right-radius:2px;padding:12px 14px;font-size:13px;color:var(--text-primary);margin-bottom:6px;}
+  .bubble .tiny{margin-top:8px;}
+  .chat-cta{width:100%;justify-content:center;margin:12px 0 10px;}
+  .chat-input{display:flex;align-items:center;gap:8px;background:var(--bg-panel);border:1px solid var(--border);
+    border-radius:999px;padding:6px 6px 6px 14px;}
+  .chat-input input{flex:1;background:transparent;border:none;outline:none;color:var(--text-primary);font-family:inherit;font-size:13px;}
+  .send-btn{width:32px;height:32px;border-radius:50%;border:none;background:var(--accent);color:#03261b;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .util-row{display:flex;justify-content:center;gap:22px;margin-top:16px;color:var(--text-muted);font-size:18px;}
+
+  /* ---------- center column ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+  .topbar-right{display:flex;align-items:center;gap:10px;}
+  .topbar-left{display:flex;align-items:center;gap:10px;}
+
+  /* 1. UPCOMING APPOINTMENT BANNER */
+  .appointment-banner{
+    background:linear-gradient(135deg, rgba(31,230,168,0.12) 0%, rgba(12,18,32,0.98) 60%, rgba(15,26,46,0.95) 100%);
+    border:1px solid var(--accent-dim);
+    border-radius:var(--radius);
+    padding:20px 24px;
+    margin-bottom:24px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 8px 32px rgba(31,230,168,0.08);
+  }
+  .appointment-banner::before{
+    content:'';position:absolute;top:-40px;left:-40px;width:160px;height:160px;
+    background:radial-gradient(circle, rgba(31,230,168,0.2), transparent 70%);border-radius:50%;pointer-events:none;
+  }
+  .banner-top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+  .banner-badge-group{display:flex;align-items:center;gap:8px;}
+  .live-tag{
+    display:inline-flex;align-items:center;gap:6px;background:rgba(242,102,92,0.18);
+    border:1px solid rgba(242,102,92,0.4);color:#ff867d;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;
+  }
+  .pulse-dot{width:7px;height:7px;border-radius:50%;background:#f2665c;box-shadow:0 0 8px #f2665c;animation:blink 1.2s infinite;}
+  .confirmed-tag{
+    display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);
+    border:1px solid var(--accent);color:var(--accent);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;
+  }
+  .countdown-container{display:flex;align-items:center;gap:10px;}
+  .countdown-lbl{font-size:12.5px;color:var(--text-secondary);}
+  .countdown-boxes{display:flex;align-items:center;gap:4px;}
+  .cd-box{
+    background:var(--bg-panel);border:1px solid var(--border-strong);border-radius:6px;
+    padding:4px 8px;text-align:center;min-width:38px;
+  }
+  .cd-box .val{font-size:15px;font-weight:900;color:var(--accent);display:block;line-height:1.1;}
+  .cd-box .unit{font-size:9.5px;color:var(--text-muted);}
+  .cd-sep{font-weight:900;color:var(--accent);padding:0 2px;}
+
+  .banner-content{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+  .banner-doc{display:flex;align-items:center;gap:14px;}
+  .banner-avatar{
+    width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1fe6a8,#0c7a58);
+    color:#03261b;font-weight:900;font-size:20px;display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;box-shadow:0 4px 12px rgba(31,230,168,0.25);
+  }
+  .banner-meta h3{font-size:16px;font-weight:900;margin-bottom:2px;}
+  .banner-meta .sub{font-size:13px;color:var(--text-secondary);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .banner-meta .sub span{display:inline-flex;align-items:center;gap:4px;}
+  .banner-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .btn-confirm{
+    background:var(--accent);color:#03261b;font-weight:700;border:none;padding:10px 20px;
+    border-radius:999px;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;
+    box-shadow:0 4px 16px rgba(31,230,168,0.3);transition:all .2s;
+  }
+  .btn-confirm:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(31,230,168,0.45);}
+  .btn-confirm.confirmed{background:#0e4433;color:#1fe6a8;border:1px solid var(--accent);cursor:default;transform:none;box-shadow:none;}
+
+  /* 6. FAMILY PROFILE SWITCHER */
+  .family-switcher{position:relative;}
+  .family-btn{
+    display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);
+    padding:7px 14px;border-radius:999px;font-size:13px;color:var(--text-primary);
+  }
+  .family-btn:hover{border-color:var(--accent);}
+  .fam-avatar{
+    width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:13px;
+  }
+  .family-dropdown{
+    position:absolute;top:calc(100% + 8px);right:0;width:260px;background:var(--bg-card);
+    border:1px solid var(--border-strong);border-radius:var(--radius);padding:10px;z-index:99;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);display:none;
+  }
+  .family-dropdown.show{display:block;animation:dropdownIn .2s ease;}
+  @keyframes dropdownIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .fam-title{font-size:11.5px;color:var(--text-muted);padding:6px 8px;font-weight:700;}
+  .fam-item{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;
+    border-radius:var(--radius-sm);cursor:pointer;transition:.15s;
+  }
+  .fam-item:hover{background:var(--bg-panel);}
+  .fam-item.active{background:var(--accent-soft);border:1px solid var(--accent-dim);}
+  .fam-info{display:flex;align-items:center;gap:10px;}
+  .fam-name{font-size:13px;font-weight:700;}
+  .fam-sub{font-size:11px;color:var(--text-secondary);}
+  .fam-add{
+    display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;margin-top:6px;
+    border-top:1px dashed var(--border);background:transparent;border:none;color:var(--accent);
+    font-size:12.5px;font-weight:700;border-radius:var(--radius-sm);
+  }
+  .fam-add:hover{background:var(--accent-soft);}
+
+  /* TRIAGE & AI BOX */
+  .hero-solo{max-width:860px;margin:0 auto 30px;text-align:center;}
+  .hero-solo h1{font-size:28px;font-weight:900;line-height:1.45;margin-bottom:10px;}
+  .hero-solo .hero-sub{color:var(--text-secondary);font-size:14px;margin-bottom:24px;}
+
+  .triage-card{background:var(--bg-card);border:1px solid var(--border-strong);border-radius:20px;
+    padding:22px;text-align:right;box-shadow:0 0 0 1px var(--accent-soft);}
+
+  /* 2. CONSULTATION TYPE SELECTOR IN AI BOX */
+  .consult-select-box{
+    background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;
+    gap:10px;flex-wrap:wrap;
+  }
+  .consult-lbl{font-size:13px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px;}
+  .consult-options{display:flex;gap:6px;flex-wrap:wrap;}
+  .consult-opt{
+    background:var(--bg-card);border:1px solid var(--border);border-radius:999px;
+    padding:6px 13px;font-size:12.5px;color:var(--text-secondary);display:inline-flex;
+    align-items:center;gap:6px;cursor:pointer;transition:all .2s;
+  }
+  .consult-opt i{font-size:14px;}
+  .consult-opt:hover{border-color:var(--border-strong);color:var(--text-primary);}
+  .consult-opt.active{
+    background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700;
+  }
+
+  .triage-input-row{display:flex;gap:10px;align-items:flex-end;margin-bottom:12px;}
+  .triage-input-row textarea{flex:1;resize:none;background:var(--bg-panel);border:1px solid var(--border);
+    border-radius:var(--radius-sm);padding:12px 14px;color:var(--text-primary);font-family:inherit;font-size:14px;outline:none;}
+  .triage-input-row textarea:focus{border-color:var(--border-strong);}
+  .triage-btn{flex-shrink:0;padding:13px 18px;}
+  .triage-btn:disabled{opacity:0.55;cursor:default;}
+  .field-error{color:#f2665c;font-size:12px;margin:-4px 0 10px;text-align:right;}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{background:var(--bg-panel);border:1px solid var(--border);color:var(--text-secondary);
+    border-radius:999px;padding:6px 13px;font-size:12px;font-family:inherit;transition:all .15s;}
+  .chip:hover{border-color:var(--border-strong);color:var(--text-primary);}
+
+  .triage-result{margin-top:18px;padding-top:18px;border-top:1px dashed var(--border);text-align:right;}
+  .specialty-badge{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .specialty-badge .icon{width:38px;height:38px;border-radius:10px;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .specialty-badge .label{font-size:15px;font-weight:700;}
+  .specialty-reason{color:var(--text-secondary);font-size:13px;margin-bottom:16px;}
+  .warning-banner{background:rgba(242,102,92,0.1);border:1px solid rgba(242,102,92,0.4);color:#f2887e;
+    border-radius:var(--radius-sm);padding:10px 14px;font-size:12.5px;margin-bottom:14px;}
+
+  /* 4. FILTERS IN AI RESULT */
+  .result-filters{
+    background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:12px 14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;
+    gap:12px;flex-wrap:wrap;
+  }
+  .filter-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .filter-group-title{font-size:12px;font-weight:700;color:var(--text-secondary);display:inline-flex;align-items:center;gap:4px;}
+  .filter-pill{
+    background:var(--bg-card);border:1px solid var(--border);border-radius:6px;
+    padding:4px 10px;font-size:12px;color:var(--text-secondary);cursor:pointer;transition:.15s;
+  }
+  .filter-pill:hover{color:var(--text-primary);border-color:var(--border-strong);}
+  .filter-pill.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700;}
+
+  .doctor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+  .doctor-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;position:relative;}
+  .doctor-card .dname{font-size:13.5px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;}
+  .doctor-card .drow{display:flex;justify-content:space-between;color:var(--text-secondary);font-size:12px;margin-bottom:8px;}
+  .doctor-card .insurance-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;}
+  .doctor-card .ins-badge{font-size:10.5px;background:rgba(255,255,255,0.05);padding:2px 7px;border-radius:4px;color:var(--accent-dim);border:1px solid var(--border);}
+  .doctor-card button{width:100%;justify-content:center;padding:8px;font-size:12.5px;}
+  .doctor-card button.booked{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border-strong);}
+  .loading-text{display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:13px;margin-top:14px;}
+  .loading-dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-inline-start:2px;
+    animation:blink 1.2s infinite ease-in-out;}
+  .loading-dots span:nth-child(2){animation-delay:.2s;}
+  .loading-dots span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+  @keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    100% { transform: scale(1.3); opacity: 0; }
+  }
+
+  .actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px;}
+
+  .popular-label{text-align:center;color:var(--text-secondary);font-size:13px;margin-bottom:16px;}
+  .cat-row{display:grid;grid-template-columns:repeat(9,1fr);gap:10px;margin-bottom:36px;}
+  .cat-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
+  .cat-circle{width:56px;height:56px;border-radius:50%;background:var(--bg-card);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text-secondary);transition:all .2s;}
+  .cat-item:hover .cat-circle{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+  .cat-item.selected .cat-circle{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+  .cat-item span{font-size:12px;color:var(--text-secondary);}
+  .cat-item.selected span{color:var(--text-primary);font-weight:700;}
+
+  /* 3. RECOMMENDED DOCTORS ROW */
+  .recommended-section{margin-bottom:40px;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:10px;flex-wrap:wrap;}
+  .section-title{font-size:18px;font-weight:900;display:flex;align-items:center;gap:8px;}
+  .section-sub{font-size:13px;color:var(--text-secondary);margin-top:2px;}
+  .recommended-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .rec-card{
+    background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:16px;display:flex;flex-direction:column;justify-content:space-between;
+    transition:all .25s ease;position:relative;
+  }
+  .rec-card:hover{border-color:var(--accent-dim);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+  .rec-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .rec-avatar{
+    width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#1fe6a8,#0c7a58);
+    color:#03261b;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .rec-meta .name{font-size:14px;font-weight:700;display:flex;align-items:center;gap:5px;}
+  .rec-meta .spec{font-size:12px;color:var(--text-secondary);}
+  .verified-badge{color:var(--accent);font-size:14px;}
+  .rec-info-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-secondary);margin-bottom:8px;}
+  .rec-modes{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;}
+  .mode-pill{font-size:11px;background:var(--bg-panel);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--text-muted);}
+  .rec-book-btn{width:100%;justify-content:center;padding:9px;font-size:13px;}
+
+  /* 8. HOW IT WORKS SECTION */
+  .how-section{
+    background:linear-gradient(180deg, var(--bg-card) 0%, rgba(12,18,32,0.6) 100%);
+    border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;margin-bottom:40px;
+  }
+  .how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px;}
+  .how-step{
+    background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:18px;position:relative;display:flex;flex-direction:column;gap:10px;
+  }
+  .how-step-num{
+    width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+    font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;
+  }
+  .how-step-icon{font-size:26px;color:var(--accent);margin-top:2px;}
+  .how-step h4{font-size:14px;font-weight:700;}
+  .how-step p{font-size:12.5px;color:var(--text-secondary);line-height:1.45;}
+
+  /* 9. ARTICLES PREVIEW SECTION */
+  .articles-section{margin-bottom:40px;}
+  .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .article-card{
+    background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:18px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;
+    transition:all .2s;
+  }
+  .article-card:hover{border-color:var(--border-strong);transform:translateY(-2px);}
+  .article-tag-row{display:flex;justify-content:space-between;align-items:center;}
+  .article-tag{font-size:11px;background:var(--accent-soft);color:var(--accent);padding:3px 8px;border-radius:999px;font-weight:700;}
+  .article-read-time{font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:4px;}
+  .article-card h4{font-size:14.5px;font-weight:700;line-height:1.4;color:var(--text-primary);}
+  .article-card p{font-size:12.5px;color:var(--text-secondary);line-height:1.45;}
+  .article-doc{display:flex;align-items:center;justify-content:space-between;margin-top:4px;padding-top:10px;border-top:1px solid var(--border);}
+  .article-author{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);}
+  .article-author i{color:var(--accent);}
+  .article-link{font-size:12px;color:var(--accent);font-weight:700;display:inline-flex;align-items:center;gap:4px;}
+
+  .bottom-row{display:grid;grid-template-columns:1fr 1.6fr;gap:18px;}
+  .promo{background:linear-gradient(135deg,#0c2a35,#081522);border:1px solid var(--border-strong);
+    border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;justify-content:center;gap:10px;position:relative;overflow:hidden;}
+  .promo h3{font-size:16px;font-weight:700;max-width:220px;}
+  .promo .pill{width:fit-content;}
+  .promo-orb{position:absolute;left:-30px;bottom:-30px;width:140px;height:140px;border-radius:50%;
+    background:radial-gradient(circle,var(--accent-soft),transparent 70%);}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;background:var(--bg-card);border:1px solid var(--border);
+    border-radius:var(--radius);padding:22px 14px;}
+  .stat{text-align:center;}
+  .stat .num{font-size:19px;font-weight:900;color:var(--accent);}
+  .stat .lbl{font-size:11.5px;color:var(--text-secondary);margin-top:4px;}
+
+  /* ---------- left column ---------- */
+  .ai-head{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+  .ai-head .title{font-weight:900;font-size:15px;}
+  .ai-greet{font-size:13px;color:var(--text-secondary);margin:10px 0 8px;}
+  .ai-sub{font-size:13px;font-weight:700;margin-bottom:12px;}
+  .suggest{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+  .suggest button{text-align:right;background:var(--bg-panel);border:1px solid var(--border);color:var(--text-secondary);
+    border-radius:var(--radius-sm);padding:10px 12px;font-size:12.5px;font-family:inherit;}
+  .suggest button:hover{border-color:var(--border-strong);color:var(--text-primary);}
+
+  /* 7. MINI MEDICATION REMINDER CARD */
+  .med-card{margin-top:16px;}
+  .med-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+  .med-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;}
+  .med-progress{height:5px;background:var(--bg-panel);border-radius:999px;margin:8px 0 12px;overflow:hidden;}
+  .med-progress-bar{height:100%;background:linear-gradient(90deg,var(--accent-dim),var(--accent));border-radius:999px;transition:width .3s ease;}
+  .med-list{display:flex;flex-direction:column;gap:8px;}
+  .med-item{
+    background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:8px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+    cursor:pointer;transition:.15s;
+  }
+  .med-item:hover{border-color:var(--border-strong);}
+  .med-item.taken{border-color:rgba(31,230,168,0.25);background:rgba(31,230,168,0.04);}
+  .med-check{
+    width:20px;height:20px;border-radius:6px;border:1px solid var(--border-strong);
+    display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:.15s;flex-shrink:0;
+  }
+  .med-item.taken .med-check{background:var(--accent);border-color:var(--accent);color:#03261b;}
+  .med-info{flex:1;}
+  .med-name{font-size:12.5px;font-weight:700;}
+  .med-item.taken .med-name{text-decoration:line-through;color:var(--text-muted);}
+  .med-time{font-size:11px;color:var(--text-secondary);}
+  .med-done-badge{font-size:10px;color:var(--accent);font-weight:700;}
+
+  .metric-card{margin-top:16px;}
+  .metric-title{font-size:14px;font-weight:700;margin-bottom:2px;}
+  .metric-list{display:flex;flex-direction:column;gap:10px;flex:1;}
+  .metric-row{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-secondary);}
+  .metric-row .mdot{width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .metric-row .mdot.warn{background:#f2b84b;}
+  .metric-grid{display:flex;gap:16px;align-items:center;margin:14px 0 12px;}
+  .ring{width:96px;height:96px;border-radius:50%;position:relative;flex-shrink:0;
+    background:conic-gradient(var(--accent) 0deg 280.8deg, rgba(255,255,255,0.06) 280.8deg 360deg);}
+  .ring::before{content:"";position:absolute;inset:9px;background:var(--bg-card);border-radius:50%;}
+  .ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring-label .pct{font-size:18px;font-weight:900;}
+  .ring-label .lbl{font-size:10px;color:var(--text-muted);}
+  .tip{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:10px 12px;font-size:12px;color:var(--text-secondary);display:flex;justify-content:space-between;align-items:center;gap:8px;}
+
+  .trust-card{margin-top:16px;}
+  .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  .trust-item{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;
+    background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 6px;}
+  .trust-item i{font-size:18px;color:var(--accent);}
+  .trust-item span{font-size:11.5px;color:var(--text-secondary);}
+
+  /* 5. FLOATING EMERGENCY BUTTON & MODAL */
+  .emergency-fab{
+    position:fixed;bottom:24px;left:24px;z-index:998;display:flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,#e53935,#b71c1c);color:#fff;padding:12px 20px;border-radius:999px;
+    font-weight:900;font-size:14px;box-shadow:0 6px 24px rgba(229,57,53,0.5);cursor:pointer;
+    border:2px solid rgba(255,255,255,0.25);transition:all .25s ease;
+  }
+  .emergency-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 30px rgba(229,57,53,0.7);}
+  .emergency-fab .pulse-ring{
+    position:absolute;inset:-4px;border-radius:999px;border:2px solid #e53935;
+    animation:pulse-ring 2s infinite;pointer-events:none;
+  }
+  .emergency-fab i{font-size:20px;}
+
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(3,7,14,0.85);backdrop-filter:blur(6px);
+    z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-backdrop.show{display:flex;animation:fadeIn .2s ease;}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .modal-box{
+    background:var(--bg-card);border:1px solid rgba(242,102,92,0.4);border-radius:20px;
+    max-width:540px;width:100%;padding:26px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.6);
+  }
+  .modal-close{
+    position:absolute;top:18px;left:18px;background:var(--bg-panel);border:1px solid var(--border);
+    color:var(--text-secondary);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-size:18px;cursor:pointer;
+  }
+  .modal-close:hover{color:var(--text-primary);border-color:var(--border-strong);}
+  .emerg-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .emerg-icon{
+    width:48px;height:48px;border-radius:12px;background:rgba(229,57,53,0.15);color:#ff6b6b;
+    display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;
+  }
+  .emerg-head h3{font-size:18px;font-weight:900;color:#ff867d;}
+  .emerg-options{display:flex;flex-direction:column;gap:10px;margin:20px 0;}
+  .emerg-opt-card{
+    background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:.2s;
+  }
+  .emerg-opt-card:hover{border-color:rgba(242,102,92,0.5);background:rgba(242,102,92,0.05);}
+  .emerg-opt-info{display:flex;align-items:center;gap:12px;}
+  .emerg-opt-info i{font-size:24px;color:#ff6b6b;}
+  .emerg-opt-info .title{font-size:14px;font-weight:700;}
+  .emerg-opt-info .desc{font-size:12px;color:var(--text-secondary);}
+
+  
+/* ===== UNIFIED SYSTEM RESPONSIVE CSS ===== */
+.mobile-header{display:none;}
+.mobile-bottom-nav{display:none;}
+.mobile-nav-drawer{display:none;}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Mobile Header */
+.mobile-header {
+  position: sticky;
+  top: 0;
+  z-index: 800;
+  background: rgba(17, 26, 44, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 10px 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.m-head-left, .m-head-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.m-head-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 20px;
+  transition: var(--transition, .2s);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.m-head-btn:active {
+  transform: scale(0.95);
+  border-color: var(--accent);
+}
+.m-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--text-primary);
+}
+.m-brand-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+/* Drawer Backdrop */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 6, 12, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 920;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.drawer-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile Navigation Drawer */
+.mobile-nav-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 310px;
+  max-width: 85vw;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border-strong);
+  box-shadow: -12px 0 40px rgba(0,0,0,0.7);
+  z-index: 960;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mobile-nav-drawer.show {
+  transform: translateX(0);
+}
+.m-nav-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-panel);
+}
+.drawer-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+.m-nav-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.m-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.m-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  transition: .2s ease;
+  min-height: 44px;
+}
+.m-nav-item:hover, .m-nav-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+}
+.m-nav-item i {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.m-nav-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+/* Mobile Bottom Nav */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(17, 26, 44, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-strong);
+  z-index: 850;
+  display: none;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 4px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+}
+.mb-nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 100%;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  position: relative;
+  transition: .2s ease;
+  min-height: 44px;
+  text-decoration: none;
+}
+.mb-nav-btn i {
+  font-size: 19px;
+  transition: .2s ease;
+}
+.mb-nav-btn.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+.mb-nav-btn.active i {
+  transform: translateY(-2px);
+  color: var(--accent);
+}
+.mb-nav-emerg .mb-nav-fab {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-top: -18px;
+  box-shadow: 0 4px 16px rgba(242,102,92,0.4);
+  border: 2px solid var(--bg-card);
+  transition: .2s ease;
+}
+.mb-nav-emerg:active .mb-nav-fab {
+  transform: scale(0.92);
+}
+
+/* Common Responsive Breakpoints */
+@media(max-width:1080px){
+  body {
+    padding-bottom: 74px !important;
+  }
+  .shell {
+    grid-template-columns: 1fr !important;
+    padding: 12px !important;
+    gap: 14px !important;
+  }
+  .shell > aside {
+    display: none !important;
+  }
+  .mobile-header {
+    display: flex !important;
+  }
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
+  .mobile-nav-drawer {
+    display: flex;
+  }
+  .topbar {
+    display: none !important;
+  }
+}
+
+@media(max-width:768px){
+  .cat-row {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 10px !important;
+    padding-bottom: 8px !important;
+  }
+  .cat-row::-webkit-scrollbar { display: none; }
+  .cat-card {
+    min-width: 90px !important;
+    flex-shrink: 0 !important;
+  }
+  .doctor-grid, .recommended-grid, .how-steps, .articles-grid, .doctor-directory-grid, .spec-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .jump-row {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    padding: 8px 0 !important;
+  }
+  .jump-row::-webkit-scrollbar { display: none; }
+  .jump-chip {
+    flex-shrink: 0 !important;
+  }
+  .sym-chips {
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 6px !important;
+    padding-bottom: 4px !important;
+  }
+  .sym-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0 !important;
+  }
+}
+
+@media(max-width:480px){
+  .shell {
+    padding: 8px !important;
+    gap: 10px !important;
+  }
+  .card {
+    padding: 12px !important;
+  }
+  .stats {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+  .search-row {
+    padding: 6px 12px !important;
+  }
+}
+
+@media(max-width:360px){
+  .card {
+    padding: 10px !important;
+  }
+  h1 {
+    font-size: 20px !important;
+  }
+  h2 {
+    font-size: 16px !important;
+  }
+}
+
+/* Ultra-wide Displays (>= 1600px) */
+@media(min-width:1600px){
+  .shell {
+    max-width: 1640px;
+    margin: 0 auto;
+  }
+}
+
+</style>
+  <link rel="stylesheet" crossorigin href="/tababa/assets/responsive-CNDdYzd9.css">
+</head>
+<body>
+
+<!-- ==================== MOBILE HEADER ==================== -->
+<header class="mobile-header">
+  <div class="m-head-left">
+    <button class="m-head-btn" onclick="toggleMobileNav()" title="القائمة الرئيسية" aria-label="القائمة الرئيسية">
+      <i class="ti ti-menu-2"></i>
+    </button>
+    <a href="tababa-homepage.html" class="m-brand">
+      <span class="m-brand-name">طبابا</span>
+      <span class="m-brand-badge"><i class="ti ti-heart-handshake"></i></span>
+    </a>
+  </div>
+  
+  <div class="m-head-right">
+    <button class="pill xs danger-fill" onclick="if(typeof openEmergModal==='function')openEmergModal();else location.href='tel:123';" style="font-size:11px;padding:5px 9px;">
+      <i class="ti ti-alert-triangle"></i> طوارئ 123
+    </button>
+    <a href="tababa-doctor-dashboard.html" class="pill xs ghost" title="بوابة الطبيب" style="font-size:11px;padding:5px 9px;">
+      <i class="ti ti-stethoscope"></i> الطبيب
+    </a>
+  </div>
+</header>
+
+<!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
+<div class="mobile-nav-drawer" id="mobileNavDrawer">
+  <div class="m-nav-header">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-weight:900;font-size:17px;color:var(--text-primary)">طبابا</span>
+      <span class="pill xs solid">منصة صحتك</span>
+    </div>
+    <button class="drawer-close" onclick="toggleMobileNav()"><i class="ti ti-x"></i></button>
+  </div>
+  
+  <div class="m-nav-body">
+    <!-- Patient mini profile -->
+    <div class="card" style="padding:12px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#1fe6a8,#0c7a58);color:#03261b;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:16px;">ك</div>
+        <div>
+          <div style="font-weight:700;font-size:13.5px;color:var(--text-primary)">كريم أحمد</div>
+          <div class="tiny">الملف الصحي نشط • بطاقة تأمين بوبا</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation links -->
+    <nav class="m-nav-list">
+      <a class="m-nav-item" href="tababa-homepage.html">
+        <i class="ti ti-home"></i><span>الصفحة الرئيسية</span>
+      </a>
+      <a class="m-nav-item" href="tababa-doctors.html">
+        <i class="ti ti-stethoscope"></i><span>الأطباء والعيادات</span>
+      </a>
+      <a class="m-nav-item" href="tababa-specialties.html">
+        <i class="ti ti-briefcase-medical"></i><span>التخصصات الطبية</span>
+      </a>
+      <a class="m-nav-item" href="tababa-doctor-dashboard.html" style="background:var(--accent-soft);color:var(--accent);font-weight:700">
+        <i class="ti ti-building-hospital"></i><span>لوحة تحكم الطبيب (Doctor OS)</span>
+        <span class="pill xs solid" style="margin-right:auto">طبيب</span>
+      </a>
+      <a class="m-nav-item" href="javascript:void(0)" onclick="if(typeof openEmergModal==='function')openEmergModal();toggleMobileNav();">
+        <i class="ti ti-alert-triangle" style="color:var(--danger)"></i><span>طوارئ طبية سريعة</span>
+      </a>
+    </nav>
+
+    <div class="m-nav-footer">
+      <div class="util-row" style="display:flex;justify-content:center;gap:16px;margin-bottom:10px;color:var(--text-muted);font-size:18px;">
+        <button class="btn-icon" title="الوضع الداكن"><i class="ti ti-moon"></i></button>
+        <button class="btn-icon" title="مساعدة"><i class="ti ti-help"></i></button>
+        <button class="btn-icon" title="تسجيل خروج"><i class="ti ti-logout"></i></button>
+      </div>
+      <div class="tiny" style="text-align:center;color:var(--text-muted)">منظومة طبابة للرعاية الطبية الذكية © 2026</div>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- RIGHT COLUMN (first in DOM = right side under RTL) -->
+  <aside>
+    <div class="brand">
+      <div class="brand-name">طبابا <div class="brand-badge"><i class="ti ti-home"></i></div></div>
+    </div>
+
+    <nav class="mainnav">
+      <a class="navitem active" href="tababa-homepage.html"><i class="ti ti-home"></i>الصفحة الرئيسية</a>
+      <a class="navitem" href="tababa-doctors.html"><i class="ti ti-stethoscope"></i>الأطباء والعيادات</a>
+      <a class="navitem" href="tababa-specialties.html"><i class="ti ti-briefcase-medical"></i>التخصصات الطبية</a>
+      <a class="navitem" href="#"><i class="ti ti-report-money"></i>حاسبة التكلفة</a>
+      <a class="navitem" href="#"><i class="ti ti-file-text"></i>المقالات والنتائج</a>
+      <a class="navitem" href="#"><i class="ti ti-user"></i>ملفي الشخصي</a>
+      <a class="navitem" href="#"><i class="ti ti-calendar"></i>حجوزاتي</a>
+      <a class="navitem" href="#"><i class="ti ti-heart"></i>المفضلة</a>
+    </nav>
+
+    <div class="card chatcard">
+      <div class="chathead">
+        <div class="avatar">د</div>
+        <div style="flex:1">
+          <div class="title">تحدث مع دكتورتك</div>
+          <div class="tiny">طبيبك الشخصي الذكي</div>
+        </div>
+      </div>
+      <div class="status" style="margin-bottom:10px"><span class="dot"></span>متصل الآن</div>
+      <div class="bubble" id="sideGreetingBubble">
+        مرحباً يا كريم! 👋 أنا دكتورتك في طبابا، طبيبتك الشخصية الذكية. كيف يمكنني مساعدتك اليوم؟
+        <div class="tiny">03:17 PM</div>
+      </div>
+      <button class="pill solid chat-cta" onclick="switchActionTab('talk', document.querySelector('.action-tab-btn:last-child'))"><i class="ti ti-microphone"></i>تحدث مع الدكتور</button>
+      <div class="chat-input">
+        <input type="text" placeholder="اكتب سؤالك هنا..." id="quickSideInput">
+        <button class="send-btn" aria-label="إرسال" onclick="sendQuickSide()"><i class="ti ti-send-2"></i></button>
+      </div>
+    </div>
+
+    <div class="util-row">
+      <i class="ti ti-moon" title="الوضع الليلي"></i>
+      <i class="ti ti-bell" title="الإشعارات"></i>
+      <i class="ti ti-settings" title="الإعدادات"></i>
+    </div>
+  </aside>
+
+  <!-- CENTER COLUMN -->
+  <main>
+    <div class="topbar">
+      <!-- 6. Family Profile Switcher on Top -->
+      <div class="topbar-right">
+        <div class="family-switcher">
+          <button class="family-btn" onclick="toggleFamilyDropdown()" id="currentProfileBtn">
+            <span class="fam-avatar" id="currentFamAvatar">👤</span>
+            <span id="currentFamName">كريم أحمد (أنا)</span>
+            <i class="ti ti-chevron-down" style="font-size:12px"></i>
+          </button>
+          <div class="family-dropdown" id="familyDropdown">
+            <div class="fam-title">تبديل الملف الصحي للأسرة:</div>
+            <div class="fam-item active" onclick="selectFamilyProfile('self', 'كريم أحمد (أنا)', '👤')">
+              <div class="fam-info">
+                <span class="fam-avatar">👤</span>
+                <div>
+                  <div class="fam-name">كريم أحمد (أنا)</div>
+                  <div class="fam-sub">الملف الرئيسي • 34 سنة</div>
+                </div>
+              </div>
+              <i class="ti ti-check" style="color:var(--accent)"></i>
+            </div>
+            <div class="fam-item" onclick="selectFamilyProfile('child', 'عمر كريم (طفل)', '👶')">
+              <div class="fam-info">
+                <span class="fam-avatar">👶</span>
+                <div>
+                  <div class="fam-name">عمر كريم (طفل)</div>
+                  <div class="fam-sub">4 سنوات • تطعيمات ونمو</div>
+                </div>
+              </div>
+            </div>
+            <div class="fam-item" onclick="selectFamilyProfile('parent', 'الحاج أحمد (الوالد)', '🧓')">
+              <div class="fam-info">
+                <span class="fam-avatar">🧓</span>
+                <div>
+                  <div class="fam-name">الحاج أحمد (الوالد)</div>
+                  <div class="fam-sub">68 سنة • سكر وضغط</div>
+                </div>
+              </div>
+            </div>
+            <button class="fam-add" onclick="alert('سيتم فتح نافذة تسجيل ملف فرد جديد بالعائلة.')"><i class="ti ti-plus"></i> إضافة فرد جديد للأسرة</button>
+          </div>
+        </div>
+
+        <span class="pill ghost sm"><i class="ti ti-world"></i>العربية</span>
+      </div>
+
+      <div class="topbar-left">
+        <a class="pill sm" href="tababa-doctor-dashboard.html"><i class="ti ti-user-plus"></i>انضم كطبيب</a>
+        <span class="pill solid sm"><i class="ti ti-door-exit"></i>تسجيل الخروج</span>
+      </div>
+    </div>
+
+    <!-- 1. UPCOMING APPOINTMENT BANNER (Prominent Top Banner) -->
+    <div class="appointment-banner" id="appointmentBanner">
+      <div class="banner-top-row">
+        <div class="banner-badge-group">
+          <span class="live-tag"><span class="pulse-dot"></span> موعد اليوم المرتقب</span>
+          <span class="confirmed-tag" id="bannerStatusTag"><i class="ti ti-video"></i> استشارة فيديو أونلاين</span>
+        </div>
+        <div class="countdown-container">
+          <span class="countdown-lbl">متبقي على الموعد:</span>
+          <div class="countdown-boxes">
+            <div class="cd-box"><span class="val" id="cdHours">04</span><span class="unit">ساعة</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-box"><span class="val" id="cdMinutes">28</span><span class="unit">دقيقة</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-box"><span class="val" id="cdSeconds">15</span><span class="unit">ثانية</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner-content">
+        <div class="banner-doc">
+          <div class="banner-avatar">و</div>
+          <div class="banner-meta">
+            <h3>د. وائل مجدي</h3>
+            <div class="sub">
+              <span><i class="ti ti-heart-rate-monitor" style="color:var(--accent)"></i> استشاري أمراض القلب والأوعية الدموية</span>
+              <span>•</span>
+              <span><i class="ti ti-calendar-event"></i> اليوم 06:00 م</span>
+              <span>•</span>
+              <span><i class="ti ti-device-laptop"></i> عيادة افتراضية</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="banner-actions">
+          <button class="btn-confirm" id="confirmAttendanceBtn" onclick="confirmAppointmentAttendance()">
+            <i class="ti ti-circle-check"></i>
+            <span>تأكيد الحضور الآن</span>
+          </button>
+          <button class="pill ghost sm" onclick="enterWaitingRoom()"><i class="ti ti-login"></i>غرفة الانتظار</button>
+          <button class="pill ghost sm" onclick="rescheduleAppointment()"><i class="ti ti-calendar-time"></i>تعديل</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions-row" style="justify-content:center; margin-top:20px; margin-bottom:20px;">
+      <button class="pill action-tab-btn" onclick="switchActionTab('upload', this)"><i class="ti ti-photo"></i>ارفق تقرير أو أشعة</button>
+      <button class="pill action-tab-btn" onclick="switchActionTab('voice', this)"><i class="ti ti-microphone"></i>مساعد صوتي</button>
+      <button class="pill solid action-tab-btn" onclick="switchActionTab('talk', this)"><i class="ti ti-message"></i>تحدث مع الدكتور</button>
+    </div>
+
+    <!-- TAB 1: Talk -->
+    <div id="tab-talk" class="action-tab-content">
+      <div class="hero-solo">
+        <h1>قولّي مشكلتك الصحية... <span class="accent-text">AI</span> هيوجهك لأنسب تخصص ودكتور</h1>
+        <p class="hero-sub">اكتب اللي حاسس بيه بكلامك العادي، وطبابا هترشحلك التخصص المناسب وأفضل الأطباء المتاحين دلوقتي.</p>
+
+        <div class="triage-card">
+          <!-- 2. Consultation Type Selector inside AI Box -->
+          <div class="consult-select-box">
+            <div class="consult-lbl"><i class="ti ti-stethoscope" style="color:var(--accent)"></i> كيف تفضل مقابلة الطبيب؟</div>
+            <div class="consult-options">
+              <button type="button" class="consult-opt active" data-type="video" onclick="selectConsultType('video', this)">
+                <i class="ti ti-video"></i><span>كشف فيديو أونلاين</span>
+              </button>
+              <button type="button" class="consult-opt" data-type="clinic" onclick="selectConsultType('clinic', this)">
+                <i class="ti ti-building-hospital"></i><span>عيادة الطبيب</span>
+              </button>
+              <button type="button" class="consult-opt" data-type="voice" onclick="selectConsultType('voice', this)">
+                <i class="ti ti-phone-call"></i><span>استشارة صوتية</span>
+              </button>
+              <button type="button" class="consult-opt" data-type="home" onclick="selectConsultType('home', this)">
+                <i class="ti ti-home"></i><span>زيارة منزلية</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="triage-input-row">
+            <textarea id="symptomInput" rows="2" placeholder="مثلاً: عندي ألم في الركبة من أسبوعين وبيزيد لما امشي..."></textarea>
+            <button class="pill solid triage-btn" id="triageBtn" onclick="runTriage()"><i class="ti ti-sparkles"></i>حدد التخصص المناسب</button>
+          </div>
+          <div id="triageError" class="field-error" hidden></div>
+
+          <!-- Dynamic personalized chips -->
+          <div class="chip-row" id="symptomChips">
+            <button class="chip" type="button" data-txt="عندي وجع مستمر في البطن من كذا يوم">وجع بطن</button>
+            <button class="chip" type="button" data-txt="عندي صداع نصفي بيتكرر كل أسبوع">صداع متكرر</button>
+            <button class="chip" type="button" data-txt="ضغطي مرتفع في آخر قياسات">ضغط مرتفع</button>
+            <button class="chip" type="button" data-txt="فيه بقعة جلدية حمراء وحكة مستمرة">مشكلة جلدية</button>
+            <button class="chip" type="button" data-txt="ألم حاد في أسفل الظهر عند الوقوف">ألم بالظهر</button>
+          </div>
+
+          <!-- 4. Result with Insurance and Price Filters -->
+          <div id="triageResult" class="triage-result" hidden></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Voice -->
+    <div id="tab-voice" class="action-tab-content" style="display:none;">
+      <div class="hero-solo">
+        <h1>اسأل عن حالتك بالصوت <span class="accent-text">والـ AI</span> هيوجهك</h1>
+        <p class="hero-sub">اضغط على الميكروفون وتحدث بحرية عن الأعراض التي تشعر بها.</p>
+
+        <div class="triage-card" style="text-align:center; padding: 40px 20px;">
+          <div style="position:relative; width:120px; height:120px; margin: 0 auto 30px auto; display:flex; align-items:center; justify-content:center;">
+             <div style="position:absolute; width:100%; height:100%; background:var(--accent-soft); border-radius:50%; animation: pulse-ring 2s infinite;"></div>
+             <button class="pill solid" style="width:80px; height:80px; border-radius:50%; z-index:2; padding:0; justify-content:center;"><i class="ti ti-microphone" style="font-size:32px; margin:0;"></i></button>
+          </div>
+          <div style="color:var(--text-secondary); font-size:18px;">جاري الاستماع... تحدث الآن</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Upload -->
+    <div id="tab-upload" class="action-tab-content" style="display:none;">
+      <div class="hero-solo">
+        <h1>ارفع تقريرك الطبي أو الأشعة <span class="accent-text">والـ AI</span> هيحللها</h1>
+        <p class="hero-sub">اسحب وأفلت الملفات هنا، وسنقوم بقراءة البيانات وتوجيهك للتخصص الصحيح.</p>
+
+        <div class="triage-card">
+          <div style="border:2px dashed var(--border-strong); border-radius:var(--radius); padding:50px 20px; text-align:center; background:var(--bg-card-2); cursor:pointer;">
+             <i class="ti ti-cloud-upload" style="font-size:48px; color:var(--accent); margin-bottom:15px;"></i>
+             <h3 style="margin-bottom:10px;">اضغط لاختيار ملف أو اسحبه هنا</h3>
+             <div class="tiny">يدعم PDF, JPG, PNG حتى 10 ميجابايت</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="popular-label">أو اختر تخصصك مباشرة</div>
+    <div class="cat-row">
+      <div class="cat-item selected" data-specialty="general" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-stethoscope"></i></div><span>باطنة عامة</span></div>
+      <div class="cat-item" data-specialty="dental" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-tooth"></i></div><span>أسنان</span></div>
+      <div class="cat-item" data-specialty="dermatology" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-droplet"></i></div><span>جلدية</span></div>
+      <div class="cat-item" data-specialty="orthopedic" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-bone"></i></div><span>عظام</span></div>
+      <div class="cat-item" data-specialty="obgyn" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-woman"></i></div><span>نساء وتوليد</span></div>
+      <div class="cat-item" data-specialty="pediatric" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-baby-carriage"></i></div><span>أطفال</span></div>
+      <div class="cat-item" data-specialty="ophthalmology" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-eye"></i></div><span>عيون</span></div>
+      <div class="cat-item" data-specialty="cardiology" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-heart"></i></div><span>قلب</span></div>
+      <div class="cat-item" data-specialty="neurology" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-brain"></i></div><span>مخ وأعصاب</span></div>
+    </div>
+
+    <!-- 3. RECOMMENDED DOCTORS ROW -->
+    <div class="recommended-section">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title"><i class="ti ti-star" style="color:var(--accent)"></i> أطباء موصى بهم اليوم</h2>
+          <p class="section-sub">أطباء استشاريون معتمدون بأعلى تقييمات، متاحون الآن للحجز الفوري دون انتظار</p>
+        </div>
+        <a href="tababa-doctors.html" class="pill ghost sm">عرض جميع الأطباء (1,200+) <i class="ti ti-arrow-left"></i></a>
+      </div>
+
+      <div class="recommended-grid">
+        <!-- Doc 1 -->
+        <div class="rec-card">
+          <div>
+            <div class="rec-head">
+              <div class="rec-avatar">أ</div>
+              <div class="rec-meta">
+                <div class="name">د. أحمد سامي <i class="ti ti-circle-check-filled verified-badge" title="طبيب معتمد"></i></div>
+                <div class="spec">استشاري باطنة وجهاز هضمي</div>
+              </div>
+            </div>
+            <div class="rec-info-row">
+              <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> 4.9 (320 تقييم)</span>
+              <span style="font-weight:700;color:var(--accent)">150 ج.م</span>
+            </div>
+            <div class="rec-info-row">
+              <span><i class="ti ti-clock"></i> متاح اليوم 5:00 م</span>
+              <span style="color:var(--accent-dim);font-size:11px">يقبل بوبا و AXA</span>
+            </div>
+            <div class="rec-modes">
+              <span class="mode-pill"><i class="ti ti-video"></i> فيديو</span>
+              <span class="mode-pill"><i class="ti ti-building-hospital"></i> عيادة</span>
+            </div>
+          </div>
+          <button class="pill solid rec-book-btn" onclick="quickBookDoc(this, 'د. أحمد سامي')">احجز الآن</button>
+        </div>
+
+        <!-- Doc 2 -->
+        <div class="rec-card">
+          <div>
+            <div class="rec-head">
+              <div class="rec-avatar" style="background:linear-gradient(135deg,#6ee7c9,#12b587);">ل</div>
+              <div class="rec-meta">
+                <div class="name">د. لمياء خالد <i class="ti ti-circle-check-filled verified-badge" title="طبيب معتمد"></i></div>
+                <div class="spec">استشارية أمراض القلب والقسطرة</div>
+              </div>
+            </div>
+            <div class="rec-info-row">
+              <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> 4.9 (410 تقييم)</span>
+              <span style="font-weight:700;color:var(--accent)">320 ج.م</span>
+            </div>
+            <div class="rec-info-row">
+              <span><i class="ti ti-clock"></i> متاح اليوم 6:30 م</span>
+              <span style="color:var(--accent-dim);font-size:11px">يقبل متلايف</span>
+            </div>
+            <div class="rec-modes">
+              <span class="mode-pill"><i class="ti ti-video"></i> فيديو</span>
+              <span class="mode-pill"><i class="ti ti-phone-call"></i> صوتي</span>
+            </div>
+          </div>
+          <button class="pill solid rec-book-btn" onclick="quickBookDoc(this, 'د. لمياء خالد')">احجز الآن</button>
+        </div>
+
+        <!-- Doc 3 -->
+        <div class="rec-card">
+          <div>
+            <div class="rec-head">
+              <div class="rec-avatar">ك</div>
+              <div class="rec-meta">
+                <div class="name">د. كريم عادل <i class="ti ti-circle-check-filled verified-badge" title="طبيب معتمد"></i></div>
+                <div class="spec">أخصائي جراحة وزراعة الأسنان</div>
+              </div>
+            </div>
+            <div class="rec-info-row">
+              <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> 4.8 (210 تقييم)</span>
+              <span style="font-weight:700;color:var(--accent)">200 ج.م</span>
+            </div>
+            <div class="rec-info-row">
+              <span><i class="ti ti-clock"></i> متاح اليوم 7:00 م</span>
+              <span style="color:var(--accent-dim);font-size:11px">تأمين وكاش</span>
+            </div>
+            <div class="rec-modes">
+              <span class="mode-pill"><i class="ti ti-building-hospital"></i> عيادة</span>
+            </div>
+          </div>
+          <button class="pill solid rec-book-btn" onclick="quickBookDoc(this, 'د. كريم عادل')">احجز الآن</button>
+        </div>
+
+        <!-- Doc 4 -->
+        <div class="rec-card">
+          <div>
+            <div class="rec-head">
+              <div class="rec-avatar" style="background:linear-gradient(135deg,#ff9472,#f2709c);">أ</div>
+              <div class="rec-meta">
+                <div class="name">د. أميرة سعد <i class="ti ti-circle-check-filled verified-badge" title="طبيب معتمد"></i></div>
+                <div class="spec">استشارية طب الأطفال وحديثي الولادة</div>
+              </div>
+            </div>
+            <div class="rec-info-row">
+              <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> 4.9 (530 تقييم)</span>
+              <span style="font-weight:700;color:var(--accent)">180 ج.م</span>
+            </div>
+            <div class="rec-info-row">
+              <span><i class="ti ti-clock"></i> متاح اليوم 8:00 م</span>
+              <span style="color:var(--accent-dim);font-size:11px">يقبل بوبا و AXA</span>
+            </div>
+            <div class="rec-modes">
+              <span class="mode-pill"><i class="ti ti-video"></i> فيديو</span>
+              <span class="mode-pill"><i class="ti ti-home"></i> منزلي</span>
+            </div>
+          </div>
+          <button class="pill solid rec-book-btn" onclick="quickBookDoc(this, 'د. أميرة سعد')">احجز الآن</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. HOW TEBABA WORKS SECTION -->
+    <div class="how-section">
+      <div class="section-head" style="margin-bottom:6px">
+        <div>
+          <h2 class="section-title"><i class="ti ti-sparkles" style="color:var(--accent)"></i> إزاي منصة طبابة بتشتغل؟</h2>
+          <p class="section-sub">4 خطوات بسيطة من أول ما تحس بالعرض لحد ما تطمئن وتتابع علاجك</p>
+        </div>
+      </div>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="how-step-num">1</div>
+          <div class="how-step-icon"><i class="ti ti-message-chatbot"></i></div>
+          <h4>صِف أعراضك أو ارفع تقاريرك</h4>
+          <p>اكتب بكلامك العادي أو بالصوت أو ارفع تحاليلك؛ الـ AI يحلل حالتك ويوجهك للتخصص الدقيق فوراً.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">2</div>
+          <div class="how-step-icon"><i class="ti ti-stethoscope"></i></div>
+          <h4>قارن واختر أفضل دكتور</h4>
+          <p>تصفح الأطباء المعتمدين، قارن الأسعار، التقييمات، وموافقة شبكة تأمينك الصحي قبل الحجز.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">3</div>
+          <div class="how-step-icon"><i class="ti ti-video"></i></div>
+          <h4>حدد طريقة الكشف المناسبة</h4>
+          <p>كشف فيديو فوري من بيتك، حجز عيادة بدون انتظار، أو طلب زيارة منزلية حسب راحتك.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">4</div>
+          <div class="how-step-icon"><i class="ti ti-pill"></i></div>
+          <h4>التزم بعلاجك ومتابعتك</h4>
+          <p>روشتة إلكترونية فورية، تذكير آلي بمواعيد الجرعات، واستشارات متابعة مستمرة لضمان الشفاء.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. MEDICAL ARTICLES PREVIEW SECTION -->
+    <div class="articles-section">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title"><i class="ti ti-book" style="color:var(--accent)"></i> مقالات طبية موثوقة</h2>
+          <p class="section-sub">معلومات صحية مبسطة ومراجعة طبياً من نخبة أطباء طبابة</p>
+        </div>
+        <a href="#" class="pill ghost sm">المكتبة الطبية الكاملة <i class="ti ti-arrow-left"></i></a>
+      </div>
+
+      <div class="articles-grid">
+        <!-- Article 1 -->
+        <div class="article-card">
+          <div class="article-tag-row">
+            <span class="article-tag">باطنة وصدر</span>
+            <span class="article-read-time"><i class="ti ti-clock"></i> 4 دقائق قراءة</span>
+          </div>
+          <h4>الفرق بين حساسية الصدر ونزلات البرد الموسمية: متى تقلق؟</h4>
+          <p>أعراض تتشابه كثيراً في تقلبات الجو، كيف تميز بينهما في المنزل والخطوات الأولية للتعامل مع ضيق التنفس.</p>
+          <div class="article-doc">
+            <div class="article-author">
+              <i class="ti ti-stethoscope"></i>
+              <span>بقلم: د. أحمد سامي</span>
+            </div>
+            <a href="#" class="article-link" onclick="event.preventDefault(); alert('فتح المقال الطبي الكامل...')">قراءة المزيد <i class="ti ti-arrow-left"></i></a>
+          </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="article-card">
+          <div class="article-tag-row">
+            <span class="article-tag">صحة الطفل</span>
+            <span class="article-read-time"><i class="ti ti-clock"></i> 6 دقائق قراءة</span>
+          </div>
+          <h4>دليلك الشامل لجدول تطعيمات وفحوصات طفلك في السنة الأولى</h4>
+          <p>كل ما تحتاج معرفته عن تطعيمات وزارة الصحة والتطعيمات الإضافية الهامة للوقاية من النزلات المعوية والرئوية.</p>
+          <div class="article-doc">
+            <div class="article-author">
+              <i class="ti ti-baby-carriage"></i>
+              <span>بقلم: د. أميرة سعد</span>
+            </div>
+            <a href="#" class="article-link" onclick="event.preventDefault(); alert('فتح المقال الطبي الكامل...')">قراءة المزيد <i class="ti ti-arrow-left"></i></a>
+          </div>
+        </div>
+
+        <!-- Article 3 -->
+        <div class="article-card">
+          <div class="article-tag-row">
+            <span class="article-tag">عظام ومفاصل</span>
+            <span class="article-read-time"><i class="ti ti-clock"></i> 5 دقائق قراءة</span>
+          </div>
+          <h4>آلام أسفل الظهر والرقبة لمرتادي المكاتب: 5 تمارين وقائية</h4>
+          <p>ساعات الجلوس الطويلة قد تدمر فقراتك. دليل عملي بسيط للوضعية الصحية الصحيحة مع تمارين استطالة فعالة.</p>
+          <div class="article-doc">
+            <div class="article-author">
+              <i class="ti ti-bone"></i>
+              <span>بقلم: د. محمد رضا</span>
+            </div>
+            <a href="#" class="article-link" onclick="event.preventDefault(); alert('فتح المقال الطبي الكامل...')">قراءة المزيد <i class="ti ti-arrow-left"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-row">
+      <div class="promo">
+        <div class="promo-orb"></div>
+        <h3>عندك تقرير طبي أو نتيجة تحاليل؟ — ارفعها وهنساعدك تفهم محتواها</h3>
+        <button class="pill solid" onclick="switchActionTab('upload', document.querySelector('.action-tab-btn:first-child'))"><i class="ti ti-file-upload"></i>ارفع تقريرك الطبي</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num">+150</div><div class="lbl">تخصص وخدمة طبية</div></div>
+        <div class="stat"><div class="num">+25,000</div><div class="lbl">حجز مكتمل بنجاح</div></div>
+        <div class="stat"><div class="num">4.8</div><div class="lbl">متوسط التقييم</div></div>
+        <div class="stat"><div class="num">+1,200</div><div class="lbl">طبيب وعيادة معتمدة</div></div>
+        <div class="stat"><div class="num">+50,000</div><div class="lbl">مستخدم يثقون بطبابا</div></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- LEFT COLUMN (last in DOM = left side under RTL) -->
+  <aside>
+    <div class="card">
+      <div class="ai-head">
+        <div class="brand-badge"><i class="ti ti-robot"></i></div>
+        <div class="title">AI Assistant</div>
+      </div>
+      <div class="ai-greet" id="aiGreetUser">مرحباً يا كريم 👋</div>
+      <div class="ai-sub">كيف أستطيع مساعدتك اليوم؟</div>
+      <div class="suggest" id="aiQuickSuggestions">
+        <button onclick="pickPrompt(this)">احجز موعد مع أقرب دكتور باطنة</button>
+        <button onclick="pickPrompt(this)">ذكرني بموعد المتابعة القادم</button>
+        <button onclick="pickPrompt(this)">قارن أسعار الكشف بين العيادات</button>
+        <button onclick="pickPrompt(this)">اعرض أفضل الأطباء حسب تقييم المرضى</button>
+      </div>
+      <div class="chat-input">
+        <input type="text" placeholder="اكتب سؤالك هنا..." id="aiSideInput">
+        <button class="send-btn" aria-label="إرسال" onclick="sendAiSide()"><i class="ti ti-send-2"></i></button>
+      </div>
+    </div>
+
+    <!-- 7. MINI MEDICATION REMINDER CARD -->
+    <div class="card med-card">
+      <div class="med-head">
+        <div class="med-title"><i class="ti ti-pill" style="color:var(--accent)"></i> جرعات اليوم</div>
+        <span class="pill sm ghost" id="medCounterBadge" style="font-size:11px;padding:3px 8px;">2 من 3</span>
+      </div>
+      <div class="tiny" style="color:var(--text-secondary)">تذكير ذكي لالتزامك بالعلاج</div>
+      
+      <div class="med-progress">
+        <div class="med-progress-bar" id="medProgressBar" style="width:66%"></div>
+      </div>
+
+      <div class="med-list">
+        <div class="med-item taken" id="dose-1" onclick="toggleMedDose(1)">
+          <div class="med-check"><i class="ti ti-check"></i></div>
+          <div class="med-info">
+            <div class="med-name">كونكور 5 مجم</div>
+            <div class="med-time"><i class="ti ti-clock"></i> 08:00 ص • بعد الإفطار</div>
+          </div>
+          <span class="med-done-badge" id="dose-status-1">تمت ✓</span>
+        </div>
+
+        <div class="med-item taken" id="dose-2" onclick="toggleMedDose(2)">
+          <div class="med-check"><i class="ti ti-check"></i></div>
+          <div class="med-info">
+            <div class="med-name">أوجمنتين 1 جم</div>
+            <div class="med-time"><i class="ti ti-clock"></i> 02:00 م • بعد الغداء</div>
+          </div>
+          <span class="med-done-badge" id="dose-status-2">تمت ✓</span>
+        </div>
+
+        <div class="med-item" id="dose-3" onclick="toggleMedDose(3)">
+          <div class="med-check"><i class="ti ti-check"></i></div>
+          <div class="med-info">
+            <div class="med-name">بانادول جوينت</div>
+            <div class="med-time"><i class="ti ti-clock"></i> 09:00 م • عند اللزوم</div>
+          </div>
+          <span class="med-done-badge" id="dose-status-3" style="color:var(--warn)">الموعد القادم</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card metric-card">
+      <div class="metric-title">متابعة خطة علاجك</div>
+      <div class="tiny" style="margin-bottom:10px">نظرة سريعة على تقدمك في خطة العلاج الحالية</div>
+      <div class="metric-grid">
+        <div class="metric-list">
+          <div class="metric-row"><span class="mdot"></span>الجلسات المكتملة: 6 من 8</div>
+          <div class="metric-row"><span class="mdot"></span>الالتزام بالمواعيد: ممتاز</div>
+          <div class="metric-row"><span class="mdot warn"></span>الموعد القادم: اليوم 6:00 م</div>
+          <div class="metric-row"><span class="mdot"></span>حالة الدفع: مكتملة</div>
+        </div>
+        <div class="ring">
+          <div class="ring-label"><span class="pct">78%</span><span class="lbl">مكتمل</span></div>
+        </div>
+      </div>
+      <div class="tip">
+        <span>موعدك القادم اليوم - تأكيد الحضور يضمن عدم إلغاء الموعد</span>
+        <i class="ti ti-clock" style="flex-shrink:0"></i>
+      </div>
+      <div class="tiny" style="margin-top:8px">تحديث تلقائي بعد كل استشارة</div>
+    </div>
+
+    <div class="card trust-card">
+      <div class="metric-title">لماذا تثق بطبابا؟</div>
+      <div class="trust-grid">
+        <div class="trust-item"><i class="ti ti-star"></i><span>تقييمات موثقة</span></div>
+        <div class="trust-item"><i class="ti ti-lock"></i><span>خصوصية تامة</span></div>
+        <div class="trust-item"><i class="ti ti-file-certificate"></i><span>بيانات آمنة</span></div>
+        <div class="trust-item"><i class="ti ti-shield-check"></i><span>أطباء معتمدون</span></div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- 5. FLOATING EMERGENCY BUTTON -->
+<div class="emergency-fab" onclick="openEmergencyModal()" title="طوارئ طبية سريعة 24/7">
+  <div class="pulse-ring"></div>
+  <i class="ti ti-ambulance"></i>
+  <span>طوارئ 24/7</span>
+</div>
+
+<!-- EMERGENCY ACTION MODAL -->
+<div class="modal-backdrop" id="emergencyModal" onclick="handleModalBackdropClick(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeEmergencyModal()"><i class="ti ti-x"></i></button>
+    <div class="emerg-head">
+      <div class="emerg-icon"><i class="ti ti-alert-triangle"></i></div>
+      <div>
+        <h3>وحدة الطوارئ الطبية الفورية</h3>
+        <p class="tiny">إجراء أمان لحالات الطوارئ الحرجة على مدار الساعة</p>
+      </div>
+    </div>
+
+    <div style="background:rgba(242,102,92,0.12);border:1px solid rgba(242,102,92,0.35);color:#ff968d;padding:10px 14px;border-radius:var(--radius-sm);font-size:12.5px;margin-bottom:14px;">
+      <i class="ti ti-info-circle"></i> إذا كان المريض يعاني من ألم حاد ومفاجئ بالصدر، صعوبة تنفس حادة، أو فقدان للوعي، يرجى الاتصال بالإسعاف فوراً دون انتظار.
+    </div>
+
+    <div class="emerg-options">
+      <!-- Call 123 -->
+      <a href="tel:123" class="emerg-opt-card" style="border-color:rgba(242,102,92,0.4)">
+        <div class="emerg-opt-info">
+          <i class="ti ti-phone-call"></i>
+          <div>
+            <div class="title" style="color:#ff867d">اتصال فوري بالإسعاف (123)</div>
+            <div class="desc">الخط الساخن الرسمي لهيئة الإسعاف المصرية</div>
+          </div>
+        </div>
+        <span class="pill danger sm"><i class="ti ti-phone"></i> اتصال الآن</span>
+      </a>
+
+      <!-- Tele-Triage Doctor On Call -->
+      <div class="emerg-opt-card" onclick="alert('جاري توصيلك بطبيب الطوارئ المناوب...')">
+        <div class="emerg-opt-info">
+          <i class="ti ti-stethoscope" style="color:var(--accent)"></i>
+          <div>
+            <div class="title">طبيب طوارئ مناوب 24/7 (أونلاين)</div>
+            <div class="desc">استشارة فيديو سريعة لتقييم خطورة الحالة فوراً</div>
+          </div>
+        </div>
+        <button class="pill solid sm"><i class="ti ti-video"></i> تحدث فوراً</button>
+      </div>
+
+      <!-- Nearest Emergency Hospitals -->
+      <div class="emerg-opt-card" onclick="alert('عرض خريطة أقرب المستشفيات: مستشفى السلام الدولي (2.1 كم) - مستشفى دار الفؤاد (4.5 كم)')">
+        <div class="emerg-opt-info">
+          <i class="ti ti-map-pin" style="color:#f2b84b"></i>
+          <div>
+            <div class="title">أقرب غرف طوارئ ومستشفيات معتمدة</div>
+            <div class="desc">3 مستشفيات طوارئ في نطاق 5 كم من موقعك</div>
+          </div>
+        </div>
+        <button class="pill ghost sm"><i class="ti ti-directions"></i> المستشفيات</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="pill ghost" onclick="closeEmergencyModal()" style="font-size:12px">إغلاق نافذة الطوارئ</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==================== FIXED MOBILE BOTTOM NAVIGATION ==================== -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+  <a href="tababa-homepage.html" class="mb-nav-btn active">
+    <i class="ti ti-home"></i>
+    <span>الرئيسية</span>
+  </a>
+  <a href="tababa-doctors.html" class="mb-nav-btn ">
+    <i class="ti ti-stethoscope"></i>
+    <span>الأطباء</span>
+  </a>
+  <a href="tababa-specialties.html" class="mb-nav-btn ">
+    <i class="ti ti-briefcase-medical"></i>
+    <span>التخصصات</span>
+  </a>
+  <a href="javascript:void(0)" onclick="if(typeof openEmergModal==='function')openEmergModal();else location.href='tel:123';" class="mb-nav-btn mb-nav-emerg">
+    <div class="mb-nav-fab" style="background:linear-gradient(135deg,#f2665c,#c93b32);"><i class="ti ti-alert-triangle"></i></div>
+    <span>طوارئ</span>
+  </a>
+  <a href="tababa-doctor-dashboard.html" class="mb-nav-btn ">
+    <i class="ti ti-heart-rate-monitor"></i>
+    <span>لوحة الطبيب</span>
+  </a>
+</nav>
+
+<script>
+
+// ============================= MOBILE NAVIGATION HELPERS =============================
+function toggleMobileNav(){
+  const nav = document.getElementById('mobileNavDrawer');
+  const backdrop = document.getElementById('drawerBackdrop');
+  if(!nav) return;
+  const isShow = nav.classList.toggle('show');
+  if(backdrop){
+    if(isShow) backdrop.classList.add('show');
+    else backdrop.classList.remove('show');
+  }
+}
+
+function closeAllDrawers(){
+  const bd = document.getElementById('drawerBackdrop'); if(bd) bd.classList.remove('show');
+  const md = document.getElementById('mobileNavDrawer'); if(md) md.classList.remove('show');
+  const em = document.getElementById('emergModal'); if(em) em.classList.remove('show');
+}
+
+  // ===================== DATA DEFINITIONS =====================
+  const SPECIALTIES = {
+    general:{label:'باطنة عامة', icon:'ti-stethoscope'},
+    dental:{label:'أسنان', icon:'ti-tooth'},
+    dermatology:{label:'جلدية', icon:'ti-droplet'},
+    orthopedic:{label:'عظام', icon:'ti-bone'},
+    obgyn:{label:'نساء وتوليد', icon:'ti-woman'},
+    pediatric:{label:'أطفال', icon:'ti-baby-carriage'},
+    ophthalmology:{label:'عيون', icon:'ti-eye'},
+    cardiology:{label:'قلب', icon:'ti-heart'},
+    neurology:{label:'مخ وأعصاب', icon:'ti-brain'}
+  };
+
+  const DOCTORS = {
+    general:[
+      {name:'د. أحمد سامي', rating:4.8, price:'150 جنيه', priceNum:150, slot:'اليوم 5:00 م', insurance:['bupa','axa'], modes:['clinic','video']},
+      {name:'د. منى الشريف', rating:4.7, price:'180 جنيه', priceNum:180, slot:'غدًا 11:00 ص', insurance:['metlife'], modes:['video','voice']},
+      {name:'د. محمود عزت', rating:4.9, price:'220 جنيه', priceNum:220, slot:'اليوم 8:30 م', insurance:['bupa','metlife'], modes:['clinic','home']}
+    ],
+    dental:[
+      {name:'د. كريم عادل', rating:4.9, price:'200 جنيه', priceNum:200, slot:'اليوم 7:00 م', insurance:['bupa','axa'], modes:['clinic']},
+      {name:'د. سارة فؤاد', rating:4.6, price:'170 جنيه', priceNum:170, slot:'غدًا 1:00 م', insurance:['cash'], modes:['clinic']}
+    ],
+    dermatology:[
+      {name:'د. ياسمين حسن', rating:4.8, price:'250 جنيه', priceNum:250, slot:'اليوم 6:30 م', insurance:['axa','metlife'], modes:['video','clinic']},
+      {name:'د. عمرو الديب', rating:4.7, price:'220 جنيه', priceNum:220, slot:'غدًا 10:00 ص', insurance:['bupa'], modes:['clinic']}
+    ],
+    orthopedic:[
+      {name:'د. محمد رضا', rating:4.9, price:'300 جنيه', priceNum:300, slot:'اليوم 4:00 م', insurance:['bupa','axa','metlife'], modes:['clinic','home']},
+      {name:'د. هبة الليثي', rating:4.6, price:'260 جنيه', priceNum:260, slot:'غدًا 12:00 م', insurance:['metlife'], modes:['video']}
+    ],
+    obgyn:[
+      {name:'د. نور الهدى', rating:4.9, price:'250 جنيه', priceNum:250, slot:'اليوم 3:00 م', insurance:['bupa'], modes:['clinic','video']},
+      {name:'د. إيمان طلعت', rating:4.7, price:'230 جنيه', priceNum:230, slot:'غدًا 2:00 م', insurance:['axa'], modes:['clinic']}
+    ],
+    pediatric:[
+      {name:'د. أميرة سعد', rating:4.9, price:'180 جنيه', priceNum:180, slot:'اليوم 8:00 م', insurance:['bupa','axa'], modes:['video','home']},
+      {name:'د. طارق نبيل', rating:4.8, price:'170 جنيه', priceNum:170, slot:'غدًا 9:00 ص', insurance:['cash','metlife'], modes:['clinic']}
+    ],
+    ophthalmology:[
+      {name:'د. سامح فوزي', rating:4.7, price:'220 جنيه', priceNum:220, slot:'اليوم 5:30 م', insurance:['bupa'], modes:['clinic']},
+      {name:'د. ريهام عصام', rating:4.6, price:'200 جنيه', priceNum:200, slot:'غدًا 11:30 ص', insurance:['axa'], modes:['video']}
+    ],
+    cardiology:[
+      {name:'د. وائل مجدي', rating:4.9, price:'350 جنيه', priceNum:350, slot:'اليوم 6:00 م', insurance:['bupa','axa','metlife'], modes:['video','clinic']},
+      {name:'د. لمياء خالد', rating:4.8, price:'320 جنيه', priceNum:320, slot:'غدًا 10:30 ص', insurance:['metlife'], modes:['video','voice']}
+    ],
+    neurology:[
+      {name:'د. حسام الدين', rating:4.8, price:'300 جنيه', priceNum:300, slot:'غدًا 1:30 م', insurance:['axa'], modes:['clinic']},
+      {name:'د. مريم عبد الله', rating:4.7, price:'280 جنيه', priceNum:280, slot:'غدًا 4:00 م', insurance:['bupa'], modes:['video']}
+    ]
+  };
+
+  // State variables
+  let currentSpecialtyKey = 'general';
+  let currentReasonText = '';
+  let currentUrgencyLevel = '';
+  let activeInsuranceFilter = 'all';
+  let activePriceFilter = 'all';
+  let selectedConsultType = 'video';
+  let activeFamilyProfile = 'self';
+
+  // ===================== 1. COUNTDOWN TIMER & APPOINTMENT =====================
+  let countdownSecondsTotal = 4 * 3600 + 28 * 60 + 15;
+  function updateCountdownDisplay() {
+    if (countdownSecondsTotal <= 0) {
+      document.getElementById('cdHours').textContent = '00';
+      document.getElementById('cdMinutes').textContent = '00';
+      document.getElementById('cdSeconds').textContent = '00';
+      return;
+    }
+    const h = Math.floor(countdownSecondsTotal / 3600);
+    const m = Math.floor((countdownSecondsTotal % 3600) / 60);
+    const s = countdownSecondsTotal % 60;
+    document.getElementById('cdHours').textContent = String(h).padStart(2, '0');
+    document.getElementById('cdMinutes').textContent = String(m).padStart(2, '0');
+    document.getElementById('cdSeconds').textContent = String(s).padStart(2, '0');
+    countdownSecondsTotal--;
+  }
+  setInterval(updateCountdownDisplay, 1000);
+
+  function confirmAppointmentAttendance() {
+    const btn = document.getElementById('confirmAttendanceBtn');
+    btn.innerHTML = '<i class="ti ti-check"></i> تم تأكيد حضورك بنجاح ✓';
+    btn.classList.add('confirmed');
+    btn.onclick = null;
+    
+    const tag = document.getElementById('bannerStatusTag');
+    tag.innerHTML = '<i class="ti ti-circle-check"></i> مؤكد الحضور ومحجوز';
+    tag.style.background = 'rgba(31,230,168,0.2)';
+    tag.style.color = 'var(--accent)';
+    tag.style.borderColor = 'var(--accent)';
+
+    alert('شكراً لالتزامك يا كريم! تم تأكيد حضورك لدى د. وائل مجدي وحفظ دورك. سنرسل لك رابط غرفة الكشف الافتراضية قبل الموعد بـ 15 دقيقة.');
+  }
+
+  function enterWaitingRoom() {
+    alert('غرفة الانتظار الافتراضية ستكون متاحة للمعاينة قبل الموعد بـ 15 دقيقة.');
+  }
+
+  function rescheduleAppointment() {
+    const confirmChoice = confirm('هل ترغب في تغيير موعد استشارتك مع د. وائل مجدي؟');
+    if (confirmChoice) {
+      alert('تم فتح نافذة المواعيد البديلة، يرجى اختيار التوقيت الجديد المناسب لك.');
+    }
+  }
+
+  // ===================== 2. CONSULTATION TYPE SELECTOR =====================
+  function selectConsultType(type, btn) {
+    document.querySelectorAll('.consult-opt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedConsultType = type;
+    // If results already shown, re-render
+    if (!document.getElementById('triageResult').hidden) {
+      renderResult(currentSpecialtyKey, currentReasonText, currentUrgencyLevel);
+    }
+  }
+
+  // ===================== 4. RENDER RESULT WITH FILTERS =====================
+  function renderResult(key, reason, urgency){
+    currentSpecialtyKey = key;
+    if(reason !== undefined) currentReasonText = reason;
+    if(urgency !== undefined) currentUrgencyLevel = urgency;
+
+    const spec = SPECIALTIES[key] || SPECIALTIES.general;
+    let docs = DOCTORS[key] || DOCTORS.general;
+    const box = document.getElementById('triageResult');
+    
+    let warn = '';
+    if(currentUrgencyLevel === 'urgent'){
+      warn = '<div class="warning-banner"><i class="ti ti-alert-triangle"></i>&nbsp; حالتك قد تحتاج تقييم عاجل - يُنصح بالتوجه لأقرب طوارئ أو استخدام زر الطوارئ الفوري بالأسفل.</div>';
+    }
+    const reasonHtml = currentReasonText ? '<div class="specialty-reason">'+currentReasonText+'</div>' : '<div class="specialty-reason">أقرب تخصص مناسب لاحتياجك.</div>';
+
+    // Apply Insurance & Price Filter
+    let filteredDocs = docs.filter(d => {
+      // Insurance filter
+      if (activeInsuranceFilter !== 'all') {
+        if (!d.insurance.includes(activeInsuranceFilter)) return false;
+      }
+      // Price filter
+      if (activePriceFilter === 'under200' && d.priceNum >= 200) return false;
+      if (activePriceFilter === '200-300' && (d.priceNum < 200 || d.priceNum > 300)) return false;
+      if (activePriceFilter === 'above300' && d.priceNum <= 300) return false;
+      return true;
+    });
+
+    const modeLabels = {video:'📹 كشف فيديو', clinic:'🏥 عيادة', voice:'📞 صوتي', home:'🏠 منزلي'};
+    const insNames = {bupa:'بوبا', axa:'أكسا', metlife:'متلايف', cash:'كاش'};
+
+    const doctorsHtml = filteredDocs.length > 0 ? filteredDocs.map(d=> {
+      const insTags = d.insurance.map(i => `<span class="ins-badge">${insNames[i] || i}</span>`).join('');
+      const modeTags = d.modes.map(m => `<span class="mode-pill">${modeLabels[m] || m}</span>`).join(' ');
+      const matchesChosenType = d.modes.includes(selectedConsultType);
+
+      return `
+        <div class="doctor-card">
+          <div class="dname">
+            <span>${d.name}</span>
+            ${matchesChosenType ? '<span style="color:var(--accent);font-size:11px;font-weight:normal;"><i class="ti ti-check"></i> يطابق اختيارك</span>' : ''}
+          </div>
+          <div class="drow">
+            <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> ${d.rating}</span>
+            <span style="font-weight:700;color:var(--accent)">${d.price}</span>
+          </div>
+          <div class="drow"><span>أقرب موعد</span><span>${d.slot}</span></div>
+          <div class="insurance-tags">${insTags}</div>
+          <div style="margin-bottom:8px">${modeTags}</div>
+          <button class="pill" onclick="this.textContent='تم اختيار هذا الموعد ✓'; this.classList.add('booked'); this.disabled=true;">احجز الآن (${modeLabels[selectedConsultType] || 'الموعد'})</button>
+        </div>
+      `;
+    }).join('') : '<div style="text-align:center;padding:24px;color:var(--text-secondary);grid-column:1/-1;">لا يوجد أطباء مطابقين لهذه الفلاتر حالياً. جرب اختيار "الكل".</div>';
+
+    // Filters UI Toolbar
+    const filtersBarHtml = `
+      <div class="result-filters">
+        <div class="filter-group">
+          <span class="filter-group-title"><i class="ti ti-shield-check"></i> شبكة التأمين:</span>
+          <button class="filter-pill ${activeInsuranceFilter==='all'?'active':''}" onclick="setInsuranceFilter('all')">الكل</button>
+          <button class="filter-pill ${activeInsuranceFilter==='bupa'?'active':''}" onclick="setInsuranceFilter('bupa')">بوبا Bupa</button>
+          <button class="filter-pill ${activeInsuranceFilter==='axa'?'active':''}" onclick="setInsuranceFilter('axa')">أكسا AXA</button>
+          <button class="filter-pill ${activeInsuranceFilter==='metlife'?'active':''}" onclick="setInsuranceFilter('metlife')">متلايف</button>
+          <button class="filter-pill ${activeInsuranceFilter==='cash'?'active':''}" onclick="setInsuranceFilter('cash')">كاش فقط</button>
+        </div>
+        <div class="filter-group">
+          <span class="filter-group-title"><i class="ti ti-coin"></i> السعر:</span>
+          <button class="filter-pill ${activePriceFilter==='all'?'active':''}" onclick="setPriceFilter('all')">الكل</button>
+          <button class="filter-pill ${activePriceFilter==='under200'?'active':''}" onclick="setPriceFilter('under200')">أقل من 200 ج.م</button>
+          <button class="filter-pill ${activePriceFilter==='200-300'?'active':''}" onclick="setPriceFilter('200-300')">200 - 300 ج.م</button>
+          <button class="filter-pill ${activePriceFilter==='above300'?'active':''}" onclick="setPriceFilter('above300')">+300 ج.م</button>
+        </div>
+      </div>
+    `;
+
+    box.innerHTML =
+      '<div class="specialty-badge"><div class="icon"><i class="ti '+spec.icon+'"></i></div>'+
+      '<div class="label">التخصص المناسب: '+spec.label+'</div></div>'+
+      reasonHtml + warn +
+      filtersBarHtml +
+      '<div class="doctor-grid">'+doctorsHtml+'</div>'+
+      '<div class="tiny">الخطوة الجاية: اختيار الموعد وتأكيده تلقائيًا بالواتساب. '+
+      '<span style="color:var(--text-muted)">اقتراح مبدئي من AI ولا يغني عن تقييم الطبيب.</span></div>';
+    box.hidden = false;
+  }
+
+  function setInsuranceFilter(val) {
+    activeInsuranceFilter = val;
+    renderResult(currentSpecialtyKey);
+  }
+
+  function setPriceFilter(val) {
+    activePriceFilter = val;
+    renderResult(currentSpecialtyKey);
+  }
+
+  function selectSpecialty(el){
+    document.querySelectorAll('.cat-item').forEach(i=>i.classList.remove('selected'));
+    el.classList.add('selected');
+    renderResult(el.dataset.specialty, null, null);
+    document.getElementById('triageResult').scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  // Chip click handler
+  function setupChips() {
+    document.querySelectorAll('#symptomChips .chip').forEach(chip=>{
+      chip.addEventListener('click', ()=>{
+        document.getElementById('symptomInput').value = chip.dataset.txt;
+        document.getElementById('triageError').hidden = true;
+      });
+    });
+  }
+  setupChips();
+
+  async function runTriage(){
+    const input = document.getElementById('symptomInput');
+    const errBox = document.getElementById('triageError');
+    const btn = document.getElementById('triageBtn');
+    const resultBox = document.getElementById('triageResult');
+    const text = input.value.trim();
+    if(!text){
+      errBox.textContent = 'اكتب وصف بسيط لحالتك الأول';
+      errBox.hidden = false;
+      return;
+    }
+    errBox.hidden = true;
+    btn.disabled = true;
+    const originalBtnHtml = btn.innerHTML;
+    btn.innerHTML = 'بنحلل حالتك ونطابق نوع الكشف <span class="loading-dots"><span></span><span></span><span></span></span>';
+    resultBox.hidden = true;
+
+    const systemPrompt = 'أنت مساعد أولي لتحديد التخصص الطبي المناسب فقط، ولست بديلاً عن تشخيص طبيب. ' +
+      'بناءً على وصف المريض ونوع الكشف المفضل (' + selectedConsultType + ')، أرجع كائن JSON فقط بدون أي نص إضافي وبدون Markdown، بالشكل التالي بالضبط: ' +
+      '{"specialty":"<one of: general|dental|dermatology|orthopedic|obgyn|pediatric|ophthalmology|cardiology|neurology>",' +
+      '"reason":"<جملة واحدة قصيرة بالعربية تشرح سبب هذا الاختيار مع مراعاة طريقة الكشف>","urgency":"<routine|soon|urgent>"}';
+
+    try{
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 300,
+          system: systemPrompt,
+          messages: [{role: 'user', content: text}]
+        })
+      });
+      const data = await response.json();
+      const textBlock = (data.content || []).find(b => b.type === 'text');
+      const clean = textBlock.text.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(clean);
+      const key = SPECIALTIES[parsed.specialty] ? parsed.specialty : 'general';
+      renderResult(key, parsed.reason, parsed.urgency);
+    }catch(e){
+      // Intelligent fallback logic for offline / API limit
+      let fallbackKey = 'general';
+      let urgency = 'routine';
+      const low = text.toLowerCase();
+      if(low.includes('طفل') || low.includes('بنت') || low.includes('ابن') || low.includes('سخونية')) fallbackKey = 'pediatric';
+      else if(low.includes('قلب') || low.includes('صدر') || low.includes('نبض')) { fallbackKey = 'cardiology'; urgency = 'urgent'; }
+      else if(low.includes('عظم') || low.includes('ركبة') || low.includes('ظهر') || low.includes('مفصل')) fallbackKey = 'orthopedic';
+      else if(low.includes('جلد') || low.includes('حكة') || low.includes('حبوب')) fallbackKey = 'dermatology';
+      else if(low.includes('سنان') || low.includes('ضرس')) fallbackKey = 'dental';
+      else if(low.includes('عين') || low.includes('نظر')) fallbackKey = 'ophthalmology';
+
+      renderResult(fallbackKey, 'تم تحديد التخصص الأنسب بناءً على الكلمات المفتاحية لأعراضك وطريقة الكشف المفضلة.', urgency);
+    }finally{
+      btn.disabled = false;
+      btn.innerHTML = originalBtnHtml;
+    }
+  }
+
+  function switchActionTab(tabId, btn) {
+    document.querySelectorAll('.action-tab-btn').forEach(b => b.classList.remove('solid'));
+    if(btn) btn.classList.add('solid');
+
+    document.querySelectorAll('.action-tab-content').forEach(c => c.style.display = 'none');
+    const target = document.getElementById('tab-' + tabId);
+    if(target) target.style.display = 'block';
+  }
+
+  // ===================== 5. EMERGENCY MODAL =====================
+  function openEmergencyModal() {
+    document.getElementById('emergencyModal').classList.add('show');
+  }
+  function closeEmergencyModal() {
+    document.getElementById('emergencyModal').classList.remove('show');
+  }
+  function handleModalBackdropClick(e) {
+    if(e.target === document.getElementById('emergencyModal')) {
+      closeEmergencyModal();
+    }
+  }
+
+  // ===================== 6. FAMILY PROFILE SWITCHER =====================
+  function toggleFamilyDropdown() {
+    const dd = document.getElementById('familyDropdown');
+    dd.classList.toggle('show');
+  }
+  document.addEventListener('click', (e) => {
+    const switcher = document.querySelector('.family-switcher');
+    if (switcher && !switcher.contains(e.target)) {
+      document.getElementById('familyDropdown').classList.remove('show');
+    }
+  });
+
+  const PROFILES_DATA = {
+    self: {
+      name: 'كريم أحمد (أنا)',
+      avatar: '👤',
+      chips: [
+        {txt:'عندي وجع مستمر في البطن من كذا يوم', label:'وجع بطن'},
+        {txt:'عندي صداع نصفي بيتكرر كل أسبوع', label:'صداع متكرر'},
+        {txt:'ضغطي مرتفع في آخر قياسات', label:'ضغط مرتفع'},
+        {txt:'فيه بقعة جلدية حمراء وحكة مستمرة', label:'مشكلة جلدية'},
+        {txt:'ألم حاد في أسفل الظهر عند الوقوف', label:'ألم بالظهر'}
+      ],
+      aiGreet: 'مرحباً يا كريم 👋',
+      sideMsg: 'مرحباً يا كريم! 👋 كيف تشعر اليوم؟ هل تناولت جرعة أوجمنتين المقررة؟'
+    },
+    child: {
+      name: 'عمر كريم (طفل)',
+      avatar: '👶',
+      chips: [
+        {txt:'بنتي/ابني عنده سخونية وكحة من يومين', label:'حرارة وكحة'},
+        {txt:'مغص مستمر وبكاء بعد الرضاعة', label:'مغص ورجفان'},
+        {txt:'طفحي جلدي وحبوب حمراء في الوجه', label:'طفح جلدي'},
+        {txt:'فقدان شهية وخمول غير معتاد', label:'نقص شهية'},
+        {txt:'استفسار عن موعد تطعيم الـ 4 سنوات', label:'تطعيمات'}
+      ],
+      aiGreet: 'أهلاً بك! تتابع الآن ملف طفلك عمر 👶',
+      sideMsg: 'مرحباً بك! 👋 أنا هنا لمساعدتك في متابعة صحة طفلك عمر وتطعيماته.'
+    },
+    parent: {
+      name: 'الحاج أحمد (الوالد)',
+      avatar: '🧓',
+      chips: [
+        {txt:'قياس السكر الصائم مرتفع عن المعتاد', label:'متابعة السكر'},
+        {txt:'آلام شديدة في الركبة والخشونة تزيد مع الحركة', label:'خشونة الركبة'},
+        {txt:'دوخة وصداع مع ارتفاع الضغط', label:'متابعة الضغط'},
+        {txt:'استشارة لتعديل جرعات أدوية القلب المزمنة', label:'أدوية مزمنة'}
+      ],
+      aiGreet: 'أهلاً بك! تتابع الآن ملف الوالد أحمد 🧓',
+      sideMsg: 'أهلاً بك! 👋 نسأل الله الشفاء للحاج أحمد، يمكنك متابعة ضغطه وسكره معنا.'
+    }
+  };
+
+  function selectFamilyProfile(key, name, avatar) {
+    activeFamilyProfile = key;
+    document.getElementById('currentFamName').textContent = name;
+    document.getElementById('currentFamAvatar').textContent = avatar;
+    document.getElementById('familyDropdown').classList.remove('show');
+
+    // Update active highlight in dropdown
+    document.querySelectorAll('.fam-item').forEach(item => item.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    // Update Chips
+    const pData = PROFILES_DATA[key];
+    const chipsContainer = document.getElementById('symptomChips');
+    chipsContainer.innerHTML = pData.chips.map(c => 
+      `<button class="chip" type="button" data-txt="${c.txt}">${c.label}</button>`
+    ).join('');
+    setupChips();
+
+    // Update Greetings
+    document.getElementById('aiGreetUser').textContent = pData.aiGreet;
+    document.getElementById('sideGreetingBubble').innerHTML = pData.sideMsg + '<div class="tiny">الآن</div>';
+
+    // Clear input
+    document.getElementById('symptomInput').value = '';
+    document.getElementById('triageResult').hidden = true;
+  }
+
+  // ===================== 7. MINI MEDICATION REMINDER =====================
+  const doseStates = {1:true, 2:true, 3:false};
+  function toggleMedDose(id) {
+    doseStates[id] = !doseStates[id];
+    const item = document.getElementById('dose-' + id);
+    const statusTag = document.getElementById('dose-status-' + id);
+
+    if(doseStates[id]) {
+      item.classList.add('taken');
+      statusTag.textContent = 'تمت ✓';
+      statusTag.style.color = 'var(--accent)';
+    } else {
+      item.classList.remove('taken');
+      statusTag.textContent = 'لم تؤخذ';
+      statusTag.style.color = 'var(--warn)';
+    }
+
+    // Update Progress
+    const total = 3;
+    const completed = Object.values(doseStates).filter(Boolean).length;
+    const pct = Math.round((completed / total) * 100);
+    document.getElementById('medProgressBar').style.width = pct + '%';
+    document.getElementById('medCounterBadge').textContent = `${completed} من ${total}`;
+
+    if(completed === total) {
+      setTimeout(() => {
+        alert('🎉 أحسنت يا بطل! تم إكمال جميع جرعات اليوم بنجاح ورفع نسبة التزامك الصحي.');
+      }, 200);
+    }
+  }
+
+  // ===================== QUICK ACTIONS & PROMPTS =====================
+  function pickPrompt(btn) {
+    document.getElementById('symptomInput').value = btn.textContent;
+    switchActionTab('talk', document.querySelector('.action-tab-btn:last-child'));
+    runTriage();
+  }
+
+  function sendAiSide() {
+    const input = document.getElementById('aiSideInput');
+    if(!input.value.trim()) return;
+    document.getElementById('symptomInput').value = input.value;
+    input.value = '';
+    switchActionTab('talk', document.querySelector('.action-tab-btn:last-child'));
+    runTriage();
+  }
+
+  function sendQuickSide() {
+    const input = document.getElementById('quickSideInput');
+    if(!input.value.trim()) return;
+    document.getElementById('symptomInput').value = input.value;
+    input.value = '';
+    switchActionTab('talk', document.querySelector('.action-tab-btn:last-child'));
+    runTriage();
+  }
+
+  function quickBookDoc(btn, docName) {
+    btn.textContent = 'تم الحجز المبدئي ✓';
+    btn.style.background = '#0e4433';
+    btn.style.color = '#1fe6a8';
+    btn.disabled = true;
+    alert(`تم اختيار موعد مبدئي مع ${docName}، سيتم نقلك لتأكيد وسيلة الدفع أو تفاصيل التأمين.`);
+  }
+
+  // Nav click handlers
+  document.querySelectorAll('.mainnav .navitem').forEach(item=>{
+    item.addEventListener('click',(e)=>{
+      if(item.getAttribute('href') === '#'){
+        e.preventDefault();
+        document.querySelectorAll('.mainnav .navitem').forEach(i=>i.classList.remove('active'));
+        item.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
