@@ -10,78 +10,431 @@
 <link rel="stylesheet" href="doctor-shared.css">
 <link rel="stylesheet" href="responsive.css">
 <style>
-/* Doctor Profile Page Styles */
-.profile-grid {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 16px;
-}
-.profile-card-main {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+/* ==================== DOCTOR PROFILE WORKSPACE STYLES ==================== */
+.profile-cover-banner {
+  background: linear-gradient(135deg, #0b1a2e 0%, #0d2824 50%, #081622 100%);
+  border: 1px solid rgba(31, 230, 168, 0.25);
+  border-radius: 16px;
   padding: 24px;
-  text-align: center;
+  margin-bottom: 20px;
   position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
-.profile-avatar-large {
-  width: 90px;
-  height: 90px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, #1fe6a8, #0c7a58);
+.profile-cover-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(31, 230, 168, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.profile-hero-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.profile-avatar-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+}
+.profile-avatar-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #1fe6a8, #0d9488);
   color: #03261b;
-  font-size: 34px;
+  font-size: 36px;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 14px;
-  box-shadow: 0 4px 20px var(--accent-glow);
+  box-shadow: 0 6px 24px rgba(31, 230, 168, 0.35);
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  overflow: hidden;
 }
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-upload-btn {
+  position: absolute;
+  bottom: -4px;
+  left: -4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0284c7;
+  color: #ffffff;
+  border: 2px solid #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+.avatar-upload-btn:hover {
+  background: #0ea5e9;
+  transform: scale(1.1);
+}
+
+.profile-hero-text h1 {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.verified-shield-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(31, 230, 168, 0.15);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.4);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Completion Meter */
+.profile-completion-box {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 250px;
+}
+.completion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.completion-lbl {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.completion-pct {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--accent);
+}
+.completion-bar-bg {
+  width: 100%;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.completion-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5e9, #1fe6a8);
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.completion-checklist {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.check-pill {
+  font-size: 10px;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.check-pill.done {
+  color: #1fe6a8;
+}
+
+/* Main Profile Grid */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Left Sidebar Cards */
+.profile-card-side {
+  background: linear-gradient(180deg, #101c34 0%, #0d172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.side-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.side-stat-box {
+  background: #090e1a;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+.side-stat-lbl {
+  font-size: 10.5px;
+  color: #94a3b8;
+}
+.side-stat-val {
+  font-size: 16px;
+  font-weight: 900;
+  margin-top: 2px;
+}
+
+/* Tabs Navigation */
+.profile-nav-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 18px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding-bottom: 2px;
+}
+.profile-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 16px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border-radius: 8px 8px 0 0;
+}
+.profile-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
+}
+.profile-tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: rgba(31, 230, 168, 0.06);
+}
+
+/* Tab Panes */
+.profile-tab-pane {
+  display: none;
+  animation: fadeIn 0.2s ease;
+}
+.profile-tab-pane.active {
+  display: block;
+}
+
+/* Section Cards */
 .profile-section-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: #0d172a;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
   padding: 20px;
   margin-bottom: 16px;
+}
+.profile-section-head {
+  font-weight: 800;
+  font-size: 14.5px;
+  color: #ffffff;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 10px;
 }
 .profile-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 14px;
 }
 .profile-form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  text-align: right;
 }
 .profile-form-group label {
   font-size: 12px;
   font-weight: 700;
-  color: var(--text-secondary);
+  color: #94a3b8;
 }
-.profile-input {
+.profile-input, .profile-textarea, .profile-select {
   width: 100%;
-  padding: 9px 12px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xs);
-  color: var(--text-primary);
+  padding: 10px 14px;
+  background: #090e1a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #f8fafc;
   font-size: 13px;
   outline: none;
-  transition: var(--transition);
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
-.profile-input:focus {
+.profile-input:focus, .profile-textarea:focus, .profile-select:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-soft);
+  box-shadow: 0 0 0 2px rgba(31, 230, 168, 0.25);
+  background: #0d172a;
 }
-@media(max-width: 900px) {
+.profile-textarea {
+  min-height: 90px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Clinical Interests & Procedures Tags Cloud */
+.clinical-tags-cloud {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.clinical-tag-pill {
+  background: rgba(31, 230, 168, 0.08);
+  border: 1px solid rgba(31, 230, 168, 0.25);
+  color: #e2e8f0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+.clinical-tag-pill:hover {
+  background: rgba(31, 230, 168, 0.15);
+  border-color: rgba(31, 230, 168, 0.5);
+}
+.tag-del-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+.tag-del-btn:hover {
+  color: var(--danger);
+}
+.tag-add-box {
+  display: flex;
+  gap: 8px;
+}
+
+/* Qualifications List */
+.qual-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.qual-card {
+  background: #090e1a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+.qual-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateX(-2px);
+}
+.qual-title {
+  font-weight: 800;
+  font-size: 13.5px;
+  color: #ffffff;
+}
+.qual-inst {
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* Modals */
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 990;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal-backdrop-custom.show {
+  display: flex;
+}
+.modal-card-custom {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  width: 620px;
+  max-width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  animation: modalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@media(max-width: 1024px) {
   .profile-grid {
     grid-template-columns: 1fr;
   }
+}
+@media(max-width: 768px) {
   .profile-form-grid {
     grid-template-columns: 1fr;
+  }
+  .profile-cover-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .profile-completion-box {
+    width: 100%;
   }
 }
 </style>
@@ -286,146 +639,389 @@
     </div>
   </div>
 
-  <!-- Breadcrumbs & Title -->
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+  <!-- Breadcrumbs & Top Action Bar -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px">
     <div>
-      <h1 style="font-size:20px;font-weight:900;color:var(--text-primary);display:flex;align-items:center;gap:8px">
-        <i class="ti ti-user-cog" style="color:var(--accent)"></i>
+      <h1 style="font-size:22px;font-weight:900;color:var(--text-primary);display:flex;align-items:center;gap:10px;margin:0">
+        <i class="ti ti-user-cog" style="color:var(--accent);font-size:26px"></i>
         الملف المهني وإعدادات الحساب الطبي
       </h1>
-      <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
-        إدارة البيانات الشخصية والاعتمادات السريرية، أسعار الكشوفات، وحالة التوافر للاستشارات عن بعد
+      <div class="tiny" style="color:var(--text-secondary);margin-top:4px">
+        إدارة الهوية الرقمية، الاعتمادات والتراخيص السريرية، سياسة الكشوفات، والتوافر عن بعد
       </div>
     </div>
-    <div style="display:flex;gap:8px">
-      <a href="tababa-doctor-profile.html" target="_blank" class="pill sm ghost"><i class="ti ti-external-link"></i> معاينة الملف العام للمرضى</a>
-      <button class="pill sm solid" onclick="showToast('تم حفظ التعديلات في ملفك المهني بنجاح ✓')"><i class="ti ti-device-floppy"></i> حفظ التغييرات</button>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="pill sm ghost" onclick="openPatientProfilePreviewModal()">
+        <i class="ti ti-eye"></i> معاينة الملف كما يراه المريض
+      </button>
+      <button class="pill sm solid" onclick="saveAllProfileSettings()">
+        <i class="ti ti-device-floppy"></i> حفظ كافة التغييرات
+      </button>
     </div>
   </div>
 
-  <!-- Profile Grid -->
-  <div class="profile-grid">
-    <!-- Left Column: Doctor Mini Overview & Teleconsultation Card -->
-    <div>
-      <div class="profile-card-main">
-        <div class="profile-avatar-large">أ</div>
-        <h2 style="font-size:18px;font-weight:900;color:var(--text-primary);margin-bottom:4px">د. أحمد سامي</h2>
-        <div class="tiny" style="color:var(--accent);font-weight:700">استشاري باطنة عامة وجهاز هضمي</div>
-        <div class="tiny" style="color:var(--text-muted);margin:4px 0 14px">ترخيص نقابة الأطباء: #88412 · مسجل استشاري</div>
+  <!-- Profile Hero & Cover Banner -->
+  <div class="profile-cover-banner">
+    <div class="profile-hero-info">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar-box" id="profileAvatarBox">
+          <span id="profileAvatarLetter">أ</span>
+        </div>
+        <button type="button" class="avatar-upload-btn" onclick="triggerAvatarUpload()" title="تغيير الصورة الشخصية">
+          <i class="ti ti-camera"></i>
+        </button>
+        <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleAvatarFileSelected(event)">
+      </div>
+      <div class="profile-hero-text">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <h1 id="heroDoctorName">د. أحمد سامي الشربيني</h1>
+          <span class="verified-shield-badge">
+            <i class="ti ti-shield-check"></i> استشاري معتمد · نقابة الأطباء #88412
+          </span>
+        </div>
+        <div style="font-size:13px;color:var(--accent);font-weight:700;margin-top:2px" id="heroDoctorTitle">
+          استشاري باطنة عامة وجهاز هضمي ومناظير
+        </div>
+        <div class="tiny" style="color:#94a3b8;margin-top:4px" id="heroDoctorDegree">
+          دكتوراه الباطنة العامة - قصر العيني، جامعة القاهرة · زميل الجمعية المصرية للكبد
+        </div>
+      </div>
+    </div>
 
-        <!-- Video Availability Master Toggle -->
-        <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:12px;margin-bottom:14px;text-align:right">
+    <!-- Profile Completion Meter -->
+    <div class="profile-completion-box">
+      <div class="completion-header">
+        <span class="completion-lbl"><i class="ti ti-sparkles" style="color:var(--accent)"></i> جاهزية الملف للمرضى</span>
+        <span class="completion-pct" id="completionPctDisplay">85%</span>
+      </div>
+      <div class="completion-bar-bg">
+        <div class="completion-bar-fill" id="completionBarFill" style="width:85%"></div>
+      </div>
+      <div class="completion-checklist">
+        <span class="check-pill done"><i class="ti ti-check"></i> البيانات</span>
+        <span class="check-pill done"><i class="ti ti-check"></i> التراخيص</span>
+        <span class="check-pill done"><i class="ti ti-check"></i> الأسعار</span>
+        <span class="check-pill done"><i class="ti ti-check"></i> النبذة والوسوم</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Profile Grid -->
+  <div class="profile-grid">
+    <!-- Left Column: Doctor Snapshot & Controllers -->
+    <div>
+      <!-- Card 1: Telehealth Availability Controller -->
+      <div class="profile-card-side">
+        <div style="font-weight:800;font-size:13.5px;color:#ffffff;display:flex;align-items:center;gap:8px">
+          <i class="ti ti-video" style="color:var(--accent)"></i> كشوفات الفيديو الفورية (Telehealth)
+        </div>
+        <div style="background:#090e1a;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
-              <div style="font-size:12.5px;font-weight:700;color:var(--text-primary)"><i class="ti ti-video" style="color:var(--accent)"></i> كشوفات الفيديو الفورية</div>
-              <div class="tiny" style="color:var(--text-muted)">الظهور للمرضى في قائمة الأطباء المتاحين الآن</div>
+              <div style="font-size:12px;font-weight:700;color:#f8fafc;display:flex;align-items:center;gap:6px">
+                <span class="pulse-dot" id="telehealthPulseDot"></span>
+                <span id="telehealthStatusText">متاح للاستقبال الآن</span>
+              </div>
+              <div class="tiny" style="color:#64748b;margin-top:2px">الظهور للمرضى في قائمة الأطباء المتصلين</div>
             </div>
             <div class="switch on" id="profileAvailSwitch" onclick="toggleAvail()"></div>
           </div>
         </div>
+        <div class="tiny" style="color:#94a3b8;line-height:1.5">
+          <i class="ti ti-clock" style="color:var(--accent)"></i> متوسط سرعة الرد: <strong>أقل من 3 دقائق</strong> · مدة الكشف المعتمدة: <strong>25 دقيقة</strong>
+        </div>
+      </div>
 
-        <!-- Quick Stats -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center">
-          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:8px">
-            <div class="tiny">تقييم المرضى</div>
-            <div style="font-weight:900;color:var(--accent);font-size:16px">4.8 ★</div>
+      <!-- Card 2: Clinical Impact & Reputation Metrics -->
+      <div class="profile-card-side">
+        <div style="font-weight:800;font-size:13.5px;color:#ffffff;display:flex;align-items:center;gap:8px">
+          <i class="ti ti-trophy" style="color:var(--warn)"></i> إحصائيات السمعة الإكلينيكية
+        </div>
+        <div class="side-stats-grid">
+          <div class="side-stat-box">
+            <div class="side-stat-lbl">تقييم المرضى</div>
+            <div class="side-stat-val" style="color:var(--warn)"><i class="ti ti-star-filled" style="font-size:13px"></i> 4.8</div>
+            <div class="tiny" style="color:#64748b">212 مريض موثق</div>
           </div>
-          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:8px">
-            <div class="tiny">سنوات الخبرة</div>
-            <div style="font-weight:900;color:var(--info);font-size:16px">+15 سنة</div>
+          <div class="side-stat-box">
+            <div class="side-stat-lbl">سنوات الخبرة</div>
+            <div class="side-stat-val" style="color:var(--info)">+15 سنة</div>
+            <div class="tiny" style="color:#64748b">ممارسة سريرية</div>
           </div>
+          <div class="side-stat-box">
+            <div class="side-stat-lbl">إجمالي الكشوفات</div>
+            <div class="side-stat-val" style="color:var(--accent)">1,480+</div>
+            <div class="tiny" style="color:#64748b">كشف ناجح</div>
+          </div>
+          <div class="side-stat-box">
+            <div class="side-stat-lbl">نسبة التوصية</div>
+            <div class="side-stat-val" style="color:#38bdf8">98%</div>
+            <div class="tiny" style="color:#64748b">ينصحون بالطبيب</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Patient Profile Share Link -->
+      <div class="profile-card-side">
+        <div style="font-weight:800;font-size:13.5px;color:#ffffff;display:flex;align-items:center;gap:8px">
+          <i class="ti ti-share" style="color:var(--info)"></i> رابط الحجز المباشر لمرضاك
+        </div>
+        <div class="tiny" style="color:#94a3b8">شارك هذا الرابط مع مرضاك في السوشيال ميديا للوصول لبروفايلك وحجز موعد مباشرة:</div>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="shareLinkInput" class="profile-input" style="font-size:11.5px;padding:6px 8px;direction:ltr;text-align:left" value="tababa.org/dr/ahmed-sami" readonly>
+          <button class="pill xs solid" onclick="copyDoctorShareLink()"><i class="ti ti-copy"></i> نسخ</button>
         </div>
       </div>
     </div>
 
-    <!-- Right Column: Professional Credentials & Settings -->
+    <!-- Right Column: Multi-Tab Professional Workspace -->
     <div>
-      <!-- Personal & Professional Information -->
-      <div class="profile-section-card">
-        <div style="font-weight:700;font-size:14px;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:6px">
-          <i class="ti ti-id" style="color:var(--accent)"></i> البيانات المهنية والترخيص الطبي
+      <!-- Navigation Tabs -->
+      <div class="profile-nav-tabs">
+        <button class="profile-tab-btn active" onclick="switchProfileTab('bioTab', this)">
+          <i class="ti ti-id"></i> البيانات والنبذة (Bio)
+        </button>
+        <button class="profile-tab-btn" onclick="switchProfileTab('qualTab', this)">
+          <i class="ti ti-certificate"></i> المؤهلات والتراخيص
+        </button>
+        <button class="profile-tab-btn" onclick="switchProfileTab('scopeTab', this)">
+          <i class="ti ti-tags"></i> مجالات الخبرة والوسوم
+        </button>
+        <button class="profile-tab-btn" onclick="switchProfileTab('feesTab', this)">
+          <i class="ti ti-cash"></i> سياسة الاستشارات والأسعار
+        </button>
+        <button class="profile-tab-btn" onclick="switchProfileTab('securityTab', this)">
+          <i class="ti ti-shield-lock"></i> الأمان والإشعارات
+        </button>
+      </div>
+
+      <!-- TAB PANE 1: Personal & Bio -->
+      <div class="profile-tab-pane active" id="pane_bioTab">
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-user"></i> البيانات الشخصية والمهنية الأساسية</span>
+            <span class="tiny" style="color:var(--text-muted)">تظهر للمرضى في ترويسة الحجز والروشتات</span>
+          </div>
+          <div class="profile-form-grid">
+            <div class="profile-form-group">
+              <label>الاسم الكامل باللغة العربية *</label>
+              <input type="text" id="profNameAr" class="profile-input" value="د. أحمد سامي الشربيني">
+            </div>
+            <div class="profile-form-group">
+              <label>الاسم باللغة الإنجليزية (Title & Name) *</label>
+              <input type="text" id="profNameEn" class="profile-input" value="Dr. Ahmed Sami El-Sherbini">
+            </div>
+            <div class="profile-form-group">
+              <label>التخصص الرئيسي *</label>
+              <input type="text" id="profSpecialty" class="profile-input" value="أمراض الباطنة العامة والجهاز الهضمي والكبد">
+            </div>
+            <div class="profile-form-group">
+              <label>الدرجة العلمية واللقب المهني *</label>
+              <input type="text" id="profDegree" class="profile-input" value="استشاري - دكتوراه الباطنة العامة - جامعة القاهرة">
+            </div>
+            <div class="profile-form-group">
+              <label>البريد الإلكتروني المهني *</label>
+              <input type="email" id="profEmail" class="profile-input" value="dr.ahmed.sami@tababa.org">
+            </div>
+            <div class="profile-form-group">
+              <label>رقم هاتف التواصل والإشعارات *</label>
+              <input type="tel" id="profPhone" class="profile-input" value="+20 100 123 4567">
+            </div>
+          </div>
         </div>
-        <div class="profile-form-grid">
-          <div class="profile-form-group">
-            <label>الاسم الكامل باللغة العربية</label>
-            <input type="text" class="profile-input" value="د. أحمد سامي الشربيني">
+
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-file-text"></i> السيرة الذاتية ونبذة الطبيب للمرضى (About the Doctor)</span>
+            <span class="tiny" style="color:var(--text-muted)">نبذة وافية تبرز خبراتك وتعزز ثقة المريض</span>
+          </div>
+          <div class="profile-form-group" style="margin-bottom:14px">
+            <label>نبذة عن الطبيب (باللغة العربية)</label>
+            <textarea id="profBioAr" class="profile-textarea" rows="4" placeholder="اكتب نبذة مختصرة عن خبراتك الطبية والمستشفيات التي عملت بها..."></textarea>
           </div>
           <div class="profile-form-group">
-            <label>الاسم باللغة الإنجليزية (Title & Name)</label>
-            <input type="text" class="profile-input" value="Dr. Ahmed Sami">
+            <label>About the Doctor (English Summary)</label>
+            <textarea id="profBioEn" class="profile-textarea" rows="3" placeholder="Short biography in English for international patients..."></textarea>
+          </div>
+        </div>
+
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-language"></i> اللغات المتقنة للتواصل مع المرضى</span>
           </div>
           <div class="profile-form-group">
-            <label>التخصص الرئيسي</label>
-            <input type="text" class="profile-input" value="أمراض الباطنة العامة والجهاز الهضمي والكبد">
-          </div>
-          <div class="profile-form-group">
-            <label>الدرجة العلمية واللقب المهني</label>
-            <input type="text" class="profile-input" value="استشاري - دكتوراه الباطنة العامة - جامعة القاهرة">
-          </div>
-          <div class="profile-form-group">
-            <label>البريد الإلكتروني المهني</label>
-            <input type="email" class="profile-input" value="dr.ahmed.sami@tababa.org">
-          </div>
-          <div class="profile-form-group">
-            <label>رقم هاتف المتابعة وتنبيهات واتساب</label>
-            <input type="tel" class="profile-input" value="+20 100 123 4567">
+            <input type="text" id="profLanguages" class="profile-input" value="العربية (اللغة الأم)، الإنجليزية (طلاقة مهنية)">
           </div>
         </div>
       </div>
 
-      <!-- Pricing & Consultation Fees -->
-      <div class="profile-section-card">
-        <div style="font-weight:700;font-size:14px;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:6px">
-          <i class="ti ti-cash" style="color:var(--accent)"></i> سياسة التسعير وأتعاب الكشوفات
+      <!-- TAB PANE 2: Qualifications & Licensure -->
+      <div class="profile-tab-pane" id="pane_qualTab">
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-id-badge-2"></i> بيانات الترخيص ومزاولة المهنة</span>
+            <span class="pill xs solid"><i class="ti ti-check"></i> ترخيص ساري وموثق</span>
+          </div>
+          <div class="profile-form-grid">
+            <div class="profile-form-group">
+              <label>رقم ترخيص نقابة الأطباء</label>
+              <input type="text" id="profLicenseNo" class="profile-input" value="88412">
+            </div>
+            <div class="profile-form-group">
+              <label>جهة إصدار الترخيص</label>
+              <input type="text" class="profile-input" value="نقابة أطباء مصر — سجل الاستشاريين" readonly>
+            </div>
+          </div>
         </div>
-        <div class="profile-form-grid">
-          <div class="profile-form-group">
-            <label>سعر الكشف الحضوري بالعيادة (ج.م)</label>
-            <input type="number" class="profile-input" value="350">
+
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-certificate"></i> المؤهلات الأكاديمية والشهادات السريرية</span>
+            <button class="pill sm solid" onclick="openAddQualModal()"><i class="ti ti-plus"></i> إضافة مؤهل أو شهادة</button>
           </div>
-          <div class="profile-form-group">
-            <label>سعر استشارة الفيديو عن بعد (ج.م)</label>
-            <input type="number" class="profile-input" value="250">
+          <div class="qual-list-container" id="qualListMount"></div>
+        </div>
+
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-building-community"></i> الجمعيات والروابط الطبية المهنية</span>
           </div>
-          <div class="profile-form-group">
-            <label>سعر الاستشارة الصوتية العاجلة (ج.م)</label>
-            <input type="number" class="profile-input" value="150">
-          </div>
-          <div class="profile-form-group">
-            <label>مدة صلاحية الإعادة المجانية (أيام)</label>
-            <input type="number" class="profile-input" value="14">
+          <div style="display:flex;flex-direction:column;gap:8px" id="membershipsListMount">
+            <div class="qual-card">
+              <div>
+                <div class="qual-title">عضو نقابة أطباء مصر (سجل الاستشاريين #88412)</div>
+                <div class="qual-inst">جمهورية مصر العربية</div>
+              </div>
+              <span class="pill xs solid"><i class="ti ti-check"></i> عضو عامل</span>
+            </div>
+            <div class="qual-card">
+              <div>
+                <div class="qual-title">عضو الرابطة الأوروبية لدراسة أمراض الكبد (EASL)</div>
+                <div class="qual-inst">جنيف، سويسرا</div>
+              </div>
+              <span class="pill xs solid"><i class="ti ti-check"></i> عضو دولي</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Qualifications & Certifications -->
-      <div class="profile-section-card">
-        <div style="font-weight:700;font-size:14px;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:6px">
-          <i class="ti ti-certificate" style="color:var(--accent)"></i> المؤهلات والشهادات السريرية
+      <!-- TAB PANE 3: Clinical Scope & Procedures -->
+      <div class="profile-tab-pane" id="pane_scopeTab">
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-tags"></i> مجالات الاهتمام السريري والإجراءات (Clinical Scope)</span>
+            <span class="tiny" style="color:var(--text-muted)">تساعد محرك بحث طبابا ونظام الذكاء الاصطناعي في توجيه الحالات المطابقة لك</span>
+          </div>
+          <div class="clinical-tags-cloud" id="clinicalTagsMount"></div>
+          <div class="tag-add-box">
+            <input type="text" id="newTagInput" class="profile-input" placeholder="اكتب إجراءً أو مرضاً تخصصياً جديداً (مثال: ارتجاع المريء، مناظير القولون...)" onkeydown="if(event.key==='Enter'){event.preventDefault();addClinicalTag();}">
+            <button class="pill sm solid" onclick="addClinicalTag()"><i class="ti ti-plus"></i> إضافة وسم</button>
+          </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px;display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div style="font-weight:700;font-size:12.5px;color:var(--text-primary)">دكتوراه في أمراض الباطنة العامة (MD)</div>
-              <div class="tiny" style="color:var(--text-secondary)">كلية الطب، جامعة القاهرة · 2014</div>
-            </div>
-            <span class="pill xs solid"><i class="ti ti-check"></i> موثق</span>
-          </div>
+      </div>
 
-          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px;display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div style="font-weight:700;font-size:12.5px;color:var(--text-primary)">عضو الكلية الملكية للأطباء (MRCP - UK)</div>
-              <div class="tiny" style="color:var(--text-secondary)">لندن، المملكة المتحدة · 2017</div>
-            </div>
-            <span class="pill xs solid"><i class="ti ti-check"></i> موثق</span>
+      <!-- TAB PANE 4: Consultation Fees & Telehealth Rules -->
+      <div class="profile-tab-pane" id="pane_feesTab">
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-cash"></i> سياسة الأسعار وأتعاب الاستشارات الطبية</span>
+            <span class="tiny" style="color:var(--text-muted)">الأسعار المعروضة للمرضى (بالجنيه المصري)</span>
           </div>
-
-          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px;display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div style="font-weight:700;font-size:12.5px;color:var(--text-primary)">زمالة الجمعية المصرية لأمراض الجهاز الهضمي والكبد</div>
-              <div class="tiny" style="color:var(--text-secondary)">القاهرة · 2019</div>
+          <div class="profile-form-grid">
+            <div class="profile-form-group">
+              <label>سعر الكشف الحضوري بالعيادة (ج.م) *</label>
+              <input type="number" id="feeClinic" class="profile-input" value="350" min="0" step="10">
             </div>
-            <span class="pill xs solid"><i class="ti ti-check"></i> موثق</span>
+            <div class="profile-form-group">
+              <label>سعر استشارة الفيديو عن بعد (ج.م) *</label>
+              <input type="number" id="feeVideo" class="profile-input" value="250" min="0" step="10">
+            </div>
+            <div class="profile-form-group">
+              <label>سعر الاستشارة الصوتية العاجلة (ج.م) *</label>
+              <input type="number" id="feeAudio" class="profile-input" value="150" min="0" step="10">
+            </div>
+            <div class="profile-form-group">
+              <label>مدة صلاحية الإعادة المجانية (بالأيام) *</label>
+              <input type="number" id="feeFollowupDays" class="profile-input" value="14" min="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-settings"></i> قواعد كشف الفيديو والاستشارات الافتراضية</span>
+          </div>
+          <div class="profile-form-grid">
+            <div class="profile-form-group">
+              <label>مدة جلسة كشف الفيديو الافتراضية (بالدقائق)</label>
+              <select id="teleSessionDuration" class="profile-select">
+                <option value="15">15 دقيقة</option>
+                <option value="20">20 دقيقة</option>
+                <option value="25" selected>25 دقيقة (الموصى بها)</option>
+                <option value="30">30 دقيقة</option>
+                <option value="45">45 دقيقة (حالات مطولة)</option>
+              </select>
+            </div>
+            <div class="profile-form-group">
+              <label>إتاحة تجديد الروشتات عن بعد للمرضى المزمنين</label>
+              <select id="teleRenewalOption" class="profile-select">
+                <option value="true" selected>مفعل (للمرضى المنتظمين بالمتابعة فقط)</option>
+                <option value="false">معطل (يتطلب كشفاً كاملاً)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB PANE 5: Security & Preferences -->
+      <div class="profile-tab-pane" id="pane_securityTab">
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-bell-ringing"></i> قنوات الإشعارات والتنبيهات السريرية</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#090e1a;padding:12px;border-radius:8px">
+              <div>
+                <div style="font-weight:700;font-size:12.5px;color:#ffffff"><i class="ti ti-brand-whatsapp" style="color:#25d366"></i> تنبيهات واتساب الفورية</div>
+                <div class="tiny" style="color:#94a3b8">إشعار فوري عند حجز موعد جديد أو طلب استشارة فيديو عاجلة</div>
+              </div>
+              <input type="checkbox" id="notifWhatsapp" checked style="accent-color:var(--accent);width:18px;height:18px">
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#090e1a;padding:12px;border-radius:8px">
+              <div>
+                <div style="font-weight:700;font-size:12.5px;color:#ffffff"><i class="ti ti-alert-triangle" style="color:var(--danger)"></i> تنبيهات الذكاء الاصطناعي للحالات الحرجة</div>
+                <div class="tiny" style="color:#94a3b8">إشعار عاجل عند تسجيل قراءة ضغط أو سكر خطيرة لمريض مزمن</div>
+              </div>
+              <input type="checkbox" id="notifUrgentAi" checked style="accent-color:var(--accent);width:18px;height:18px">
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#090e1a;padding:12px;border-radius:8px">
+              <div>
+                <div style="font-weight:700;font-size:12.5px;color:#ffffff"><i class="ti ti-mail"></i> التقرير المالي والتشغيلي اليومي</div>
+                <div class="tiny" style="color:#94a3b8">إرسال ملخص الكشوفات والمتحصلات يومياً إلى بريدك الإلكتروني</div>
+              </div>
+              <input type="checkbox" id="notifDailyDigest" checked style="accent-color:var(--accent);width:18px;height:18px">
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-section-card">
+          <div class="profile-section-head">
+            <span><i class="ti ti-key"></i> أمان الحساب وتغيير كلمة المرور</span>
+          </div>
+          <div class="profile-form-grid">
+            <div class="profile-form-group">
+              <label>كلمة المرور الحالية</label>
+              <input type="password" id="pwdCurrent" class="profile-input" placeholder="••••••••">
+            </div>
+            <div class="profile-form-group">
+              <label>كلمة المرور الجديدة</label>
+              <input type="password" id="pwdNew" class="profile-input" placeholder="8 أحرف على الأقل">
+            </div>
+          </div>
+          <div style="margin-top:12px;text-align:left">
+            <button class="pill sm ghost" onclick="handlePasswordChange()"><i class="ti ti-lock"></i> تحديث كلمة المرور</button>
           </div>
         </div>
       </div>
@@ -435,8 +1031,92 @@
 
 </div>
 
-<!-- ==================== MODALS & DRAWERS ==================== -->
+<!-- ==================== MODALS ==================== -->
 <div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
+
+<!-- Add Qualification Modal -->
+<div class="modal-backdrop-custom" id="addQualModal" onclick="if(event.target===this)closeAddQualModal()">
+  <div class="modal-card-custom">
+    <div class="modal-head" style="background:#111d33;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-certificate" style="color:var(--accent);font-size:20px"></i>
+        <h3 style="font-size:15px;font-weight:800;margin:0;color:#ffffff">إضافة مؤهل أكاديمي أو شهادة سريرية</h3>
+      </div>
+      <button class="drawer-close" onclick="closeAddQualModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <form onsubmit="handleSaveNewQual(event)">
+      <div class="modal-body" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+        <div class="profile-form-group">
+          <label>الدرجة العلمية / المؤهل *</label>
+          <input type="text" id="newQualDegree" class="profile-input" placeholder="مثال: دبلوم طب وجراحة المناظير المتقدمة" required>
+        </div>
+        <div class="profile-form-group">
+          <label>الجامعة / الكلية أو الهيئة المانحة *</label>
+          <input type="text" id="newQualInstitution" class="profile-input" placeholder="مثال: جامعة عين شمس · القاهرة" required>
+        </div>
+        <div class="profile-form-group">
+          <label>سنة التخرج أو الحصول على الشهادة *</label>
+          <input type="text" id="newQualYear" class="profile-input" placeholder="مثال: 2021" required>
+        </div>
+      </div>
+      <div class="modal-foot" style="background:#111d33;padding:14px 20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:flex-end;gap:10px">
+        <button type="button" class="pill sm ghost" onclick="closeAddQualModal()">إلغاء</button>
+        <button type="submit" class="pill sm solid"><i class="ti ti-check"></i> إضافة للشهادات</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Patient Profile Preview Modal -->
+<div class="modal-backdrop-custom" id="patientPreviewModal" onclick="if(event.target===this)closePatientPreviewModal()">
+  <div class="modal-card-custom" style="width:650px">
+    <div class="modal-head" style="background:#111d33;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-eye" style="color:var(--accent);font-size:20px"></i>
+        <h3 style="font-size:15px;font-weight:800;margin:0;color:#ffffff">معاينة بطاقتك كما تظهر للمرضى في منصة طبابا</h3>
+      </div>
+      <button class="drawer-close" onclick="closePatientPreviewModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" style="padding:22px;background:#090e1a">
+      <!-- Simulated Patient Card -->
+      <div style="background:linear-gradient(135deg, #111d33 0%, #0d172a 100%);border:1px solid rgba(31,230,168,0.3);border-radius:14px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.5)">
+        <div style="display:flex;gap:16px;align-items:center">
+          <div class="profile-avatar-box" id="previewAvatarBox" style="width:74px;height:74px;border-radius:18px">
+            <span id="previewAvatarLetter">أ</span>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px">
+              <h3 id="previewDocName" style="font-size:17px;font-weight:900;color:#ffffff;margin:0">د. أحمد سامي</h3>
+              <i class="ti ti-circle-check-filled" style="color:var(--accent);font-size:16px" title="طبيب معتمد وموثق"></i>
+            </div>
+            <div id="previewDocTitle" style="font-size:12.5px;color:var(--accent);font-weight:700;margin-top:2px">استشاري باطنة عامة وجهاز هضمي</div>
+            <div class="tiny" style="color:#94a3b8;margin-top:2px">
+              <i class="ti ti-star-filled" style="color:var(--warn)"></i> <strong>4.8</strong> (212 تقييم) · <i class="ti ti-briefcase"></i> خبرة +15 سنة
+            </div>
+          </div>
+        </div>
+
+        <div class="tiny" id="previewDocBio" style="color:#cbd5e1;line-height:1.6;margin:14px 0;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06)">
+          استشاري أول الباطنة العامة والجهاز الهضمي والمناظير...
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;margin-top:8px">
+          <div>
+            <div class="tiny" style="color:#94a3b8">سعر الكشف يبدأ من:</div>
+            <div style="font-size:16px;font-weight:900;color:#ffffff"><span id="previewDocFee">350</span> <small style="font-size:11px;font-weight:400">ج.م</small></div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="pill sm ghost" style="color:#38bdf8;border-color:rgba(14,165,233,0.4)"><i class="ti ti-video"></i> فيديو فوري</button>
+            <button class="pill sm solid"><i class="ti ti-calendar"></i> احجز موعداً</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot" style="background:#111d33;padding:12px 20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:flex-end">
+      <button class="pill sm ghost" onclick="closePatientPreviewModal()">إغلاق المعاينة</button>
+    </div>
+  </div>
+</div>
 
 <!-- All AI Recommendations Modal -->
 <div class="ai-modal" id="aiRecomModal">
@@ -483,7 +1163,393 @@
 <!-- Scripts -->
 <script src="doctor-shared.js"></script>
 <script>
+// ==================== DOCTOR PROFILE STATE & CONSTANTS ====================
+const DEFAULT_PROFILE = {
+  name: "د. أحمد سامي الشربيني",
+  shortName: "د. أحمد سامي",
+  nameEn: "Dr. Ahmed Sami El-Sherbini",
+  specialty: "استشاري باطنة عامة وجهاز هضمي",
+  subSpecialty: "أمراض الباطنة العامة، الكبد، ومناظير الجهاز الهضمي",
+  degree: "استشاري - دكتوراه الباطنة العامة - جامعة القاهرة",
+  licenseNo: "88412",
+  email: "dr.ahmed.sami@tababa.org",
+  phone: "+20 100 123 4567",
+  bioAr: "استشاري أول الباطنة العامة والجهاز الهضمي والمناظير، متخصص في علاج وتشخيص اضطرابات الجهاز الهضمي، القولون العصبي والتقرحي، أمراض الكبد المزمنة، وضبط داء السكري وارتفاع ضغط الدم وفق أحدث الإرشادات السريرية العالمية.",
+  bioEn: "Senior Consultant in Internal Medicine and Gastroenterology. Specialized in digestive disorders, endoscopy, liver diseases, and chronic condition management.",
+  avatar: "",
+  languages: "العربية (اللغة الأم)، الإنجليزية (طلاقة مهنية)",
+  fees: {
+    clinic: 350,
+    video: 250,
+    audio: 150,
+    followupValidity: 14
+  },
+  clinicalInterests: [
+    "مناظير الجهاز الهضمي التشخيصية",
+    "علاج جرثومة المعدة المقاومة (H. Pylori)",
+    "متلازمة القولون العصبي (IBS)",
+    "ضبط السكري ومضاعفاته",
+    "ارتفاع ضغط الدم والدهون الثلاثية",
+    "التهاب الكبد الدهني (NASH)",
+    "التغذية العلاجية لمرضى الجهاز الهضمي"
+  ],
+  qualifications: [
+    {
+      id: "q1",
+      degree: "دكتوراه في أمراض الباطنة العامة (MD)",
+      institution: "كلية الطب، جامعة القاهرة (قصر العيني)",
+      year: "2014"
+    },
+    {
+      id: "q2",
+      degree: "عضو الكلية الملكية للأطباء (MRCP - UK)",
+      institution: "لندن، المملكة المتحدة",
+      year: "2017"
+    },
+    {
+      id: "q3",
+      degree: "زمالة الجمعية المصرية لأمراض الجهاز الهضمي والكبد",
+      institution: "القاهرة، جمهورية مصر العربية",
+      year: "2019"
+    }
+  ]
+};
+
+let currentProfile = null;
+
+function loadDoctorProfile() {
+  const saved = localStorage.getItem('tababa_doctor_profile');
+  if (saved) {
+    try {
+      currentProfile = { ...DEFAULT_PROFILE, ...JSON.parse(saved) };
+    } catch (e) {
+      console.error('Failed to parse saved profile:', e);
+      currentProfile = { ...DEFAULT_PROFILE };
+    }
+  } else {
+    currentProfile = { ...DEFAULT_PROFILE };
+  }
+  populateProfileUI(currentProfile);
+}
+
+function saveDoctorProfileToStorage() {
+  try {
+    localStorage.setItem('tababa_doctor_profile', JSON.stringify(currentProfile));
+    syncGlobalDoctorUI();
+  } catch (e) {
+    console.error('Error saving profile:', e);
+  }
+}
+
+// ==================== UI POPULATION ====================
+function populateProfileUI(p) {
+  // Hero & Cover
+  document.getElementById('heroDoctorName').textContent = p.name || 'د. أحمد سامي الشربيني';
+  document.getElementById('heroDoctorTitle').textContent = p.specialty || 'استشاري باطنة عامة وجهاز هضمي';
+  document.getElementById('heroDoctorDegree').textContent = p.degree || '';
+
+  // Avatar
+  renderAvatarDisplay(p.avatar, p.name);
+
+  // Tab 1 Fields
+  document.getElementById('profNameAr').value = p.name || '';
+  document.getElementById('profNameEn').value = p.nameEn || '';
+  document.getElementById('profSpecialty').value = p.specialty || '';
+  document.getElementById('profDegree').value = p.degree || '';
+  document.getElementById('profEmail').value = p.email || '';
+  document.getElementById('profPhone').value = p.phone || '';
+  document.getElementById('profBioAr').value = p.bioAr || '';
+  document.getElementById('profBioEn').value = p.bioEn || '';
+  document.getElementById('profLanguages').value = p.languages || '';
+
+  // Tab 2 Fields
+  document.getElementById('profLicenseNo').value = p.licenseNo || '88412';
+  renderQualificationsList();
+
+  // Tab 3 Fields
+  renderClinicalTags();
+
+  // Tab 4 Fields
+  const f = p.fees || DEFAULT_PROFILE.fees;
+  document.getElementById('feeClinic').value = f.clinic || 350;
+  document.getElementById('feeVideo').value = f.video || 250;
+  document.getElementById('feeAudio').value = f.audio || 150;
+  document.getElementById('feeFollowupDays').value = f.followupValidity || 14;
+
+  // Completion calculation
+  updateProfileCompletionScore(p);
+}
+
+function renderAvatarDisplay(avatarUrl, name) {
+  const box = document.getElementById('profileAvatarBox');
+  if (!box) return;
+
+  if (avatarUrl) {
+    box.innerHTML = `<img src="${avatarUrl}" alt="صورة الطبيب" class="profile-avatar-img">`;
+  } else {
+    const letter = name ? name.replace(/^د\.\s*/, '').trim().charAt(0) : 'أ';
+    box.innerHTML = `<span id="profileAvatarLetter">${letter}</span>`;
+  }
+}
+
+function updateProfileCompletionScore(p) {
+  let score = 50; // base score
+  if (p.name && p.name.length > 5) score += 10;
+  if (p.bioAr && p.bioAr.length > 20) score += 10;
+  if (p.avatar) score += 10;
+  if (p.clinicalInterests && p.clinicalInterests.length >= 3) score += 10;
+  if (p.qualifications && p.qualifications.length >= 2) score += 10;
+  score = Math.min(score, 100);
+
+  const pct = document.getElementById('completionPctDisplay');
+  const bar = document.getElementById('completionBarFill');
+  if (pct) pct.textContent = score + '%';
+  if (bar) bar.style.width = score + '%';
+}
+
+// ==================== AVATAR UPLOAD HANDLING ====================
+function triggerAvatarUpload() {
+  const input = document.getElementById('avatarFileInput');
+  if (input) input.click();
+}
+
+function handleAvatarFileSelected(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    showToast('يرجى اختيار ملف صورة صالح (JPG أو PNG)', 'danger');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    currentProfile.avatar = dataUrl;
+    renderAvatarDisplay(dataUrl, currentProfile.name);
+    saveDoctorProfileToStorage();
+    updateProfileCompletionScore(currentProfile);
+    showToast('تم تحديث صورتك الشخصية بنجاح ✓', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ==================== TABS SWITCHER ====================
+function switchProfileTab(tabId, btn) {
+  document.querySelectorAll('.profile-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.profile-tab-pane').forEach(p => p.classList.remove('active'));
+
+  if (btn) btn.classList.add('active');
+  const targetPane = document.getElementById('pane_' + tabId);
+  if (targetPane) targetPane.classList.add('active');
+}
+
+// ==================== QUALIFICATIONS MANAGEMENT ====================
+function renderQualificationsList() {
+  const mount = document.getElementById('qualListMount');
+  if (!mount) return;
+
+  const list = currentProfile.qualifications || [];
+  if (list.length === 0) {
+    mount.innerHTML = '<div class="tiny" style="color:#64748b;padding:10px">لا توجد مؤهلات مضافة بعد.</div>';
+    return;
+  }
+
+  mount.innerHTML = list.map((q, idx) => `
+    <div class="qual-card">
+      <div>
+        <div class="qual-title">${q.degree}</div>
+        <div class="qual-inst">${q.institution} · ${q.year}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="pill xs solid"><i class="ti ti-check"></i> موثق</span>
+        <button class="btn-icon" style="color:var(--danger);font-size:13px" onclick="deleteQualification('${q.id || idx}')" title="حذف هذا المؤهل">
+          <i class="ti ti-trash"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openAddQualModal() {
+  document.getElementById('newQualDegree').value = '';
+  document.getElementById('newQualInstitution').value = '';
+  document.getElementById('newQualYear').value = '';
+  document.getElementById('addQualModal').classList.add('show');
+}
+
+function closeAddQualModal() {
+  document.getElementById('addQualModal').classList.remove('show');
+}
+
+function handleSaveNewQual(e) {
+  e.preventDefault();
+  const degree = document.getElementById('newQualDegree').value.trim();
+  const institution = document.getElementById('newQualInstitution').value.trim();
+  const year = document.getElementById('newQualYear').value.trim();
+
+  if (!degree || !institution || !year) {
+    showToast('يرجى ملء كافة حقول المؤهل', 'danger');
+    return;
+  }
+
+  const newQ = {
+    id: 'q_' + Date.now(),
+    degree,
+    institution,
+    year
+  };
+
+  if (!currentProfile.qualifications) currentProfile.qualifications = [];
+  currentProfile.qualifications.push(newQ);
+  saveDoctorProfileToStorage();
+  renderQualificationsList();
+  updateProfileCompletionScore(currentProfile);
+  closeAddQualModal();
+  showToast('تمت إضافة المؤهل الأكاديمي بنجاح ✓', 'success');
+}
+
+function deleteQualification(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا المؤهل من ملفك؟')) return;
+  currentProfile.qualifications = currentProfile.qualifications.filter((q, idx) => (q.id || String(idx)) !== id);
+  saveDoctorProfileToStorage();
+  renderQualificationsList();
+  updateProfileCompletionScore(currentProfile);
+  showToast('تم حذف المؤهل', 'info');
+}
+
+// ==================== CLINICAL TAGS MANAGEMENT ====================
+function renderClinicalTags() {
+  const mount = document.getElementById('clinicalTagsMount');
+  if (!mount) return;
+
+  const tags = currentProfile.clinicalInterests || [];
+  mount.innerHTML = tags.map((t, idx) => `
+    <span class="clinical-tag-pill">
+      <span>${t}</span>
+      <button class="tag-del-btn" onclick="removeClinicalTag(${idx})" title="حذف هذا الوسم">
+        <i class="ti ti-x"></i>
+      </button>
+    </span>
+  `).join('');
+}
+
+function addClinicalTag() {
+  const input = document.getElementById('newTagInput');
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) return;
+
+  if (!currentProfile.clinicalInterests) currentProfile.clinicalInterests = [];
+  if (currentProfile.clinicalInterests.includes(val)) {
+    showToast('هذا الوسم مضاف بالفعل مسبقاً', 'info');
+    return;
+  }
+
+  currentProfile.clinicalInterests.push(val);
+  input.value = '';
+  renderClinicalTags();
+  saveDoctorProfileToStorage();
+  showToast(`تمت إضافة الوسم: ${val}`, 'success');
+}
+
+function removeClinicalTag(idx) {
+  if (!currentProfile.clinicalInterests) return;
+  currentProfile.clinicalInterests.splice(idx, 1);
+  renderClinicalTags();
+  saveDoctorProfileToStorage();
+}
+
+// ==================== SAVE ALL PROFILE SETTINGS ====================
+function saveAllProfileSettings() {
+  currentProfile.name = document.getElementById('profNameAr').value.trim();
+  currentProfile.shortName = currentProfile.name.split(' ').slice(0, 3).join(' ');
+  currentProfile.nameEn = document.getElementById('profNameEn').value.trim();
+  currentProfile.specialty = document.getElementById('profSpecialty').value.trim();
+  currentProfile.degree = document.getElementById('profDegree').value.trim();
+  currentProfile.email = document.getElementById('profEmail').value.trim();
+  currentProfile.phone = document.getElementById('profPhone').value.trim();
+  currentProfile.bioAr = document.getElementById('profBioAr').value.trim();
+  currentProfile.bioEn = document.getElementById('profBioEn').value.trim();
+  currentProfile.languages = document.getElementById('profLanguages').value.trim();
+
+  // Fees
+  currentProfile.fees = {
+    clinic: parseInt(document.getElementById('feeClinic').value, 10) || 350,
+    video: parseInt(document.getElementById('feeVideo').value, 10) || 250,
+    audio: parseInt(document.getElementById('feeAudio').value, 10) || 150,
+    followupValidity: parseInt(document.getElementById('feeFollowupDays').value, 10) || 14
+  };
+
+  saveDoctorProfileToStorage();
+  populateProfileUI(currentProfile);
+  showToast('تم حفظ كافة التعديلات في ملفك المهني بنجاح ✓', 'success');
+}
+
+function handlePasswordChange() {
+  const cur = document.getElementById('pwdCurrent').value;
+  const nw = document.getElementById('pwdNew').value;
+  if (!cur || !nw) {
+    showToast('يرجى كتابة كلمة المرور الحالية والجديدة', 'danger');
+    return;
+  }
+  if (nw.length < 8) {
+    showToast('كلمة المرور الجديدة يجب ألا تقل عن 8 خانات', 'danger');
+    return;
+  }
+  document.getElementById('pwdCurrent').value = '';
+  document.getElementById('pwdNew').value = '';
+  showToast('تم تحديث كلمة المرور بنجاح ✓', 'success');
+}
+
+function copyDoctorShareLink() {
+  const input = document.getElementById('shareLinkInput');
+  if (input) {
+    navigator.clipboard.writeText(input.value).then(() => {
+      showToast('تم نسخ الرابط التعريفي المباشر إلى الحافظة ✓', 'success');
+    }).catch(() => {
+      showToast('تم نسخ الرابط: ' + input.value, 'success');
+    });
+  }
+}
+
+// ==================== PATIENT VIEW PREVIEW MODAL ====================
+function openPatientProfilePreviewModal() {
+  const p = currentProfile || DEFAULT_PROFILE;
+  document.getElementById('previewDocName').textContent = p.name || 'د. أحمد سامي الشربيني';
+  document.getElementById('previewDocTitle').textContent = p.specialty || 'استشاري باطنة عامة وجهاز هضمي';
+  document.getElementById('previewDocBio').textContent = p.bioAr || 'استشاري أول الباطنة العامة والجهاز الهضمي والمناظير...';
+  document.getElementById('previewDocFee').textContent = (p.fees && p.fees.clinic) ? p.fees.clinic : 350;
+
+  const box = document.getElementById('previewAvatarBox');
+  if (box) {
+    if (p.avatar) {
+      box.innerHTML = `<img src="${p.avatar}" alt="صورة الطبيب" class="profile-avatar-img">`;
+    } else {
+      const letter = p.name ? p.name.replace(/^د\.\s*/, '').trim().charAt(0) : 'أ';
+      box.innerHTML = `<span>${letter}</span>`;
+    }
+  }
+
+  document.getElementById('patientPreviewModal').classList.add('show');
+}
+
+function closePatientPreviewModal() {
+  document.getElementById('patientPreviewModal').classList.remove('show');
+}
+
+// ==================== GLOBAL SYNC ACROSS PAGE ====================
+function syncGlobalDoctorUI() {
+  if (!currentProfile) return;
+  const name = currentProfile.shortName || currentProfile.name;
+  document.querySelectorAll('.doc-mini-name').forEach(el => {
+    el.textContent = name;
+  });
+}
+
+// ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
+  loadDoctorProfile();
   renderNotifications();
 });
 </script>

@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="responsive.css">
 <style>
 /* ==========================================================================
-   ADVANCED CLINICAL CONSULTATION WORKSPACE (بدء كشف جديد)
+   ADVANCED CLINICAL CONSULTATION WORKSPACE (بدء كشف جديد) — V2 OVERHAUL
    ========================================================================== */
 
 /* Page shell custom override for Consultation Layout */
@@ -67,6 +67,20 @@
   align-items: center;
   gap: 8px;
 }
+
+/* Dynamic breadcrumb */
+.c-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  border-right: 1px solid var(--border);
+  padding-right: 12px;
+  margin-right: 4px;
+}
+.c-breadcrumb .c-crumb-sep { color: var(--border-strong); font-size: 10px; }
+.c-breadcrumb .c-crumb-active { color: var(--accent); font-weight: 700; }
 
 .c-nav-links {
   display: flex;
@@ -138,7 +152,7 @@
   font-weight: 600;
 }
 
-/* Schedule filter tabs */
+/* Schedule filter tabs — semantic button styling */
 .sched-filters {
   display: flex;
   gap: 6px;
@@ -147,6 +161,7 @@
   border-radius: var(--radius-xs);
   border: 1px solid var(--border);
 }
+.sched-filters [role="tab"] { outline-offset: -2px; }
 
 .sched-filter-btn {
   flex: 1;
@@ -163,6 +178,7 @@
 .sched-filter-btn:hover {
   color: var(--text-primary);
 }
+.sched-filter-btn:focus-visible { outline: 2px solid var(--accent); }
 
 .sched-filter-btn.active {
   background: #162438;
@@ -195,6 +211,7 @@
   overflow: hidden;
   flex-shrink: 0;
 }
+.sched-card:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
 .sched-card:hover {
   border-color: rgba(31, 230, 168, 0.35);
@@ -303,9 +320,9 @@
 }
 
 .sched-branch-badge.giza {
-  background: rgba(242, 184, 75, 0.12);
-  color: #f2b84b;
-  border: 1px solid rgba(242, 184, 75, 0.3);
+  background: rgba(168, 130, 255, 0.12);
+  color: #a882ff;
+  border: 1px solid rgba(168, 130, 255, 0.3);
 }
 
 .sched-status-badge {
@@ -437,6 +454,7 @@
   flex-wrap: wrap;
 }
 
+/* Dynamic priority pill — varies by severity */
 .c-priority-pill {
   display: inline-flex;
   align-items: center;
@@ -445,10 +463,27 @@
   border-radius: 999px;
   font-size: 11.5px;
   font-weight: 800;
+}
+.c-priority-pill.critical {
   background: rgba(242, 102, 92, 0.16);
   color: #f2665c;
   border: 1px solid rgba(242, 102, 92, 0.4);
   box-shadow: 0 0 10px rgba(242, 102, 92, 0.15);
+}
+.c-priority-pill.high {
+  background: rgba(242, 184, 75, 0.14);
+  color: #f2b84b;
+  border: 1px solid rgba(242, 184, 75, 0.35);
+}
+.c-priority-pill.medium {
+  background: rgba(91, 156, 245, 0.14);
+  color: #5b9cf5;
+  border: 1px solid rgba(91, 156, 245, 0.35);
+}
+.c-priority-pill.stable {
+  background: rgba(31, 230, 168, 0.12);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.3);
 }
 
 .c-p-actions {
@@ -498,6 +533,34 @@
 }
 
 /* ==================== HORIZONTAL WORKSPACE TABS ==================== */
+.consult-tabs-wrapper {
+  position: relative;
+}
+/* Fade edges for scroll affordance */
+.consult-tabs-wrapper::before,
+.consult-tabs-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 32px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.consult-tabs-wrapper::before {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-page), transparent);
+}
+.consult-tabs-wrapper::after {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-page), transparent);
+}
+.consult-tabs-wrapper.scroll-start::after { opacity: 1; }
+.consult-tabs-wrapper.scroll-end::before { opacity: 1; }
+.consult-tabs-wrapper.scroll-both::before,
+.consult-tabs-wrapper.scroll-both::after { opacity: 1; }
+
 .consult-tabs-bar {
   display: flex;
   align-items: center;
@@ -524,12 +587,14 @@
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
+  position: relative;
 }
 
 .c-tab-btn:hover {
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.04);
 }
+.c-tab-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
 .c-tab-btn.active {
   background: rgba(31, 230, 168, 0.08);
@@ -539,10 +604,23 @@
   box-shadow: 0 2px 10px rgba(31, 230, 168, 0.1);
 }
 
+/* Progress dot on tabs that have content */
+.c-tab-btn .tab-done-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #1fe6a8;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  box-shadow: 0 0 6px rgba(31,230,168,0.5);
+  animation: pulseDot 2s infinite;
+}
+@keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(0.8)} }
+
 /* ==================== OVERVIEW TAB ("نظرة عامة") ==================== */
 .c-overview-grid {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 16px;
 }
 
@@ -552,61 +630,474 @@
   }
 }
 
-/* Pain Model Box (Left) */
+/* ==================== MEDICAL PAIN MAP COMPONENT (V2 UPGRADE) ==================== */
 .c-pain-box {
-  background: #0d1527;
-  border: 1px solid rgba(110, 231, 201, 0.12);
+  background: linear-gradient(180deg, #0d1629 0%, #080d1a 100%);
+  border: 1px solid rgba(110, 231, 201, 0.16);
   border-radius: 16px;
-  padding: 18px 14px;
+  padding: 16px 14px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 12px;
-  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
+/* Subtle diagnostic grid background glow */
+.c-pain-box::before {
+  content: '';
+  position: absolute;
+  top: 32%; left: 50%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(31, 230, 168, 0.07) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Clinical Header */
+.c-pain-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.c-pain-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .c-pain-title {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 7px;
   letter-spacing: 0.2px;
 }
-
-.c-pain-svg-container {
-  width: 100%;
-  max-width: 160px;
-  display: flex;
-  justify-content: center;
-  position: relative;
+.pain-count-badge {
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: rgba(31, 230, 168, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(31, 230, 168, 0.28);
 }
 
+/* Clinical Objective Banner — Makes the purpose of the body map crystal clear to the doctor */
+.c-pain-purpose-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  background: rgba(31, 230, 168, 0.05);
+  border: 1px dashed rgba(31, 230, 168, 0.22);
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  text-align: right;
+}
+.c-pain-purpose-banner i {
+  color: var(--accent);
+  font-size: 13px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+.c-pain-purpose-banner b {
+  color: var(--text-primary);
+}
+
+/* Front/Back 3D View Toggle */
+.body-view-toggle {
+  display: flex;
+  width: 100%;
+  background: rgba(7, 12, 22, 0.85);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  gap: 4px;
+}
+.body-view-toggle button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  background: transparent;
+}
+.body-view-toggle button:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+.body-view-toggle button.active {
+  background: #142338;
+  color: var(--accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  font-weight: 800;
+}
+.body-view-toggle button:focus-visible { outline: 2px solid var(--accent); }
+
+/* 3D Viewport with Smooth Perspective Rotation */
+.c-pain-viewport {
+  position: relative;
+  width: 100%;
+  height: 310px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 900px;
+}
+.c-pain-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backface-visibility: hidden;
+}
+.c-pain-canvas.active-view {
+  opacity: 1;
+  transform: rotateY(0deg) scale(1);
+  pointer-events: auto;
+}
+.c-pain-canvas.hidden-view {
+  opacity: 0;
+  transform: rotateY(65deg) scale(0.93);
+  pointer-events: none;
+}
+
+/* Floating Professional Medical Tooltip */
+.pain-hotspot-tooltip {
+  position: absolute;
+  background: rgba(9, 15, 28, 0.95);
+  border: 1px solid rgba(110, 231, 201, 0.35);
+  border-radius: 8px;
+  padding: 6px 11px;
+  font-size: 11px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 30;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+}
+
+/* SVG Region Hotspots */
+.pain-hotspot {
+  cursor: pointer;
+  outline: none;
+}
+.pain-hotspot .region-shape {
+  transition: fill 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
+}
+.pain-hotspot:hover .region-shape {
+  stroke: #1fe6a8 !important;
+  stroke-width: 2.3px !important;
+  filter: drop-shadow(0 0 6px rgba(31, 230, 168, 0.7)) !important;
+}
+.pain-hotspot:focus-visible .region-shape {
+  stroke: #1fe6a8 !important;
+  stroke-width: 2.6px !important;
+}
+
+/* Selected Region Card */
+.c-pain-selected-card {
+  width: 100%;
+  background: rgba(14, 22, 38, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  text-align: right;
+}
+.c-pain-selected-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.c-pain-del-btn {
+  background: rgba(242, 102, 92, 0.12);
+  border: 1px solid rgba(242, 102, 92, 0.3);
+  color: #f2665c;
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 13px;
+}
+.c-pain-del-btn:hover {
+  background: rgba(242, 102, 92, 0.25);
+  transform: scale(1.05);
+}
+
+/* Clinical Severity Badges */
 .c-pain-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 5px 14px;
+  gap: 5px;
+  padding: 5px 12px;
   border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-  background: rgba(242, 102, 92, 0.2);
-  color: #f2665c;
-  border: 1px solid rgba(242, 102, 92, 0.45);
-  box-shadow: 0 0 12px rgba(242, 102, 92, 0.2);
-}
-
-.c-pain-duration {
   font-size: 11.5px;
+  font-weight: 800;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.c-pain-badge.heat-none { background: rgba(31,230,168,0.1); color:#1fe6a8; border:1px solid rgba(31,230,168,0.3); }
+.c-pain-badge.heat-mild { background: rgba(34,197,94,0.16); color:#22c55e; border:1px solid rgba(34,197,94,0.4); }
+.c-pain-badge.heat-moderate { background: rgba(245,158,11,0.2); color:#f59e0b; border:1px solid rgba(245,158,11,0.45); }
+.c-pain-badge.heat-severe { background: rgba(242,102,92,0.22); color:#f2665c; border:1px solid rgba(242,102,92,0.5); }
+.c-pain-badge.heat-critical { background: rgba(225,29,72,0.28); color:#ff3366; border:1px solid rgba(255,51,102,0.6); }
+
+/* Pain Intensity Slider */
+.pain-slider-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pain-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+.pain-slider-labels label {
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pain-scale-legend {
+  font-size: 9.5px;
   color: var(--text-muted);
 }
+.pain-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 99px;
+  background: linear-gradient(to left, #ff2a55 0%, #f2665c 20%, #f59e0b 50%, #22c55e 80%, #1fe6a8 100%);
+  outline: none;
+  cursor: pointer;
+}
+.pain-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #f2665c;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.pain-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.22);
+}
+.pain-slider::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #f2665c;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+.pain-slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--text-muted);
+  padding: 0 2px;
+}
 
-/* Interactive clickable hotspots on pain model */
-.pain-hotspot {
+/* Pain Metadata: Duration & Type Selects */
+.c-pain-meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 2px;
+}
+.c-pain-meta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: right;
+}
+.c-pain-meta-col label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.c-pain-select {
+  background: rgba(10, 16, 28, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 10.5px;
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+.c-pain-select:focus {
+  border-color: var(--accent);
+}
+
+/* Multi-Region Active Pain Areas Chips */
+.c-pain-chips-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: right;
+}
+.c-pain-chips-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.c-pain-clear-all {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 10px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  transition: color 0.15s;
+}
+.c-pain-clear-all:hover {
+  color: #f2665c;
+}
+.c-pain-chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-height: 80px;
+  overflow-y: auto;
+}
+.c-pain-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(14, 23, 40, 0.85);
+  border: 1px solid var(--border);
+  font-size: 10.5px;
+  color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
 }
+.c-pain-chip:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+.c-pain-chip.active {
+  background: rgba(31, 230, 168, 0.14);
+  border-color: var(--accent);
+  color: #ffffff;
+  font-weight: 700;
+}
+.c-pain-chip-dot {
+  width: 6.5px; height: 6.5px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.c-pain-chip-remove {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0 0 0 2px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+.c-pain-chip-remove:hover {
+  color: #f2665c;
+}
 
-.pain-hotspot:hover {
-  filter: drop-shadow(0 0 6px #1fe6a8);
+/* Clinical Integration Actions (Insert findings into notes) */
+.c-pain-actions-row {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+.c-pain-btn-notes {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: rgba(31, 230, 168, 0.08);
+  border: 1px solid rgba(31, 230, 168, 0.25);
+  color: var(--accent);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.c-pain-btn-notes:hover {
+  background: rgba(31, 230, 168, 0.16);
+  border-color: var(--accent);
+}
+
+/* Quick Presets Row */
+.c-pain-quick-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.c-pain-quick-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.c-pain-presets {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.c-pain-presets .pill-preset {
+  font-size: 10.5px;
+  padding: 3px 8px;
 }
 
 /* Clinical Info Cards (Right) */
@@ -697,16 +1188,64 @@
   gap: 4px;
 }
 
+/* FIXED: chronic tags now use purple to avoid confusion with amber "waiting" status */
 .c-tag-pill.chronic {
-  background: #1a2335;
-  color: #f2b84b;
-  border: 1px solid rgba(242, 184, 75, 0.25);
+  background: rgba(168, 130, 255, 0.12);
+  color: #a882ff;
+  border: 1px solid rgba(168, 130, 255, 0.25);
 }
 
 .c-tag-pill.med {
   background: #101c2e;
   color: #1fe6a8;
   border: 1px solid rgba(31, 230, 168, 0.25);
+}
+
+/* ==================== VITALS GAUGES ==================== */
+.vitals-gauges-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 14px 16px;
+  background: #0d1527;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+@media(max-width: 640px) {
+  .vitals-gauges-row { grid-template-columns: repeat(3, 1fr); }
+}
+.vital-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+.vital-gauge-circle {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  position: relative;
+}
+.vital-gauge-circle svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.vital-gauge-circle svg circle {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.vital-gauge-circle svg .bg { stroke: rgba(255,255,255,0.06); }
+.vital-gauge-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
 /* ==================== BOTTOM ACTION BAR ==================== */
@@ -765,6 +1304,34 @@
   background: var(--bg-hover);
 }
 
+/* Complete consultation — high-stakes destructive-ish button */
+.btn-complete-consult {
+  background: linear-gradient(135deg, #162438, #1a2d42);
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 0 14px rgba(31,230,168,0.1);
+}
+.btn-complete-consult:hover {
+  background: var(--accent);
+  color: #070b14;
+  box-shadow: 0 4px 20px rgba(31,230,168,0.35);
+}
+.btn-complete-consult.completed {
+  background: var(--accent);
+  color: #070b14;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
 /* Quick secondary helpers */
 .c-quick-aux {
   display: flex;
@@ -774,23 +1341,6 @@
 }
 
 /* ==================== PRESCRIPTION & NOTES MODERN WORKSPACES ==================== */
-.modern-rx-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 8px;
-}
-
-.modern-rx-row {
-  background: #0d1527;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  transition: var(--transition);
-}
-
-.modern-rx-row:hover {
-  border-color: var(--border-strong);
-}
-
 .notes-editor-box {
   background: #0d1527;
   border: 1px solid var(--border);
@@ -821,12 +1371,76 @@
   box-shadow: 0 0 12px rgba(31, 230, 168, 0.15);
 }
 
+/* Prescription card — responsive */
+.rx-card-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 2fr 40px;
+  gap: 8px;
+  align-items: center;
+  background: #0d1527;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: var(--transition);
+}
+.rx-card-row:hover { border-color: var(--border-strong); }
+.rx-card-row.rx-empty { border-color: rgba(242, 184, 75, 0.3); }
+.rx-card-row.rx-empty .rx-field-name input { border-color: rgba(242, 184, 75, 0.4); }
+
+@media(max-width: 980px) {
+  .rx-card-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .rx-card-row > div:first-child {
+    grid-column: 1 / -1;
+  }
+  .rx-card-row > div:last-child {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}
+@media(max-width: 500px) {
+  .rx-card-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Delete button with confirmation styling */
+.rx-delete-btn {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.rx-delete-btn:hover {
+  color: #f2665c;
+  background: rgba(242,102,92,0.1);
+  border-color: rgba(242,102,92,0.3);
+}
+.rx-delete-btn:focus-visible { outline: 2px solid var(--danger); }
+
+/* Inline success button state */
+.btn-state-success {
+  background: var(--accent) !important;
+  color: #070b14 !important;
+  border-color: var(--accent) !important;
+  pointer-events: none;
+}
+
 /* Audio wave animation */
 .audio-visualizer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 3px;
   height: 48px;
   padding: 8px 16px;
   background: #080d18;
@@ -852,14 +1466,449 @@
   100% { height: 12px; }
 }
 
-/* Print Rx Preview Card */
-.rx-paper-card {
+/* ==================== TIMELINE DESIGN ==================== */
+.records-timeline {
+  position: relative;
+  padding-right: 22px;
+}
+.records-timeline::before {
+  content: '';
+  position: absolute;
+  right: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--border));
+  border-radius: 2px;
+}
+.tl-record-item {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: #0d1527;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: var(--transition);
+}
+.tl-record-item:hover { border-color: var(--border-strong); }
+.tl-record-dot {
+  position: absolute;
+  right: -22px;
+  top: 16px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 2.5px solid var(--bg-page);
+  z-index: 1;
+}
+.tl-record-dot.consult { background: var(--accent); }
+.tl-record-dot.lab { background: var(--info); }
+.tl-record-dot.alert { background: var(--danger); }
+.tl-record-dot.msg { background: var(--warn); }
+
+/* ==================== PRINT PREVIEW MODAL ==================== */
+.rx-preview-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(3,6,12,0.8);
+  backdrop-filter: blur(8px);
+  z-index: 960;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.rx-preview-modal.show { display: flex; }
+.rx-preview-paper {
   background: #ffffff;
   color: #0f172a;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border-radius: 14px;
+  padding: 32px 28px;
+  width: 600px;
+  max-width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.7);
   font-family: 'Tajawal', sans-serif;
+}
+.rx-preview-paper .rx-header {
+  text-align: center;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+.rx-preview-paper .rx-header h2 { font-size: 18px; color: #0f766e; }
+.rx-preview-paper .rx-header p { font-size: 12px; color: #64748b; }
+.rx-preview-paper .rx-med-item {
+  padding: 10px 0;
+  border-bottom: 1px dashed #e2e8f0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+.rx-preview-paper .rx-med-item:last-child { border-bottom: none; }
+.rx-preview-paper .rx-med-name { font-weight: 800; font-size: 14px; }
+.rx-preview-paper .rx-med-detail { font-size: 12px; color: #475569; }
+
+/* ==================== DELETE CONFIRMATION DIALOG ==================== */
+.confirm-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3,6,12,0.7);
+  z-index: 970;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.confirm-dialog-backdrop.show { display: flex; }
+.confirm-dialog {
+  background: var(--bg-card);
+  border: 1px solid rgba(242,102,92,0.4);
+  border-radius: 16px;
+  padding: 24px;
+  width: 380px;
+  max-width: 92vw;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+}
+.confirm-dialog h3 { color: #f2665c; font-size: 16px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.confirm-dialog p { color: var(--text-secondary); font-size: 13px; margin-bottom: 16px; }
+.confirm-dialog-actions { display: flex; gap: 10px; justify-content: center; }
+
+/* Preset pill differentiation */
+.pill-preset {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+  border-radius: 6px; font-size: 11px; font-weight: 600;
+  background: rgba(31,230,168,0.06); color: var(--accent);
+  border: 1px dashed rgba(31,230,168,0.3);
+  cursor: pointer; transition: var(--transition);
+}
+.pill-preset:hover {
+  background: rgba(31,230,168,0.14);
+  border-style: solid;
+}
+.pill-template {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+  border-radius: 6px; font-size: 11px; font-weight: 600;
+  background: rgba(91,156,245,0.06); color: var(--info);
+  border: 1px dashed rgba(91,156,245,0.3);
+  cursor: pointer; transition: var(--transition);
+}
+.pill-template:hover {
+  background: rgba(91,156,245,0.14);
+  border-style: solid;
+}
+
+/* Followup confirmed state */
+.followup-confirmed-card {
+  background: rgba(31,230,168,0.08);
+  border: 1.5px solid var(--accent);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* ==================== PATIENT FULL PROFILE MODAL (HIGH CONTRAST & CLEAR) ==================== */
+.patient-full-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 980;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.patient-full-modal.show {
+  display: flex;
+}
+.patient-full-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 16, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.patient-full-modal-dialog {
+  position: relative;
+  z-index: 2;
+  width: 920px;
+  max-width: 96vw;
+  max-height: 90vh;
+  background: #0b1322;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(31, 230, 168, 0.15);
+  animation: modalIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.patient-full-modal-head {
+  background: #0f1a2e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.patient-full-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+}
+.patient-full-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.patient-full-modal-foot {
+  background: #0f1a2e;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* High Contrast Inner Components */
+.pf-hero-card {
+  background: linear-gradient(135deg, #111d33 0%, #0d172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.pf-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1fe6a8, #0d9488);
+  color: #03261b;
+  font-size: 24px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(31, 230, 168, 0.3);
+  flex-shrink: 0;
+}
+.pf-name {
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+.pf-meta {
+  font-size: 12.5px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pf-meta strong {
+  color: #f8fafc;
+}
+
+/* Severe Allergy Alert */
+.pf-allergy-alert {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, rgba(185, 28, 28, 0.12) 100%);
+  border: 1.5px solid #ef4444;
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #fecaca;
+  animation: pulseAllergy 2s infinite ease-in-out;
+}
+@keyframes pulseAllergy {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.25); }
+  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+.pf-allergy-title {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* Modal Tab Bar */
+.pf-nav-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+  overflow-x: auto;
+}
+.pf-tab-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.pf-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.pf-tab-btn.active {
+  background: rgba(31, 230, 168, 0.14);
+  color: #1fe6a8;
+  border-color: #1fe6a8;
+  box-shadow: 0 0 12px rgba(31, 230, 168, 0.2);
+}
+
+/* Vitals Cards Grid */
+.pf-vitals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+.pf-vital-card {
+  background: #111d33;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+.pf-vital-label {
+  font-size: 11.5px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pf-vital-val {
+  font-size: 17px;
+  font-weight: 900;
+  color: #ffffff;
+}
+.pf-vital-ref {
+  font-size: 10px;
+  color: #64748b;
+}
+.pf-vital-badge {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+.pf-vital-badge.ok { background: rgba(31, 230, 168, 0.15); color: #1fe6a8; }
+.pf-vital-badge.warn { background: rgba(242, 184, 75, 0.15); color: #f2b84b; }
+.pf-vital-badge.danger { background: rgba(239, 68, 68, 0.18); color: #ef4444; }
+
+/* Lab Table */
+.pf-table-wrap {
+  background: #111d33;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.pf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: right;
+}
+.pf-table th {
+  background: #0e172a;
+  color: #94a3b8;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pf-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+}
+.pf-table tr:last-child td {
+  border-bottom: none;
+}
+.pf-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Medications List */
+.pf-med-card {
+  background: #111d33;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.pf-med-card:last-child {
+  margin-bottom: 0;
+}
+.pf-med-name {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #ffffff;
+}
+.pf-med-instruction {
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* Timeline Cards */
+.pf-tl-item {
+  position: relative;
+  padding-right: 24px;
+  padding-bottom: 16px;
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+}
+.pf-tl-item:last-child {
+  border-right-color: transparent;
+  padding-bottom: 0;
+}
+.pf-tl-dot {
+  position: absolute;
+  right: -6px;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #0b1322;
 }
 </style>
 </head>
@@ -872,15 +1921,18 @@
       <i class="ti ti-stethoscope" style="font-size:24px"></i>
       <span>طبابا</span>
     </a>
-    <span class="tiny" style="color:var(--text-muted);border-right:1px solid var(--border);padding-right:12px;margin-right:4px">
-      مساحة الكشف السريري والتشخيص
-    </span>
+    <!-- Dynamic Breadcrumb — replaces static label -->
+    <div class="c-breadcrumb" id="consultBreadcrumb">
+      <span>مساحة الكشف السريري</span>
+      <span class="c-crumb-sep"><i class="ti ti-chevron-left"></i></span>
+      <span class="c-crumb-active" id="breadcrumbPatientName">اختيار مريض...</span>
+    </div>
   </div>
 
   <nav class="c-nav-links" style="display:flex;align-items:center;gap:6px">
     <a href="tababa-doctor-dashboard.html" class="c-nav-link"><i class="ti ti-layout-dashboard"></i>الرئيسية</a>
     <a href="doctor-patients.html" class="c-nav-link"><i class="ti ti-users"></i>المرضى</a>
-    <a href="doctor-consultation.html" class="c-nav-link active"><i class="ti ti-stethoscope"></i>بدء كشف جديد</a>
+    <a href="doctor-consultation.html" class="c-nav-link active" id="navConsultLink"><i class="ti ti-stethoscope"></i><span id="navConsultLabel">بدء كشف جديد</span></a>
     <a href="doctor-clinics.html" class="c-nav-link"><i class="ti ti-building-hospital"></i>عياداتي</a>
     <a href="doctor-financial.html" class="c-nav-link"><i class="ti ti-report-money"></i>المالية</a>
   </nav>
@@ -899,28 +1951,28 @@
       </div>
       <div class="clinic-dropdown" id="clinicDropdown">
         <div class="clinic-drop-head">اختر الفرع الطبي</div>
-        <div class="clinic-option active" data-id="all" onclick="selectClinic('all')">
+        <div class="clinic-option active" data-id="all" onclick="selectClinic('all')" role="option" tabindex="0" aria-label="جميع العيادات">
           <div class="clinic-opt-icon"><i class="ti ti-world"></i></div>
           <div class="clinic-opt-info">
             <div class="clinic-opt-title">جميع العيادات (عرض شامل)</div>
             <div class="clinic-opt-sub">المنصورة، القاهرة، الجيزة</div>
           </div>
         </div>
-        <div class="clinic-option" data-id="clinic_mansoura" onclick="selectClinic('clinic_mansoura')">
+        <div class="clinic-option" data-id="clinic_mansoura" onclick="selectClinic('clinic_mansoura')" role="option" tabindex="0" aria-label="المنصورة">
           <div class="clinic-opt-icon" style="color:var(--accent)"><i class="ti ti-building-hospital"></i></div>
           <div class="clinic-opt-info">
             <div class="clinic-opt-title">مركز طبابا الطبي — المنصورة</div>
             <div class="clinic-opt-sub">الأحد، الثلاثاء، الخميس</div>
           </div>
         </div>
-        <div class="clinic-option" data-id="clinic_cairo" onclick="selectClinic('clinic_cairo')">
+        <div class="clinic-option" data-id="clinic_cairo" onclick="selectClinic('clinic_cairo')" role="option" tabindex="0" aria-label="القاهرة">
           <div class="clinic-opt-icon" style="color:var(--info)"><i class="ti ti-building-community"></i></div>
           <div class="clinic-opt-info">
             <div class="clinic-opt-title">عيادة النور — القاهرة</div>
             <div class="clinic-opt-sub">السبت، الاثنين، الأربعاء</div>
           </div>
         </div>
-        <div class="clinic-option" data-id="clinic_giza" onclick="selectClinic('clinic_giza')">
+        <div class="clinic-option" data-id="clinic_giza" onclick="selectClinic('clinic_giza')" role="option" tabindex="0" aria-label="الجيزة">
           <div class="clinic-opt-icon" style="color:var(--warn)"><i class="ti ti-heart-rate-monitor"></i></div>
           <div class="clinic-opt-info">
             <div class="clinic-opt-title">عيادة فيوتشر كير — الجيزة</div>
@@ -931,12 +1983,7 @@
     </div>
 
     <!-- AI Attention Pill -->
-    <button class="pill sm solid" onclick="openAiRecomModal()"><i class="ti ti-sparkles"></i>توصيات AI <span id="topbarAiCount">5</span></button>
-
-    <!-- Back to Dashboard -->
-    <a href="tababa-doctor-dashboard.html" class="pill sm ghost" style="font-weight:700">
-      <i class="ti ti-arrow-right"></i> لوحة التحكم
-    </a>
+    <button class="pill sm solid" onclick="openAiRecomModal()" aria-label="توصيات الذكاء الاصطناعي"><i class="ti ti-sparkles"></i>توصيات AI <span id="topbarAiCount">5</span></button>
   </div>
 </header>
 
@@ -951,30 +1998,32 @@
       <!-- Injected via renderPatientHeader() -->
     </div>
 
-    <!-- 2. Workspace Horizontal Tabs -->
-    <div class="consult-tabs-bar" id="consultTabsBar">
-      <button class="c-tab-btn active" data-tab="overview" onclick="switchConsultTab('overview')">
-        <i class="ti ti-layout-grid"></i> نظرة عامة
-      </button>
-      <button class="c-tab-btn" data-tab="notes" onclick="switchConsultTab('notes')">
-        <i class="ti ti-notes"></i> ملاحظات سريرية
-      </button>
-      <button class="c-tab-btn" data-tab="prescription" onclick="switchConsultTab('prescription')">
-        <i class="ti ti-prescription"></i> الروشتة
-      </button>
-      <button class="c-tab-btn" data-tab="recording" onclick="switchConsultTab('recording')">
-        <i class="ti ti-microphone"></i> تسجيل الجلسة
-      </button>
-      <button class="c-tab-btn" data-tab="records" onclick="switchConsultTab('records')">
-        <i class="ti ti-file-analytics"></i> السجل الطبي
-      </button>
-      <button class="c-tab-btn" data-tab="followup" onclick="switchConsultTab('followup')">
-        <i class="ti ti-calendar-time"></i> المتابعة
-      </button>
+    <!-- 2. Workspace Horizontal Tabs with scroll affordance -->
+    <div class="consult-tabs-wrapper" id="tabsWrapper">
+      <div class="consult-tabs-bar" id="consultTabsBar" role="tablist">
+        <button class="c-tab-btn active" data-tab="overview" onclick="switchConsultTab('overview')" role="tab" aria-selected="true">
+          <i class="ti ti-layout-grid"></i> نظرة عامة
+        </button>
+        <button class="c-tab-btn" data-tab="notes" onclick="switchConsultTab('notes')" role="tab" aria-selected="false">
+          <i class="ti ti-notes"></i> ملاحظات سريرية
+        </button>
+        <button class="c-tab-btn" data-tab="prescription" onclick="switchConsultTab('prescription')" role="tab" aria-selected="false">
+          <i class="ti ti-prescription"></i> الروشتة
+        </button>
+        <button class="c-tab-btn" data-tab="recording" onclick="switchConsultTab('recording')" role="tab" aria-selected="false">
+          <i class="ti ti-microphone"></i> تسجيل الجلسة
+        </button>
+        <button class="c-tab-btn" data-tab="records" onclick="switchConsultTab('records')" role="tab" aria-selected="false">
+          <i class="ti ti-file-analytics"></i> السجل الطبي
+        </button>
+        <button class="c-tab-btn" data-tab="followup" onclick="switchConsultTab('followup')" role="tab" aria-selected="false">
+          <i class="ti ti-calendar-time"></i> المتابعة
+        </button>
+      </div>
     </div>
 
     <!-- 3. Dynamic Tab Content View -->
-    <div id="consultTabContent">
+    <div id="consultTabContent" role="tabpanel">
       <!-- Injected dynamically via renderConsultContent() -->
     </div>
 
@@ -996,7 +2045,7 @@
         <button class="pill sm ghost" onclick="switchConsultTab('recording')">
           <i class="ti ti-sparkles" style="color:var(--accent)"></i> تسجيل صوتي AI
         </button>
-        <button class="pill sm solid" style="background:#162438;border-color:var(--border-strong);color:var(--accent)" onclick="completeConsultation()">
+        <button class="btn-complete-consult" id="btnCompleteConsult" onclick="completeConsultation()">
           <i class="ti ti-check"></i> إنهاء واعتماد الكشف
         </button>
       </div>
@@ -1013,17 +2062,17 @@
           <h2 class="sched-title">جدول اليوم</h2>
           <span class="sched-counter" id="schedCount">8 مرضى</span>
         </div>
-        <button class="btn-icon" style="width:28px;height:28px" onclick="renderScheduleList()" title="تحديث القائمة">
+        <button class="btn-icon" style="width:28px;height:28px" onclick="renderScheduleList()" title="تحديث القائمة" aria-label="تحديث قائمة المرضى">
           <i class="ti ti-refresh" style="font-size:14px"></i>
         </button>
       </div>
 
       <!-- Filter Tabs -->
-      <div class="sched-filters">
-        <div class="sched-filter-btn active" data-filter="all" onclick="setScheduleFilter('all')">الكل</div>
-        <div class="sched-filter-btn" data-filter="waiting" onclick="setScheduleFilter('waiting')">منتظر</div>
-        <div class="sched-filter-btn" data-filter="upcoming" onclick="setScheduleFilter('upcoming')">قادم</div>
-        <div class="sched-filter-btn" data-filter="done" onclick="setScheduleFilter('done')">مكتمل</div>
+      <div class="sched-filters" role="tablist" aria-label="تصفية المرضى">
+        <button class="sched-filter-btn active" data-filter="all" onclick="setScheduleFilter('all')" role="tab" tabindex="0">الكل</button>
+        <button class="sched-filter-btn" data-filter="waiting" onclick="setScheduleFilter('waiting')" role="tab" tabindex="0">منتظر</button>
+        <button class="sched-filter-btn" data-filter="upcoming" onclick="setScheduleFilter('upcoming')" role="tab" tabindex="0">قادم</button>
+        <button class="sched-filter-btn" data-filter="done" onclick="setScheduleFilter('done')" role="tab" tabindex="0">مكتمل</button>
       </div>
 
       <!-- Patient Cards List -->
@@ -1037,14 +2086,14 @@
 
 <!-- ==================== MODALS & DRAWERS ==================== -->
 <!-- AI Recommendations Modal -->
-<div class="ai-modal" id="aiRecomModal">
+<div class="ai-modal" id="aiRecomModal" role="dialog" aria-modal="true" aria-label="توصيات الذكاء الاصطناعي">
   <div class="ai-modal-content">
     <div class="ai-modal-head">
       <div style="display:flex;align-items:center;gap:8px">
         <i class="ti ti-sparkles" style="color:var(--accent);font-size:20px"></i>
         <h3 style="font-size:15px;font-weight:700">مركز توصيات الذكاء الاصطناعي السريري (AI Attention Engine)</h3>
       </div>
-      <button class="drawer-close" onclick="closeAiRecomModal()"><i class="ti ti-x"></i></button>
+      <button class="drawer-close" onclick="closeAiRecomModal()" aria-label="إغلاق"><i class="ti ti-x"></i></button>
     </div>
     <div class="ai-modal-body" id="aiModalBody"></div>
   </div>
@@ -1052,7 +2101,7 @@
 
 <!-- Chat Drawer -->
 <div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
-<div class="chat-drawer" id="chatDrawer">
+<div class="chat-drawer" id="chatDrawer" role="dialog" aria-modal="true" aria-label="محادثة المريض">
   <div class="chat-header">
     <div style="display:flex;align-items:center;gap:10px">
       <div class="chat-header-avatar" id="chatAvatar">أ</div>
@@ -1061,19 +2110,74 @@
         <div class="chat-header-status" id="chatStatusText">متصل الآن</div>
       </div>
     </div>
-    <button class="drawer-close" onclick="closeAllDrawers()"><i class="ti ti-x"></i></button>
+    <button class="drawer-close" onclick="closeAllDrawers()" aria-label="إغلاق المحادثة"><i class="ti ti-x"></i></button>
   </div>
   <div class="chat-messages-area" id="chatMessages"></div>
   <div class="chat-input-bar">
     <div class="chat-input-box">
+      <label for="chatInput" class="sr-only">اكتب رسالة</label>
       <input type="text" id="chatInput" placeholder="اكتب ردك أو التعليمات الطبية..." onkeydown="if(event.key==='Enter')sendConsultChat()">
     </div>
-    <button class="chat-send-btn" onclick="sendConsultChat()"><i class="ti ti-send"></i></button>
+    <button class="chat-send-btn" onclick="sendConsultChat()" aria-label="إرسال الرسالة"><i class="ti ti-send"></i></button>
+  </div>
+</div>
+
+<!-- Prescription Print Preview Modal -->
+<div class="rx-preview-modal" id="rxPreviewModal" role="dialog" aria-modal="true" aria-label="معاينة الروشتة">
+  <div class="rx-preview-paper" id="rxPreviewContent"></div>
+</div>
+
+<!-- Comprehensive Patient Medical File Modal -->
+<div class="patient-full-modal" id="patientFullProfileModal" role="dialog" aria-modal="true" aria-label="الملف الطبي الشامل للمريض">
+  <div class="patient-full-modal-backdrop" onclick="closePatientFullProfileModal()"></div>
+  <div class="patient-full-modal-dialog">
+    <div class="patient-full-modal-head">
+      <div class="patient-full-modal-title">
+        <i class="ti ti-id-badge-2" style="color:var(--accent);font-size:22px"></i>
+        <span>الملف الطبي الموحد والشامل (Electronic Medical Record)</span>
+        <span class="pill xs ghost" style="color:var(--accent);border-color:var(--accent);font-size:11px">محدّث وموثّق</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="pill xs ghost" onclick="printPatientFullProfile()" title="طباعة الملف الطبي"><i class="ti ti-printer"></i> طباعة الملف</button>
+        <button class="drawer-close" onclick="closePatientFullProfileModal()" aria-label="إغلاق الملف"><i class="ti ti-x"></i></button>
+      </div>
+    </div>
+    <div class="patient-full-modal-body" id="patientFullProfileBody">
+      <!-- Populated dynamically by renderPatientFullProfileBody() -->
+    </div>
+    <div class="patient-full-modal-foot">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="pill sm solid" onclick="switchToConsultRecordsTab()" title="الانتقال لتبويب السجل الشامل لإضافة أوامر تحاليل">
+          <i class="ti ti-file-medical"></i> متابعة السجل وطلب الفحوصات في الكشف
+        </button>
+        <button class="pill sm ghost" id="btnChatFromModal" onclick="chatFromFullProfileModal()">
+          <i class="ti ti-message-circle"></i> محادثة المريض
+        </button>
+      </div>
+      <button class="pill sm ghost" onclick="closePatientFullProfileModal()">
+        إغلاق والعودة لشاشة الكشف
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Dialog -->
+<div class="confirm-dialog-backdrop" id="deleteConfirmDialog">
+  <div class="confirm-dialog">
+    <h3><i class="ti ti-alert-triangle"></i> تأكيد الحذف</h3>
+    <p id="deleteConfirmText">هل أنت متأكد من حذف هذا الدواء من الروشتة؟</p>
+    <div class="confirm-dialog-actions">
+      <button class="pill sm ghost" onclick="cancelDeleteMed()">إلغاء</button>
+      <button class="pill sm danger-fill" onclick="confirmDeleteMed()"><i class="ti ti-trash"></i> حذف</button>
+    </div>
   </div>
 </div>
 
 <!-- Toast Container -->
 <div class="toast-box" id="toastBox"></div>
+
+<!-- Accessibility: screen reader only label -->
+<style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}</style>
 
 <!-- Scripts -->
 <script src="doctor-shared.js"></script>
@@ -1082,6 +2186,20 @@
 let activePatientId = 1;
 let currentTab = 'overview';
 let scheduleFilter = 'all';
+let bodyViewSide = 'front'; // front or back
+let deleteTargetIdx = -1;
+let followupConfirmed = false;
+let consultationCompleted = false;
+
+// Tab content tracking - which tabs have data for this session
+let tabContentState = {
+  overview: true,
+  notes: false,
+  prescription: true,
+  recording: false,
+  records: false,
+  followup: false
+};
 
 // Active Prescriptions for the current session
 let currentPrescriptions = [
@@ -1107,6 +2225,20 @@ document.addEventListener('DOMContentLoaded', () => {
   renderScheduleList();
   renderConsultContent();
   renderNotifications();
+  updateTabProgressDots();
+  updateNavLabel();
+  initTabScrollAffordance();
+
+  // Escape key closes modals/drawers
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAllDrawers();
+      closeAiRecomModal();
+      closeRxPreview();
+      cancelDeleteMed();
+      closePatientFullProfileModal();
+    }
+  });
 });
 
 function onClinicChanged(clinicId) {
@@ -1115,10 +2247,60 @@ function onClinicChanged(clinicId) {
   renderConsultContent();
 }
 
+// ============================= NAVIGATION & BREADCRUMB =============================
+function updateNavLabel() {
+  const p = getActivePatient();
+  const navLabel = document.getElementById('navConsultLabel');
+  const breadcrumbName = document.getElementById('breadcrumbPatientName');
+  if (navLabel) navLabel.textContent = `كشف: ${p.name}`;
+  if (breadcrumbName) breadcrumbName.textContent = p.name;
+}
+
+// Tab scroll affordance
+function initTabScrollAffordance() {
+  const wrapper = document.getElementById('tabsWrapper');
+  const bar = document.getElementById('consultTabsBar');
+  if (!wrapper || !bar) return;
+
+  function updateScrollState() {
+    const sl = bar.scrollLeft;
+    const sw = bar.scrollWidth;
+    const cw = bar.clientWidth;
+    const isRTL = getComputedStyle(bar).direction === 'rtl';
+    const atStart = isRTL ? sl >= -1 : sl <= 1;
+    const atEnd = isRTL ? Math.abs(sl) + cw >= sw - 1 : sl + cw >= sw - 1;
+
+    wrapper.classList.remove('scroll-start', 'scroll-end', 'scroll-both');
+    if (sw <= cw) return; // no overflow
+    if (!atStart && !atEnd) wrapper.classList.add('scroll-both');
+    else if (!atStart) wrapper.classList.add('scroll-start');
+    else if (!atEnd) wrapper.classList.add('scroll-end');
+  }
+  bar.addEventListener('scroll', updateScrollState);
+  window.addEventListener('resize', updateScrollState);
+  setTimeout(updateScrollState, 100);
+}
+
+// ============================= TAB PROGRESS DOTS =============================
+function updateTabProgressDots() {
+  document.querySelectorAll('.c-tab-btn').forEach(btn => {
+    const tab = btn.dataset.tab;
+    const existing = btn.querySelector('.tab-done-dot');
+    if (existing) existing.remove();
+    if (tabContentState[tab]) {
+      const dot = document.createElement('span');
+      dot.className = 'tab-done-dot';
+      btn.appendChild(dot);
+    }
+  });
+}
+
 // ============================= PATIENT SELECTION =============================
 function selectPatient(id) {
   activePatientId = id;
   const p = getActivePatient();
+  consultationCompleted = false;
+  followupConfirmed = false;
 
   // Reset prescriptions to patient defaults if available
   if (p.meds && p.meds.length) {
@@ -1131,6 +2313,16 @@ function selectPatient(id) {
     }));
   }
 
+  // Reset tab content state
+  tabContentState = {
+    overview: true,
+    notes: !!p.notes,
+    prescription: currentPrescriptions.length > 0,
+    recording: false,
+    records: false,
+    followup: false
+  };
+
   // Update URL without full refresh
   const url = new URL(window.location);
   url.searchParams.set('patient', id);
@@ -1139,10 +2331,28 @@ function selectPatient(id) {
   renderPatientHeader();
   renderScheduleList();
   renderConsultContent();
+  updateTabProgressDots();
+  updateNavLabel();
+
+  // Update completion button
+  const btn = document.getElementById('btnCompleteConsult');
+  if (btn) {
+    btn.classList.remove('completed');
+    btn.innerHTML = '<i class="ti ti-check"></i> إنهاء واعتماد الكشف';
+  }
 }
 
 function getActivePatient() {
   return PATIENTS.find(x => x.id === activePatientId) || PATIENTS[0];
+}
+
+// ============================= PRIORITY BADGE LOGIC =============================
+function getPriorityInfo(p) {
+  const score = p.aiScore || 0;
+  if (score >= 80) return { cls: 'critical', icon: 'ti-flame', label: `${score}/100 أولوية قصوى`, color: '#f2665c' };
+  if (score >= 50) return { cls: 'high', icon: 'ti-alert-circle', label: `${score}/100 أولوية مرتفعة`, color: '#f2b84b' };
+  if (score >= 30) return { cls: 'medium', icon: 'ti-info-circle', label: `${score}/100 أولوية متوسطة`, color: '#5b9cf5' };
+  return { cls: 'stable', icon: 'ti-heart', label: `${score}/100 حالة مستقرة`, color: '#1fe6a8' };
 }
 
 // ============================= HEADER RENDERING =============================
@@ -1152,7 +2362,7 @@ function renderPatientHeader() {
 
   const p = getActivePatient();
   const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
-  const score = calculateAttentionScore(p);
+  const pri = getPriorityInfo(p);
 
   container.innerHTML = `
     <div class="c-p-left">
@@ -1180,14 +2390,14 @@ function renderPatientHeader() {
     </div>
 
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <div class="c-priority-pill">
-        <i class="ti ti-flame"></i> 95/100 أولوية قصوى
+      <div class="c-priority-pill ${pri.cls}">
+        <i class="ti ${pri.icon}"></i> ${pri.label}
       </div>
       <div class="c-p-actions">
-        <button class="btn-chat-patient" onclick="openPatientChat(${p.id})">
+        <button class="btn-chat-patient" onclick="openPatientChat(${p.id})" aria-label="فتح محادثة مع ${p.name}">
           <i class="ti ti-message-circle"></i> محادثة المريض
         </button>
-        <button class="btn-profile-patient" onclick="location.href='doctor-patients.html?patient=${p.id}'">
+        <button class="btn-profile-patient" onclick="openPatientFullProfileModal(${p.id})" aria-label="فتح الملف الشامل">
           <i class="ti ti-id"></i> الملف الشامل
         </button>
       </div>
@@ -1200,6 +2410,7 @@ function setScheduleFilter(filter) {
   scheduleFilter = filter;
   document.querySelectorAll('.sched-filter-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.filter === filter);
+    b.setAttribute('aria-selected', b.dataset.filter === filter);
   });
   renderScheduleList();
 }
@@ -1233,7 +2444,7 @@ function renderScheduleList() {
     const isDone = p.status === 'done';
 
     return `
-      <div class="sched-card ${isCurrent ? 'active' : ''}" onclick="selectPatient(${p.id})">
+      <div class="sched-card ${isCurrent ? 'active' : ''}" onclick="selectPatient(${p.id})" tabindex="0" role="button" aria-label="اختيار المريض ${p.name}" onkeydown="if(event.key==='Enter')selectPatient(${p.id})">
         <div class="sched-card-top">
           <div style="flex:1;min-width:0">
             <div class="sched-card-name">${p.name}</div>
@@ -1268,7 +2479,9 @@ function renderScheduleList() {
 function switchConsultTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.c-tab-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.tab === tab);
+    const isActive = b.dataset.tab === tab;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-selected', isActive);
   });
   renderConsultContent();
 }
@@ -1305,37 +2518,153 @@ function renderConsultContent() {
 
 // ----------------------------- 1. OVERVIEW TAB -----------------------------
 function renderOverviewTab(p) {
+  ensurePatientPainState(p);
   const activeRegion = p.region || 'abdomen';
-  const painLevel = p.painLevel || 6;
-  const duration = p.painDuration || '4 أيام';
-  const regionArabic = activeRegion === 'abdomen' ? 'البطن' : (activeRegion === 'chest' ? 'الصدر' : (activeRegion === 'head' ? 'الرأس' : 'المفاصل'));
+  const activeArea = p.painAreas[activeRegion] || { level: p.painLevel || 6, duration: p.painDuration || '4 أيام', type: 'مغص متقطع' };
+  const painLevel = typeof activeArea.level === 'number' ? activeArea.level : (p.painLevel || 6);
+  const duration = activeArea.duration || p.painDuration || '4 أيام';
+  const painType = activeArea.type || 'مغص متقطع';
+  const regionArabic = PAIN_REGIONS[activeRegion]?.name || 'البطن والجهاز الهضمي';
+  const hm = getPainHeatmap(painLevel);
+
+  // Count active painful areas
+  const activeAreas = Object.entries(p.painAreas).filter(([_, a]) => a && a.level > 0);
+  const activeCount = activeAreas.length;
 
   return `
     <div class="c-overview-grid">
-      <!-- Left Box: Interactive Body Pain Model -->
-      <div class="c-pain-box">
-        <div class="c-pain-title">مجسم الألم التفاعلي</div>
-        
-        <div class="c-pain-svg-container">
-          ${renderInteractiveBodySvg(activeRegion, painLevel)}
+      <!-- Left Box: Interactive Medical Pain Map (V2 Upgrade) -->
+      <div class="c-pain-box" id="painModelBox">
+        <div class="c-pain-header">
+          <div class="c-pain-header-top">
+            <div class="c-pain-title">
+              <i class="ti ti-body-scan" style="font-size:16px;color:var(--accent)"></i>
+              <span>مجسم توطين الألم السريري</span>
+            </div>
+            <span class="pain-count-badge" id="painCountBadge">
+              ${activeCount} ${activeCount === 1 ? 'بؤرة نشطة' : 'بؤر نشطة'}
+            </span>
+          </div>
+          <!-- Clinical Purpose Banner: Clearly explains why the body model exists to the doctor -->
+          <div class="c-pain-purpose-banner">
+            <i class="ti ti-stethoscope"></i>
+            <div>
+              <b>الهدف السريري:</b> توطين بؤر الألم وتوثيق الشدة (VAS 0–10) لمتابعة الاستجابة الدوائية والسريرية والربط المباشر بملف المريض.
+            </div>
+          </div>
         </div>
 
-        <div class="c-pain-badge" id="painBadgeText">
-          <i class="ti ti-activity"></i> ${regionArabic}: شدة ${painLevel}/10
+        <!-- Front/Back 3D View Toggle -->
+        <div class="body-view-toggle" role="tablist" aria-label="اتجاه المجسم التشريحي">
+          <button class="${bodyViewSide==='front'?'active':''}" data-side="front" onclick="setBodyView('front')" role="tab" tabindex="0">
+            <i class="ti ti-user"></i> أمامي (Front)
+          </button>
+          <button class="${bodyViewSide==='back'?'active':''}" data-side="back" onclick="setBodyView('back')" role="tab" tabindex="0">
+            <i class="ti ti-user-x"></i> خلفي (Back)
+          </button>
         </div>
-        <div class="c-pain-duration">مدة الألم: ${duration}</div>
 
-        <!-- Quick Region Selector Hotspots -->
-        <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-top:6px">
-          <button class="pill xs ${activeRegion==='abdomen'?'solid':'ghost'}" onclick="setPainRegion('abdomen','البطن',6)">البطن</button>
-          <button class="pill xs ${activeRegion==='chest'?'solid':'ghost'}" onclick="setPainRegion('chest','الصدر',7)">الصدر</button>
-          <button class="pill xs ${activeRegion==='head'?'solid':'ghost'}" onclick="setPainRegion('head','الرأس',5)">الرأس</button>
-          <button class="pill xs ${activeRegion==='joints'?'solid':'ghost'}" onclick="setPainRegion('joints','المفاصل',4)">المفاصل</button>
+        <!-- 3D Perspective Viewport for Human Model SVGs -->
+        <div class="c-pain-viewport" id="painModelViewport">
+          <div class="c-pain-canvas front ${bodyViewSide==='front'?'active-view':'hidden-view'}" id="painCanvasFront">
+            ${renderBodyFrontSvg(p, activeRegion)}
+          </div>
+          <div class="c-pain-canvas back ${bodyViewSide==='back'?'active-view':'hidden-view'}" id="painCanvasBack">
+            ${renderBodyBackSvg(p, activeRegion)}
+          </div>
+          <!-- Floating Medical Tooltip -->
+          <div class="pain-hotspot-tooltip" id="painModelTooltip"></div>
+        </div>
+
+        <!-- Selected Region Clinical Details Card -->
+        <div class="c-pain-selected-card">
+          <div class="c-pain-selected-top">
+            <div class="c-pain-badge ${hm.badgeClass}" id="painBadgeText" style="color:${hm.color};background:${hm.badgeBg};border-color:${hm.badgeBorder}">
+              <i class="ti ti-activity"></i> ${regionArabic}: ${painLevel}/10 • ${hm.desc}
+            </div>
+            ${painLevel > 0 ? `
+              <button class="c-pain-del-btn" onclick="removePainRegion('${activeRegion}', event)" title="إزالة هذه المنطقة من سجل الألم" aria-label="إزالة المنطقة">
+                <i class="ti ti-trash"></i>
+              </button>
+            ` : ''}
+          </div>
+
+          <!-- Real-Time Pain Intensity Slider (0-10) -->
+          <div class="pain-slider-wrap">
+            <div class="pain-slider-labels">
+              <label for="painSlider">شدة الألم: <b id="painSliderVal" style="color:${hm.color}">${painLevel}</b>/10 <span id="painSeverityDesc" style="color:${hm.color}">(${hm.desc})</span></label>
+              <span class="pain-scale-legend">مقياس VAS (0 - 10)</span>
+            </div>
+            <input type="range" id="painSlider" class="pain-slider" min="0" max="10" value="${painLevel}" oninput="onPainSliderChange(this.value)" aria-label="شدة الألم من 0 إلى 10">
+            <div class="pain-slider-ticks">
+              <span>0 (لا يوجد)</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10 (أقصى ألم)</span>
+            </div>
+          </div>
+
+          <!-- Clinical Characteristics: Duration & Nature -->
+          <div class="c-pain-meta-row">
+            <div class="c-pain-meta-col">
+              <label><i class="ti ti-clock"></i> المدة الزمنية</label>
+              <select id="painDurationSelect" class="c-pain-select" onchange="onPainDurationChange(this.value)" aria-label="مدة الألم">
+                <option value="منذ ساعات" ${duration==='منذ ساعات'?'selected':''}>منذ ساعات</option>
+                <option value="يوم واحد" ${duration==='يوم واحد'?'selected':''}>يوم واحد</option>
+                <option value="4 أيام" ${duration==='4 أيام'?'selected':''}>4 أيام</option>
+                <option value="أسبوع" ${duration==='أسبوع'?'selected':''}>أسبوع</option>
+                <option value="أسبوعين" ${duration==='أسبوعين'?'selected':''}>أسبوعين</option>
+                <option value="شهر" ${duration==='شهر'?'selected':''}>شهر</option>
+                <option value="مزمن (> 3 شهور)" ${duration==='مزمن (> 3 شهور)'?'selected':''}>مزمن (> 3 شهور)</option>
+              </select>
+            </div>
+            <div class="c-pain-meta-col">
+              <label><i class="ti ti-stethoscope"></i> طبيعة الألم</label>
+              <select id="painTypeSelect" class="c-pain-select" onchange="onPainTypeChange(this.value)" aria-label="طبيعة الألم">
+                <option value="مغص متقطع" ${painType==='مغص متقطع'?'selected':''}>مغص متقطع</option>
+                <option value="حارق / التهابي" ${painType==='حارق / التهابي'?'selected':''}>حارق / التهابي</option>
+                <option value="نابض / خافق" ${painType==='نابض / خافق'?'selected':''}>نابض / خافق</option>
+                <option value="مستمر / غير منقطع" ${painType==='مستمر / غير منقطع'?'selected':''}>مستمر / غير منقطع</option>
+                <option value="ضاغط / ثقل" ${painType==='ضاغط / ثقل'?'selected':''}>ضاغط / ثقل</option>
+                <option value="وخز وتنميل عصبي" ${painType==='وخز وتنميل عصبي'?'selected':''}>وخز وتنميل عصبي</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multi-Region Active Pain Areas Chips List -->
+        <div class="c-pain-chips-section">
+          <div class="c-pain-chips-header">
+            <span><i class="ti ti-layers-linked"></i> بؤر الألم المسجلة (${activeCount}):</span>
+            ${activeCount > 1 ? `<button class="c-pain-clear-all" onclick="clearAllPainRegions()" title="مسح جميع بؤر الألم">مسح الكل</button>` : ''}
+          </div>
+          <div class="c-pain-chips-list" id="painChipsList">
+            ${renderPainChipsHtml(p)}
+          </div>
+        </div>
+
+        <!-- Clinical Integration Action: Insert findings into clinical notes -->
+        <div class="c-pain-actions-row">
+          <button class="c-pain-btn-notes" onclick="syncPainFindingsToNotes()" title="إدراج ملخص خريطة الألم في الملاحظات السريرية والفحص">
+            <i class="ti ti-file-text"></i> إدراج التقرير في الملاحظات السريرية
+          </button>
+        </div>
+
+        <!-- Quick Anatomical Presets -->
+        <div class="c-pain-quick-row">
+          <div class="c-pain-quick-lbl">تحديد سريع:</div>
+          <div class="c-pain-presets">
+            <button class="pill-preset ${activeRegion==='head'?'active':''}" data-region="head" onclick="onPainRegionSelect('head')" tabindex="0">الرأس</button>
+            <button class="pill-preset ${activeRegion==='chest'?'active':''}" data-region="chest" onclick="onPainRegionSelect('chest')" tabindex="0">الصدر</button>
+            <button class="pill-preset ${activeRegion==='abdomen'?'active':''}" data-region="abdomen" onclick="onPainRegionSelect('abdomen')" tabindex="0">البطن</button>
+            <button class="pill-preset ${activeRegion==='back_lower'?'active':''}" data-region="back_lower" onclick="onPainRegionSelect('back_lower')" tabindex="0">أسفل الظهر</button>
+            <button class="pill-preset ${activeRegion==='knee_r'||activeRegion==='joints'?'active':''}" data-region="knee_r" onclick="onPainRegionSelect('knee_r')" tabindex="0">الركبة</button>
+          </div>
         </div>
       </div>
 
-      <!-- Right Box: 5 Clinical Summary Cards -->
+      <!-- Right Box: Clinical Summary Cards + Vitals -->
       <div class="c-clinical-stack">
+        <!-- Vitals Gauges -->
+        ${renderVitalsGauges(p)}
+
         <!-- 1. الشكوى الرئيسية -->
         <div class="c-clinical-card">
           <div class="c-card-lbl">الشكوى الرئيسية</div>
@@ -1355,16 +2684,16 @@ function renderOverviewTab(p) {
             <span>تحذير الحساسية الدوائية</span>
           </div>
           <div class="c-allergy-name">
-            ${p.allergies && p.allergies.length ? p.allergies.join(' ، ') : 'سلفوناميد'}
+            ${p.allergies && p.allergies.length ? p.allergies.join(' ، ') : 'لا توجد حساسية مسجلة'}
           </div>
         </div>
 
-        <!-- 4. الأمراض المزمنة -->
+        <!-- 4. الأمراض المزمنة — using PURPLE to differentiate from amber -->
         <div class="c-clinical-card">
           <div class="c-card-lbl">الأمراض المزمنة</div>
           <div class="c-tags-row">
-            ${p.chronic && p.chronic.length 
-              ? p.chronic.map(c => `<span class="c-tag-pill chronic"><i class="ti ti-point"></i> ${c}</span>`).join('') 
+            ${p.chronic && p.chronic.length
+              ? p.chronic.map(c => `<span class="c-tag-pill chronic"><i class="ti ti-point"></i> ${c}</span>`).join('')
               : '<span class="c-tag-pill chronic">سكري نوع 2</span><span class="c-tag-pill chronic">ضغط دم مرتفع</span>'}
           </div>
         </div>
@@ -1373,8 +2702,8 @@ function renderOverviewTab(p) {
         <div class="c-clinical-card">
           <div class="c-card-lbl">الأدوية المتداولة حالياً</div>
           <div class="c-tags-row">
-            ${p.meds && p.meds.length 
-              ? p.meds.map(m => `<span class="c-tag-pill med"><i class="ti ti-pill"></i> ${m}</span>`).join('') 
+            ${p.meds && p.meds.length
+              ? p.meds.map(m => `<span class="c-tag-pill med"><i class="ti ti-pill"></i> ${m}</span>`).join('')
               : '<span class="c-tag-pill med">Metformin 1000mg</span><span class="c-tag-pill med">Amlodipine 5mg</span><span class="c-tag-pill med">Januvia 100mg</span>'}
           </div>
         </div>
@@ -1383,114 +2712,835 @@ function renderOverviewTab(p) {
   `;
 }
 
-// ----------------------------- INTERACTIVE BODY SVG -----------------------------
-function renderInteractiveBodySvg(activeRegion, painLevel) {
-  const isAbdomen = activeRegion === 'abdomen';
-  const isChest = activeRegion === 'chest';
-  const isHead = activeRegion === 'head';
-  const isJoints = activeRegion === 'joints';
+// ----------------------------- VITALS GAUGES -----------------------------
+function renderVitalsGauges(p) {
+  const vitals = [
+    { label: 'الضغط', value: '135/85', unit: 'mmHg', pct: 72, color: '#f2b84b' },
+    { label: 'النبض', value: '78', unit: 'bpm', pct: 60, color: '#1fe6a8' },
+    { label: 'الحرارة', value: '37.1', unit: '°C', pct: 50, color: '#1fe6a8' },
+    { label: 'السكر', value: '185', unit: 'mg/dL', pct: 85, color: '#f2665c' },
+    { label: 'الأكسجين', value: '98%', unit: '', pct: 98, color: '#1fe6a8' }
+  ];
+  const r = 20; const c = 2 * Math.PI * r;
 
   return `
-    <svg viewBox="0 0 140 260" width="140" height="260" style="overflow:visible">
+    <div class="vitals-gauges-row">
+      ${vitals.map(v => {
+        const dash = c * (v.pct / 100);
+        return `
+          <div class="vital-gauge">
+            <div class="vital-gauge-circle" style="color:${v.color}">
+              <svg width="48" height="48" viewBox="0 0 48 48">
+                <circle class="bg" cx="24" cy="24" r="${r}"/>
+                <circle cx="24" cy="24" r="${r}" stroke="${v.color}" stroke-dasharray="${dash} ${c - dash}" style="transition:stroke-dasharray 0.6s"/>
+              </svg>
+              <span style="font-size:11px;font-weight:900;z-index:1">${v.value}</span>
+            </div>
+            <div class="vital-gauge-label">${v.label}</div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ============================= MEDICAL PAIN MAP ENGINE (V2) =============================
+
+// Comprehensive Anatomical Regions Map
+const PAIN_REGIONS = {
+  head: { id: 'head', name: 'الرأس والوجه', view: 'front', cx: 80, cy: 32 },
+  neck: { id: 'neck', name: 'الرقبة والفقرات العنقية', view: 'front', cx: 80, cy: 60 },
+  shoulder_r: { id: 'shoulder_r', name: 'الكتف الأيمن', view: 'front', cx: 50, cy: 74 },
+  shoulder_l: { id: 'shoulder_l', name: 'الكتف الأيسر', view: 'front', cx: 110, cy: 74 },
+  chest: { id: 'chest', name: 'الصدر والقفص الصدري', view: 'front', cx: 80, cy: 91 },
+  abdomen: { id: 'abdomen', name: 'البطن والجهاز الهضمي', view: 'front', cx: 80, cy: 137 },
+  pelvis: { id: 'pelvis', name: 'الحوض والمغبن', view: 'front', cx: 80, cy: 170 },
+  arm_r: { id: 'arm_r', name: 'الذراع والساعد الأيمن', view: 'front', cx: 34, cy: 128 },
+  arm_l: { id: 'arm_l', name: 'الذراع والساعد الأيسر', view: 'front', cx: 126, cy: 128 },
+  hand_r: { id: 'hand_r', name: 'اليد والرسغ الأيمن', view: 'front', cx: 27, cy: 174 },
+  hand_l: { id: 'hand_l', name: 'اليد والرسغ الأيسر', view: 'front', cx: 133, cy: 174 },
+  thigh_r: { id: 'thigh_r', name: 'الفخذ الأيمن', view: 'front', cx: 68, cy: 204 },
+  thigh_l: { id: 'thigh_l', name: 'الفخذ الأيسر', view: 'front', cx: 92, cy: 204 },
+  knee_r: { id: 'knee_r', name: 'الركبة اليمنى', view: 'front', cx: 67, cy: 235 },
+  knee_l: { id: 'knee_l', name: 'الركبة اليسرى', view: 'front', cx: 93, cy: 235 },
+  leg_r: { id: 'leg_r', name: 'الساق والكاحل الأيمن', view: 'front', cx: 65, cy: 264 },
+  leg_l: { id: 'leg_l', name: 'الساق والكاحل الأيسر', view: 'front', cx: 95, cy: 264 },
+  foot_r: { id: 'foot_r', name: 'القدم اليمنى', view: 'front', cx: 61, cy: 293 },
+  foot_l: { id: 'foot_l', name: 'القدم اليسرى', view: 'front', cx: 99, cy: 293 },
+  back_upper: { id: 'back_upper', name: 'أعلى الظهر وألواح الكتف', view: 'back', cx: 80, cy: 91 },
+  back_lower: { id: 'back_lower', name: 'أسفل الظهر والفقرات القطنية', view: 'back', cx: 80, cy: 137 },
+  gluteal: { id: 'gluteal', name: 'المقعدة وعجز الحوض', view: 'back', cx: 80, cy: 172 },
+  joints: { id: 'joints', name: 'المفاصل (الركبتين)', view: 'front', cx: 80, cy: 235 }
+};
+
+// Heatmap Color & Glow Calculation based on 0-10 VAS Scale
+function getPainHeatmap(level) {
+  const lvl = Math.max(0, Math.min(10, parseInt(level, 10) || 0));
+  if (lvl === 0) {
+    return {
+      fill: 'url(#bodyGrad)',
+      stroke: '#1e4a4a',
+      strokeWidth: '1.2',
+      filter: '',
+      color: '#1fe6a8',
+      desc: 'لا يوجد ألم مسجل',
+      badgeClass: 'heat-none',
+      badgeBg: 'rgba(31, 230, 168, 0.1)',
+      badgeBorder: 'rgba(31, 230, 168, 0.3)'
+    };
+  }
+  if (lvl <= 3) {
+    // 1–3 Mild: Soft emerald green
+    return {
+      fill: 'rgba(34, 197, 94, 0.28)',
+      stroke: '#22c55e',
+      strokeWidth: '2',
+      filter: 'url(#glowGreen)',
+      color: '#22c55e',
+      desc: 'ألم خفيف',
+      badgeClass: 'heat-mild',
+      badgeBg: 'rgba(34, 197, 94, 0.16)',
+      badgeBorder: 'rgba(34, 197, 94, 0.4)'
+    };
+  }
+  if (lvl <= 6) {
+    // 4–6 Moderate: Warm clinical amber
+    return {
+      fill: 'rgba(245, 158, 11, 0.32)',
+      stroke: '#f59e0b',
+      strokeWidth: '2.2',
+      filter: 'url(#glowAmber)',
+      color: '#f59e0b',
+      desc: 'ألم متوسط',
+      badgeClass: 'heat-moderate',
+      badgeBg: 'rgba(245, 158, 11, 0.2)',
+      badgeBorder: 'rgba(245, 158, 11, 0.45)'
+    };
+  }
+  if (lvl <= 8) {
+    // 7–8 Severe: Coral red
+    return {
+      fill: 'rgba(242, 102, 92, 0.4)',
+      stroke: '#f2665c',
+      strokeWidth: '2.5',
+      filter: 'url(#glowRed)',
+      color: '#f2665c',
+      desc: 'ألم شديد',
+      badgeClass: 'heat-severe',
+      badgeBg: 'rgba(242, 102, 92, 0.22)',
+      badgeBorder: 'rgba(242, 102, 92, 0.5)'
+    };
+  }
+  // 9–10 Excruciating / Critical: Deep ruby crimson
+  return {
+    fill: 'rgba(225, 29, 72, 0.48)',
+    stroke: '#ff2a55',
+    strokeWidth: '2.8',
+    filter: 'url(#glowRuby)',
+    color: '#ff2a55',
+    desc: 'ألم فائق / حرج',
+    badgeClass: 'heat-critical',
+    badgeBg: 'rgba(225, 29, 72, 0.28)',
+    badgeBorder: 'rgba(255, 42, 85, 0.6)'
+  };
+}
+
+// Ensure patient multi-region pain data state is initialized
+function ensurePatientPainState(p) {
+  if (!p) return;
+  if (!p.painAreas || typeof p.painAreas !== 'object') {
+    p.painAreas = {};
+    const initReg = p.region || 'abdomen';
+    const initLvl = typeof p.painLevel === 'number' ? p.painLevel : 6;
+    const initDur = p.painDuration || '4 أيام';
+    const initType = (p.painSymptoms && p.painSymptoms[0]) || 'مغص متقطع';
+
+    p.painAreas[initReg] = {
+      level: initLvl,
+      duration: initDur,
+      type: initType,
+      label: PAIN_REGIONS[initReg]?.name || 'البطن'
+    };
+    p.region = initReg;
+    p.painLevel = initLvl;
+  }
+}
+
+// Hotspot renderer helper for SVG regions
+function renderRegionHotspot(p, activeRegion, id, label, shapeSvg, cx, cy) {
+  ensurePatientPainState(p);
+  const area = p.painAreas && p.painAreas[id];
+  const level = area ? (typeof area.level === 'number' ? area.level : 0) : 0;
+  const isActive = (activeRegion === id) || (id === 'knee_r' && activeRegion === 'joints') || (id === 'knee_l' && activeRegion === 'joints');
+  const hm = getPainHeatmap(level);
+
+  let fill = hm.fill;
+  let stroke = isActive ? '#1fe6a8' : hm.stroke;
+  let strokeWidth = isActive ? (level > 0 ? '2.5' : '2') : hm.strokeWidth;
+  let filter = isActive ? (level > 0 ? hm.filter : 'url(#glowSelect)') : hm.filter;
+
+  const pulseSvg = level > 0 ? `
+    <g class="pain-pulse-wrap">
+      <circle cx="${cx}" cy="${cy}" r="3.5" fill="${hm.color}" class="pain-pulse-dot" />
+      <circle cx="${cx}" cy="${cy}" r="8" fill="none" stroke="${hm.color}" stroke-width="1.2" stroke-dasharray="3,2">
+        <animate attributeName="r" values="5;14;5" dur="2.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.1;0.8" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  ` : '';
+
+  const activeIndicator = isActive ? `
+    <circle cx="${cx}" cy="${cy}" r="11" fill="none" stroke="#1fe6a8" stroke-width="1.3" stroke-dasharray="3,2">
+      <animate attributeName="r" values="9;14;9" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.85;0.25;0.85" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  ` : '';
+
+  return `
+    <g class="pain-hotspot ${isActive ? 'active' : ''}" 
+       data-region="${id}" 
+       data-label="${label}"
+       data-cx="${cx}"
+       data-cy="${cy}"
+       onclick="onPainRegionSelect('${id}')" 
+       onmouseenter="onPainRegionHover(this, '${id}', '${label}', event)" 
+       onmousemove="onPainRegionHover(this, '${id}', '${label}', event)" 
+       onmouseleave="onPainRegionLeave()" 
+       tabindex="0" 
+       role="button" 
+       aria-label="${label}: شدة الألم ${level}/10">
+      ${shapeSvg({ fill, stroke, strokeWidth, filter, level, isActive, hm })}
+      ${pulseSvg}
+      ${activeIndicator}
+    </g>
+  `;
+}
+
+// ----------------------------- INTERACTIVE BODY SVG — FRONT VIEW -----------------------------
+function renderBodyFrontSvg(p, activeRegion) {
+  return `
+    <svg viewBox="0 0 160 310" width="160" height="300" style="overflow:visible" role="img" aria-label="مجسم الجسم التفاعلي - الوجه الأمامي">
       <defs>
-        <!-- Glow filters -->
-        <filter id="neonGlowRed" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-        <filter id="neonGlowCyan" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="2" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
+        <filter id="glowGreen" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <filter id="glowAmber" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.5" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <filter id="glowRed" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <filter id="glowRuby" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4.5" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <filter id="glowSelect" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(31,230,168,0.12)"/>
+          <stop offset="100%" stop-color="rgba(31,230,168,0.03)"/>
+        </linearGradient>
       </defs>
 
-      <!-- Grid Silhouette background lines -->
-      <line x1="70" y1="10" x2="70" y2="250" stroke="rgba(31,230,168,0.1)" stroke-dasharray="3,3" />
+      <!-- Anatomical guide axes -->
+      <line x1="80" y1="6" x2="80" y2="302" stroke="rgba(31,230,168,0.06)" stroke-dasharray="4,4"/>
+      <line x1="25" y1="91" x2="135" y2="91" stroke="rgba(31,230,168,0.04)" stroke-dasharray="3,3"/>
+      <line x1="45" y1="137" x2="115" y2="137" stroke="rgba(31,230,168,0.04)" stroke-dasharray="3,3"/>
+      <line x1="50" y1="235" x2="110" y2="235" stroke="rgba(31,230,168,0.04)" stroke-dasharray="3,3"/>
 
-      <!-- Head -->
-      <g class="pain-hotspot" onclick="setPainRegion('head','الرأس',5)">
-        <polygon points="56,22 84,22 80,48 70,54 60,48" 
-                 fill="${isHead ? 'rgba(242,102,92,0.45)' : 'none'}" 
-                 stroke="${isHead ? '#f2665c' : '#1e3a4a'}" 
-                 stroke-width="2" 
-                 filter="${isHead ? 'url(#neonGlowRed)' : ''}" />
-        <circle cx="70" cy="34" r="8" fill="none" stroke="${isHead ? '#f2665c' : '#1fe6a8'}" stroke-width="1.2" opacity="0.6"/>
-      </g>
+      <!-- 1. HEAD & FACE -->
+      ${renderRegionHotspot(p, activeRegion, 'head', 'الرأس والوجه', s => `
+        <ellipse class="region-shape" cx="80" cy="32" rx="17" ry="22" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+        <circle cx="74" cy="28" r="1.8" fill="${s.isActive ? '#1fe6a8' : (s.level>0 ? s.hm.color : 'rgba(31,230,168,0.35)')}"/>
+        <circle cx="86" cy="28" r="1.8" fill="${s.isActive ? '#1fe6a8' : (s.level>0 ? s.hm.color : 'rgba(31,230,168,0.35)')}"/>
+        <path d="M76 37 Q80 40 84 37" fill="none" stroke="${s.isActive ? '#1fe6a8' : (s.level>0 ? s.hm.color : 'rgba(31,230,168,0.25)')}" stroke-width="1.2"/>
+      `, 80, 32)}
 
-      <!-- Neck -->
-      <line x1="66" y1="54" x2="66" y2="62" stroke="#1e3a4a" stroke-width="2" />
-      <line x1="74" y1="54" x2="74" y2="62" stroke="#1e3a4a" stroke-width="2" />
+      <!-- 2. NECK / CERVICAL -->
+      ${renderRegionHotspot(p, activeRegion, 'neck', 'الرقبة والفقرات العنقية', s => `
+        <path class="region-shape" d="M74 54 L86 54 L88 67 L72 67 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 80, 60)}
 
-      <!-- Chest / Thorax -->
-      <g class="pain-hotspot" onclick="setPainRegion('chest','الصدر',7)">
-        <polygon points="46,62 94,62 88,102 52,102" 
-                 fill="${isChest ? 'rgba(242,102,92,0.45)' : 'none'}" 
-                 stroke="${isChest ? '#f2665c' : '#1e3a4a'}" 
-                 stroke-width="2" 
-                 filter="${isChest ? 'url(#neonGlowRed)' : ''}" />
-        <!-- Sternum line -->
-        <line x1="70" y1="64" x2="70" y2="100" stroke="${isChest ? '#f2665c' : 'rgba(31,230,168,0.3)'}" stroke-width="1.5" />
-      </g>
+      <!-- 3. SHOULDERS -->
+      ${renderRegionHotspot(p, activeRegion, 'shoulder_r', 'الكتف الأيمن', s => `
+        <path class="region-shape" d="M72 67 Q54 67 44 75 Q40 82 42 90 L50 88 Q48 80 56 74 L72 67 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 50, 74)}
 
-      <!-- Abdomen / Lumbar (Active Pain Region in Ahmed Mohamed) -->
-      <g class="pain-hotspot" onclick="setPainRegion('abdomen','البطن والقولون',6)">
-        <polygon points="52,104 88,104 84,142 56,142" 
-                 fill="${isAbdomen ? 'rgba(242,102,92,0.42)' : 'none'}" 
-                 stroke="${isAbdomen ? '#f2665c' : '#1e3a4a'}" 
-                 stroke-width="${isAbdomen ? '2.5' : '2'}" 
-                 filter="${isAbdomen ? 'url(#neonGlowRed)' : ''}" />
-        ${isAbdomen ? `
-          <!-- Pulsing Target Ring -->
-          <circle cx="70" cy="123" r="10" fill="none" stroke="#f2665c" stroke-width="1.5" stroke-dasharray="3,2">
-            <animate attributeName="r" values="6;14;6" dur="2s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="70" cy="123" r="3" fill="#f2665c" />
-        ` : ''}
-      </g>
+      ${renderRegionHotspot(p, activeRegion, 'shoulder_l', 'الكتف الأيسر', s => `
+        <path class="region-shape" d="M88 67 Q106 67 116 75 Q120 82 118 90 L110 88 Q112 80 104 74 L88 67 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 110, 74)}
 
-      <!-- Pelvis -->
-      <polygon points="56,144 84,144 88,162 52,162" fill="none" stroke="#1e3a4a" stroke-width="2" />
+      <!-- 4. CHEST / THORAX -->
+      ${renderRegionHotspot(p, activeRegion, 'chest', 'الصدر والقفص الصدري', s => `
+        <path class="region-shape" d="M54 68 L106 68 L104 114 Q94 118 80 118 Q66 118 56 114 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+        <path d="M65 76 Q80 80 95 76" fill="none" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.12)'}" stroke-width="1" opacity="0.6"/>
+        <path d="M62 88 Q80 92 98 88" fill="none" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.12)'}" stroke-width="1" opacity="0.6"/>
+        <path d="M60 100 Q80 104 100 100" fill="none" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.12)'}" stroke-width="1" opacity="0.6"/>
+        <line x1="80" y1="68" x2="80" y2="114" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.2)'}" stroke-width="1.3" stroke-dasharray="3,2"/>
+      `, 80, 91)}
 
-      <!-- Arms -->
-      <!-- Right Arm -->
-      <line x1="46" y1="64" x2="32" y2="114" stroke="#1e3a4a" stroke-width="4" stroke-linecap="round" />
-      <line x1="32" y1="114" x2="26" y2="158" stroke="#1e3a4a" stroke-width="3" stroke-linecap="round" />
-      <!-- Left Arm -->
-      <line x1="94" y1="64" x2="108" y2="114" stroke="#1e3a4a" stroke-width="4" stroke-linecap="round" />
-      <line x1="108" y1="114" x2="114" y2="158" stroke="#1e3a4a" stroke-width="3" stroke-linecap="round" />
+      <!-- 5. ABDOMEN -->
+      ${renderRegionHotspot(p, activeRegion, 'abdomen', 'البطن والجهاز الهضمي', s => `
+        <path class="region-shape" d="M56 116 L104 116 Q102 146 98 158 L62 158 Q58 146 56 116 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+        <circle cx="80" cy="137" r="2.8" fill="none" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.25)'}" stroke-width="1.2"/>
+      `, 80, 137)}
 
-      <!-- Legs & Knees -->
-      <!-- Right Leg -->
-      <line x1="58" y1="164" x2="55" y2="204" stroke="#1e3a4a" stroke-width="5" stroke-linecap="round" />
-      <line x1="55" y1="208" x2="52" y2="248" stroke="#1e3a4a" stroke-width="4" stroke-linecap="round" />
-      <!-- Left Leg -->
-      <line x1="82" y1="164" x2="85" y2="204" stroke="#1e3a4a" stroke-width="5" stroke-linecap="round" />
-      <line x1="85" y1="208" x2="88" y2="248" stroke="#1e3a4a" stroke-width="4" stroke-linecap="round" />
+      <!-- 6. PELVIS / GROIN -->
+      ${renderRegionHotspot(p, activeRegion, 'pelvis', 'الحوض والمغبن', s => `
+        <path class="region-shape" d="M62 160 L98 160 Q100 178 94 182 Q80 178 66 182 Q60 178 62 160 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 80, 170)}
 
-      <!-- Knee Joints (Highlighted Cyan/Teal Circles) -->
-      <g class="pain-hotspot" onclick="setPainRegion('joints','مفاصل الركبة',4)">
-        <rect x="49" y="202" width="12" height="8" rx="2" 
-              fill="${isJoints ? 'rgba(242,102,92,0.4)' : 'rgba(31,230,168,0.12)'}" 
-              stroke="${isJoints ? '#f2665c' : '#1fe6a8'}" 
-              stroke-width="1.5" 
-              filter="url(#neonGlowCyan)"/>
-        <rect x="79" y="202" width="12" height="8" rx="2" 
-              fill="${isJoints ? 'rgba(242,102,92,0.4)' : 'rgba(31,230,168,0.12)'}" 
-              stroke="${isJoints ? '#f2665c' : '#1fe6a8'}" 
-              stroke-width="1.5" 
-              filter="url(#neonGlowCyan)"/>
-      </g>
+      <!-- 7. ARMS -->
+      ${renderRegionHotspot(p, activeRegion, 'arm_r', 'الذراع والساعد الأيمن', s => `
+        <path class="region-shape" d="M42 90 Q34 114 31 130 Q28 146 26 166 L33 167 Q36 148 38 132 Q42 116 49 92 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 34, 128)}
+
+      ${renderRegionHotspot(p, activeRegion, 'arm_l', 'الذراع والساعد الأيسر', s => `
+        <path class="region-shape" d="M118 90 Q126 114 129 130 Q132 146 134 166 L127 167 Q124 148 122 132 Q118 116 111 92 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 126, 128)}
+
+      <!-- 8. HANDS -->
+      ${renderRegionHotspot(p, activeRegion, 'hand_r', 'اليد والرسغ الأيمن', s => `
+        <ellipse class="region-shape" cx="27" cy="174" rx="5" ry="9" transform="rotate(8 27 174)" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 27, 174)}
+
+      ${renderRegionHotspot(p, activeRegion, 'hand_l', 'اليد والرسغ الأيسر', s => `
+        <ellipse class="region-shape" cx="133" cy="174" rx="5" ry="9" transform="rotate(-8 133 174)" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 133, 174)}
+
+      <!-- 9. THIGHS -->
+      ${renderRegionHotspot(p, activeRegion, 'thigh_r', 'الفخذ الأيمن', s => `
+        <path class="region-shape" d="M64 182 Q62 208 61 226 L73 226 Q76 208 78 182 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 68, 204)}
+
+      ${renderRegionHotspot(p, activeRegion, 'thigh_l', 'الفخذ الأيسر', s => `
+        <path class="region-shape" d="M82 182 Q84 208 87 226 L99 226 Q98 208 96 182 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 92, 204)}
+
+      <!-- 10. KNEES -->
+      ${renderRegionHotspot(p, activeRegion, 'knee_r', 'الركبة اليمنى', s => `
+        <ellipse class="region-shape" cx="67" cy="235" rx="7" ry="6" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 67, 235)}
+
+      ${renderRegionHotspot(p, activeRegion, 'knee_l', 'الركبة اليسرى', s => `
+        <ellipse class="region-shape" cx="93" cy="235" rx="7" ry="6" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 93, 235)}
+
+      <!-- 11. SHINS / CALVES -->
+      ${renderRegionHotspot(p, activeRegion, 'leg_r', 'الساق والكاحل الأيمن', s => `
+        <path class="region-shape" d="M62 243 Q60 264 59 284 L69 284 Q71 264 72 243 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 65, 264)}
+
+      ${renderRegionHotspot(p, activeRegion, 'leg_l', 'الساق والكاحل الأيسر', s => `
+        <path class="region-shape" d="M88 243 Q89 264 91 284 L101 284 Q100 264 98 243 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 95, 264)}
+
+      <!-- 12. FEET -->
+      ${renderRegionHotspot(p, activeRegion, 'foot_r', 'القدم اليمنى', s => `
+        <ellipse class="region-shape" cx="61" cy="293" rx="8" ry="4.5" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 61, 293)}
+
+      ${renderRegionHotspot(p, activeRegion, 'foot_l', 'القدم اليسرى', s => `
+        <ellipse class="region-shape" cx="99" cy="293" rx="8" ry="4.5" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 99, 293)}
     </svg>
   `;
 }
 
+// ----------------------------- INTERACTIVE BODY SVG — BACK VIEW -----------------------------
+function renderBodyBackSvg(p, activeRegion) {
+  return `
+    <svg viewBox="0 0 160 310" width="160" height="300" style="overflow:visible" role="img" aria-label="مجسم الجسم التفاعلي - الوجه الخلفي">
+      <defs>
+        <filter id="glowGreenB" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <filter id="glowAmberB" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.5" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <filter id="glowRedB" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <filter id="glowRubyB" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4.5" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <filter id="glowSelectB" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <linearGradient id="bodyGradB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(31,230,168,0.12)"/>
+          <stop offset="100%" stop-color="rgba(31,230,168,0.03)"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Anatomical posterior guide axes -->
+      <line x1="80" y1="6" x2="80" y2="302" stroke="rgba(31,230,168,0.06)" stroke-dasharray="4,4"/>
+      <line x1="25" y1="91" x2="135" y2="91" stroke="rgba(31,230,168,0.04)" stroke-dasharray="3,3"/>
+      <line x1="45" y1="137" x2="115" y2="137" stroke="rgba(31,230,168,0.04)" stroke-dasharray="3,3"/>
+
+      <!-- 1. HEAD BACK / OCCIPUT -->
+      ${renderRegionHotspot(p, activeRegion, 'head', 'مؤخرة الرأس والجمجمة', s => `
+        <ellipse class="region-shape" cx="80" cy="32" rx="17" ry="22" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+        <path d="M68 35 Q80 43 92 35" fill="none" stroke="${s.isActive ? '#1fe6a8' : (s.level>0 ? s.hm.color : 'rgba(31,230,168,0.22)')}" stroke-width="1.3"/>
+      `, 80, 32)}
+
+      <!-- 2. CERVICAL SPINE / NECK BACK -->
+      ${renderRegionHotspot(p, activeRegion, 'neck', 'فقرات العنق والرقبة', s => `
+        <path class="region-shape" d="M74 54 L86 54 L88 67 L72 67 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+        <line x1="80" y1="56" x2="80" y2="66" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.3)'}" stroke-width="1.5" stroke-dasharray="2,2"/>
+      `, 80, 60)}
+
+      <!-- 3. POSTERIOR SHOULDERS -->
+      ${renderRegionHotspot(p, activeRegion, 'shoulder_r', 'الكتف الأيمن من الخلف', s => `
+        <path class="region-shape" d="M72 67 Q54 67 44 75 Q40 82 42 90 L50 88 Q48 80 56 74 L72 67 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 50, 74)}
+
+      ${renderRegionHotspot(p, activeRegion, 'shoulder_l', 'الكتف الأيسر من الخلف', s => `
+        <path class="region-shape" d="M88 67 Q106 67 116 75 Q120 82 118 90 L110 88 Q112 80 104 74 L88 67 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 110, 74)}
+
+      <!-- 4. UPPER BACK / THORACIC SPINE -->
+      ${renderRegionHotspot(p, activeRegion, 'back_upper', 'أعلى الظهر وألواح الكتف', s => `
+        <path class="region-shape" d="M54 68 L106 68 L104 114 Q94 118 80 118 Q66 118 56 114 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+        <!-- Scapulae contours -->
+        <path d="M60 76 Q68 84 66 100" fill="none" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.18)'}" stroke-width="1.2"/>
+        <path d="M100 76 Q92 84 94 100" fill="none" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.18)'}" stroke-width="1.2"/>
+        <!-- Thoracic Spine -->
+        <line x1="80" y1="68" x2="80" y2="114" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.3)'}" stroke-width="2" stroke-dasharray="4,2"/>
+      `, 80, 91)}
+
+      <!-- 5. LOWER BACK / LUMBAR SPINE -->
+      ${renderRegionHotspot(p, activeRegion, 'back_lower', 'أسفل الظهر والفقرات القطنية', s => `
+        <path class="region-shape" d="M56 116 L104 116 Q102 146 98 158 L62 158 Q58 146 56 116 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+        <!-- Lumbar Spine L1-L5 -->
+        <line x1="80" y1="118" x2="80" y2="154" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.35)'}" stroke-width="2.2" stroke-dasharray="5,2"/>
+      `, 80, 137)}
+
+      <!-- 6. GLUTEAL / SACRUM -->
+      ${renderRegionHotspot(p, activeRegion, 'gluteal', 'المقعدة وعجز الحوض', s => `
+        <path class="region-shape" d="M62 160 L98 160 Q100 178 94 184 Q80 186 66 184 Q60 178 62 160 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+        <line x1="80" y1="160" x2="80" y2="183" stroke="${s.level>0 ? s.hm.color : 'rgba(31,230,168,0.2)'}" stroke-width="1.3"/>
+      `, 80, 172)}
+
+      <!-- 7. POSTERIOR ARMS -->
+      ${renderRegionHotspot(p, activeRegion, 'arm_r', 'الذراع والساعد الأيمن من الخلف', s => `
+        <path class="region-shape" d="M42 90 Q34 114 31 130 Q28 146 26 166 L33 167 Q36 148 38 132 Q42 116 49 92 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 34, 128)}
+
+      ${renderRegionHotspot(p, activeRegion, 'arm_l', 'الذراع والساعد الأيسر من الخلف', s => `
+        <path class="region-shape" d="M118 90 Q126 114 129 130 Q132 146 134 166 L127 167 Q124 148 122 132 Q118 116 111 92 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 126, 128)}
+
+      <!-- 8. POSTERIOR HANDS -->
+      ${renderRegionHotspot(p, activeRegion, 'hand_r', 'ظهر اليد اليمنى', s => `
+        <ellipse class="region-shape" cx="27" cy="174" rx="5" ry="9" transform="rotate(8 27 174)" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 27, 174)}
+
+      ${renderRegionHotspot(p, activeRegion, 'hand_l', 'ظهر اليد اليسرى', s => `
+        <ellipse class="region-shape" cx="133" cy="174" rx="5" ry="9" transform="rotate(-8 133 174)" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 133, 174)}
+
+      <!-- 9. POSTERIOR THIGHS / HAMSTRINGS -->
+      ${renderRegionHotspot(p, activeRegion, 'thigh_r', 'عضلات الفخذ الخلفية (اليمنى)', s => `
+        <path class="region-shape" d="M64 182 Q62 208 61 226 L73 226 Q76 208 78 182 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 68, 204)}
+
+      ${renderRegionHotspot(p, activeRegion, 'thigh_l', 'عضلات الفخذ الخلفية (اليسرى)', s => `
+        <path class="region-shape" d="M82 182 Q84 208 87 226 L99 226 Q98 208 96 182 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 92, 204)}
+
+      <!-- 10. POPLITEAL FOSSA / BACK OF KNEES -->
+      ${renderRegionHotspot(p, activeRegion, 'knee_r', 'خلف الركبة اليمنى', s => `
+        <ellipse class="region-shape" cx="67" cy="235" rx="7" ry="6" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 67, 235)}
+
+      ${renderRegionHotspot(p, activeRegion, 'knee_l', 'خلف الركبة اليسرى', s => `
+        <ellipse class="region-shape" cx="93" cy="235" rx="7" ry="6" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 93, 235)}
+
+      <!-- 11. CALVES / ACHILLES -->
+      ${renderRegionHotspot(p, activeRegion, 'leg_r', 'ربلة الساق والكاحل الأيمن', s => `
+        <path class="region-shape" d="M62 243 Q60 264 59 284 L69 284 Q71 264 72 243 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 65, 264)}
+
+      ${renderRegionHotspot(p, activeRegion, 'leg_l', 'ربلة الساق والكاحل الأيسر', s => `
+        <path class="region-shape" d="M88 243 Q89 264 91 284 L101 284 Q100 264 98 243 Z" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 95, 264)}
+
+      <!-- 12. HEELS & FEET BACK -->
+      ${renderRegionHotspot(p, activeRegion, 'foot_r', 'العقب والقدم اليمنى', s => `
+        <ellipse class="region-shape" cx="61" cy="293" rx="8" ry="4.5" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 61, 293)}
+
+      ${renderRegionHotspot(p, activeRegion, 'foot_l', 'العقب والقدم اليسرى', s => `
+        <ellipse class="region-shape" cx="99" cy="293" rx="8" ry="4.5" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" filter="${s.filter}"/>
+      `, 99, 293)}
+    </svg>
+  `;
+}
+
+// ----------------------------- INTERACTIVE HANDLERS & REACTIVITY -----------------------------
+
+// Smooth 3D Canvas Flip between Front and Back Views
+function setBodyView(side) {
+  bodyViewSide = side;
+  const front = document.getElementById('painCanvasFront');
+  const back = document.getElementById('painCanvasBack');
+  const btns = document.querySelectorAll('.body-view-toggle button');
+  if (front && back) {
+    if (side === 'front') {
+      front.className = 'c-pain-canvas front active-view';
+      back.className = 'c-pain-canvas back hidden-view';
+    } else {
+      front.className = 'c-pain-canvas front hidden-view';
+      back.className = 'c-pain-canvas back active-view';
+    }
+    btns.forEach(b => {
+      if (b.dataset.side === side) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+    return;
+  }
+  renderConsultContent();
+}
+
+// Selecting a region: switches active region, auto-flips side if needed, updates controls
+function onPainRegionSelect(regionId) {
+  const p = getActivePatient();
+  ensurePatientPainState(p);
+
+  // Alias check for legacy 'joints'
+  if (regionId === 'joints') regionId = 'knee_r';
+
+  p.region = regionId;
+  const regInfo = PAIN_REGIONS[regionId] || { name: regionId, view: 'front' };
+
+  // Auto-flip view side if the region is naturally located on the other side
+  if (regInfo.view && regInfo.view !== bodyViewSide) {
+    setBodyView(regInfo.view);
+  }
+
+  // Ensure region entry exists
+  if (!p.painAreas[regionId]) {
+    p.painAreas[regionId] = {
+      level: 5, // Default initial level when clicking an unmapped region
+      label: regInfo.name,
+      duration: p.painDuration || '4 أيام',
+      type: 'مستمر'
+    };
+    showToast(`تمت إضافة بؤرة ألم: ${regInfo.name} (5/10)`);
+  }
+  const currentLvl = p.painAreas[regionId].level;
+  p.painLevel = currentLvl;
+
+  // Update slider value
+  const slider = document.getElementById('painSlider');
+  if (slider) slider.value = currentLvl;
+
+  // Update slider label & description
+  const lbl = document.getElementById('painSliderVal');
+  if (lbl) {
+    lbl.textContent = currentLvl;
+    const hm = getPainHeatmap(currentLvl);
+    lbl.style.color = hm.color;
+    const desc = document.getElementById('painSeverityDesc');
+    if (desc) {
+      desc.textContent = `(${hm.desc})`;
+      desc.style.color = hm.color;
+    }
+  }
+
+  // Update badge
+  const badge = document.getElementById('painBadgeText');
+  const hm = getPainHeatmap(currentLvl);
+  if (badge) {
+    badge.innerHTML = `<i class="ti ti-activity"></i> ${regInfo.name}: ${currentLvl}/10 • ${hm.desc}`;
+    badge.className = `c-pain-badge ${hm.badgeClass}`;
+    badge.style.color = hm.color;
+    badge.style.background = hm.badgeBg;
+    badge.style.borderColor = hm.badgeBorder;
+  }
+
+  // Update selects
+  const durSelect = document.getElementById('painDurationSelect');
+  if (durSelect && p.painAreas[regionId].duration) durSelect.value = p.painAreas[regionId].duration;
+  const typeSelect = document.getElementById('painTypeSelect');
+  if (typeSelect && p.painAreas[regionId].type) typeSelect.value = p.painAreas[regionId].type;
+
+  // Update quick preset pills
+  document.querySelectorAll('.c-pain-presets .pill-preset').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.region === regionId);
+  });
+
+  // Re-render SVG hotspots to update selection rings and heatmap colors
+  refreshSvgHotspotAttributes(p);
+  updatePainChipsList();
+}
+
+// 60fps Real-Time Slider Binding: Immediately updates SVG visuals, badge, and chip list
+function onPainSliderChange(val) {
+  const p = getActivePatient();
+  ensurePatientPainState(p);
+  const intVal = parseInt(val, 10);
+  const activeReg = p.region || 'abdomen';
+
+  if (!p.painAreas[activeReg]) {
+    p.painAreas[activeReg] = {
+      level: intVal,
+      label: PAIN_REGIONS[activeReg]?.name || activeReg,
+      duration: p.painDuration || '4 أيام',
+      type: 'مستمر'
+    };
+  } else {
+    p.painAreas[activeReg].level = intVal;
+  }
+  p.painLevel = intVal;
+
+  const hm = getPainHeatmap(intVal);
+
+  // 1. Update slider label and description
+  const lbl = document.getElementById('painSliderVal');
+  if (lbl) {
+    lbl.textContent = intVal;
+    lbl.style.color = hm.color;
+  }
+  const desc = document.getElementById('painSeverityDesc');
+  if (desc) {
+    desc.textContent = `(${hm.desc})`;
+    desc.style.color = hm.color;
+  }
+
+  // 2. Update Badge
+  const badge = document.getElementById('painBadgeText');
+  const regName = PAIN_REGIONS[activeReg]?.name || activeReg;
+  if (badge) {
+    badge.innerHTML = `<i class="ti ti-activity"></i> ${regName}: ${intVal}/10 • ${hm.desc}`;
+    badge.className = `c-pain-badge ${hm.badgeClass}`;
+    badge.style.color = hm.color;
+    badge.style.background = hm.badgeBg;
+    badge.style.borderColor = hm.badgeBorder;
+  }
+
+  // 3. Directly update SVG visual attributes for 60fps responsiveness
+  updateRegionSvgVisuals(activeReg, intVal);
+
+  // 4. Update the active areas chip list & counter
+  updatePainChipsList();
+}
+
+// Direct DOM manipulation of SVG elements for ultra-smooth 60fps updates
+function updateRegionSvgVisuals(regionId, level) {
+  const p = getActivePatient();
+  const hm = getPainHeatmap(level);
+  const isActive = p.region === regionId;
+
+  const elements = document.querySelectorAll(`.pain-hotspot[data-region="${regionId}"]`);
+  elements.forEach(g => {
+    const shape = g.querySelector('.region-shape');
+    if (shape) {
+      if (level === 0) {
+        shape.setAttribute('fill', isActive ? 'rgba(31, 230, 168, 0.12)' : 'url(#bodyGrad)');
+        shape.setAttribute('stroke', isActive ? '#1fe6a8' : '#1e4a4a');
+        shape.setAttribute('stroke-width', isActive ? '2' : '1.2');
+        shape.setAttribute('filter', isActive ? 'url(#glowSelect)' : '');
+      } else {
+        shape.setAttribute('fill', hm.fill);
+        shape.setAttribute('stroke', isActive ? '#1fe6a8' : hm.stroke);
+        shape.setAttribute('stroke-width', isActive ? '2.5' : hm.strokeWidth);
+        shape.setAttribute('filter', hm.filter);
+      }
+    }
+
+    // Pulse indicators
+    let pulseWrap = g.querySelector('.pain-pulse-wrap');
+    if (level > 0) {
+      const cx = g.dataset.cx || 80;
+      const cy = g.dataset.cy || 100;
+      if (!pulseWrap) {
+        pulseWrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        pulseWrap.setAttribute('class', 'pain-pulse-wrap');
+        g.appendChild(pulseWrap);
+      }
+      pulseWrap.innerHTML = `
+        <circle cx="${cx}" cy="${cy}" r="3.5" fill="${hm.color}" class="pain-pulse-dot" />
+        <circle cx="${cx}" cy="${cy}" r="8" fill="none" stroke="${hm.color}" stroke-width="1.2" stroke-dasharray="3,2">
+          <animate attributeName="r" values="5;14;5" dur="2.4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.8;0.1;0.8" dur="2.4s" repeatCount="indefinite"/>
+        </circle>
+      `;
+    } else if (pulseWrap) {
+      pulseWrap.remove();
+    }
+  });
+}
+
+// Refresh all SVG hotspots attributes when switching active region
+function refreshSvgHotspotAttributes(p) {
+  const frontCanvas = document.getElementById('painCanvasFront');
+  const backCanvas = document.getElementById('painCanvasBack');
+  if (frontCanvas) frontCanvas.innerHTML = renderBodyFrontSvg(p, p.region);
+  if (backCanvas) backCanvas.innerHTML = renderBodyBackSvg(p, p.region);
+}
+
+// Duration & Pain Type change listeners
+function onPainDurationChange(val) {
+  const p = getActivePatient();
+  ensurePatientPainState(p);
+  const activeReg = p.region || 'abdomen';
+  if (p.painAreas[activeReg]) {
+    p.painAreas[activeReg].duration = val;
+    p.painDuration = val;
+    showToast(`تم تحديث المدة: ${val}`);
+  }
+}
+
+function onPainTypeChange(val) {
+  const p = getActivePatient();
+  ensurePatientPainState(p);
+  const activeReg = p.region || 'abdomen';
+  if (p.painAreas[activeReg]) {
+    p.painAreas[activeReg].type = val;
+    showToast(`تم تحديث طبيعة الألم: ${val}`);
+  }
+}
+
+// Removing an area
+function removePainRegion(regionId, event) {
+  if (event) event.stopPropagation();
+  const p = getActivePatient();
+  ensurePatientPainState(p);
+
+  if (p.painAreas[regionId]) {
+    delete p.painAreas[regionId];
+  }
+
+  const remaining = Object.keys(p.painAreas);
+  if (remaining.length > 0) {
+    onPainRegionSelect(remaining[0]);
+  } else {
+    p.region = 'abdomen';
+    p.painLevel = 0;
+    p.painAreas['abdomen'] = { level: 0, label: 'البطن والجهاز الهضمي', duration: '—', type: 'لا يوجد' };
+    onPainSliderChange(0);
+  }
+  refreshSvgHotspotAttributes(p);
+  updatePainChipsList();
+  showToast('تمت إزالة بؤرة الألم');
+}
+
+// Clearing all areas
+function clearAllPainRegions() {
+  const p = getActivePatient();
+  ensurePatientPainState(p);
+  p.painAreas = {};
+  p.region = 'abdomen';
+  p.painLevel = 0;
+  p.painAreas['abdomen'] = { level: 0, label: 'البطن والجهاز الهضمي', duration: '—', type: 'لا يوجد' };
+  onPainSliderChange(0);
+  refreshSvgHotspotAttributes(p);
+  updatePainChipsList();
+  showToast('تم مسح جميع بؤر الألم');
+}
+
+// Render HTML string for active painful areas chips
+function renderPainChipsHtml(p) {
+  ensurePatientPainState(p);
+  const entries = Object.entries(p.painAreas || {}).filter(([_, a]) => a && a.level > 0);
+  if (entries.length === 0) {
+    return `<span style="font-size:10px;color:var(--text-muted)">لا توجد بؤر ألم نشطة (انقر على أي منطقة بالمجسم لإضافتها)</span>`;
+  }
+  return entries.map(([id, a]) => {
+    const hm = getPainHeatmap(a.level);
+    const isActive = p.region === id;
+    const name = PAIN_REGIONS[id]?.name || a.label || id;
+    return `
+      <div class="c-pain-chip ${isActive ? 'active' : ''}" onclick="onPainRegionSelect('${id}')" title="انقر لتعديل هذه المنطقة">
+        <span class="c-pain-chip-dot" style="background:${hm.color};box-shadow:0 0 6px ${hm.color}"></span>
+        <span>${name}: <b>${a.level}/10</b></span>
+        <button class="c-pain-chip-remove" onclick="removePainRegion('${id}', event)" title="إزالة" aria-label="إزالة ${name}">✕</button>
+      </div>
+    `;
+  }).join('');
+}
+
+// Update the chips list DOM element in place
+function updatePainChipsList() {
+  const p = getActivePatient();
+  const list = document.getElementById('painChipsList');
+  if (list) list.innerHTML = renderPainChipsHtml(p);
+
+  const activeAreas = Object.entries(p.painAreas || {}).filter(([_, a]) => a && a.level > 0);
+  const badge = document.getElementById('painCountBadge');
+  if (badge) {
+    badge.textContent = `${activeAreas.length} ${activeAreas.length === 1 ? 'بؤرة نشطة' : 'بؤر نشطة'}`;
+  }
+}
+
+// Floating Tooltip Handlers
+function onPainRegionHover(el, regionId, regionLabel, evt) {
+  const p = getActivePatient();
+  ensurePatientPainState(p);
+  const area = p.painAreas && p.painAreas[regionId];
+  const level = area ? (typeof area.level === 'number' ? area.level : 0) : 0;
+  const tooltip = document.getElementById('painModelTooltip');
+  if (!tooltip) return;
+
+  let heatText = 'لا يوجد ألم مسجل';
+  let dotColor = 'var(--border-strong)';
+  if (level > 0) {
+    const hm = getPainHeatmap(level);
+    heatText = `شدة الألم: ${level}/10 (${hm.desc})`;
+    dotColor = hm.color;
+    if (area.type) heatText += ` • ${area.type}`;
+  } else {
+    heatText += ' (انقر للإضافة)';
+  }
+
+  tooltip.innerHTML = `
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+      <span style="width:7px;height:7px;border-radius:50%;background:${dotColor};box-shadow:0 0 5px ${dotColor};display:inline-block"></span>
+      <b style="color:var(--text-primary);font-size:11.5px">${regionLabel}</b>
+    </div>
+    <div style="font-size:10px;color:${level > 0 ? dotColor : 'var(--text-secondary)'};font-weight:600">${heatText}</div>
+  `;
+  tooltip.style.opacity = '1';
+
+  const viewport = document.getElementById('painModelViewport');
+  if (viewport) {
+    const rect = viewport.getBoundingClientRect();
+    const x = evt.clientX - rect.left;
+    const y = evt.clientY - rect.top;
+    tooltip.style.left = `${Math.max(10, Math.min(rect.width - 165, x - 70))}px`;
+    tooltip.style.top = `${Math.max(10, y - 55)}px`;
+  }
+}
+
+function onPainRegionLeave() {
+  const tooltip = document.getElementById('painModelTooltip');
+  if (tooltip) tooltip.style.opacity = '0';
+}
+
+// Clinical Integration: Sync pain findings directly to clinical examination notes
+function syncPainFindingsToNotes() {
+  const p = getActivePatient();
+  ensurePatientPainState(p);
+  const activeAreas = Object.entries(p.painAreas || {}).filter(([_, a]) => a && a.level > 0);
+
+  if (activeAreas.length === 0) {
+    showToast('لا توجد بؤر ألم نشطة لتسجيلها في الملاحظات');
+    return;
+  }
+
+  const findingsText = activeAreas.map(([id, a]) => {
+    const name = PAIN_REGIONS[id]?.name || a.label || id;
+    return `[${name}: شدة ${a.level}/10 (${a.type || 'مستمر'}) - مدة: ${a.duration || 'غير محدد'}]`;
+  }).join(' ، ');
+
+  const summary = `\n• خريطة توطين الألم السريري: تم رصد ${activeAreas.length} بؤرة ألم: ${findingsText}.\n`;
+
+  // Append to clinical notes if textarea exists
+  const notesArea = document.getElementById('clinicalNotesArea');
+  if (notesArea) {
+    notesArea.value += summary;
+  }
+
+  showToast(`تم إدراج تقرير ${activeAreas.length} بؤرة ألم في الملاحظات السريرية بنجاح ✓`);
+}
+
+// Legacy backward-compatibility wrapper
 function setPainRegion(reg, label, level) {
   const p = getActivePatient();
+  ensurePatientPainState(p);
+  const targetLvl = typeof level === 'number' ? level : 6;
   p.region = reg;
-  p.painLevel = level;
-  showToast(`تم تحديد منطقة الألم: ${label} (شدة ${level}/10)`);
-  renderConsultContent();
+  p.painLevel = targetLvl;
+  p.painAreas[reg] = {
+    level: targetLvl,
+    label: label || PAIN_REGIONS[reg]?.name || reg,
+    duration: p.painDuration || '4 أيام',
+    type: 'مستمر'
+  };
+  onPainRegionSelect(reg);
 }
 
 // ----------------------------- 2. NOTES TAB -----------------------------
@@ -1506,30 +3556,33 @@ function renderNotesTab(p) {
           <span>الضغط: <b style="color:#fff">135/85 mmHg</b></span>
           <span>النبض: <b style="color:#fff">78 bpm</b></span>
           <span>الحرارة: <b style="color:#fff">37.1 °C</b></span>
-          <span>السكر العشوائي: <b style="color:#f2b84b">185 mg/dL</b></span>
+          <span>السكر العشوائي: <b style="color:#f2665c">185 mg/dL</b></span>
           <span>الأكسجين: <b style="color:#1fe6a8">98%</b></span>
         </div>
       </div>
 
-      <!-- Quick Templates -->
+      <!-- Quick Templates — differentiated styling -->
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         <span class="tiny" style="font-weight:700">قوالب الفحص السريع:</span>
-        <button class="pill xs ghost" onclick="insertNoteTpl('المريض في حالة عامة واعية ومستقرة، لا توجد علامات ضيق تنفس أو ألم صدري حاد.')">+ حالة مستقرة</button>
-        <button class="pill xs ghost" onclick="insertNoteTpl('فحص البطن: البطن لينة مع إيلام خفيف بالشرسوف، لا يوجد تضخم كبدي أو طحالي.')">+ فحص باطني</button>
-        <button class="pill xs ghost" onclick="insertNoteTpl('الصدر: أصوات تنفسية حويصلية طبيعية على جانبي الرئة، لا توجد حشرات أو صفير.')">+ فحص صدري سليم</button>
-        <button class="pill xs ghost" onclick="insertNoteTpl('حمية غذائية: الامتناع عن السكريات البسيطة والمشروبات الغازية وتقليل النشويات مع المشي 30 دقيقة يومياً.')">+ إرشادات حمية السكر</button>
+        <button class="pill-template" onclick="insertNoteTpl('المريض في حالة عامة واعية ومستقرة، لا توجد علامات ضيق تنفس أو ألم صدري حاد.')"><i class="ti ti-plus" style="font-size:10px"></i> حالة مستقرة</button>
+        <button class="pill-template" onclick="insertNoteTpl('فحص البطن: البطن لينة مع إيلام خفيف بالشرسوف، لا يوجد تضخم كبدي أو طحالي.')"><i class="ti ti-plus" style="font-size:10px"></i> فحص باطني</button>
+        <button class="pill-template" onclick="insertNoteTpl('الصدر: أصوات تنفسية حويصلية طبيعية على جانبي الرئة، لا توجد حشرات أو صفير.')"><i class="ti ti-plus" style="font-size:10px"></i> فحص صدري سليم</button>
+        <button class="pill-template" onclick="insertNoteTpl('حمية غذائية: الامتناع عن السكريات البسيطة والمشروبات الغازية وتقليل النشويات مع المشي 30 دقيقة يومياً.')"><i class="ti ti-plus" style="font-size:10px"></i> إرشادات حمية السكر</button>
       </div>
 
       <!-- Textarea -->
-      <textarea class="notes-textarea" id="clinicalNotesArea" placeholder="اكتب ملاحظات الفحص السريري، الأعراض المكتشفة، وخطة العلاج...">${p.notes || `الفحص السريري العام:
+      <div>
+        <label for="clinicalNotesArea" class="sr-only">ملاحظات الفحص السريري</label>
+        <textarea class="notes-textarea" id="clinicalNotesArea" placeholder="اكتب ملاحظات الفحص السريري، الأعراض المكتشفة، وخطة العلاج...">${p.notes || `الفحص السريري العام:
 المريض حضر يشكو من: ${p.complaint || 'اضطراب قراءات السكر'}
 التشخيص المبدئي: ${p.diagnosis || 'داء السكري من النوع الثاني'}
 ملاحظات الطبيب: تم فحص قراءات المتابعة المنزلية، لوحظ ارتفاع صائم (160-190 mg/dL). ينصح بإجراء سكر تراكمي وإعادة ضبط جرعات العلاج.`}</textarea>
+      </div>
 
       <!-- Actions -->
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
         <button class="pill sm ghost" onclick="triggerVoiceDictation()"><i class="ti ti-microphone"></i> إملاء صوتي سريع</button>
-        <button class="pill sm solid" onclick="saveClinicalNotes()"><i class="ti ti-device-floppy"></i> حفظ في سجل المريض</button>
+        <button class="pill sm solid" id="btnSaveNotes" onclick="saveClinicalNotes()"><i class="ti ti-device-floppy"></i> حفظ في سجل المريض</button>
       </div>
     </div>
   `;
@@ -1547,6 +3600,20 @@ function saveClinicalNotes() {
   const p = getActivePatient();
   const area = document.getElementById('clinicalNotesArea');
   if (area) p.notes = area.value;
+  tabContentState.notes = true;
+  updateTabProgressDots();
+
+  // Inline state change on button
+  const btn = document.getElementById('btnSaveNotes');
+  if (btn) {
+    btn.classList.add('btn-state-success');
+    btn.innerHTML = '<i class="ti ti-check"></i> تم الحفظ بنجاح ✓';
+    setTimeout(() => {
+      btn.classList.remove('btn-state-success');
+      btn.innerHTML = '<i class="ti ti-device-floppy"></i> حفظ في سجل المريض';
+    }, 2500);
+  }
+
   showToast('تم حفظ الملاحظات السريرية بنجاح ✓');
 }
 
@@ -1565,7 +3632,7 @@ function renderPrescriptionTab(p) {
     <div style="display:flex;flex-direction:column;gap:14px">
       <!-- Allergy Safety Banner -->
       ${hasAllergy ? `
-        <div style="background:rgba(242,102,92,0.14);border:1px solid var(--danger);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+        <div style="background:rgba(242,102,92,0.14);border:1px solid var(--danger);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between" role="alert">
           <div style="display:flex;align-items:center;gap:8px;color:var(--danger);font-size:13px;font-weight:800">
             <i class="ti ti-alert-octagon" style="font-size:18px"></i>
             <span>تنبيه أمان دوائي: المريض لديه حساسية مسجلة من (${p.allergies.join(' ، ')}). تجنب وصف مشتقاتها منعاً للتحسس الحاد.</span>
@@ -1574,42 +3641,42 @@ function renderPrescriptionTab(p) {
         </div>
       ` : ''}
 
-      <!-- Presets Toolbar -->
+      <!-- Presets Toolbar — differentiated styling -->
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         <span class="tiny" style="font-weight:700">أدوية شائعة سريعة الإضافة:</span>
-        <button class="pill xs ghost" onclick="quickAddMed('Metformin 1000mg','قرص واحد','مرتين يومياً','30 يوماً','بعد الوجبات مباشرة')">+ Metformin 1000mg</button>
-        <button class="pill xs ghost" onclick="quickAddMed('Januvia 100mg','قرص واحد','مرة يومياً','30 يوماً','صباحاً قبل الإفطار')">+ Januvia 100mg</button>
-        <button class="pill xs ghost" onclick="quickAddMed('Amlodipine 5mg','قرص واحد','مرة يومياً','30 يوماً','صباحاً')">+ Amlodipine 5mg</button>
-        <button class="pill xs ghost" onclick="quickAddMed('Concor 5mg','قرص واحد','مرة صباحاً','30 يوماً','مع الإفطار')">+ Concor 5mg</button>
-        <button class="pill xs ghost" onclick="quickAddMed('Panadol Extra','قرصين','عند اللزوم','5 أيام','بعد الأكل')">+ Panadol</button>
-        <button class="pill xs ghost" onclick="quickAddMed('Augmentin 1g','قرص واحد','مرتين يومياً','7 أيام','بعد الأكل')">+ Augmentin 1g</button>
+        <button class="pill-preset" onclick="quickAddMed('Metformin 1000mg','قرص واحد','مرتين يومياً','30 يوماً','بعد الوجبات مباشرة')"><i class="ti ti-plus" style="font-size:10px"></i> Metformin 1000mg</button>
+        <button class="pill-preset" onclick="quickAddMed('Januvia 100mg','قرص واحد','مرة يومياً','30 يوماً','صباحاً قبل الإفطار')"><i class="ti ti-plus" style="font-size:10px"></i> Januvia 100mg</button>
+        <button class="pill-preset" onclick="quickAddMed('Amlodipine 5mg','قرص واحد','مرة يومياً','30 يوماً','صباحاً')"><i class="ti ti-plus" style="font-size:10px"></i> Amlodipine 5mg</button>
+        <button class="pill-preset" onclick="quickAddMed('Concor 5mg','قرص واحد','مرة صباحاً','30 يوماً','مع الإفطار')"><i class="ti ti-plus" style="font-size:10px"></i> Concor 5mg</button>
+        <button class="pill-preset" onclick="quickAddMed('Panadol Extra','قرصين','عند اللزوم','5 أيام','بعد الأكل')"><i class="ti ti-plus" style="font-size:10px"></i> Panadol</button>
+        <button class="pill-preset" onclick="quickAddMed('Augmentin 1g','قرص واحد','مرتين يومياً','7 أيام','بعد الأكل')"><i class="ti ti-plus" style="font-size:10px"></i> Augmentin 1g</button>
       </div>
 
-      <!-- Prescriptions Table / Cards -->
-      <div style="display:flex;flex-direction:column;gap:8px">
+      <!-- Prescriptions Cards -->
+      <div style="display:flex;flex-direction:column;gap:8px" id="rxCardsContainer">
         ${currentPrescriptions.map((m, idx) => `
-          <div style="display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1fr 2fr 36px;gap:8px;align-items:center;background:#0d1527;border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-            <div>
-              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">اسم الدواء</div>
-              <input type="text" class="pm-search-input" style="padding:6px 10px;font-weight:700" value="${m.name}" oninput="currentPrescriptions[${idx}].name=this.value">
+          <div class="rx-card-row ${!m.name.trim() ? 'rx-empty' : ''}" id="rxRow${idx}">
+            <div class="rx-field-name">
+              <label for="rxName${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">اسم الدواء</label>
+              <input type="text" id="rxName${idx}" class="pm-search-input" style="padding:6px 10px;font-weight:700" value="${m.name}" oninput="currentPrescriptions[${idx}].name=this.value;updateRxRowState(${idx})" ${!m.name.trim() ? 'placeholder="أدخل اسم الدواء..."' : ''}>
             </div>
             <div>
-              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">الجرعة</div>
-              <input type="text" class="pm-search-input" style="padding:6px 10px" value="${m.dose}" oninput="currentPrescriptions[${idx}].dose=this.value">
+              <label for="rxDose${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">الجرعة</label>
+              <input type="text" id="rxDose${idx}" class="pm-search-input" style="padding:6px 10px" value="${m.dose}" oninput="currentPrescriptions[${idx}].dose=this.value">
             </div>
             <div>
-              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">التكرار</div>
-              <input type="text" class="pm-search-input" style="padding:6px 10px" value="${m.freq}" oninput="currentPrescriptions[${idx}].freq=this.value">
+              <label for="rxFreq${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">التكرار</label>
+              <input type="text" id="rxFreq${idx}" class="pm-search-input" style="padding:6px 10px" value="${m.freq}" oninput="currentPrescriptions[${idx}].freq=this.value">
             </div>
             <div>
-              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">المدة</div>
-              <input type="text" class="pm-search-input" style="padding:6px 10px" value="${m.duration}" oninput="currentPrescriptions[${idx}].duration=this.value">
+              <label for="rxDur${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">المدة</label>
+              <input type="text" id="rxDur${idx}" class="pm-search-input" style="padding:6px 10px" value="${m.duration}" oninput="currentPrescriptions[${idx}].duration=this.value">
             </div>
             <div>
-              <div class="tiny" style="color:var(--text-muted);margin-bottom:2px">تعليمات الاستخدام</div>
-              <input type="text" class="pm-search-input" style="padding:6px 10px" value="${m.instructions}" oninput="currentPrescriptions[${idx}].instructions=this.value">
+              <label for="rxInst${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">تعليمات الاستخدام</label>
+              <input type="text" id="rxInst${idx}" class="pm-search-input" style="padding:6px 10px" value="${m.instructions}" oninput="currentPrescriptions[${idx}].instructions=this.value">
             </div>
-            <button class="btn-icon" style="color:var(--danger);align-self:flex-end;margin-bottom:4px" onclick="removeRxMed(${idx})" title="حذف">
+            <button class="rx-delete-btn" onclick="requestDeleteMed(${idx})" title="حذف الدواء" aria-label="حذف ${m.name || 'هذا الدواء'}">
               <i class="ti ti-trash"></i>
             </button>
           </div>
@@ -1620,46 +3687,179 @@ function renderPrescriptionTab(p) {
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:6px">
         <button class="pill sm ghost" onclick="addNewRxMedRow()"><i class="ti ti-plus"></i> إضافة دواء آخر</button>
         <div style="display:flex;gap:8px">
-          <button class="pill sm ghost" onclick="sendPrescriptionWhatsApp()"><i class="ti ti-brand-whatsapp"></i> إرسال واتساب</button>
-          <button class="pill sm solid" onclick="printPrescription()"><i class="ti ti-printer"></i> اعتماد وطباعة الروشتة</button>
+          <button class="pill sm ghost" id="btnSendWhatsApp" onclick="sendPrescriptionWhatsApp()"><i class="ti ti-brand-whatsapp"></i> إرسال واتساب</button>
+          <button class="pill sm ghost" onclick="openRxPreview()"><i class="ti ti-eye"></i> معاينة</button>
+          <button class="pill sm solid" id="btnPrintRx" onclick="printPrescription()"><i class="ti ti-printer"></i> اعتماد وطباعة الروشتة</button>
         </div>
       </div>
     </div>
   `;
 }
 
+function updateRxRowState(idx) {
+  const row = document.getElementById(`rxRow${idx}`);
+  if (row) {
+    row.classList.toggle('rx-empty', !currentPrescriptions[idx].name.trim());
+  }
+}
+
 function quickAddMed(name, dose, freq, duration, instructions) {
   const p = getActivePatient();
-  // Allergy check simulation
+  // Allergy check
   if (p.allergies && p.allergies.some(a => a.includes('بنسلين') && name.toLowerCase().includes('augmentin'))) {
     alert('⚠️ تنبيه حرج: المريض يعاني من حساسية شديدة للبنسلين ومشتقاته (Augmentin يحتوي على أموكسيسيللين). يرجى اختيار بديل آمن!');
     return;
   }
   currentPrescriptions.push({ name, dose, freq, duration, instructions });
-  renderConsultContent();
+  tabContentState.prescription = true;
+  updateTabProgressDots();
+
+  // Append row without full re-render to preserve focus
+  const container = document.getElementById('rxCardsContainer');
+  if (container) {
+    const idx = currentPrescriptions.length - 1;
+    const m = currentPrescriptions[idx];
+    const div = document.createElement('div');
+    div.className = 'rx-card-row';
+    div.id = `rxRow${idx}`;
+    div.innerHTML = `
+      <div class="rx-field-name">
+        <label for="rxName${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">اسم الدواء</label>
+        <input type="text" id="rxName${idx}" class="pm-search-input" style="padding:6px 10px;font-weight:700" value="${m.name}" oninput="currentPrescriptions[${idx}].name=this.value;updateRxRowState(${idx})">
+      </div>
+      <div>
+        <label for="rxDose${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">الجرعة</label>
+        <input type="text" id="rxDose${idx}" class="pm-search-input" style="padding:6px 10px" value="${m.dose}" oninput="currentPrescriptions[${idx}].dose=this.value">
+      </div>
+      <div>
+        <label for="rxFreq${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">التكرار</label>
+        <input type="text" id="rxFreq${idx}" class="pm-search-input" style="padding:6px 10px" value="${m.freq}" oninput="currentPrescriptions[${idx}].freq=this.value">
+      </div>
+      <div>
+        <label for="rxDur${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">المدة</label>
+        <input type="text" id="rxDur${idx}" class="pm-search-input" style="padding:6px 10px" value="${m.duration}" oninput="currentPrescriptions[${idx}].duration=this.value">
+      </div>
+      <div>
+        <label for="rxInst${idx}" class="tiny" style="color:var(--text-muted);margin-bottom:2px;display:block">تعليمات الاستخدام</label>
+        <input type="text" id="rxInst${idx}" class="pm-search-input" style="padding:6px 10px" value="${m.instructions}" oninput="currentPrescriptions[${idx}].instructions=this.value">
+      </div>
+      <button class="rx-delete-btn" onclick="requestDeleteMed(${idx})" title="حذف الدواء" aria-label="حذف ${m.name}">
+        <i class="ti ti-trash"></i>
+      </button>
+    `;
+    container.appendChild(div);
+    // Smooth entrance
+    div.style.opacity = '0'; div.style.transform = 'translateY(8px)';
+    requestAnimationFrame(() => { div.style.transition = 'all 0.3s'; div.style.opacity = '1'; div.style.transform = 'translateY(0)'; });
+  }
   showToast(`تمت إضافة ${name} للروشتة`);
 }
 
 function addNewRxMedRow() {
   currentPrescriptions.push({ name: '', dose: 'قرص واحد', freq: 'مرتين يومياً', duration: '14 يوماً', instructions: 'بعد الوجبة' });
-  renderConsultContent();
+  renderConsultContent(); // full re-render needed for empty row validation
+  // Focus new row
+  setTimeout(() => {
+    const newInput = document.getElementById(`rxName${currentPrescriptions.length-1}`);
+    if (newInput) newInput.focus();
+  }, 50);
 }
 
-function removeRxMed(idx) {
-  currentPrescriptions.splice(idx, 1);
-  if (!currentPrescriptions.length) {
-    currentPrescriptions.push({ name: '', dose: 'قرص واحد', freq: 'مرتين يومياً', duration: '30 يوماً', instructions: 'بعد الوجبة' });
+// Delete confirmation
+function requestDeleteMed(idx) {
+  deleteTargetIdx = idx;
+  const name = currentPrescriptions[idx]?.name || 'هذا الدواء';
+  document.getElementById('deleteConfirmText').textContent = `هل أنت متأكد من حذف "${name}" من الروشتة؟`;
+  document.getElementById('deleteConfirmDialog').classList.add('show');
+}
+
+function confirmDeleteMed() {
+  if (deleteTargetIdx >= 0) {
+    currentPrescriptions.splice(deleteTargetIdx, 1);
+    if (!currentPrescriptions.length) {
+      currentPrescriptions.push({ name: '', dose: 'قرص واحد', freq: 'مرتين يومياً', duration: '30 يوماً', instructions: 'بعد الوجبة' });
+    }
+    deleteTargetIdx = -1;
+    document.getElementById('deleteConfirmDialog').classList.remove('show');
+    renderConsultContent();
+    showToast('تم حذف الدواء من الروشتة');
   }
-  renderConsultContent();
+}
+
+function cancelDeleteMed() {
+  deleteTargetIdx = -1;
+  const dialog = document.getElementById('deleteConfirmDialog');
+  if (dialog) dialog.classList.remove('show');
 }
 
 function printPrescription() {
+  // Validate empty names
+  const emptyMeds = currentPrescriptions.filter(m => !m.name.trim());
+  if (emptyMeds.length) {
+    showToast('⚠️ يوجد أدوية بدون اسم في الروشتة — يرجى تعبئة جميع الحقول أولاً');
+    return;
+  }
+  const btn = document.getElementById('btnPrintRx');
+  if (btn) {
+    btn.classList.add('btn-state-success');
+    btn.innerHTML = '<i class="ti ti-check"></i> تم الاعتماد ✓';
+    setTimeout(() => { btn.classList.remove('btn-state-success'); btn.innerHTML = '<i class="ti ti-printer"></i> اعتماد وطباعة الروشتة'; }, 3000);
+  }
   showToast('تم اعتماد الروشتة وجاري فتح نافذة الطباعة الرسمية ✓');
 }
 
 function sendPrescriptionWhatsApp() {
   const p = getActivePatient();
+  const btn = document.getElementById('btnSendWhatsApp');
+  if (btn) {
+    btn.classList.add('btn-state-success');
+    btn.innerHTML = '<i class="ti ti-check"></i> تم الإرسال ✓';
+    setTimeout(() => { btn.classList.remove('btn-state-success'); btn.innerHTML = '<i class="ti ti-brand-whatsapp"></i> إرسال واتساب'; }, 3000);
+  }
   showToast(`تم إرسال الروشتة بنجاح إلى هاتف المريض (${p.phone || '+201012345678'}) عبر واتساب ✓`);
+}
+
+// Rx Print Preview
+function openRxPreview() {
+  const p = getActivePatient();
+  const modal = document.getElementById('rxPreviewModal');
+  const content = document.getElementById('rxPreviewContent');
+  if (!modal || !content) return;
+
+  content.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span style="font-size:13px;color:#64748b">معاينة قبل الطباعة</span>
+      <button onclick="closeRxPreview()" style="background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;color:#334155;cursor:pointer"><i class="ti ti-x"></i> إغلاق</button>
+    </div>
+    <div class="rx-header">
+      <h2>🏥 مركز طبابا الطبي</h2>
+      <p>د. أحمد سامي — أخصائي الباطنة والجهاز الهضمي</p>
+      <p>حي الجامعة، المنصورة — ت: +20 50 234 5678</p>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding:8px 0;border-bottom:1px solid #e2e8f0">
+      <div><b>المريض:</b> ${p.name} (${p.age} سنة)</div>
+      <div style="font-size:12px;color:#64748b">${new Date().toLocaleDateString('ar-EG')}</div>
+    </div>
+    <h3 style="font-size:14px;color:#0f766e;margin-bottom:8px">℞ الروشتة الطبية</h3>
+    ${currentPrescriptions.filter(m=>m.name.trim()).map((m, i) => `
+      <div class="rx-med-item">
+        <div>
+          <div class="rx-med-name">${i+1}. ${m.name}</div>
+          <div class="rx-med-detail">${m.dose} — ${m.freq} — لمدة ${m.duration}</div>
+          <div class="rx-med-detail" style="color:#0f766e">📋 ${m.instructions}</div>
+        </div>
+      </div>
+    `).join('')}
+    <div style="margin-top:20px;text-align:center;padding-top:16px;border-top:2px solid #e2e8f0">
+      <p style="font-size:12px;color:#94a3b8">هذه الروشتة صادرة من منصة طبابا الطبية — مع تمنياتنا بالشفاء العاجل</p>
+    </div>
+  `;
+  modal.classList.add('show');
+}
+
+function closeRxPreview() {
+  const modal = document.getElementById('rxPreviewModal');
+  if (modal) modal.classList.remove('show');
 }
 
 // ----------------------------- 4. RECORDING TAB -----------------------------
@@ -1678,13 +3878,9 @@ function renderRecordingTab(p) {
 
         <div style="display:flex;align-items:center;gap:10px">
           <div class="audio-visualizer ${isRecordingAudio ? 'recording-pulse' : ''}">
-            <div class="audio-bar" style="height:${isRecordingAudio?'28px':'10px'}"></div>
-            <div class="audio-bar" style="height:${isRecordingAudio?'34px':'6px'}"></div>
-            <div class="audio-bar" style="height:${isRecordingAudio?'18px':'12px'}"></div>
-            <div class="audio-bar" style="height:${isRecordingAudio?'38px':'8px'}"></div>
-            <div class="audio-bar" style="height:${isRecordingAudio?'24px':'10px'}"></div>
+            ${Array.from({length: 12}, (_, i) => `<div class="audio-bar" style="height:${isRecordingAudio ? (8 + Math.random()*30) : (4 + Math.random()*8)}px;animation-delay:${i*0.08}s"></div>`).join('')}
           </div>
-          <span style="font-size:14px;font-weight:900;color:${isRecordingAudio?'var(--danger)':'var(--text-secondary)'}" id="audioTimer">
+          <span style="font-size:14px;font-weight:900;color:${isRecordingAudio?'var(--danger)':'var(--text-secondary)'}; font-variant-numeric:tabular-nums" id="audioTimer">
             ${formatAudioTimer(audioTimerSeconds)}
           </span>
         </div>
@@ -1701,7 +3897,7 @@ function renderRecordingTab(p) {
             <i class="ti ti-player-stop"></i> إيقاف التسجيل واستخراج الملخص
           </button>
         `}
-        <button class="pill sm ghost" onclick="showToast('تم ضبط إعدادات الميكروفون الحساس للضوضاء')"><i class="ti ti-settings"></i> إعدادات الصوت</button>
+        <button class="pill sm ghost" onclick="showToast('تم ضبط إعدادات الميكروفون الحساس للضوضاء')" aria-label="إعدادات الصوت"><i class="ti ti-settings"></i> إعدادات الصوت</button>
       </div>
 
       <!-- Live Dialogue Stream -->
@@ -1727,6 +3923,8 @@ function renderRecordingTab(p) {
 function startAudioRecording() {
   isRecordingAudio = true;
   audioTimerSeconds = 0;
+  tabContentState.recording = true;
+  updateTabProgressDots();
   if (audioInterval) clearInterval(audioInterval);
   audioInterval = setInterval(() => {
     audioTimerSeconds++;
@@ -1753,12 +3951,25 @@ function formatAudioTimer(sec) {
 function applyAiSummaryToNotes() {
   const p = getActivePatient();
   p.notes = (p.notes || '') + '\n\n[ملخص الذكاء الاصطناعي من التسجيل الصوتي]:\nالمريض يعاني من اضطراب سكر صائم، تم ضبط خطة العلاج وتجنب السلفا وتعديل أوقات الجرعات.';
+  tabContentState.notes = true;
+  updateTabProgressDots();
   showToast('تم استخراج البيانات وتحديث الملاحظات والروشتة بنجاح ✓');
   switchConsultTab('notes');
 }
 
-// ----------------------------- 5. MEDICAL RECORDS TAB -----------------------------
+// ----------------------------- 5. MEDICAL RECORDS TAB — TIMELINE DESIGN -----------------------------
 function renderRecordsTab(p) {
+  const timelineItems = [
+    { date: '16 سبتمبر 2026', branch: 'فرع المنصورة', type: 'consult', title: 'الكشف الحالي', desc: 'متابعة السكر والضغط مع ضبط الأدوية.' },
+    { date: '06 سبتمبر 2026', branch: 'فرع المنصورة', type: 'lab', title: 'نتائج تحاليل', desc: 'السكر التراكمي 8.4%، وظائف كلى طبيعية.' },
+    { date: '06 سبتمبر 2026', branch: 'فرع المنصورة', type: 'consult', title: 'كشف عيادة مكتمل', desc: 'طلب ضبط النظام الغذائي وإضافة ميتفورمين.' },
+    { date: '15 أغسطس 2026', branch: 'فرع القاهرة', type: 'consult', title: 'استشارة فيديو', desc: 'شكوى من إجهاد وتنميل بالأطراف وارتفاع ضغط خفيف 140/90.' },
+    { date: '01 أغسطس 2026', branch: 'فرع المنصورة', type: 'lab', title: 'تحاليل دم شاملة', desc: 'CBC طبيعي، فيتامين D منخفض (18 ng/mL).' }
+  ];
+
+  tabContentState.records = true;
+  updateTabProgressDots();
+
   return `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <!-- Lab Orders -->
@@ -1772,7 +3983,7 @@ function renderRecordsTab(p) {
         <label class="inv-item"><input type="checkbox"> دهون ثلاثية وكوليسترول (Lipid Profile)</label>
         <label class="inv-item"><input type="checkbox"> وظائف كبد كاملة (ALT, AST, Bilirubin)</label>
         <label class="inv-item"><input type="checkbox"> زلال البول الدقيق (Microalbuminuria)</label>
-        <button class="pill sm solid" style="align-self:flex-start;margin-top:6px" onclick="showToast('تم إرسال طلب التحاليل إلى معمل التحاليل والشريك المعتمد ✓')">
+        <button class="pill sm solid" id="btnSendLabs" style="align-self:flex-start;margin-top:6px" onclick="sendLabOrders()">
           <i class="ti ti-send"></i> إرسال أمر التحاليل
         </button>
       </div>
@@ -1780,31 +3991,52 @@ function renderRecordsTab(p) {
       <!-- Past Visits & Timeline -->
       <div style="background:#0d1527;border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
         <div style="font-weight:800;font-size:13.5px;color:var(--info);display:flex;align-items:center;gap:6px">
-          <i class="ti ti-history"></i> تاريخ الزيارات السابقة
+          <i class="ti ti-history"></i> خط زمني — الزيارات والتحاليل السابقة
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px;max-height:240px;overflow-y:auto">
-          <div style="background:#080d18;padding:10px;border-radius:8px;border:1px solid var(--border)">
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-secondary)">
-              <span>06 سبتمبر 2026 (فرع المنصورة)</span>
-              <span class="pill xs ghost">كشف عيادة</span>
+        <div class="records-timeline" style="max-height:300px;overflow-y:auto">
+          ${timelineItems.map(item => `
+            <div class="tl-record-item">
+              <div class="tl-record-dot ${item.type}"></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:4px">
+                <span>${item.date} (${item.branch})</span>
+                <span class="pill xs ghost" style="font-size:10px">${item.type === 'lab' ? 'تحاليل' : item.type === 'alert' ? 'تنبيه' : 'كشف'}</span>
+              </div>
+              <div style="font-weight:700;font-size:13px;color:var(--text-primary);margin-bottom:2px">${item.title}</div>
+              <div style="font-size:12px;color:var(--text-secondary)">${item.desc}</div>
             </div>
-            <div style="font-size:12.5px;color:var(--text-primary);margin-top:4px">السكر التراكمي كان 8.4%، تم طلب ضبط النظام الغذائي وإضافة ميتفورمين.</div>
-          </div>
-          <div style="background:#080d18;padding:10px;border-radius:8px;border:1px solid var(--border)">
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-secondary)">
-              <span>15 أغسطس 2026 (فرع القاهرة)</span>
-              <span class="pill xs ghost">استشارة فيديو</span>
-            </div>
-            <div style="font-size:12.5px;color:var(--text-primary);margin-top:4px">شكوى من إجهاد وتنميل بالأطراف وارتفاع ضغط خفيف 140/90.</div>
-          </div>
+          `).join('')}
         </div>
       </div>
     </div>
   `;
 }
 
+function sendLabOrders() {
+  const btn = document.getElementById('btnSendLabs');
+  if (btn) {
+    btn.classList.add('btn-state-success');
+    btn.innerHTML = '<i class="ti ti-check"></i> تم إرسال الطلب ✓';
+    setTimeout(() => { btn.classList.remove('btn-state-success'); btn.innerHTML = '<i class="ti ti-send"></i> إرسال أمر التحاليل'; }, 3000);
+  }
+  showToast('تم إرسال طلب التحاليل إلى معمل التحاليل والشريك المعتمد ✓');
+}
+
 // ----------------------------- 6. FOLLOWUP TAB -----------------------------
 function renderFollowupTab(p) {
+  if (followupConfirmed) {
+    return `
+      <div class="followup-confirmed-card">
+        <i class="ti ti-calendar-check" style="font-size:24px"></i>
+        <div>
+          <div style="font-size:15px;font-weight:800">تم تأكيد موعد المتابعة بنجاح ✓</div>
+          <div style="font-size:12px;opacity:0.8;margin-top:2px">29 سبتمبر 2026 — مركز طبابا الطبي — المنصورة</div>
+          <div style="font-size:11px;opacity:0.6;margin-top:2px">سيتم إرسال تذكير آلي للمريض عبر واتساب قبل الموعد بـ 24 ساعة</div>
+        </div>
+        <button class="pill xs ghost" style="margin-right:auto" onclick="followupConfirmed=false;renderConsultContent()">تعديل</button>
+      </div>
+    `;
+  }
+
   return `
     <div style="background:#0d1527;border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px;max-width:760px">
       <div style="font-weight:800;font-size:15px;color:var(--text-primary);display:flex;align-items:center;gap:8px">
@@ -1813,12 +4045,12 @@ function renderFollowupTab(p) {
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div>
-          <label class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">موعد الزيارة القادمة</label>
-          <input type="date" class="pm-search-input" value="2026-09-29" style="padding:8px 12px;font-family:inherit">
+          <label for="followupDate" class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">موعد الزيارة القادمة</label>
+          <input type="date" id="followupDate" class="pm-search-input" value="2026-09-29" style="padding:8px 12px;font-family:inherit">
         </div>
         <div>
-          <label class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">الفرع المخصص للاستشارة</label>
-          <select class="pm-search-input" style="padding:8px 12px">
+          <label for="followupClinic" class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">الفرع المخصص للاستشارة</label>
+          <select id="followupClinic" class="pm-search-input" style="padding:8px 12px">
             <option>مركز طبابا الطبي — المنصورة</option>
             <option>عيادة النور — القاهرة</option>
             <option>عيادة فيوتشر كير — الجيزة</option>
@@ -1828,8 +4060,8 @@ function renderFollowupTab(p) {
       </div>
 
       <div>
-        <label class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">أهداف المتابعة للمريض</label>
-        <input type="text" class="pm-search-input" value="مراجعة تحليل السكر التراكمي ووظائف الكلى والتأكد من ضبط السكر الصائم تحت 130" style="padding:8px 12px">
+        <label for="followupGoals" class="tiny" style="font-weight:700;color:var(--text-secondary);display:block;margin-bottom:6px">أهداف المتابعة للمريض</label>
+        <input type="text" id="followupGoals" class="pm-search-input" value="مراجعة تحليل السكر التراكمي ووظائف الكلى والتأكد من ضبط السكر الصائم تحت 130" style="padding:8px 12px">
       </div>
 
       <div style="display:flex;gap:16px;align-items:center">
@@ -1841,17 +4073,35 @@ function renderFollowupTab(p) {
         </label>
       </div>
 
-      <button class="pill sm solid" style="align-self:flex-start" onclick="showToast('تم تثبيت موعد المتابعة وجدولة التذكير الآلي للمريض بنجاح ✓')">
+      <button class="pill sm solid" style="align-self:flex-start" onclick="confirmFollowup()">
         <i class="ti ti-check"></i> تأكيد موعد المتابعة
       </button>
     </div>
   `;
 }
 
+function confirmFollowup() {
+  followupConfirmed = true;
+  tabContentState.followup = true;
+  updateTabProgressDots();
+  renderConsultContent();
+  showToast('تم تثبيت موعد المتابعة وجدولة التذكير الآلي للمريض بنجاح ✓');
+}
+
 // ============================= ACTIONS & COMPLETION =============================
 function completeConsultation() {
+  if (consultationCompleted) return;
+
   const p = getActivePatient();
   p.status = 'done';
+  consultationCompleted = true;
+
+  const btn = document.getElementById('btnCompleteConsult');
+  if (btn) {
+    btn.classList.add('completed');
+    btn.innerHTML = '<i class="ti ti-check"></i> تم اعتماد الكشف ✓';
+  }
+
   showToast(`تم إنهاء واعتماد كشف المريض (${p.name}) بنجاح وتحويله إلى مكتمل ✓`);
   renderPatientHeader();
   renderScheduleList();
@@ -1884,6 +4134,11 @@ function openPatientChat(id) {
   if (drawer && backdrop) {
     drawer.classList.add('open');
     backdrop.classList.add('show');
+    // Focus trap — move focus into drawer
+    setTimeout(() => {
+      const input = document.getElementById('chatInput');
+      if (input) input.focus();
+    }, 300);
   }
 }
 
@@ -1907,6 +4162,342 @@ function closeAllDrawers() {
   const backdrop = document.getElementById('drawerBackdrop');
   if (drawer) drawer.classList.remove('open');
   if (backdrop) backdrop.classList.remove('show');
+  closePatientFullProfileModal();
+}
+
+// ============================= COMPREHENSIVE PATIENT PROFILE MODAL =============================
+let currentPfPatient = null;
+let currentPfTab = 'vitals';
+
+function openPatientFullProfileModal(id) {
+  const p = (id ? PATIENTS.find(x => x.id === id) : null) || getActivePatient() || PATIENTS[0];
+  currentPfPatient = p;
+  currentPfTab = 'vitals';
+
+  const modal = document.getElementById('patientFullProfileModal');
+  if (!modal) return;
+
+  renderPatientFullProfileBody();
+  modal.classList.add('show');
+}
+
+function closePatientFullProfileModal() {
+  const modal = document.getElementById('patientFullProfileModal');
+  if (modal) modal.classList.remove('show');
+}
+
+function setPfModalTab(tab) {
+  currentPfTab = tab;
+  renderPatientFullProfileBody();
+}
+
+function switchToConsultRecordsTab() {
+  closePatientFullProfileModal();
+  switchConsultTab('records');
+  showToast('تم الانتقال إلى تبويب السجل الشامل في شاشة الكشف');
+}
+
+function chatFromFullProfileModal() {
+  if (!currentPfPatient) return;
+  const pid = currentPfPatient.id;
+  closePatientFullProfileModal();
+  openPatientChat(pid);
+}
+
+function printPatientFullProfile() {
+  window.print();
+}
+
+function renderPatientFullProfileBody() {
+  const body = document.getElementById('patientFullProfileBody');
+  if (!body || !currentPfPatient) return;
+  const p = currentPfPatient;
+  const s = calculateAttentionScore(p);
+  const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+
+  const aiLabel = s.levelText || (s.score >= 75 ? 'أولوية قصوى' : (s.score >= 50 ? 'يحتاج انتباه' : 'حالة مستقرة'));
+  const aiColor = s.color || (s.score >= 75 ? 'var(--danger)' : (s.score >= 50 ? 'var(--warn)' : 'var(--accent)'));
+  const aiIcon = s.score >= 75 ? 'ti-alert-circle' : (s.score >= 50 ? 'ti-alert-triangle' : 'ti-circle-check');
+
+  // Custom vitals based on patient
+  let vitals = [];
+  if (p.id === 2) {
+    vitals = [
+      { label: 'حرارة الجسم', val: '38.5', unit: '°C', ref: '36.5 - 37.5 °C', status: 'danger', statusText: 'حمى حادة', icon: 'ti-temperature' },
+      { label: 'نبض القلب', val: '110', unit: 'bpm', ref: '70 - 120 bpm', status: 'warn', statusText: 'تسارع خفيف', icon: 'ti-activity' },
+      { label: 'تشبع الأكسجين', val: '95%', unit: 'SpO2', ref: '≥ 95%', status: 'warn', statusText: 'تحت الملاحظة', icon: 'ti-lungs' },
+      { label: 'معدل التنفس', val: '24', unit: 'دورة/د', ref: '18 - 25 دورة/د', status: 'ok', statusText: 'طبيعي لعمرها', icon: 'ti-wind' },
+      { label: 'الوزن والنمو', val: '26', unit: 'كجم', ref: 'النسبة المئوية 50%', status: 'ok', statusText: 'نمو سليم', icon: 'ti-scale' },
+      { label: 'ضغط الدم', val: '105/65', unit: 'mmHg', ref: '< 110/70', status: 'ok', statusText: 'مثالي', icon: 'ti-heartbeat' }
+    ];
+  } else {
+    vitals = [
+      { label: 'ضغط الدم', val: '135/85', unit: 'mmHg', ref: 'طبيعي < 120/80', status: 'warn', statusText: 'مرتفع خفيف', icon: 'ti-heartbeat' },
+      { label: 'نبض القلب', val: '78', unit: 'bpm', ref: '60 - 100 bpm', status: 'ok', statusText: 'طبيعي ومنتظم', icon: 'ti-activity' },
+      { label: 'السكر الصائم', val: '165', unit: 'mg/dL', ref: '70 - 100 mg/dL', status: 'danger', statusText: 'مرتفع', icon: 'ti-droplet' },
+      { label: 'تشبع الأكسجين', val: '98%', unit: 'SpO2', ref: '≥ 95%', status: 'ok', statusText: 'ممتاز', icon: 'ti-lungs' },
+      { label: 'حرارة الجسم', val: '37.1', unit: '°C', ref: '36.5 - 37.5 °C', status: 'ok', statusText: 'طبيعي', icon: 'ti-temperature' },
+      { label: 'كتلة الجسم (BMI)', val: '27.4', unit: '82 كجم', ref: '18.5 - 24.9', status: 'warn', statusText: 'وزن زائد', icon: 'ti-scale' }
+    ];
+  }
+
+  // Lab Results
+  let labs = [];
+  if (p.id === 2) {
+    labs = [
+      { name: 'كرات الدم البيضاء (WBC)', val: '13.8 x10^3/µL', ref: '5.0 - 14.5', date: 'اليوم (طوارئ)', status: 'warn', statusText: 'ارتفاع خفيف (عدوى)' },
+      { name: 'بروتين سي التفاعلي (CRP)', val: '24 mg/L', ref: '< 6 mg/L', date: 'اليوم (طوارئ)', status: 'danger', statusText: 'التهاب حاد' },
+      { name: 'مسحة أنفية فيروسية (Viral Panel)', val: 'سلبي للإنفلونزا A/B', ref: 'سلبي', date: 'اليوم (طوارئ)', status: 'ok', statusText: 'سليم' }
+    ];
+  } else {
+    labs = [
+      { name: 'السكر التراكمي (HbA1c)', val: '8.4 %', ref: '< 5.7 %', date: '06 سبتمبر 2026', status: 'danger', statusText: 'غير منضبط' },
+      { name: 'سكر الدم الصائم (FBS)', val: '165 mg/dL', ref: '70 - 100 mg/dL', date: '06 سبتمبر 2026', status: 'danger', statusText: 'مرتفع' },
+      { name: 'الكرياتينين بالدم (Serum Creatinine)', val: '1.0 mg/dL', ref: '0.7 - 1.3 mg/dL', date: '06 سبتمبر 2026', status: 'ok', statusText: 'طبيعي ومستقر' },
+      { name: 'يوريا الدم (Blood Urea Nitrogen)', val: '18 mg/dL', ref: '7 - 20 mg/dL', date: '06 سبتمبر 2026', status: 'ok', statusText: 'طبيعي' },
+      { name: 'زلال البول الدقيق (Microalbuminuria)', val: '35 mg/g', ref: '< 30 mg/g', date: '06 سبتمبر 2026', status: 'warn', statusText: 'مرتفع خفيف' },
+      { name: 'الكوليسترول الكلي (Total Cholesterol)', val: '195 mg/dL', ref: '< 200 mg/dL', date: '01 أغسطس 2026', status: 'ok', statusText: 'طبيعي' },
+      { name: 'صورة دم كاملة - الهيموجلوبين (Hb)', val: '14.2 g/dL', ref: '13.5 - 17.5 g/dL', date: '01 أغسطس 2026', status: 'ok', statusText: 'سليم' }
+    ];
+  }
+
+  // Medications
+  const medsList = p.meds && p.meds.length ? p.meds.map((m, idx) => {
+    let instruction = 'قرص واحد مرتين يومياً بعد الأكل';
+    let prescriber = 'د. أحمد الشناوي';
+    if (m.toLowerCase().includes('metformin')) instruction = 'قرص 1000 مجم مرتين يومياً بعد الإفطار والعشاء';
+    else if (m.toLowerCase().includes('amlodipine')) instruction = 'قرص 5 مجم صباحاً لضبط ضغط الدم';
+    else if (m.toLowerCase().includes('januvia')) instruction = 'قرص 100 مجم ظهراً مع الوجبة الرئيسية';
+    else if (m.includes('باراسيتامول')) instruction = '5 مل شراب كل 6 ساعات عند ارتفاع الحرارة';
+    else if (m.includes('سالبيوتامول')) instruction = 'بختان عن طريق جهاز الاستنشاق عند نوبات الكحة';
+
+    return {
+      name: m,
+      instruction: instruction,
+      doc: prescriber,
+      since: 'مستمر وفق الخطة',
+      status: 'نشط ومستمر'
+    };
+  }) : [];
+
+  let tabContentHtml = '';
+
+  if (currentPfTab === 'vitals') {
+    tabContentHtml = `
+      <!-- Vitals Cards Grid -->
+      <div>
+        <div style="font-weight:800;font-size:13px;color:#ffffff;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+          <i class="ti ti-activity" style="color:var(--accent)"></i> المؤشرات الحيوية المقاسة حديثاً
+        </div>
+        <div class="pf-vitals-grid">
+          ${vitals.map(v => `
+            <div class="pf-vital-card">
+              <div class="pf-vital-label"><i class="ti ${v.icon}"></i> ${v.label}</div>
+              <div class="pf-vital-val">${v.val} <span style="font-size:11px;font-weight:400;color:#94a3b8">${v.unit}</span></div>
+              <div class="pf-vital-ref">${v.ref}</div>
+              <div class="pf-vital-badge ${v.status}">${v.statusText}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- Lab Results Table -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-weight:800;font-size:13px;color:#ffffff;display:flex;align-items:center;gap:6px">
+            <i class="ti ti-flask" style="color:var(--info)"></i> سجل الفحوصات والتحاليل المخبرية المعتمدة
+          </div>
+          <span class="tiny" style="color:#94a3b8">آخر فحص: ${labs[0]?.date || 'محدّث'}</span>
+        </div>
+        <div class="pf-table-wrap">
+          <table class="pf-table">
+            <thead>
+              <tr>
+                <th>الفحص / التحليل</th>
+                <th>النتيجة المقاسة</th>
+                <th>المعدل المرجعي الطبيعي</th>
+                <th>تاريخ الفحص</th>
+                <th>الحالة السريرية</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${labs.map(l => `
+                <tr>
+                  <td style="font-weight:700;color:#ffffff">${l.name}</td>
+                  <td style="font-weight:800;color:${l.status === 'danger' ? '#ef4444' : (l.status === 'warn' ? '#f2b84b' : '#1fe6a8')}">${l.val}</td>
+                  <td style="color:#94a3b8">${l.ref}</td>
+                  <td style="color:#94a3b8">${l.date}</td>
+                  <td>
+                    <span class="pf-vital-badge ${l.status}">${l.statusText}</span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  } else if (currentPfTab === 'meds') {
+    tabContentHtml = `
+      <!-- Chronic Conditions -->
+      <div style="background:#111d33;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px">
+        <div style="font-weight:800;font-size:13.5px;color:#ffffff;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+          <i class="ti ti-heartbeat" style="color:#f2b84b"></i> الأمراض المزمنة المشخصة
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${p.chronic && p.chronic.length ? p.chronic.map(c => `
+            <span style="background:rgba(242,184,75,0.14);border:1px solid rgba(242,184,75,0.4);color:#f2b84b;padding:6px 12px;border-radius:8px;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px">
+              <i class="ti ti-check"></i> ${c}
+            </span>
+          `).join('') : '<span style="color:#94a3b8">لا توجد أمراض مزمنة مسجلة للمريض</span>'}
+        </div>
+      </div>
+
+      <!-- Continuous Medications -->
+      <div>
+        <div style="font-weight:800;font-size:13.5px;color:#ffffff;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+          <i class="ti ti-pill" style="color:var(--accent)"></i> الأدوية الحالية المستمرة والجرعات
+        </div>
+        <div>
+          ${medsList.length ? medsList.map(m => `
+            <div class="pf-med-card">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:38px;height:38px;border-radius:8px;background:rgba(31,230,168,0.12);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px">
+                  <i class="ti ti-pill"></i>
+                </div>
+                <div>
+                  <div class="pf-med-name">${m.name}</div>
+                  <div class="pf-med-instruction">${m.instruction}</div>
+                  <div class="tiny" style="color:#64748b;margin-top:2px">الجهة الواصفة: ${m.doc} · ${m.since}</div>
+                </div>
+              </div>
+              <span class="pf-vital-badge ok">${m.status}</span>
+            </div>
+          `).join('') : '<div class="card" style="padding:16px;color:#94a3b8;background:#111d33">لا توجد أدوية مستمرة مسجلة</div>'}
+        </div>
+      </div>
+    `;
+  } else if (currentPfTab === 'timeline') {
+    tabContentHtml = `
+      <div style="background:#111d33;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px">
+        <div style="font-weight:800;font-size:13.5px;color:#ffffff;margin-bottom:14px;display:flex;align-items:center;gap:6px">
+          <i class="ti ti-history" style="color:var(--info)"></i> التسلسل الزمني للزيارات والاستشارات السابقة
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          ${p.timeline && p.timeline.length ? p.timeline.map(t => `
+            <div class="pf-tl-item">
+              <div class="pf-tl-dot"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+                <span style="font-weight:800;color:#ffffff;font-size:13px">${t.title}</span>
+                <span class="tiny" style="color:#94a3b8">${t.time}</span>
+              </div>
+              <div style="font-size:12px;color:#cbd5e1">${t.desc}</div>
+            </div>
+          `).join('') : '<div style="color:#94a3b8;font-size:12px">لا يوجد سجل سابق</div>'}
+        </div>
+      </div>
+    `;
+  } else if (currentPfTab === 'plan') {
+    tabContentHtml = `
+      <div style="background:#111d33;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px">
+        <div>
+          <div style="font-weight:800;font-size:13.5px;color:#ffffff;margin-bottom:6px;display:flex;align-items:center;gap:6px">
+            <i class="ti ti-clipboard-list" style="color:var(--accent)"></i> خطة العلاج السريري المعتمدة
+          </div>
+          <div style="font-size:13px;color:#e2e8f0;line-height:1.6;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);padding:12px;border-radius:8px">
+            ${p.treatmentPlan || 'خطة ضبط السكر التراكمي وتخفيض الجرعات تدريجياً مع فحص دوري للكلى والقاع كل 3 أشهر.'}
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px">
+            <div class="tiny" style="color:#94a3b8;margin-bottom:4px">تاريخ آخر زيارة للعيادة</div>
+            <div style="font-weight:800;color:#ffffff;font-size:13px">${p.lastVisit || '2026-09-06'} (${cInfo.name})</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px">
+            <div class="tiny" style="color:#94a3b8;margin-bottom:4px">موعد المتابعة القادم</div>
+            <div style="font-weight:800;color:${p.followupOverdue ? '#ef4444' : 'var(--accent)'};font-size:13px">
+              ${p.nextFollowup || '2026-09-12'} ${p.followupOverdue ? '⚠️ (تأخر ' + (p.followupOverdueDays || 6) + ' أيام)' : ''}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="tiny" style="color:#94a3b8;margin-bottom:4px">الإجراء الطبي الموصى به من محرك الذكاء الاصطناعي:</div>
+          <div style="font-size:12.5px;color:#cbd5e1;padding:8px 12px;background:rgba(31,230,168,0.06);border-right:3px solid var(--accent);border-radius:4px">
+            ${s.action || 'التواصل الفوري مع المريض ومراجعة خطة العلاج وتعديل الجرعات'}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  body.innerHTML = `
+    <!-- Top Hero Patient Card -->
+    <div class="pf-hero-card">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="pf-avatar">${initials(p.name)}</div>
+        <div>
+          <div class="pf-name">${p.name}</div>
+          <div class="pf-meta">
+            <span>${p.gender}</span>
+            <span>•</span>
+            <span>${p.age} سنة</span>
+            <span>•</span>
+            <span>رقم الملف: <strong>${p.patientId}</strong></span>
+            <span>•</span>
+            <span><i class="ti ti-phone"></i> ${p.phone}</span>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+            <span class="clinic-badge ${cInfo.tag}"><i class="ti ti-building-hospital"></i> ${cInfo.name}</span>
+            <span class="pill xs ghost" style="color:#60a5fa;border-color:rgba(96,165,250,0.3);font-size:11px"><i class="ti ti-shield-check"></i> تأمين بوبا الذهبي (ساري)</span>
+            <span class="pill xs ghost" style="color:#a78bfa;border-color:rgba(167,139,250,0.3);font-size:11px">فصيلة الدم: O+</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <div style="background:${aiColor};color:#ffffff;font-size:11.5px;font-weight:800;padding:5px 12px;border-radius:999px;display:flex;align-items:center;gap:6px;box-shadow:0 0 12px ${aiColor}55">
+          <i class="ti ${aiIcon}"></i> ${aiLabel}: ${s.score}/100
+        </div>
+        <div class="tiny" style="color:#94a3b8">حالة الكشف: ${p.status === 'done' ? '<span style="color:var(--accent)">تم الكشف ✓</span>' : '<span style="color:var(--warn)">في غرفة الانتظار</span>'}</div>
+      </div>
+    </div>
+
+    <!-- Severe Allergy Warning Banner -->
+    ${p.allergies && p.allergies.length ? `
+      <div class="pf-allergy-alert">
+        <i class="ti ti-alert-triangle" style="font-size:24px;color:#ef4444;flex-shrink:0"></i>
+        <div>
+          <div class="pf-allergy-title">تحذير أمان دوائي حرج (Severe Drug Contraindication)</div>
+          <div style="font-size:12.5px;color:#fecaca;line-height:1.5">
+            المريض لديه حساسية سريرية موثقة وشديدة تجاه: <strong style="color:#ffffff;background:#7f1d1d;padding:2px 8px;border-radius:4px">${p.allergies.join(' ، ')}</strong>.
+            يُحظر منعاً باتاً وصف أو إعطاء هذه المادة أو مشتقاتها تفادياً لحدوث صدمة حساسية حادة.
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Modal Navigation Tabs -->
+    <div class="pf-nav-tabs">
+      <button class="pf-tab-btn ${currentPfTab === 'vitals' ? 'active' : ''}" onclick="setPfModalTab('vitals')">
+        <i class="ti ti-activity"></i> المؤشرات الحيوية والتحاليل المخبرية
+      </button>
+      <button class="pf-tab-btn ${currentPfTab === 'meds' ? 'active' : ''}" onclick="setPfModalTab('meds')">
+        <i class="ti ti-pill"></i> الأمراض المزمنة والأدوية المستمرة
+      </button>
+      <button class="pf-tab-btn ${currentPfTab === 'timeline' ? 'active' : ''}" onclick="setPfModalTab('timeline')">
+        <i class="ti ti-history"></i> سجل الزيارات والاستشارات السابقة
+      </button>
+      <button class="pf-tab-btn ${currentPfTab === 'plan' ? 'active' : ''}" onclick="setPfModalTab('plan')">
+        <i class="ti ti-clipboard-list"></i> خطة العلاج والمتابعة
+      </button>
+    </div>
+
+    <!-- Active Tab Body -->
+    <div style="display:flex;flex-direction:column;gap:14px">
+      ${tabContentHtml}
+    </div>
+  `;
 }
 </script>
 </body>

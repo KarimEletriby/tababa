@@ -11,84 +11,602 @@
 <link rel="stylesheet" href="responsive.css">
 <style>
 /* Clinics Page Dedicated Styles */
+.clinics-exec-kpi-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.exec-kpi-card {
+  background: linear-gradient(135deg, #111d33 0%, #0d172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.exec-kpi-card:hover {
+  border-color: rgba(31, 230, 168, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.exec-kpi-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.exec-kpi-lbl {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+.exec-kpi-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.exec-kpi-val small {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+.exec-kpi-sub {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+.exec-kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Weekly Visual Schedule Matrix */
+.clinics-weekly-matrix-card {
+  background: #0d172a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+.matrix-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.matrix-card-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.matrix-day-col {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 125px;
+  transition: all 0.2s ease;
+}
+.matrix-day-col:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.matrix-day-col.is-today {
+  border-color: rgba(31, 230, 168, 0.5);
+  background: rgba(31, 230, 168, 0.04);
+  box-shadow: 0 0 16px rgba(31, 230, 168, 0.1);
+}
+.matrix-day-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 6px;
+}
+.matrix-day-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: #e2e8f0;
+}
+.matrix-today-badge {
+  font-size: 9.5px;
+  font-weight: 900;
+  color: var(--accent);
+  background: rgba(31, 230, 168, 0.18);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+.matrix-shift-box {
+  background: #111d33;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.matrix-shift-box:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+}
+.matrix-shift-title {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.matrix-shift-time {
+  font-size: 9.5px;
+  color: #94a3b8;
+}
+.matrix-off-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-size: 10.5px;
+  color: #64748b;
+  text-align: center;
+  padding: 12px 4px;
+}
+
+/* Clinics List & Cards */
 .clinics-management-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.clinic-detail-card {
+  background: linear-gradient(180deg, #101c34 0%, #0d172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 22px;
+  position: relative;
+  transition: all 0.25s ease;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-.clinic-detail-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  position: relative;
-  transition: var(--transition);
-}
 .clinic-detail-card:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-glow);
+  border-color: rgba(31, 230, 168, 0.35);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
 }
 .clinic-detail-card.active-clinic {
   border-color: var(--accent);
-  background: linear-gradient(180deg, rgba(31,230,168,0.04) 0%, var(--bg-card) 100%);
+  background: linear-gradient(180deg, rgba(31, 230, 168, 0.06) 0%, #0d172a 100%);
+  box-shadow: 0 0 24px rgba(31, 230, 168, 0.15);
 }
 .clinic-detail-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 16px;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
 }
 .clinic-icon-large {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 24px;
   flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
+
+/* Live Status Badges */
+.clinic-live-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.clinic-live-status.open {
+  background: rgba(31, 230, 168, 0.15);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.4);
+}
+.clinic-live-status.closed {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1fe6a8;
+  display: inline-block;
+  box-shadow: 0 0 8px #1fe6a8;
+  animation: pulseLive 1.8s infinite;
+}
+@keyframes pulseLive {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #1fe6a8; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* Schedule Info Strip */
+.clinic-schedule-strip {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.clinic-schedule-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.clinic-schedule-item i {
+  color: var(--accent);
+  font-size: 15px;
+}
+.clinic-schedule-lbl {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+.clinic-schedule-val {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Clinic KPIs Bar */
 .clinic-kpis-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin: 16px 0;
+  gap: 12px;
 }
 .clinic-kpi-box {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xs);
-  padding: 10px 12px;
+  background: #0b1322;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 12px 14px;
   text-align: right;
+  transition: all 0.2s ease;
+}
+.clinic-kpi-box:hover {
+  border-color: rgba(255, 255, 255, 0.15);
 }
 .clinic-kpi-box .num {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 900;
   color: var(--text-primary);
-  margin-top: 2px;
+  margin-top: 3px;
+}
+
+/* Staff & Secretary Box */
+.clinic-mid-section {
+  display: grid;
+  grid-template-columns: 1.1fr 1.9fr;
+  gap: 14px;
+}
+.clinic-staff-card {
+  background: #0b1322;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.staff-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.staff-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+}
+.staff-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.staff-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+.staff-role {
+  font-size: 11px;
+  color: #94a3b8;
+}
+.staff-actions {
+  display: flex;
+  gap: 6px;
+}
+.staff-btn {
+  flex: 1;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+}
+.staff-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+.staff-btn.wa:hover {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: #25d366;
+  color: #25d366;
+}
+
+/* Services & Pricing Box */
+.clinic-services-card {
+  background: #0b1322;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.services-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.services-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .clinic-services-chips {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 8px;
 }
 .clinic-service-chip {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 10px;
-  border-radius: var(--radius-xs);
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
+  padding: 5px 11px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   font-size: 11.5px;
-  color: var(--text-secondary);
+  font-weight: 600;
+  color: #cbd5e1;
+}
+.clinic-service-chip strong {
+  color: #1fe6a8;
+  font-weight: 800;
+  margin-right: 2px;
+}
+
+/* Card Bottom Action Strip */
+.clinic-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 14px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.clinic-foot-left {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.btn-checkin-start {
+  background: linear-gradient(135deg, var(--accent), #0d9488);
+  color: #03261b;
+  border: none;
+  font-weight: 900;
+  font-size: 12px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(31, 230, 168, 0.35);
+  transition: all 0.2s ease;
+}
+.btn-checkin-start:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(31, 230, 168, 0.5);
+}
+
+/* Modal Form for Add/Edit Clinic */
+.clinic-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 990;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.clinic-modal-backdrop.show {
+  display: flex;
+}
+.clinic-modal-card {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  width: 680px;
+  max-width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  animation: modalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.clinic-modal-head {
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111d33;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.clinic-modal-body {
+  padding: 22px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.clinic-modal-foot {
+  padding: 14px 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111d33;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.form-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+.form-input, .form-select {
+  background: #090e1a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+}
+.form-input:focus, .form-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(31, 230, 168, 0.2);
+}
+.days-checkboxes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.day-check-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: #090e1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 11.5px;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+.day-check-item input {
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+@media(max-width: 1024px) {
+  .clinics-exec-kpi-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .matrix-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .clinic-mid-section {
+    grid-template-columns: 1fr;
+  }
 }
 @media(max-width: 768px) {
+  .matrix-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .clinic-kpis-bar {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+}
+@media(max-width: 540px) {
+  .clinics-exec-kpi-bar {
+    grid-template-columns: 1fr;
+  }
+  .matrix-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -293,23 +811,51 @@
     </div>
   </div>
 
-  <!-- Breadcrumbs & Title -->
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+  <!-- Breadcrumbs & Title Bar -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
     <div>
-      <h1 style="font-size:20px;font-weight:900;color:var(--text-primary);display:flex;align-items:center;gap:8px">
-        <i class="ti ti-building-hospital" style="color:var(--accent)"></i>
+      <h1 style="font-size:22px;font-weight:900;color:var(--text-primary);display:flex;align-items:center;gap:10px;margin:0">
+        <i class="ti ti-building-hospital" style="color:var(--accent);font-size:26px"></i>
         إدارة العيادات وفروع الممارسة الطبية
       </h1>
-      <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
+      <div class="tiny" style="color:var(--text-secondary);margin-top:4px">
         متابعة مواعيد العمل، الحجوزات، والأداء التشغيلي والمالي لكل فرع من فروع ممارستك الطبية
       </div>
     </div>
-    <div style="display:flex;gap:8px">
-      <button class="pill sm solid" onclick="showToast('جاري فتح نموذج إضافة فرع طبي جديد...')"><i class="ti ti-plus"></i> إضافة عيادة أو فرع جديد</button>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="pill sm ghost" onclick="exportClinicsReport()"><i class="ti ti-download"></i> تقرير الفروع</button>
+      <button class="pill sm solid" onclick="openAddClinicModal()"><i class="ti ti-plus"></i> إضافة عيادة أو فرع جديد</button>
     </div>
   </div>
 
-  <!-- Clinics List -->
+  <!-- Multi-Branch Executive KPI Summary Bar -->
+  <div class="clinics-exec-kpi-bar" id="clinicsExecKpiBar"></div>
+
+  <!-- Weekly Visual Schedule Matrix -->
+  <div class="clinics-weekly-matrix-card">
+    <div class="matrix-card-head">
+      <div class="matrix-card-title">
+        <i class="ti ti-calendar-time" style="color:var(--accent)"></i>
+        <span>الجدول التشغيلي وتوزيع الممارسة الأسبوعية (Weekly Operations Matrix)</span>
+      </div>
+      <span class="pill xs ghost" id="currentActiveDayBadge" style="color:var(--accent);border-color:rgba(31,230,168,0.4)"></span>
+    </div>
+    <div class="matrix-grid" id="matrixGrid"></div>
+  </div>
+
+  <!-- Clinics List Header -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+    <div style="font-size:15px;font-weight:800;color:#ffffff;display:flex;align-items:center;gap:8px">
+      <i class="ti ti-building-hospital" style="color:var(--accent)"></i>
+      <span>فروع الممارسة المعتمدة</span>
+      <span class="pill xs ghost" id="clinicsCountBadge" style="margin-right:4px">3 فروع</span>
+    </div>
+    <div class="tiny" style="color:var(--text-muted)">
+      يمكنك تحديد الفرع النشط لمزامنة قائمة الحجوزات وغرفة الكشف
+    </div>
+  </div>
+
+  <!-- Clinics Management Grid -->
   <div class="clinics-management-grid" id="clinicsListMount"></div>
 </main>
 
@@ -317,6 +863,138 @@
 
 <!-- ==================== MODALS & DRAWERS ==================== -->
 <div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
+
+<!-- Add / Edit Clinic Modal -->
+<div class="clinic-modal-backdrop" id="clinicFormModal" onclick="handleModalBackdropClick(event)">
+  <div class="clinic-modal-card">
+    <div class="clinic-modal-head">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:8px;background:rgba(31,230,168,0.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px">
+          <i class="ti ti-building-hospital"></i>
+        </div>
+        <div>
+          <h3 id="clinicModalTitle" style="font-size:16px;font-weight:800;margin:0;color:#ffffff">إضافة فرع أو عيادة جديدة</h3>
+          <div class="tiny" style="color:var(--text-muted);margin-top:2px">أدخل تفاصيل الفرع ومواعيد الاستقبال وطاقم السكرتارية</div>
+        </div>
+      </div>
+      <button class="drawer-close" onclick="closeClinicModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <form id="clinicForm" onsubmit="handleClinicFormSubmit(event)">
+      <input type="hidden" id="formClinicId" value="">
+      <div class="clinic-modal-body">
+        <!-- Row 1: Name & Branch -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">اسم المركز أو المستشفى *</label>
+            <input type="text" id="formClinicName" class="form-input" placeholder="مثال: مركز النور الطبي التخصصي" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">اسم الفرع *</label>
+            <input type="text" id="formBranchName" class="form-input" placeholder="مثال: فرع التجمع الخامس" required>
+          </div>
+        </div>
+
+        <!-- Row 2: Specialty & Phone -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">التخصص الفرعي / العيادة</label>
+            <input type="text" id="formSpecialty" class="form-input" placeholder="مثال: باطنة عامة وسكري" value="باطنة عامة وجهاز هضمي">
+          </div>
+          <div class="form-group">
+            <label class="form-label">رقم هاتف العيادة المباشر *</label>
+            <input type="text" id="formPhone" class="form-input" placeholder="مثال: +20 2 2765 4321" required>
+          </div>
+        </div>
+
+        <!-- Row 3: Address -->
+        <div class="form-group">
+          <label class="form-label">العنوان التفصيلي والموقع *</label>
+          <input type="text" id="formAddress" class="form-input" placeholder="مثال: شارع التسعين الجنوبي، التجمع الخامس، القاهرة" required>
+        </div>
+
+        <!-- Row 4: Working Days -->
+        <div class="form-group">
+          <label class="form-label">أيام عمل العيادة الأسبوعية *</label>
+          <div class="days-checkboxes" id="formDaysContainer">
+            <label class="day-check-item"><input type="checkbox" name="workDay" value="السبت"> السبت</label>
+            <label class="day-check-item"><input type="checkbox" name="workDay" value="الأحد"> الأحد</label>
+            <label class="day-check-item"><input type="checkbox" name="workDay" value="الاثنين"> الاثنين</label>
+            <label class="day-check-item"><input type="checkbox" name="workDay" value="الثلاثاء"> الثلاثاء</label>
+            <label class="day-check-item"><input type="checkbox" name="workDay" value="الأربعاء"> الأربعاء</label>
+            <label class="day-check-item"><input type="checkbox" name="workDay" value="الخميس"> الخميس</label>
+            <label class="day-check-item"><input type="checkbox" name="workDay" value="الجمعة"> الجمعة</label>
+          </div>
+        </div>
+
+        <!-- Row 5: Working Hours -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">ساعات الاستقبال والدوام *</label>
+            <input type="text" id="formWorkingHours" class="form-input" placeholder="مثال: 02:00 م - 08:00 م" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">لون تمييز الفرع</label>
+            <select id="formClinicColor" class="form-select">
+              <option value="var(--accent)">زمردي (طبابا الافتراضي)</option>
+              <option value="var(--info)">أزرق سماوي</option>
+              <option value="var(--warn)">برتقالي ذهبي</option>
+              <option value="#ba68c8">بنفسجي ملكي</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 6: Secretary & Reception Info -->
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;margin-top:4px">
+          <div style="font-size:12px;font-weight:800;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+            <i class="ti ti-user"></i> بيانات مسؤول السكرتارية والاستقبال بالفرع
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">اسم السكرتير / منسق العيادة</label>
+              <input type="text" id="formSecretaryName" class="form-input" placeholder="مثال: أ. كريم ممدوح">
+            </div>
+            <div class="form-group">
+              <label class="form-label">رقم هاتف السكرتير (واتساب / اتصال)</label>
+              <input type="text" id="formSecretaryPhone" class="form-input" placeholder="مثال: +20 109 876 5432">
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 7: Pricing & Services -->
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;margin-top:4px">
+          <div style="font-size:12px;font-weight:800;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+            <i class="ti ti-report-money"></i> تسعيرة الكشوفات والخدمات بالفرع (ج.م)
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">سعر الكشف الحضوري (ج.م)</label>
+              <input type="number" id="formPriceInPerson" class="form-input" value="350" min="0" step="10">
+            </div>
+            <div class="form-group">
+              <label class="form-label">سعر الاستشارة / الإعادة (ج.م)</label>
+              <input type="number" id="formPriceFollowup" class="form-input" value="150" min="0" step="10">
+            </div>
+          </div>
+          <div class="form-row-2" style="margin-top:8px">
+            <div class="form-group">
+              <label class="form-label">سعر استشارة الفيديو عن بعد (ج.م)</label>
+              <input type="number" id="formPriceVideo" class="form-input" value="250" min="0" step="10">
+            </div>
+            <div class="form-group">
+              <label class="form-label">فحص السونار والموجات الصوتية (ج.م)</label>
+              <input type="number" id="formPriceSonar" class="form-input" value="200" min="0" step="10">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clinic-modal-foot">
+        <button type="button" class="pill sm ghost" onclick="closeClinicModal()">إلغاء</button>
+        <button type="submit" class="pill sm solid" id="btnSubmitClinic"><i class="ti ti-device-floppy"></i> حفظ بيانات الفرع</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!-- All AI Recommendations Modal -->
 <div class="ai-modal" id="aiRecomModal">
@@ -363,93 +1041,371 @@
 <!-- Scripts -->
 <script src="doctor-shared.js"></script>
 <script>
-function onClinicChanged(newClinicId) {
-  renderClinicsList();
+// ==================== DATA CONSTANTS & STORAGE ====================
+const DAYS_ORDER = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+const JS_DAY_INDEX_MAP = { 6: 'السبت', 0: 'الأحد', 1: 'الاثنين', 2: 'الثلاثاء', 3: 'الأربعاء', 4: 'الخميس', 5: 'الجمعة' };
+
+// Default staff & services enrichment for default clinics
+const DEFAULT_STAFF_MAP = {
+  clinic_mansoura: { name: 'أ. منى سامح', role: 'مديرة العيادة والحجوزات', phone: '+20 102 345 6789' },
+  clinic_cairo: { name: 'أ. تامر عبد الحميد', role: 'منسق الاستقبال والفرع', phone: '+20 114 887 1234' },
+  clinic_giza: { name: 'أ. ياسمين خالد', role: 'مشرفة الاستقبال بالعيادة', phone: '+20 120 554 9911' }
+};
+
+const DEFAULT_PRICES_MAP = {
+  clinic_mansoura: { inPerson: 350, followup: 150, video: 250, sonar: 200, ecg: 120 },
+  clinic_cairo: { inPerson: 400, followup: 180, video: 280, sonar: 250, ecg: 150 },
+  clinic_giza: { inPerson: 450, followup: 200, video: 300, sonar: 280, ecg: 180 }
+};
+
+function getDoctorClinics() {
+  const saved = localStorage.getItem('tababa_custom_clinics');
+  let clinics = [...CLINICS];
+
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        // Merge or replace
+        parsed.forEach(customC => {
+          const idx = clinics.findIndex(x => x.id === customC.id);
+          if (idx >= 0) {
+            clinics[idx] = { ...clinics[idx], ...customC };
+          } else {
+            clinics.push(customC);
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Error loading custom clinics:', e);
+    }
+  }
+
+  // Ensure staff and prices
+  return clinics.map(c => {
+    const staff = c.staff || DEFAULT_STAFF_MAP[c.id] || { name: 'أ. مسؤول الفرع', role: 'منسق الاستقبال', phone: c.phone || '+20 100 000 0000' };
+    const prices = c.prices || DEFAULT_PRICES_MAP[c.id] || { inPerson: 350, followup: 150, video: 250, sonar: 200, ecg: 120 };
+    return { ...c, staff, prices };
+  });
 }
 
-function renderClinicsList() {
+function saveCustomClinicsList(clinics) {
+  try {
+    localStorage.setItem('tababa_custom_clinics', JSON.stringify(clinics));
+    // Also sync in-memory CLINICS array in doctor-shared
+    clinics.forEach(c => {
+      const idx = CLINICS.findIndex(x => x.id === c.id);
+      if (idx >= 0) {
+        CLINICS[idx] = { ...CLINICS[idx], ...c };
+      } else {
+        CLINICS.push(c);
+      }
+    });
+  } catch (e) {
+    console.error('Error saving clinics:', e);
+  }
+}
+
+// ==================== LIVE STATUS HELPER ====================
+function getClinicLiveStatus(clinic) {
+  const todayDay = JS_DAY_INDEX_MAP[new Date().getDay()];
+  const isWorkingToday = clinic.workingDays && clinic.workingDays.includes(todayDay);
+
+  if (isWorkingToday) {
+    return {
+      isOpen: true,
+      text: 'مفتوح اليوم لاستقبال المرضى',
+      badgeClass: 'open',
+      dot: true
+    };
+  } else {
+    // Find next working day
+    const nextDay = clinic.workingDays && clinic.workingDays.length > 0 ? clinic.workingDays[0] : 'الأحد';
+    return {
+      isOpen: false,
+      text: `مغلق اليوم (يفتح ${nextDay})`,
+      badgeClass: 'closed',
+      dot: false
+    };
+  }
+}
+
+// ==================== RENDERING FUNCTIONS ====================
+function onClinicChanged(newClinicId) {
+  renderAllClinicsView();
+}
+
+function renderAllClinicsView() {
+  const clinics = getDoctorClinics();
+  renderExecutiveKpiBar(clinics);
+  renderWeeklyMatrix(clinics);
+  renderClinicsList(clinics);
+
+  const countBadge = document.getElementById('clinicsCountBadge');
+  if (countBadge) countBadge.textContent = `${clinics.length} فروع`;
+}
+
+// 1. Multi-Branch Executive KPI Bar
+function renderExecutiveKpiBar(clinics) {
+  const mount = document.getElementById('clinicsExecKpiBar');
+  if (!mount) return;
+
+  const totalClinics = clinics.length;
+  const totalPatients = clinics.reduce((acc, c) => acc + (c.stats ? c.stats.activePatients : 0), 0);
+  const todayAppts = clinics.reduce((acc, c) => acc + (c.stats ? c.stats.todayAppointments : 0), 0);
+  const todayRev = clinics.reduce((acc, c) => acc + (c.stats ? c.stats.todayRevenue : 0), 0);
+
+  mount.innerHTML = `
+    <!-- KPI 1: Active Branches -->
+    <div class="exec-kpi-card">
+      <div class="exec-kpi-info">
+        <div class="exec-kpi-lbl">شبكة الفروع الطبية</div>
+        <div class="exec-kpi-val">${totalClinics} <small>عيادات</small></div>
+        <div class="exec-kpi-sub">3 محافظات (القاهرة، المنصورة، الجيزة)</div>
+      </div>
+      <div class="exec-kpi-icon" style="background:rgba(31,230,168,0.12);color:var(--accent)">
+        <i class="ti ti-building-hospital"></i>
+      </div>
+    </div>
+
+    <!-- KPI 2: Today Appointments -->
+    <div class="exec-kpi-card">
+      <div class="exec-kpi-info">
+        <div class="exec-kpi-lbl">إجمالي كشوفات اليوم المجمعة</div>
+        <div class="exec-kpi-val">${todayAppts} <small>حالة مجدولة</small></div>
+        <div class="exec-kpi-sub">بين كشف حضوري واستشارات فيديو</div>
+      </div>
+      <div class="exec-kpi-icon" style="background:rgba(14,165,233,0.12);color:var(--info)">
+        <i class="ti ti-calendar-event"></i>
+      </div>
+    </div>
+
+    <!-- KPI 3: Today Revenue -->
+    <div class="exec-kpi-card">
+      <div class="exec-kpi-info">
+        <div class="exec-kpi-lbl">الإيراد اليومي التقديري</div>
+        <div class="exec-kpi-val">${fmt(todayRev)} <small>ج.م</small></div>
+        <div class="exec-kpi-sub"><i class="ti ti-trending-up" style="color:var(--accent)"></i> تحصيل عيادات اليوم</div>
+      </div>
+      <div class="exec-kpi-icon" style="background:rgba(31,230,168,0.12);color:var(--accent)">
+        <i class="ti ti-wallet"></i>
+      </div>
+    </div>
+
+    <!-- KPI 4: Compliance & Attendance -->
+    <div class="exec-kpi-card">
+      <div class="exec-kpi-info">
+        <div class="exec-kpi-lbl">معدل حضور والتزام المرضى</div>
+        <div class="exec-kpi-val">95% <small>نسبة الانضباط</small></div>
+        <div class="exec-kpi-sub">متوسط نسبة عدم الحضور (5%)</div>
+      </div>
+      <div class="exec-kpi-icon" style="background:rgba(242,184,75,0.12);color:var(--warn)">
+        <i class="ti ti-chart-pie"></i>
+      </div>
+    </div>
+  `;
+}
+
+// 2. Weekly Visual Schedule Matrix
+function renderWeeklyMatrix(clinics) {
+  const grid = document.getElementById('matrixGrid');
+  const activeDayBadge = document.getElementById('currentActiveDayBadge');
+  if (!grid) return;
+
+  const todayArabicDay = JS_DAY_INDEX_MAP[new Date().getDay()];
+  if (activeDayBadge) {
+    activeDayBadge.innerHTML = `<i class="ti ti-clock"></i> اليوم: ${todayArabicDay}`;
+  }
+
+  grid.innerHTML = DAYS_ORDER.map(dayName => {
+    const isToday = dayName === todayArabicDay;
+    // Find all clinics that work on this day
+    const matchingClinics = clinics.filter(c => c.workingDays && c.workingDays.includes(dayName));
+
+    let shiftHtml = '';
+    if (matchingClinics.length > 0) {
+      shiftHtml = matchingClinics.map(c => `
+        <div class="matrix-shift-box" onclick="selectClinic('${c.id}')" title="انقر لتحديد ${c.name} كفرع نشط">
+          <div class="matrix-shift-title">
+            <span style="width:6px;height:6px;border-radius:50%;background:${c.color};display:inline-block"></span>
+            ${c.branchName}
+          </div>
+          <div class="matrix-shift-time"><i class="ti ti-clock" style="font-size:9px"></i> ${c.workingHours}</div>
+        </div>
+      `).join('');
+    } else {
+      shiftHtml = `
+        <div class="matrix-off-day">
+          <i class="ti ti-bed" style="margin-left:4px"></i> راحة / أبحاث
+        </div>
+      `;
+    }
+
+    return `
+      <div class="matrix-day-col ${isToday ? 'is-today' : ''}">
+        <div class="matrix-day-head">
+          <span class="matrix-day-name">${dayName}</span>
+          ${isToday ? '<span class="matrix-today-badge">اليوم</span>' : ''}
+        </div>
+        ${shiftHtml}
+      </div>
+    `;
+  }).join('');
+}
+
+// 3. Main Clinics List with Enhanced Cards
+function renderClinicsList(clinics) {
   const mount = document.getElementById('clinicsListMount');
   if (!mount) return;
 
-  mount.innerHTML = CLINICS.map(c => {
+  mount.innerHTML = clinics.map(c => {
     const isCurrentActive = currentClinicId === c.id;
     const iconName = c.id === 'clinic_mansoura' ? 'building-hospital' : (c.id === 'clinic_cairo' ? 'building-community' : 'heart-rate-monitor');
+    const liveStatus = getClinicLiveStatus(c);
+    const staff = c.staff;
+    const prices = c.prices;
 
     return `
-      <div class="clinic-detail-card ${isCurrentActive ? 'active-clinic' : ''}">
+      <div class="clinic-detail-card ${isCurrentActive ? 'active-clinic' : ''}" id="card_${c.id}">
+        <!-- Top Head -->
         <div class="clinic-detail-head">
-          <div style="display:flex;align-items:center;gap:14px">
-            <div class="clinic-icon-large" style="background:var(--bg-panel);border:1px solid var(--border);color:${c.color}">
+          <div style="display:flex;align-items:center;gap:16px">
+            <div class="clinic-icon-large" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:${c.color}">
               <i class="ti ti-${iconName}"></i>
             </div>
             <div>
-              <div style="display:flex;align-items:center;gap:8px">
-                <h3 style="font-size:16px;font-weight:900;color:var(--text-primary);margin:0">${c.name}</h3>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <h3 style="font-size:18px;font-weight:900;color:var(--text-primary);margin:0">${c.name}</h3>
                 <span class="clinic-badge ${c.tag}">${c.branchName}</span>
-                ${isCurrentActive ? '<span class="pill xs solid"><i class="ti ti-check"></i> العيادة المحددة حالياً</span>' : ''}
+                <span class="clinic-live-status ${liveStatus.badgeClass}">
+                  ${liveStatus.dot ? '<span class="pulse-dot"></span>' : '<i class="ti ti-moon"></i>'}
+                  ${liveStatus.text}
+                </span>
+                ${isCurrentActive ? '<span class="pill xs solid" style="background:var(--accent);color:#03261b;font-weight:800"><i class="ti ti-check"></i> الفرع النشط حالياً بالنظام</span>' : ''}
               </div>
-              <div class="tiny" style="color:var(--text-secondary);margin-top:2px"><i class="ti ti-map-pin"></i> ${c.address} · <i class="ti ti-phone"></i> ${c.phone}</div>
-              <div class="tiny" style="color:var(--text-muted);margin-top:2px"><i class="ti ti-stethoscope"></i> التخصص الفرعي: ${c.specialty}</div>
+              <div class="tiny" style="color:var(--text-secondary);margin-top:4px">
+                <i class="ti ti-map-pin" style="color:var(--accent)"></i> ${c.address} · <i class="ti ti-phone"></i> ${c.phone}
+              </div>
+              <div class="tiny" style="color:var(--text-muted);margin-top:2px">
+                <i class="ti ti-stethoscope"></i> التخصص الفرعي: ${c.specialty}
+              </div>
             </div>
           </div>
 
+          <!-- Top Actions -->
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-            <button class="pill sm ${isCurrentActive ? 'solid' : 'ghost'}" onclick="selectClinic('${c.id}')">
+            <button class="pill sm ${isCurrentActive ? 'solid' : 'ghost'}" onclick="selectClinic('${c.id}')" title="تعيين هذا الفرع كفرع نشط للنظام">
               <i class="ti ti-check"></i> ${isCurrentActive ? 'نطاق العمل النشط' : 'تعيين كعيادة نشطة'}
             </button>
-            <button class="pill sm ghost" onclick="showToast('جاري فتح إعدادات فرع ' + '${c.branchName}')"><i class="ti ti-settings"></i> الإعدادات</button>
+            <button class="pill sm ghost" onclick="openEditClinicModal('${c.id}')" title="تعديل بيانات وأسعار الفرع">
+              <i class="ti ti-edit"></i> تعديل الفرع
+            </button>
+            ${c.isCustom ? `<button class="btn-icon" style="color:var(--danger)" onclick="deleteCustomClinic('${c.id}')" title="حذف هذا الفرع"><i class="ti ti-trash"></i></button>` : ''}
           </div>
         </div>
 
-        <!-- Schedule & Hours -->
-        <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-          <div>
-            <span class="tiny" style="font-weight:700;color:var(--text-secondary)"><i class="ti ti-calendar"></i> أيام العمل:</span>
-            <span style="font-size:12.5px;color:var(--text-primary);margin-right:4px">${c.workingDays.join(' · ')}</span>
+        <!-- Schedule & Operational Hours Strip -->
+        <div class="clinic-schedule-strip">
+          <div class="clinic-schedule-item">
+            <i class="ti ti-calendar"></i>
+            <span class="clinic-schedule-lbl">أيام العمل:</span>
+            <span class="clinic-schedule-val">${c.workingDays.join(' · ')}</span>
           </div>
-          <div>
-            <span class="tiny" style="font-weight:700;color:var(--text-secondary)"><i class="ti ti-clock"></i> ساعات الاستقبال:</span>
-            <span style="font-size:12.5px;color:var(--accent);font-weight:700;margin-right:4px">${c.workingHours}</span>
+          <div class="clinic-schedule-item">
+            <i class="ti ti-clock"></i>
+            <span class="clinic-schedule-lbl">ساعات الاستقبال:</span>
+            <span class="clinic-schedule-val" style="color:var(--accent)">${c.workingHours}</span>
           </div>
-          <div>
-            <span class="tiny" style="font-weight:700;color:var(--text-secondary)">نسبة عدم الحضور:</span>
-            <span style="font-size:12.5px;color:var(--warn);font-weight:700;margin-right:4px">${c.stats.noShowRate}</span>
+          <div class="clinic-schedule-item">
+            <i class="ti ti-user-check"></i>
+            <span class="clinic-schedule-lbl">نسبة الالتزام بالحضور:</span>
+            <span class="clinic-schedule-val" style="color:var(--info)">95% (عدم حضور ${c.stats ? c.stats.noShowRate : '4%'})</span>
           </div>
         </div>
 
         <!-- Clinic KPIs -->
         <div class="clinic-kpis-bar">
           <div class="clinic-kpi-box">
-            <div class="tiny">المرضى المسجلين بالفرع</div>
-            <div class="num" style="color:var(--accent)">${c.stats.activePatients}</div>
+            <div class="tiny" style="color:#94a3b8">المرضى المسجلين بالفرع</div>
+            <div class="num" style="color:var(--accent)">${c.stats ? c.stats.activePatients : 40}</div>
           </div>
           <div class="clinic-kpi-box">
-            <div class="tiny">حجوزات اليوم</div>
-            <div class="num" style="color:var(--info)">${c.stats.todayAppointments}</div>
+            <div class="tiny" style="color:#94a3b8">حجوزات اليوم بالفرع</div>
+            <div class="num" style="color:var(--info)">${c.stats ? c.stats.todayAppointments : 10}</div>
           </div>
           <div class="clinic-kpi-box">
-            <div class="tiny">إيراد اليوم المتوقع</div>
-            <div class="num">${fmt(c.stats.todayRevenue)} <span style="font-size:11px;font-weight:400">ج.م</span></div>
+            <div class="tiny" style="color:#94a3b8">إيراد كشوفات اليوم المتوقع</div>
+            <div class="num">${fmt(c.stats ? c.stats.todayRevenue : 7500)} <span style="font-size:11px;font-weight:400">ج.م</span></div>
           </div>
           <div class="clinic-kpi-box">
-            <div class="tiny">إجمالي الكشوفات المنفذة</div>
-            <div class="num">${c.stats.consultations}</div>
+            <div class="tiny" style="color:#94a3b8">إجمالي الكشوفات المنفذة</div>
+            <div class="num">${c.stats ? c.stats.consultations : 85}</div>
           </div>
         </div>
 
-        <!-- Services & Quick Actions -->
-        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px;margin-top:8px;flex-wrap:wrap;gap:10px">
-          <div>
-            <div class="tiny" style="font-weight:700;color:var(--text-muted)">الخدمات الطبية المتاحة بالفرع:</div>
-            <div class="clinic-services-chips">
-              <span class="clinic-service-chip"><i class="ti ti-stethoscope" style="color:var(--accent)"></i> كشف باطني حضوري (350 ج.م)</span>
-              <span class="clinic-service-chip"><i class="ti ti-video" style="color:var(--info)"></i> استشارة فيديو عن بعد (250 ج.م)</span>
-              <span class="clinic-service-chip"><i class="ti ti-scan" style="color:var(--warn)"></i> فحص موجات صوتية وسونار (200 ج.م)</span>
+        <!-- Mid Section: Staff Card & Services / Pricing -->
+        <div class="clinic-mid-section">
+          <!-- Staff Card -->
+          <div class="clinic-staff-card">
+            <div class="staff-head">
+              <div class="staff-avatar">${initials(staff.name)}</div>
+              <div class="staff-info">
+                <div class="staff-name">${staff.name}</div>
+                <div class="staff-role">${staff.role}</div>
+                <div class="tiny" style="color:#64748b;margin-top:1px"><i class="ti ti-phone"></i> ${staff.phone}</div>
+              </div>
+            </div>
+            <div class="staff-actions">
+              <a href="tel:${staff.phone.replace(/\\s+/g, '')}" class="staff-btn" title="اتصال مباشر">
+                <i class="ti ti-phone-call"></i> اتصال هاتفياً
+              </a>
+              <a href="https://wa.me/${staff.phone.replace(/[^0-9]/g, '')}" target="_blank" class="staff-btn wa" title="محادثة واتساب">
+                <i class="ti ti-brand-whatsapp"></i> واتساب العيادة
+              </a>
             </div>
           </div>
-          <div style="display:flex;gap:6px">
-            <button class="pill xs ghost" onclick="location.href='doctor-patients.html'"><i class="ti ti-users"></i> عرض المرضى</button>
-            <button class="pill xs solid" onclick="location.href='doctor-consultation.html'"><i class="ti ti-stethoscope"></i> بدء كشوفات الفرع</button>
+
+          <!-- Services & Pricing Chips -->
+          <div class="clinic-services-card">
+            <div class="services-head">
+              <div class="services-title">
+                <i class="ti ti-stethoscope" style="color:var(--accent)"></i> قائمة أسعار الكشوفات والخدمات المعتمدة بالفرع:
+              </div>
+              <button class="pill xs ghost" onclick="openEditClinicModal('${c.id}')" style="font-size:10.5px">
+                <i class="ti ti-pencil"></i> تعديل التسعيرة
+              </button>
+            </div>
+            <div class="clinic-services-chips">
+              <span class="clinic-service-chip">
+                <i class="ti ti-stethoscope" style="color:var(--accent)"></i> كشف باطني حضوري: <strong>${prices.inPerson} ج.م</strong>
+              </span>
+              <span class="clinic-service-chip">
+                <i class="ti ti-rotate-clockwise" style="color:var(--info)"></i> استشارة ومتابعة: <strong>${prices.followup} ج.م</strong>
+              </span>
+              <span class="clinic-service-chip">
+                <i class="ti ti-video" style="color:#38bdf8"></i> استشارة فيديو: <strong>${prices.video} ج.م</strong>
+              </span>
+              <span class="clinic-service-chip">
+                <i class="ti ti-scan" style="color:var(--warn)"></i> سونار وموجات صوتية: <strong>${prices.sonar} ج.م</strong>
+              </span>
+              <span class="clinic-service-chip">
+                <i class="ti ti-heartbeat" style="color:#f43f5e"></i> رسم قلب ECG: <strong>${prices.ecg} ج.م</strong>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Action Strip -->
+        <div class="clinic-card-foot">
+          <div class="clinic-foot-right">
+            <button class="pill sm ghost" onclick="goToClinicPatients('${c.id}')">
+              <i class="ti ti-users"></i> عرض سجل مرضى ${c.branchName} (${c.stats ? c.stats.activePatients : 0})
+            </button>
+          </div>
+          <div class="clinic-foot-left">
+            <button class="btn-checkin-start" onclick="checkInAndStartConsultation('${c.id}')">
+              <i class="ti ti-stethoscope"></i> تسجيل الحضور وبدء كشوفات الفرع
+            </button>
           </div>
         </div>
       </div>
@@ -457,8 +1413,219 @@ function renderClinicsList() {
   }).join('');
 }
 
+// ==================== ADD / EDIT CLINIC MODAL LOGIC ====================
+function openAddClinicModal() {
+  document.getElementById('clinicModalTitle').textContent = 'إضافة فرع أو عيادة جديدة';
+  const form = document.getElementById('clinicForm');
+  if (form && typeof form.reset === 'function') form.reset();
+  document.getElementById('formClinicColor').value = 'var(--accent)';
+  document.getElementById('formPriceInPerson').value = '350';
+  document.getElementById('formPriceFollowup').value = '150';
+  document.getElementById('formPriceVideo').value = '250';
+  document.getElementById('formPriceSonar').value = '200';
+
+  // Check default days
+  document.querySelectorAll('input[name="workDay"]').forEach(cb => {
+    cb.checked = ['الأحد', 'الثلاثاء', 'الخميس'].includes(cb.value);
+  });
+
+  document.getElementById('clinicFormModal').classList.add('show');
+}
+
+function openEditClinicModal(clinicId) {
+  const clinics = getDoctorClinics();
+  const c = clinics.find(x => x.id === clinicId);
+  if (!c) {
+    showToast('تعذر العثور على بيانات الفرع', 'danger');
+    return;
+  }
+
+  document.getElementById('clinicModalTitle').textContent = `تعديل بيانات فرع: ${c.name} (${c.branchName})`;
+  document.getElementById('formClinicId').value = c.id;
+  document.getElementById('formClinicName').value = c.name || '';
+  document.getElementById('formBranchName').value = c.branchName || '';
+  document.getElementById('formSpecialty').value = c.specialty || '';
+  document.getElementById('formPhone').value = c.phone || '';
+  document.getElementById('formAddress').value = c.address || '';
+  document.getElementById('formWorkingHours').value = c.workingHours || '';
+  document.getElementById('formClinicColor').value = c.color || 'var(--accent)';
+
+  // Staff
+  const staff = c.staff || {};
+  document.getElementById('formSecretaryName').value = staff.name || '';
+  document.getElementById('formSecretaryPhone').value = staff.phone || '';
+
+  // Prices
+  const prices = c.prices || {};
+  document.getElementById('formPriceInPerson').value = prices.inPerson || 350;
+  document.getElementById('formPriceFollowup').value = prices.followup || 150;
+  document.getElementById('formPriceVideo').value = prices.video || 250;
+  document.getElementById('formPriceSonar').value = prices.sonar || 200;
+
+  // Days
+  const days = c.workingDays || [];
+  document.querySelectorAll('input[name="workDay"]').forEach(cb => {
+    cb.checked = days.includes(cb.value);
+  });
+
+  document.getElementById('clinicFormModal').classList.add('show');
+}
+
+function closeClinicModal() {
+  const modal = document.getElementById('clinicFormModal');
+  if (modal) modal.classList.remove('show');
+}
+
+function handleModalBackdropClick(e) {
+  if (e.target && e.target.id === 'clinicFormModal') {
+    closeClinicModal();
+  }
+}
+
+function handleClinicFormSubmit(e) {
+  e.preventDefault();
+
+  const clinicId = document.getElementById('formClinicId').value.trim();
+  const name = document.getElementById('formClinicName').value.trim();
+  const branchName = document.getElementById('formBranchName').value.trim();
+  const specialty = document.getElementById('formSpecialty').value.trim();
+  const phone = document.getElementById('formPhone').value.trim();
+  const address = document.getElementById('formAddress').value.trim();
+  const workingHours = document.getElementById('formWorkingHours').value.trim();
+  const color = document.getElementById('formClinicColor').value;
+
+  const secretaryName = document.getElementById('formSecretaryName').value.trim() || 'أ. سكرتير الفرع';
+  const secretaryPhone = document.getElementById('formSecretaryPhone').value.trim() || phone;
+
+  const inPerson = parseInt(document.getElementById('formPriceInPerson').value, 10) || 350;
+  const followup = parseInt(document.getElementById('formPriceFollowup').value, 10) || 150;
+  const video = parseInt(document.getElementById('formPriceVideo').value, 10) || 250;
+  const sonar = parseInt(document.getElementById('formPriceSonar').value, 10) || 200;
+
+  const selectedDays = [];
+  document.querySelectorAll('input[name="workDay"]:checked').forEach(cb => {
+    selectedDays.push(cb.value);
+  });
+
+  if (selectedDays.length === 0) {
+    showToast('يرجى اختيار يوم عمل واحد على الأقل للعيادة', 'danger');
+    return;
+  }
+
+  let clinics = getDoctorClinics();
+
+  if (clinicId) {
+    // Edit existing clinic
+    const idx = clinics.findIndex(x => x.id === clinicId);
+    if (idx >= 0) {
+      clinics[idx] = {
+        ...clinics[idx],
+        name,
+        branchName,
+        specialty,
+        phone,
+        address,
+        workingHours,
+        color,
+        workingDays: selectedDays,
+        staff: { name: secretaryName, role: 'مدير الاستقبال بالفرع', phone: secretaryPhone },
+        prices: { inPerson, followup, video, sonar, ecg: 150 }
+      };
+      showToast(`تم تحديث بيانات فرع "${branchName}" بنجاح`, 'success');
+    }
+  } else {
+    // Add new clinic
+    const newId = 'clinic_custom_' + Date.now();
+    const newClinic = {
+      id: newId,
+      isCustom: true,
+      tag: 'custom',
+      name,
+      branchName,
+      specialty,
+      phone,
+      address,
+      workingHours,
+      color,
+      workingDays: selectedDays,
+      staff: { name: secretaryName, role: 'مدير الاستقبال بالفرع', phone: secretaryPhone },
+      prices: { inPerson, followup, video, sonar, ecg: 150 },
+      stats: { activePatients: 12, todayAppointments: 5, todayRevenue: 3500, unreadMessages: 1, aiAlerts: 1, consultations: 14, noShowRate: '3%' }
+    };
+    clinics.push(newClinic);
+    showToast(`تمت إضافة فرع "${branchName}" بنجاح`, 'success');
+  }
+
+  saveCustomClinicsList(clinics);
+  closeClinicModal();
+  renderAllClinicsView();
+  updateClinicSwitcherUI();
+}
+
+function deleteCustomClinic(clinicId) {
+  if (!confirm('هل أنت متأكد من رغبتك في حذف هذا الفرع من قائمة العيادات؟')) return;
+
+  let clinics = getDoctorClinics().filter(x => x.id !== clinicId);
+  saveCustomClinicsList(clinics);
+
+  if (currentClinicId === clinicId) {
+    selectClinic('all');
+  }
+
+  renderAllClinicsView();
+  showToast('تم حذف الفرع بنجاح', 'info');
+}
+
+// ==================== WORKFLOW ACTIONS ====================
+function checkInAndStartConsultation(clinicId) {
+  selectClinic(clinicId);
+  showToast('تم تسجيل الحضور وتعيين الفرع، جاري الانتقال لغرفة الكشف...', 'success');
+  setTimeout(() => {
+    location.href = 'doctor-consultation.html';
+  }, 600);
+}
+
+function goToClinicPatients(clinicId) {
+  selectClinic(clinicId);
+  setTimeout(() => {
+    location.href = 'doctor-patients.html';
+  }, 300);
+}
+
+function exportClinicsReport() {
+  showToast('جاري تصدير التقرير التشغيلي لكافة الفروع...', 'info');
+  setTimeout(() => {
+    const clinics = getDoctorClinics();
+    const rows = [
+      ['اسم المركز', 'اسم الفرع', 'المحافظة والعنوان', 'الهاتف', 'أيام العمل', 'ساعات الاستقبال', 'المرضى النشطين', 'حجوزات اليوم', 'الإيراد المتوقع'],
+      ...clinics.map(c => [
+        c.name,
+        c.branchName,
+        c.address,
+        c.phone,
+        c.workingDays ? c.workingDays.join(' - ') : '',
+        c.workingHours,
+        c.stats ? c.stats.activePatients : 0,
+        c.stats ? c.stats.todayAppointments : 0,
+        c.stats ? c.stats.todayRevenue : 0
+      ])
+    ];
+
+    const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + rows.map(e => e.map(cell => `"${cell}"`).join(',')).join('\\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `تقرير_عيادات_طبابا_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('تم تنزيل تقرير الفروع بنجاح', 'success');
+  }, 600);
+}
+
+// ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
-  renderClinicsList();
+  renderAllClinicsView();
   renderNotifications();
 });
 </script>

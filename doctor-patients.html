@@ -37,88 +37,187 @@
   width: 100% !important;
 }
 
-.pm-toolbar {
+/* ==================== HEADER BAR ==================== */
+.pm-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.pm-header-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pm-main-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+.pm-main-subtitle {
+  font-size: 12.5px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+.pm-header-actions {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* ==================== TOOLBAR & CONTROLS ==================== */
+.pm-toolbar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 14px;
+}
+.pm-toolbar-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   flex-wrap: wrap;
 }
-.pm-search-box {
+.pm-search-wrapper {
   flex: 1;
-  min-width: 260px;
+  min-width: 280px;
   position: relative;
   display: flex;
   align-items: center;
 }
-.pm-search-box i {
+.pm-search-wrapper i.ti-search {
   position: absolute;
-  right: 12px;
-  color: var(--text-muted);
+  right: 14px;
+  color: #64748b;
   font-size: 16px;
+  pointer-events: none;
 }
 .pm-search-input {
   width: 100%;
-  padding: 9px 38px 9px 14px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xs);
-  color: var(--text-primary);
+  padding: 10px 42px 10px 14px;
+  background: #0d172a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #f8fafc;
   font-size: 13px;
   outline: none;
-  transition: var(--transition);
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 .pm-search-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-soft);
+  box-shadow: 0 0 0 3px rgba(31, 230, 168, 0.15);
+  background: #101c34;
 }
-.pm-filter-pills {
+.pm-search-input::placeholder {
+  color: #64748b;
+  font-size: 12.5px;
+}
+.pm-toolbar-controls {
   display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.pm-sort-group {
+  display: flex;
+  align-items: center;
   gap: 6px;
-  overflow-x: auto;
-  padding-bottom: 4px;
 }
-.pm-pill {
-  padding: 6px 12px;
-  border-radius: var(--radius-xs);
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  font-size: 11.5px;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: var(--transition);
-}
-.pm-pill:hover {
-  border-color: var(--border-strong);
-  color: var(--text-primary);
-}
-.pm-pill.active {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-color: var(--border-strong);
+.pm-sort-label {
+  font-size: 12px;
   font-weight: 700;
-}
-.pm-pill.crit.active {
-  background: var(--danger-soft);
-  color: var(--danger);
-  border-color: var(--danger);
-}
-.pm-pill.high.active {
-  background: var(--warn-soft);
-  color: var(--warn);
-  border-color: var(--warn);
+  color: #94a3b8;
+  white-space: nowrap;
 }
 .pm-sort-select {
   padding: 8px 12px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xs);
-  color: var(--text-primary);
+  background: #0b1322;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #f8fafc;
   font-size: 12px;
+  font-family: inherit;
   outline: none;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pm-sort-select:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.pm-sort-select:focus {
+  border-color: var(--accent);
+}
+
+/* ==================== FILTER PILLS ==================== */
+.pm-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+.pm-pill-btn, .pm-pill {
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+.pm-pill-btn:hover, .pm-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+.pm-pill-btn:focus, .pm-pill:focus {
+  outline: none !important;
+}
+.pm-pill-btn:focus-visible, .pm-pill:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(31, 230, 168, 0.4);
+}
+.pm-pill-btn.active, .pm-pill.active {
+  background: rgba(31, 230, 168, 0.16);
+  border-color: rgba(31, 230, 168, 0.55);
+  color: #1fe6a8;
+  font-weight: 800;
+  box-shadow: 0 0 14px rgba(31, 230, 168, 0.22);
+}
+.pm-pill-btn[data-filter="at-risk"].active {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.6);
+  color: #ef4444;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.25);
+}
+.pm-pill-btn[data-filter="followup"].active {
+  background: rgba(242, 184, 75, 0.18);
+  border-color: rgba(242, 184, 75, 0.6);
+  color: #f2b84b;
+  box-shadow: 0 0 14px rgba(242, 184, 75, 0.25);
+}
+.pm-pill-btn[data-filter="unread"].active {
+  background: rgba(14, 165, 233, 0.18);
+  border-color: rgba(14, 165, 233, 0.6);
+  color: #38bdf8;
+  box-shadow: 0 0 14px rgba(14, 165, 233, 0.25);
 }
 .pm-kpi-grid {
   display: grid;
@@ -248,16 +347,395 @@
   box-shadow: 0 0 0 2px var(--accent-soft);
 }
 
-/* Ensure drawers open smoothly */
+/* Ensure drawers open smoothly & look crystal clear */
 .drawer-backdrop.open, .drawer-backdrop.show {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
+.profile-drawer {
+  width: 720px !important;
+  max-width: 95vw !important;
+  background: #0b1322 !important;
+  border-right: none !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.14) !important;
+  right: 0 !important;
+  left: auto !important;
+  transform: translateX(100%) !important;
+  box-shadow: -16px 0 48px rgba(0, 0, 0, 0.75) !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
 .profile-drawer.open, .profile-drawer.show {
-  transform: translate(0) !important;
+  transform: translateX(0) !important;
 }
 .chat-drawer.open, .chat-drawer.show {
   transform: translate(0) !important;
+}
+
+/* Patient profile drawer enhanced high-contrast components */
+.pm-drawer-section {
+  background: #111d33;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.pm-drawer-section:last-child {
+  margin-bottom: 0;
+}
+.pm-drawer-title {
+  font-weight: 800;
+  font-size: 13px;
+  color: #ffffff;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==================== VIEW MODE TOGGLE ==================== */
+.pm-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: #0b1322;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.pm-view-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.pm-view-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+.pm-view-btn.active {
+  background: rgba(31, 230, 168, 0.15);
+  color: var(--accent);
+  box-shadow: 0 0 10px rgba(31, 230, 168, 0.2);
+}
+
+/* ==================== SUB-TOOLBAR (ADVANCED FILTERS) ==================== */
+.pm-sub-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #0d172a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.pm-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pm-filter-group-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pm-mini-pill {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pm-mini-pill:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+.pm-mini-pill.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.pm-mini-pill.crit.active {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-color: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.25);
+}
+.pm-mini-pill.high.active {
+  background: rgba(242, 184, 75, 0.2);
+  color: #f2b84b;
+  border-color: #f2b84b;
+  box-shadow: 0 0 8px rgba(242, 184, 75, 0.25);
+}
+.pm-mini-pill.stable.active {
+  background: rgba(31, 230, 168, 0.2);
+  color: #1fe6a8;
+  border-color: #1fe6a8;
+  box-shadow: 0 0 8px rgba(31, 230, 168, 0.25);
+}
+.pm-select-inline {
+  background: #0b1322;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-family: inherit;
+  outline: none;
+}
+.pm-sub-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pm-results-badge {
+  font-size: 11.5px;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+}
+.pm-reset-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 11.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition);
+}
+.pm-reset-btn:hover {
+  color: var(--accent);
+}
+
+/* ==================== PROMINENT CHAT BUTTON (TABLE & CARDS) ==================== */
+.pm-btn-action-chat-prominent {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff !important;
+  border: 1px solid #38bdf8;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.35);
+  transition: all 0.2s ease;
+  position: relative;
+}
+.pm-btn-action-chat-prominent:hover {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.5);
+  transform: translateY(-1px);
+}
+.pm-tbl-chat-unread {
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 9.5px;
+  font-weight: 900;
+  padding: 1px 5px;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+/* ==================== PATIENT CARDS GRID VIEW ==================== */
+.pm-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 16px;
+  padding-top: 14px;
+}
+.pm-patient-card {
+  background: linear-gradient(135deg, #111d33 0%, #0d172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.pm-patient-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(31, 230, 168, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(31, 230, 168, 0.1);
+}
+.pm-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.pm-card-patient-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pm-card-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), #0d9488);
+  color: #03261b;
+  font-size: 18px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.pm-card-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+.pm-card-meta {
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+.pm-card-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pm-card-clinical-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pm-card-diagnosis {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pm-card-complaint {
+  font-size: 11.5px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+.pm-card-vitals-mini {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  border-top: 1px dashed rgba(255, 255, 255, 0.06);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+.pm-card-vital-item {
+  font-size: 10.5px;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pm-card-foot-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #94a3b8;
+}
+.pm-card-actions {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 12px;
+  margin-top: 2px;
+}
+.pm-card-btn-chat {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  border: 1px solid #38bdf8;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+  transition: all 0.2s ease;
+}
+.pm-card-btn-chat:hover {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  transform: translateY(-1px);
+}
+.pm-card-btn-consult {
+  background: rgba(31, 230, 168, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(31, 230, 168, 0.4);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pm-card-btn-consult:hover {
+  background: var(--accent);
+  color: #03261b;
+}
+.pm-card-btn-profile {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pm-card-btn-profile:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
 }
 </style>
 </head>
@@ -470,13 +948,7 @@
       <span class="pm-main-subtitle" id="pmTotalSubtitle">128 مريض (كافة الفروع)</span>
     </div>
     <div class="pm-header-actions">
-      <button class="pm-btn-attention" onclick="setPmFilter('need_attention', this)" id="pmBtnAttention">
-        مرضى بحاجة لانتباهك ( <span id="pmTopAlertCount">3</span> )
-      </button>
-      <button class="pm-btn-reset" onclick="resetPmFilters()">
-        إعادة ضبط
-      </button>
-      <button class="pill sm solid" onclick="openAddPatientModal()" style="margin-right:6px">
+      <button class="pill sm solid" onclick="openAddPatientModal()">
         <i class="ti ti-plus"></i> إضافة مريض
       </button>
       <button class="pill sm ghost" onclick="exportPatientsCSV()" title="تصدير السجل CSV">
@@ -490,35 +962,74 @@
 
   <!-- Search, Filter & Sort Toolbar -->
   <div class="pm-toolbar-container">
-    <div class="pm-toolbar-right">
+    <div class="pm-toolbar-top-row">
       <div class="pm-search-wrapper">
         <i class="ti ti-search"></i>
-        <input type="text" id="pmSearchInput" class="pm-search-input" placeholder="ابحث بالاسم، رقم الهاتف، المعرف الطبي، أو التـ..." oninput="handlePmSearch()">
+        <input type="text" id="pmSearchInput" class="pm-search-input" placeholder="ابحث بالاسم، رقم الهاتف، المعرف الطبي، أو التشخيص..." oninput="handlePmSearch()">
         <button id="clearSearchBtn" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);display:none;background:none;border:none;cursor:pointer" onclick="clearSearch()"><i class="ti ti-x"></i></button>
       </div>
-      <div class="pm-filter-pills" id="pmFilterPills">
-        <button class="pm-pill-btn active" data-filter="all" onclick="setPmFilter('all',this)">الكل</button>
-        <button class="pm-pill-btn" data-filter="active" onclick="setPmFilter('active',this)">نشط</button>
-        <button class="pm-pill-btn" data-filter="new" onclick="setPmFilter('new',this)">جديد</button>
-        <button class="pm-pill-btn" data-filter="followup" onclick="setPmFilter('followup',this)">يحتاج متابعة</button>
-        <button class="pm-pill-btn" data-filter="at-risk" onclick="setPmFilter('at-risk',this)">في خطر</button>
-        <button class="pm-pill-btn" data-filter="unread" onclick="setPmFilter('unread',this)">رسائل غير مقروءة</button>
+      <div class="pm-toolbar-controls">
+        <!-- View Mode Toggle: Table vs Cards -->
+        <div class="pm-view-toggle">
+          <button class="pm-view-btn active" id="viewModeTableBtn" onclick="setPmViewMode('table')" title="عرض الجدول التفصيلي" aria-label="عرض الجدول">
+            <i class="ti ti-table"></i>
+            <span>جدول</span>
+          </button>
+          <button class="pm-view-btn" id="viewModeCardsBtn" onclick="setPmViewMode('cards')" title="عرض البطاقات السريرية" aria-label="عرض البطاقات">
+            <i class="ti ti-layout-grid"></i>
+            <span>بطاقات</span>
+          </button>
+        </div>
+        <div class="pm-sort-group">
+          <span class="pm-sort-label">ترتيب:</span>
+          <select class="pm-sort-select" id="pmSortSelect" onchange="handlePmSort()">
+            <option value="recent">الأنشط مؤخراً</option>
+            <option value="risk">الأعلى خطورة</option>
+            <option value="followup">المتابعة الأقرب</option>
+            <option value="name">الاسم أبجدياً</option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="pm-toolbar-left">
-      <span class="pm-sort-label">ترتيب:</span>
-      <select class="pm-sort-select" id="pmSortSelect" onchange="handlePmSort()">
-        <option value="recent">الأنشط مؤخراً</option>
-        <option value="risk">الأعلى خطورة</option>
-        <option value="followup">المتابعة الأقرب</option>
-        <option value="name">الاسم أبجدياً</option>
-      </select>
+    <div class="pm-filter-pills" id="pmFilterPills">
+      <button class="pm-pill-btn active" data-filter="all" onclick="setPmFilter('all',this)">الكل</button>
+      <button class="pm-pill-btn" data-filter="active" onclick="setPmFilter('active',this)">نشط</button>
+      <button class="pm-pill-btn" data-filter="new" onclick="setPmFilter('new',this)">جديد</button>
+      <button class="pm-pill-btn" data-filter="followup" onclick="setPmFilter('followup',this)">يحتاج متابعة</button>
+      <button class="pm-pill-btn" data-filter="at-risk" onclick="setPmFilter('at-risk',this)">في خطر</button>
+      <button class="pm-pill-btn" data-filter="unread" onclick="setPmFilter('unread',this)">رسائل غير مقروءة</button>
     </div>
   </div>
 
-  <!-- Patients Table -->
-  <div class="pm-table-wrapper">
-    <table class="pm-table">
+  <!-- Advanced Clinical Filters Sub-Toolbar -->
+  <div class="pm-sub-toolbar">
+    <div class="pm-filter-group">
+      <span class="pm-filter-group-label"><i class="ti ti-sparkles" style="color:var(--accent)"></i> خطورة الذكاء الاصطناعي:</span>
+      <button class="pm-mini-pill active" id="riskPillAll" data-risk="all" onclick="setPmRiskFilter('all', this)">الكل</button>
+      <button class="pm-mini-pill crit" id="riskPillCrit" data-risk="critical" onclick="setPmRiskFilter('critical', this)">🔴 أولوية قصوى (≥ 75)</button>
+      <button class="pm-mini-pill high" id="riskPillHigh" data-risk="high" onclick="setPmRiskFilter('high', this)">🟠 يحتاج انتباه (50-74)</button>
+      <button class="pm-mini-pill stable" id="riskPillStable" data-risk="stable" onclick="setPmRiskFilter('stable', this)">🟢 مستقر (&lt; 50)</button>
+    </div>
+
+    <div class="pm-filter-group">
+      <span class="pm-filter-group-label"><i class="ti ti-heartbeat" style="color:#f2b84b"></i> الأمراض المزمنة:</span>
+      <select class="pm-select-inline" id="pmChronicFilterSelect" onchange="handlePmChronicFilter(this.value)">
+        <option value="all">جميع الحالات المزمنة</option>
+        <option value="سكري">مرضى السكري</option>
+        <option value="ضغط">مرضى ارتفاع ضغط الدم</option>
+        <option value="حساسية">مرضى حساسية الصدر</option>
+      </select>
+    </div>
+
+    <div class="pm-sub-toolbar-left">
+      <span class="pm-results-badge" id="pmResultsCount">عرض المرضى</span>
+      <button class="pm-reset-btn" onclick="resetAllPmFilters()" title="إعادة ضبط الفلاتر"><i class="ti ti-rotate-clockwise"></i> تصفير الفلاتر</button>
+    </div>
+  </div>
+
+  <!-- Patients Table View & Cards View Container -->
+  <div class="pm-table-wrapper" id="pmTableWrapper">
+    <table class="pm-table" id="pmMainTable">
       <thead>
         <tr>
           <th style="width:20%">المريض</th>
@@ -533,7 +1044,8 @@
       </thead>
       <tbody id="pmTableBody"></tbody>
     </table>
-    <div class="pm-cards-container mobile-cards-view" id="pmCardsContainer" style="padding:12px;display:none"></div>
+    <!-- Patient Cards Grid Container -->
+    <div class="pm-cards-grid" id="pmCardsContainer" style="display:none"></div>
   </div>
 </main>
 
@@ -828,6 +1340,65 @@ function clearSearch() {
   renderPmTable();
 }
 
+// ============================= VIEW MODE & ADVANCED FILTERS =============================
+let pmViewMode = localStorage.getItem('tababa_doctor_patients_view') || 'table';
+let pmRiskFilter = 'all';
+let pmChronicFilter = 'all';
+
+function setPmViewMode(mode) {
+  pmViewMode = mode;
+  localStorage.setItem('tababa_doctor_patients_view', mode);
+  const tableBtn = document.getElementById('viewModeTableBtn');
+  const cardsBtn = document.getElementById('viewModeCardsBtn');
+  if (tableBtn) tableBtn.classList.toggle('active', mode === 'table');
+  if (cardsBtn) cardsBtn.classList.toggle('active', mode === 'cards');
+  renderPmTable();
+}
+
+function setPmRiskFilter(risk, btn) {
+  pmRiskFilter = risk;
+  document.querySelectorAll('.pm-mini-pill').forEach(b => {
+    b.classList.toggle('active', b.dataset.risk === risk);
+  });
+  renderPmTable();
+}
+
+function handlePmChronicFilter(val) {
+  pmChronicFilter = val;
+  renderPmTable();
+}
+
+function resetAllPmFilters() {
+  pmFilter = 'all';
+  pmRiskFilter = 'all';
+  pmChronicFilter = 'all';
+  pmSearch = '';
+  pmSort = 'recent';
+
+  const searchInput = document.getElementById('pmSearchInput');
+  if (searchInput) searchInput.value = '';
+  const clearBtn = document.getElementById('clearSearchBtn');
+  if (clearBtn) clearBtn.style.display = 'none';
+
+  const sortSelect = document.getElementById('pmSortSelect');
+  if (sortSelect) sortSelect.value = 'recent';
+
+  const chronicSelect = document.getElementById('pmChronicFilterSelect');
+  if (chronicSelect) chronicSelect.value = 'all';
+
+  document.querySelectorAll('.pm-pill-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === 'all');
+  });
+
+  document.querySelectorAll('.pm-mini-pill').forEach(b => {
+    b.classList.toggle('active', b.dataset.risk === 'all');
+  });
+
+  renderPmKpis();
+  renderPmTable();
+  showToast('تمت إعادة ضبط جميع الفلاتر الطبية');
+}
+
 function setPmFilter(f, btn) {
   pmFilter = f;
   document.querySelectorAll('.pm-pill-btn').forEach(b => {
@@ -838,21 +1409,7 @@ function setPmFilter(f, btn) {
 }
 
 function resetPmFilters() {
-  pmFilter = 'all';
-  pmSearch = '';
-  pmSort = 'recent';
-  const input = document.getElementById('pmSearchInput');
-  if (input) input.value = '';
-  const clearBtn = document.getElementById('clearSearchBtn');
-  if (clearBtn) clearBtn.style.display = 'none';
-  const sort = document.getElementById('pmSortSelect');
-  if (sort) sort.value = 'recent';
-  document.querySelectorAll('.pm-pill-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.filter === 'all');
-  });
-  renderPmKpis();
-  renderPmTable();
-  showToast('تمت إعادة ضبط فلاتر البحث');
+  resetAllPmFilters();
 }
 
 function handlePmSort() {
@@ -863,12 +1420,20 @@ function handlePmSort() {
 
 function renderPmTable() {
   const tbody = document.getElementById('pmTableBody');
+  const mainTable = document.getElementById('pmMainTable');
   const cardsContainer = document.getElementById('pmCardsContainer');
-  if (!tbody) return;
+  if (!tbody || !mainTable || !cardsContainer) return;
+
+  // Sync view buttons
+  const tableBtn = document.getElementById('viewModeTableBtn');
+  const cardsBtn = document.getElementById('viewModeCardsBtn');
+  if (tableBtn) tableBtn.classList.toggle('active', pmViewMode === 'table');
+  if (cardsBtn) cardsBtn.classList.toggle('active', pmViewMode === 'cards');
 
   let pts = getClinicPatients().map(p => ({ ...p, aiScoreData: calculateAttentionScore(p) }));
+  const totalInClinic = pts.length;
 
-  // Search
+  // 1. Text Search
   if (pmSearch) {
     pts = pts.filter(p => 
       (p.name && p.name.toLowerCase().includes(pmSearch)) ||
@@ -879,7 +1444,7 @@ function renderPmTable() {
     );
   }
 
-  // Filter
+  // 2. Status Pills Filter
   if (pmFilter === 'active') pts = pts.filter(p => p.isActive);
   else if (pmFilter === 'new') pts = pts.filter(p => p.isNew);
   else if (pmFilter === 'followup') pts = pts.filter(p => p.needsFollowup || p.followupOverdue);
@@ -888,18 +1453,68 @@ function renderPmTable() {
   else if (pmFilter === 'need_attention') pts = pts.filter(p => p.needsAttention || (p.aiScoreData && p.aiScoreData.score >= 80));
   else if (pmFilter.startsWith('clinic_')) pts = pts.filter(p => p.clinics && p.clinics.includes(pmFilter));
 
-  // Sort
+  // 3. AI Risk Score Filter
+  if (pmRiskFilter === 'critical') {
+    pts = pts.filter(p => p.aiScoreData.score >= 75);
+  } else if (pmRiskFilter === 'high') {
+    pts = pts.filter(p => p.aiScoreData.score >= 50 && p.aiScoreData.score < 75);
+  } else if (pmRiskFilter === 'stable') {
+    pts = pts.filter(p => p.aiScoreData.score < 50);
+  }
+
+  // 4. Chronic Conditions Filter
+  if (pmChronicFilter !== 'all') {
+    pts = pts.filter(p => {
+      const chronicList = (p.chronic || []).join(' ');
+      const diag = p.diagnosis || '';
+      const cond = p.condition || '';
+      return chronicList.includes(pmChronicFilter) || diag.includes(pmChronicFilter) || cond.includes(pmChronicFilter);
+    });
+  }
+
+  // 5. Sorting
   if (pmSort === 'risk') pts.sort((a, b) => b.aiScoreData.score - a.aiScoreData.score);
   else if (pmSort === 'name') pts.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
   else if (pmSort === 'followup') pts.sort((a, b) => (a.nextFollowup || '').localeCompare(b.nextFollowup || ''));
   else if (pmSort === 'recent') pts.sort((a, b) => a.id - b.id);
 
+  // Update results counter badge
+  const resBadge = document.getElementById('pmResultsCount');
+  if (resBadge) {
+    resBadge.textContent = `عرض ${pts.length} من أصل ${totalInClinic} مريض`;
+  }
+
+  // Handle View Modes (Table vs Cards)
+  if (pmViewMode === 'cards') {
+    mainTable.style.display = 'none';
+    cardsContainer.style.display = 'grid';
+
+    if (!pts.length) {
+      cardsContainer.innerHTML = `
+        <div style="grid-column:1/-1;padding:48px;text-align:center;color:var(--text-muted);background:#0e172a;border:1px dashed rgba(255,255,255,0.1);border-radius:14px">
+          <i class="ti ti-users" style="font-size:40px;display:block;margin-bottom:10px;color:#64748b"></i>
+          <div style="font-size:15px;font-weight:700;color:#ffffff;margin-bottom:4px">لا يوجد مرضى مطابقين لشروط الفلترة المحددة</div>
+          <div style="font-size:12.5px;color:#94a3b8">جرب تغيير معايير البحث أو تصفير الفلاتر الطبية أعلاه</div>
+        </div>
+      `;
+      return;
+    }
+
+    cardsContainer.innerHTML = pts.map(p => renderPatientCardHtml(p)).join('');
+    return;
+  }
+
+  // Table View
+  mainTable.style.display = '';
+  cardsContainer.style.display = 'none';
+
   if (!pts.length) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="8" style="padding:40px;text-align:center;color:var(--text-muted)">
-          <i class="ti ti-users" style="font-size:36px;display:block;margin-bottom:8px"></i>
-          لا يوجد مرضى مطابقين لشروط البحث والفلترة المحددة
+        <td colspan="8" style="padding:48px;text-align:center;color:var(--text-muted)">
+          <i class="ti ti-users" style="font-size:40px;display:block;margin-bottom:10px;color:#64748b"></i>
+          <div style="font-size:15px;font-weight:700;color:#ffffff;margin-bottom:4px">لا يوجد مرضى مطابقين لشروط الفلترة المحددة</div>
+          <div style="font-size:12.5px;color:#94a3b8">جرب تغيير معايير البحث أو تصفير الفلاتر الطبية أعلاه</div>
         </td>
       </tr>
     `;
@@ -973,7 +1588,7 @@ function renderPmTable() {
         <!-- 3. Diagnosis / Complaint -->
         <td style="max-width:240px">
           <div style="font-weight:800;font-size:13px;color:#edf3fa">${p.condition || p.diagnosis}</div>
-          <div style="font-size:11.5px;color:#607691;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${p.diagnosis || ''}">${p.diagnosis || ''}</div>
+          <div style="font-size:11.5px;color:#94a3b8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${p.diagnosis || ''}">${p.diagnosis || ''}</div>
         </td>
 
         <!-- 4. Last Visit -->
@@ -998,23 +1613,126 @@ function renderPmTable() {
           ${aiCapsuleHtml}
         </td>
 
-        <!-- 8. Actions -->
+        <!-- 8. Actions (Prominent Chat Button Included) -->
         <td style="text-align:center">
           <div style="display:inline-flex;align-items:center;gap:6px">
             <button class="pm-btn-action-solid" onclick="location.href='doctor-consultation.html?patient=${p.id}'" title="بدء الكشف الطبي والروشتة">
-              كشف
+              <i class="ti ti-stethoscope"></i> كشف
             </button>
-            <button class="pm-btn-action-solid" onclick="openPatientChat(${p.id})" title="محادثة فورية مع المريض">
-              شات
+            <button class="pm-btn-action-chat-prominent" onclick="openPatientChat(${p.id})" title="محادثة فورية مع ${p.name}">
+              <i class="ti ti-message-circle"></i>
+              <span>محادثة</span>
+              ${p.unreadMessages > 0 ? `<span class="pm-tbl-chat-unread">${p.unreadMessages}</span>` : ''}
             </button>
             <button class="pm-btn-action-ghost" onclick="openPatientProfile(${p.id})" title="عرض الملف الطبي الشامل">
-              ملف
+              <i class="ti ti-id"></i> ملف
             </button>
           </div>
         </td>
       </tr>
     `;
   }).join('');
+}
+
+// Render Single Patient Card in Cards View Mode
+function renderPatientCardHtml(p) {
+  const s = p.aiScoreData || calculateAttentionScore(p);
+  const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+
+  // Plan status badge
+  let planBadgeHtml = '';
+  if (p.treatmentStatus === 'at-risk') {
+    planBadgeHtml = `<span class="pm-plan-badge at-risk">معرضة للخطر</span>`;
+  } else if (p.treatmentStatus === 'review-due') {
+    planBadgeHtml = `<span class="pm-plan-badge review-due">قيد المراجعة</span>`;
+  } else if (p.treatmentStatus === 'new') {
+    planBadgeHtml = `<span class="pm-plan-badge new">زيارة جديدة</span>`;
+  } else {
+    planBadgeHtml = `<span class="pm-plan-badge regular">منتظمة</span>`;
+  }
+
+  // Followup display
+  let followupDisplay = p.nextFollowup || 'غير محدد';
+  let isFollowupAlert = p.needsFollowup || p.followupOverdue;
+  if (p.followupOverdueDays && p.followupOverdueDays > 0) {
+    followupDisplay += ` (${p.followupOverdueDays}د)`;
+  }
+
+  return `
+    <div class="pm-patient-card">
+      <!-- Top row: Avatar, Name, AI Score -->
+      <div class="pm-card-top">
+        <div class="pm-card-patient-info">
+          <div class="pm-card-avatar">
+            ${initials(p.name)}
+            <span class="pm-online-dot"></span>
+            ${p.unreadMessages > 0 ? `<span class="pm-unread-badge">${p.unreadMessages}</span>` : ''}
+          </div>
+          <div>
+            <div class="pm-card-name">${p.name}</div>
+            <div class="pm-card-meta">${p.age} سنة · ${p.gender} · <strong>${p.patientId}</strong></div>
+            <div class="tiny" style="color:#94a3b8;margin-top:2px"><i class="ti ti-phone"></i> ${p.phone}</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <span class="pill sm solid" style="background:${s.color};color:#ffffff;font-weight:700;box-shadow:0 0 8px ${s.color}44">
+            ${s.score}/100 ${s.levelText}
+          </span>
+          ${planBadgeHtml}
+        </div>
+      </div>
+
+      <!-- Badges: Branch & Tags -->
+      <div class="pm-card-badges">
+        <span class="pm-branch-badge ${cInfo.tag}"><i class="ti ti-building-hospital"></i> ${cInfo.name}</span>
+        <span class="pill xs ghost" style="color:#60a5fa;border-color:rgba(96,165,250,0.3)"><i class="ti ti-shield-check"></i> تأمين بوبا</span>
+        ${p.allergies && p.allergies.length ? `
+          <span class="pill xs" style="background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid #ef4444">
+            <i class="ti ti-alert-triangle"></i> حساسية: ${p.allergies[0]}
+          </span>
+        ` : ''}
+      </div>
+
+      <!-- Clinical Information Box -->
+      <div class="pm-card-clinical-box">
+        <div class="pm-card-diagnosis">
+          <i class="ti ti-stethoscope" style="color:var(--accent)"></i> ${p.condition || p.diagnosis}
+        </div>
+        <div class="pm-card-complaint">
+          ${p.complaint || p.diagnosis}
+        </div>
+        <!-- Mini Vitals tags -->
+        <div class="pm-card-vitals-mini">
+          <span class="pm-card-vital-item"><i class="ti ti-heartbeat"></i> ضغط: 135/85</span>
+          <span class="pm-card-vital-item"><i class="ti ti-droplet"></i> سكر: 165</span>
+          <span class="pm-card-vital-item"><i class="ti ti-activity"></i> نبض: 78</span>
+        </div>
+      </div>
+
+      <!-- Foot Meta: Last Visit & Followup -->
+      <div class="pm-card-foot-meta">
+        <span>آخر كشف: <strong style="color:#ffffff">${p.lastVisit || '—'}</strong></span>
+        <span>المتابعة: <strong style="color:${isFollowupAlert ? '#f2665c' : 'var(--accent)'}">${followupDisplay}</strong></span>
+      </div>
+
+      <!-- Action Buttons Row (Prominent Chat Button) -->
+      <div class="pm-card-actions">
+        <button class="pm-card-btn-chat" onclick="openPatientChat(${p.id})" title="محادثة فورية مع ${p.name}">
+          <i class="ti ti-message-circle"></i>
+          <span>محادثة المريض</span>
+          ${p.unreadMessages > 0 ? `<span class="pm-tbl-chat-unread">${p.unreadMessages}</span>` : ''}
+        </button>
+        <button class="pm-card-btn-consult" onclick="location.href='doctor-consultation.html?patient=${p.id}'" title="بدء الكشف الطبي">
+          <i class="ti ti-stethoscope"></i>
+          <span>كشف</span>
+        </button>
+        <button class="pm-card-btn-profile" onclick="openPatientProfile(${p.id})" title="عرض الملف الطبي الشامل">
+          <i class="ti ti-id"></i>
+          <span>الملف</span>
+        </button>
+      </div>
+    </div>
+  `;
 }
 // Modal Handlers for Add Patient
 function openAddPatientModal() {
@@ -1105,85 +1823,156 @@ function openPatientProfile(id) {
 
   const s = calculateAttentionScore(p);
   const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+  const aiLabel = s.levelText || (s.score >= 75 ? 'أولوية قصوى' : (s.score >= 50 ? 'يحتاج انتباه' : 'حالة مستقرة'));
+  const aiIcon = s.score >= 75 ? 'ti-alert-circle' : (s.score >= 50 ? 'ti-alert-triangle' : 'ti-circle-check');
+
+  // Vitals
+  let vitals = [];
+  if (p.id === 2) {
+    vitals = [
+      { label: 'حرارة الجسم', val: '38.5', unit: '°C', ref: '36.5 - 37.5 °C', status: 'danger', statusText: 'حمى حادة', icon: 'ti-temperature' },
+      { label: 'نبض القلب', val: '110', unit: 'bpm', ref: '70 - 120 bpm', status: 'warn', statusText: 'تسارع خفيف', icon: 'ti-activity' },
+      { label: 'تشبع الأكسجين', val: '95%', unit: 'SpO2', ref: '≥ 95%', status: 'warn', statusText: 'تحت الملاحظة', icon: 'ti-lungs' },
+      { label: 'ضغط الدم', val: '105/65', unit: 'mmHg', ref: '< 110/70', status: 'ok', statusText: 'طبيعي', icon: 'ti-heartbeat' }
+    ];
+  } else {
+    vitals = [
+      { label: 'ضغط الدم', val: '135/85', unit: 'mmHg', ref: '< 120/80', status: 'warn', statusText: 'مرتفع خفيف', icon: 'ti-heartbeat' },
+      { label: 'نبض القلب', val: '78', unit: 'bpm', ref: '60 - 100', status: 'ok', statusText: 'طبيعي', icon: 'ti-activity' },
+      { label: 'السكر الصائم', val: '165', unit: 'mg/dL', ref: '70 - 100', status: 'danger', statusText: 'مرتفع', icon: 'ti-droplet' },
+      { label: 'تشبع الأكسجين', val: '98%', unit: 'SpO2', ref: '≥ 95%', status: 'ok', statusText: 'ممتاز', icon: 'ti-lungs' }
+    ];
+  }
+
+  // Labs
+  let labs = [
+    { name: 'السكر التراكمي (HbA1c)', val: '8.4 %', ref: '< 5.7 %', date: '06 سبتمبر 2026', status: 'danger', statusText: 'مرتفع' },
+    { name: 'سكر الدم الصائم (FBS)', val: '165 mg/dL', ref: '70 - 100 mg/dL', date: '06 سبتمبر 2026', status: 'danger', statusText: 'مرتفع' },
+    { name: 'الكرياتينين بالدم (Creatinine)', val: '1.0 mg/dL', ref: '0.7 - 1.3 mg/dL', date: '06 سبتمبر 2026', status: 'ok', statusText: 'طبيعي' },
+    { name: 'زلال البول الدقيق (Albuminuria)', val: '35 mg/g', ref: '< 30 mg/g', date: '06 سبتمبر 2026', status: 'warn', statusText: 'مرتفع خفيف' }
+  ];
 
   body.innerHTML = `
-    <!-- Top Patient Card -->
-    <div class="card" style="background:var(--bg-panel);border:1px solid var(--border);padding:14px;margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+    <!-- Top Patient Hero Card -->
+    <div class="pm-drawer-section" style="background:linear-gradient(135deg,#111d33,#0d172a);border-color:rgba(255,255,255,0.12)">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
         <div style="display:flex;align-items:center;gap:12px">
-          <div class="queue-avatar" style="width:48px;height:48px;font-size:18px">${initials(p.name)}</div>
+          <div class="queue-avatar" style="width:52px;height:52px;font-size:20px;background:linear-gradient(135deg,var(--accent),#0d9488);color:#03261b;font-weight:900">${initials(p.name)}</div>
           <div>
-            <div style="font-size:16px;font-weight:900;color:var(--text-primary)">${p.name}</div>
-            <div class="tiny" style="color:var(--text-secondary)">${p.gender} · ${p.age} سنة · رقم الملف: ${p.patientId}</div>
-            <div class="tiny" style="color:var(--text-muted);margin-top:2px"><i class="ti ti-phone"></i> ${p.phone}</div>
+            <div style="font-size:17px;font-weight:900;color:#ffffff">${p.name}</div>
+            <div class="tiny" style="color:#94a3b8">${p.gender} · ${p.age} سنة · رقم الملف: <strong style="color:#f8fafc">${p.patientId}</strong></div>
+            <div class="tiny" style="color:#cbd5e1;margin-top:2px"><i class="ti ti-phone"></i> ${p.phone}</div>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-          <span class="clinic-badge ${cInfo.tag}">${cInfo.name}</span>
-          <span class="pill sm solid" style="background:${s.color};color:#000">${s.icon} ${s.label}: ${s.score} نقطة</span>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <span class="clinic-badge ${cInfo.tag}"><i class="ti ti-building-hospital"></i> ${cInfo.name}</span>
+          <span class="pill sm solid" style="background:${s.color};color:#ffffff;font-weight:700;box-shadow:0 0 10px ${s.color}44">
+            <i class="ti ${aiIcon}"></i> ${aiLabel}: ${s.score}/100
+          </span>
         </div>
       </div>
-      <div style="display:flex;gap:8px;margin-top:14px;border-top:1px solid var(--border);padding-top:10px;flex-wrap:wrap">
+      <div style="display:flex;gap:8px;margin-top:14px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;flex-wrap:wrap">
         <button class="pill sm solid" onclick="closePatientProfile();location.href='doctor-consultation.html?patient=${p.id}'"><i class="ti ti-stethoscope"></i> فتح في مساحة الكشف والروشتة</button>
         <button class="pill sm ghost" onclick="chatWithPatientFromProfile(${p.id})"><i class="ti ti-message"></i> محادثة فورية</button>
-        <button class="pill sm ghost" onclick="showToast('تم نسخ رقم هاتف المريض')"><i class="ti ti-copy"></i> نسخ الهاتف</button>
+        <button class="pill sm ghost" onclick="window.print()"><i class="ti ti-printer"></i> طباعة الملف</button>
       </div>
     </div>
 
     <!-- Severe Allergies Alert Banner -->
     ${p.allergies && p.allergies.length ? `
-      <div class="card" style="background:rgba(242,102,92,0.12);border:1px solid var(--danger);padding:12px;margin-bottom:14px">
-        <div style="display:flex;align-items:center;gap:8px;color:var(--danger);font-weight:700;font-size:13px">
-          <i class="ti ti-alert-triangle" style="font-size:18px"></i> تنبيه حساسية دوائية شديدة (Severe Allergy Warning)
+      <div class="pm-drawer-section" style="background:linear-gradient(135deg,rgba(239,68,68,0.18),rgba(185,28,28,0.12));border:1.5px solid #ef4444">
+        <div style="display:flex;align-items:center;gap:8px;color:#ffffff;font-weight:800;font-size:13.5px">
+          <i class="ti ti-alert-triangle" style="font-size:20px;color:#ef4444"></i> تنبيه حساسية دوائية شديدة وموانع استخدام مطلقة
         </div>
-        <div style="font-size:12px;color:var(--text-primary);margin-top:4px">
-          المريض يعاني من حساسية تجاه: <b>${p.allergies.join(' ، ')}</b>. يُحظر صرف هذه المواد تماماً.
+        <div style="font-size:12.5px;color:#fecaca;margin-top:6px;line-height:1.5">
+          المريض يعاني من حساسية مؤكدة تجاه: <b style="color:#ffffff;background:#7f1d1d;padding:2px 8px;border-radius:4px">${p.allergies.join(' ، ')}</b>. يُحظر صرف هذه المواد ومشتقاتها منعاً لصدمة تحسسية.
         </div>
       </div>
     ` : ''}
 
+    <!-- Vital Signs Overview -->
+    <div class="pm-drawer-section">
+      <div class="pm-drawer-title"><i class="ti ti-activity" style="color:var(--accent)"></i> المؤشرات الحيوية المقاسة حديثاً</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">
+        ${vitals.map(v => `
+          <div style="background:#0b1322;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:3px">
+            <div style="font-size:11px;color:#94a3b8"><i class="ti ${v.icon}"></i> ${v.label}</div>
+            <div style="font-size:16px;font-weight:900;color:#ffffff">${v.val} <span style="font-size:10px;font-weight:400;color:#94a3b8">${v.unit}</span></div>
+            <div style="font-size:10px;color:${v.status === 'danger' ? '#ef4444' : (v.status === 'warn' ? '#f2b84b' : '#1fe6a8')};font-weight:700">● ${v.statusText}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- Laboratory Results -->
+    <div class="pm-drawer-section">
+      <div class="pm-drawer-title"><i class="ti ti-flask" style="color:var(--info)"></i> سجل الفحوصات والتحاليل المخبرية</div>
+      <div style="background:#0b1322;border:1px solid rgba(255,255,255,0.08);border-radius:8px;overflow:hidden">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;text-align:right">
+          <thead>
+            <tr style="background:#0e172a;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,0.08)">
+              <th style="padding:8px 12px">الفحص</th>
+              <th style="padding:8px 12px">النتيجة</th>
+              <th style="padding:8px 12px">المرجع</th>
+              <th style="padding:8px 12px">الحالة</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${labs.map(l => `
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.04);color:#e2e8f0">
+                <td style="padding:8px 12px;font-weight:700;color:#ffffff">${l.name}</td>
+                <td style="padding:8px 12px;font-weight:800;color:${l.status === 'danger' ? '#ef4444' : (l.status === 'warn' ? '#f2b84b' : '#1fe6a8')}">${l.val}</td>
+                <td style="padding:8px 12px;color:#94a3b8">${l.ref}</td>
+                <td style="padding:8px 12px"><span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:${l.status === 'danger' ? 'rgba(239,68,68,0.18)' : (l.status === 'warn' ? 'rgba(242,184,75,0.15)' : 'rgba(31,230,168,0.15)')};color:${l.status === 'danger' ? '#ef4444' : (l.status === 'warn' ? '#f2b84b' : '#1fe6a8')}">${l.statusText}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- Chronic Conditions & Current Medications -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-      <div class="card" style="background:var(--bg-panel);border:1px solid var(--border);padding:12px">
-        <div style="font-weight:700;font-size:12px;color:var(--text-secondary);margin-bottom:6px"><i class="ti ti-heartbeat"></i> الأمراض المزمنة</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div class="pm-drawer-section" style="margin-bottom:0">
+        <div class="pm-drawer-title"><i class="ti ti-heartbeat" style="color:#f2b84b"></i> الأمراض المزمنة</div>
         <div class="tag-list">
-          ${p.chronic && p.chronic.length ? p.chronic.map(c => `<span class="tag warn">${c}</span>`).join('') : '<span class="tiny">لا توجد أمراض مزمنة</span>'}
+          ${p.chronic && p.chronic.length ? p.chronic.map(c => `<span class="tag warn" style="font-weight:700">${c}</span>`).join('') : '<span class="tiny" style="color:#94a3b8">لا توجد أمراض مزمنة مسجلة</span>'}
         </div>
       </div>
-      <div class="card" style="background:var(--bg-panel);border:1px solid var(--border);padding:12px">
-        <div style="font-weight:700;font-size:12px;color:var(--text-secondary);margin-bottom:6px"><i class="ti ti-pill"></i> الأدوية الحالية المستمرة</div>
+      <div class="pm-drawer-section" style="margin-bottom:0">
+        <div class="pm-drawer-title"><i class="ti ti-pill" style="color:var(--accent)"></i> الأدوية الحالية المستمرة</div>
         <div class="tag-list">
-          ${p.meds && p.meds.length ? p.meds.map(m => `<span class="tag accent">${m}</span>`).join('') : '<span class="tiny">لا توجد أدوية مسجلة</span>'}
+          ${p.meds && p.meds.length ? p.meds.map(m => `<span class="tag accent" style="font-weight:700">${m}</span>`).join('') : '<span class="tiny" style="color:#94a3b8">لا توجد أدوية مسجلة</span>'}
         </div>
       </div>
     </div>
 
     <!-- Treatment Plan & Follow-up Status -->
-    <div class="card" style="background:var(--bg-panel);border:1px solid var(--border);padding:12px;margin-bottom:14px">
-      <div style="font-weight:700;font-size:12.5px;color:var(--text-primary);margin-bottom:4px"><i class="ti ti-clipboard-list"></i> خطة العلاج والمتابعة</div>
-      <div style="font-size:12.5px;color:var(--text-secondary)">${p.treatmentPlan || 'لا توجد خطة علاج نشطة'}</div>
-      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11.5px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:6px">
-        <span>آخر زيارة: <b>${p.lastVisit || 'غير مسجل'}</b></span>
-        <span>موعد المتابعة: <b style="color:${p.followupOverdue ? 'var(--danger)' : 'var(--accent)'}">${p.nextFollowup || 'غير محدد'} ${p.followupOverdue ? '(متأخر)' : ''}</b></span>
+    <div class="pm-drawer-section">
+      <div class="pm-drawer-title"><i class="ti ti-clipboard-list" style="color:var(--accent)"></i> خطة العلاج والمتابعة</div>
+      <div style="font-size:12.5px;color:#cbd5e1;line-height:1.5">${p.treatmentPlan || 'خطة ضبط السكر التراكمي وتخفيض الجرعات تدريجياً.'}</div>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:12px;color:#94a3b8;border-top:1px solid rgba(255,255,255,0.08);padding-top:8px;flex-wrap:wrap;gap:6px">
+        <span>آخر زيارة: <b style="color:#ffffff">${p.lastVisit || 'غير مسجل'}</b></span>
+        <span>موعد المتابعة: <b style="color:${p.followupOverdue ? '#ef4444' : 'var(--accent)'}">${p.nextFollowup || 'غير محدد'} ${p.followupOverdue ? '⚠️ (تأخر ' + (p.followupOverdueDays || 6) + ' أيام)' : ''}</b></span>
       </div>
     </div>
 
     <!-- Medical Timeline & Past Visits -->
-    <div class="card" style="background:var(--bg-panel);border:1px solid var(--border);padding:12px">
-      <div style="font-weight:700;font-size:12.5px;color:var(--text-primary);margin-bottom:10px"><i class="ti ti-history"></i> السجل الزمني للزيارات والإجراءات</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
+    <div class="pm-drawer-section">
+      <div class="pm-drawer-title"><i class="ti ti-history" style="color:var(--info)"></i> السجل الزمني للزيارات والإجراءات</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
         ${p.timeline && p.timeline.length ? p.timeline.map(t => `
-          <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px solid var(--border)">
-            <div style="width:28px;height:28px;border-radius:6px;background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:14px;flex-shrink:0">
+          <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06)">
+            <div style="width:30px;height:30px;border-radius:8px;background:#0b1322;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:15px;flex-shrink:0">
               <i class="ti ti-${t.type === 'msg' ? 'message' : (t.type === 'rx' ? 'prescription' : (t.type === 'alert' ? 'alert-triangle' : 'calendar'))}"></i>
             </div>
             <div style="flex:1">
-              <div style="font-weight:700;font-size:12px;color:var(--text-primary)">${t.title}</div>
-              <div class="tiny" style="color:var(--text-secondary)">${t.desc}</div>
-              <div class="tiny" style="color:var(--text-muted);margin-top:2px">${t.time}</div>
+              <div style="font-weight:800;font-size:12.5px;color:#ffffff">${t.title}</div>
+              <div class="tiny" style="color:#cbd5e1">${t.desc}</div>
+              <div class="tiny" style="color:#64748b;margin-top:2px">${t.time}</div>
             </div>
           </div>
-        `).join('') : '<div class="tiny">لا يوجد سجل سابق</div>'}
+        `).join('') : '<div class="tiny" style="color:#94a3b8">لا يوجد سجل سابق</div>'}
       </div>
     </div>
   `;
@@ -1228,6 +2017,11 @@ function openPatientChat(id) {
   renderChatMessages();
   drawer.classList.add('open', 'show');
   if (backdrop) backdrop.classList.add('open', 'show');
+
+  setTimeout(() => {
+    const input = document.getElementById('chatInput') || (document.querySelector ? document.querySelector('.chat-input-box input') : null);
+    if (input && typeof input.focus === 'function') input.focus();
+  }, 250);
 }
 
 function closePatientChat() {
