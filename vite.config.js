@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+  base: '/tababa/',
   server: {
     host: true,
     port: 5173,
@@ -21,7 +22,8 @@ export default defineConfig({
         consultation: resolve(__dirname, 'doctor-consultation.html'),
         financial: resolve(__dirname, 'doctor-financial.html'),
         patients: resolve(__dirname, 'doctor-patients.html'),
-        profile: resolve(__dirname, 'doctor-profile.html')
+        profile: resolve(__dirname, 'doctor-profile.html'),
+        csLeads: resolve(__dirname, 'cs-leads-dashboard.html')
       }
     }
   }
