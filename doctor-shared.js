@@ -51,6 +51,16 @@ const CLINIC_MAP = {
   clinic_giza: { name: "عيادة فيوتشر كير — الجيزة", short: "الجيزة", tag: "giza", color: "var(--warn)" }
 };
 
+// ============================= MARKETING & LEADS ATTRIBUTION =============================
+const MARKETING_SOURCES = {
+  facebook_ads: { label: "إعلانات فيسبوك", icon: "brand-facebook", color: "#1877F2", bg: "rgba(24, 119, 242, 0.15)" },
+  instagram_ads: { label: "إعلانات انستجرام", icon: "brand-instagram", color: "#E1306C", bg: "rgba(225, 48, 108, 0.15)" },
+  google_ads: { label: "إعلانات جوجل", icon: "brand-google", color: "#EA4335", bg: "rgba(234, 67, 53, 0.15)" },
+  whatsapp: { label: "واتساب مباشر", icon: "brand-whatsapp", color: "#25D366", bg: "rgba(37, 211, 102, 0.15)" },
+  website_lead: { label: "الموقع الإلكتروني", icon: "world", color: "#1fe6a8", bg: "rgba(31, 230, 168, 0.15)" },
+  phone_call: { label: "اتصال هاتفي وارد", icon: "phone-incoming", color: "#5b9cf5", bg: "rgba(91, 156, 245, 0.15)" }
+};
+
 // ============================= PATIENT DATA MODEL =============================
 const PATIENTS = [
   {
@@ -60,6 +70,13 @@ const PATIENTS = [
     "gender": "ذكر",
     "phone": "+20 101 234 5678",
     "patientId": "TB-1045",
+    "isFromLead": true,
+    "leadSource": "facebook_ads",
+    "sourceLabel": "إعلانات فيسبوك",
+    "campaign": "حملة الجهاز الهضمي والقولون - المنصورة",
+    "csAgent": "سارة محمود",
+    "leadCode": "LD-601",
+    "convertedDate": "2026-09-16",
     "clinics": [
       "clinic_mansoura",
       "clinic_cairo"
@@ -227,6 +244,13 @@ const PATIENTS = [
     "gender": "ذكر",
     "phone": "+20 102 345 6789",
     "patientId": "TB-3140",
+    "isFromLead": true,
+    "leadSource": "whatsapp",
+    "sourceLabel": "واتساب مباشر",
+    "campaign": "استفسارات واتساب السريعة للعيادة",
+    "csAgent": "سارة محمود",
+    "leadCode": "LD-604",
+    "convertedDate": "2026-09-16",
     "clinics": [
       "clinic_giza"
     ],
@@ -297,6 +321,13 @@ const PATIENTS = [
     "gender": "ذكر",
     "phone": "+20 106 789 0123",
     "patientId": "TB-4092",
+    "isFromLead": true,
+    "leadSource": "instagram_ads",
+    "sourceLabel": "إعلانات انستجرام",
+    "campaign": "حملة فحوصات القلب وضغط الدم - انستجرام",
+    "csAgent": "سارة محمود",
+    "leadCode": "LD-602",
+    "convertedDate": "2026-09-15",
     "clinics": [
       "clinic_mansoura"
     ],
@@ -511,6 +542,13 @@ const PATIENTS = [
     "gender": "أنثى",
     "phone": "+20 1071086415",
     "patientId": "TB-1105",
+    "isFromLead": true,
+    "leadSource": "google_ads",
+    "sourceLabel": "إعلانات جوجل",
+    "campaign": "حملة استشارات الباطنة العامة والسكري",
+    "csAgent": "أحمد رشاد",
+    "leadCode": "LD-603",
+    "convertedDate": "2026-09-16",
     "clinics": [
       "clinic_giza"
     ],
@@ -9689,3 +9727,42 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn) btn.classList.add("active");
   }
 });
+
+// ============================= MARKETING & LEADS CONVERSION HELPERS =============================
+function getDoctorLeadsAcquisitionSummary(clinicId = "all") {
+  let pts = PATIENTS.filter(p => p.isFromLead);
+  if (clinicId !== "all") {
+    pts = pts.filter(p => p.appointmentClinicId === clinicId || (p.clinics && p.clinics.includes(clinicId)));
+  }
+
+  const bySource = {
+    facebook_ads: 0,
+    instagram_ads: 0,
+    google_ads: 0,
+    whatsapp: 0,
+    phone_call: 0
+  };
+
+  const campaigns = [];
+
+  pts.forEach(p => {
+    const src = p.leadSource || 'facebook_ads';
+    bySource[src] = (bySource[src] || 0) + 1;
+    if (p.campaign) {
+      const existing = campaigns.find(c => c.name === p.campaign);
+      if (existing) {
+        existing.count++;
+      } else {
+        campaigns.push({ name: p.campaign, source: src, count: 1 });
+      }
+    }
+  });
+
+  return {
+    totalConverted: pts.length,
+    bySource,
+    campaigns,
+    patients: pts
+  };
+}
+

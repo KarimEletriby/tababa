@@ -1000,6 +1000,7 @@
       <button class="pm-pill-btn" data-filter="followup" onclick="setPmFilter('followup',this)">يحتاج متابعة</button>
       <button class="pm-pill-btn" data-filter="at-risk" onclick="setPmFilter('at-risk',this)">في خطر</button>
       <button class="pm-pill-btn" data-filter="unread" onclick="setPmFilter('unread',this)">رسائل غير مقروءة</button>
+      <button class="pm-pill-btn" data-filter="leads" onclick="setPmFilter('leads',this)" style="color:#c084fc;border-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.12)"><i class="ti ti-target-arrow"></i> عبر الحملات وخدمة العملاء (Leads) <span class="pill xs" style="background:#a855f7;color:#fff;border:none;margin-right:4px">4</span></button>
     </div>
   </div>
 
@@ -1449,6 +1450,7 @@ function renderPmTable() {
   // 2. Status Pills Filter
   if (pmFilter === 'active') pts = pts.filter(p => p.isActive);
   else if (pmFilter === 'new') pts = pts.filter(p => p.isNew);
+  else if (pmFilter === 'leads') pts = pts.filter(p => p.isFromLead);
   else if (pmFilter === 'followup') pts = pts.filter(p => p.needsFollowup || p.followupOverdue);
   else if (pmFilter === 'at-risk') pts = pts.filter(p => p.treatmentStatus === 'at-risk');
   else if (pmFilter === 'unread') pts = pts.filter(p => p.unreadMessages > 0);
@@ -1575,7 +1577,14 @@ function renderPmTable() {
             <div>
               <div class="pm-patient-name">${p.name}</div>
               <div class="pm-patient-meta">${p.age} سنة · ${p.gender}</div>
-              <div class="pm-patient-mrn">${p.patientId}</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:2px">
+                <span class="pm-patient-mrn">${p.patientId}</span>
+                ${p.isFromLead ? `
+                  <span class="pill xs" style="background:rgba(168,85,247,0.15);color:#c084fc;border:none;font-size:10px;font-weight:700">
+                    <i class="ti ti-target-arrow"></i> ${p.sourceLabel || 'خدمة العملاء'}
+                  </span>
+                ` : ''}
+              </div>
             </div>
           </div>
         </td>
@@ -1687,6 +1696,11 @@ function renderPatientCardHtml(p) {
       <!-- Badges: Branch & Tags -->
       <div class="pm-card-badges">
         <span class="pm-branch-badge ${cInfo.tag}"><i class="ti ti-building-hospital"></i> ${cInfo.name}</span>
+        ${p.isFromLead ? `
+          <span class="pill xs" style="background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3)">
+            <i class="ti ti-target-arrow"></i> ${p.sourceLabel || 'خدمة العملاء'} ${p.campaign ? '— ' + p.campaign : ''}
+          </span>
+        ` : ''}
         <span class="pill xs ghost" style="color:#60a5fa;border-color:rgba(96,165,250,0.3)"><i class="ti ti-shield-check"></i> تأمين بوبا</span>
         ${p.allergies && p.allergies.length ? `
           <span class="pill xs" style="background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid #ef4444">
@@ -1879,6 +1893,38 @@ function openPatientProfile(id) {
         <button class="pill sm ghost" onclick="window.print()"><i class="ti ti-printer"></i> طباعة الملف</button>
       </div>
     </div>
+
+    <!-- Marketing & Lead Attribution Box (رحلة الاستحواذ ومصدر الحجز) -->
+    ${p.isFromLead ? `
+      <div class="pm-drawer-section" style="background:linear-gradient(135deg,rgba(168,85,247,0.12),rgba(11,17,32,0.9));border:1.5px solid rgba(168,85,247,0.35);border-radius:12px;padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-size:13px;font-weight:900;color:#c084fc;display:flex;align-items:center;gap:6px">
+            <i class="ti ti-target-arrow" style="font-size:16px"></i> بيانات الاستحواذ والتسويق (Lead Conversion)
+          </div>
+          <span class="pill xs" style="background:var(--accent-soft);color:var(--accent);border:none;font-weight:700">
+            <i class="ti ti-check"></i> حجز مؤكد
+          </span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:#090f1d;border:1px solid var(--border);padding:8px 12px;border-radius:8px">
+            <div class="tiny" style="color:var(--text-muted)">مصدر الإعلان / القناة:</div>
+            <div style="font-weight:800;font-size:13px;color:var(--text-primary);margin-top:2px">${p.sourceLabel || 'إعلانات رقمية'}</div>
+          </div>
+          <div style="background:#090f1d;border:1px solid var(--border);padding:8px 12px;border-radius:8px">
+            <div class="tiny" style="color:var(--text-muted)">اسم الحملة التسويقية:</div>
+            <div style="font-weight:800;font-size:12.5px;color:#c084fc;margin-top:2px">${p.campaign || 'حملة تخصصية'}</div>
+          </div>
+          <div style="background:#090f1d;border:1px solid var(--border);padding:8px 12px;border-radius:8px">
+            <div class="tiny" style="color:var(--text-muted)">مسؤول خدمة العملاء:</div>
+            <div style="font-weight:700;font-size:12.5px;color:var(--text-primary);margin-top:2px">${p.csAgent || 'سارة محمود'}</div>
+          </div>
+          <div style="background:#090f1d;border:1px solid var(--border);padding:8px 12px;border-radius:8px">
+            <div class="tiny" style="color:var(--text-muted)">كود الـ Lead الأصلي:</div>
+            <div style="font-family:monospace;font-weight:800;font-size:12.5px;color:var(--accent);margin-top:2px">${p.leadCode || 'LD-601'}</div>
+          </div>
+        </div>
+      </div>
+    ` : ''}
 
     <!-- Severe Allergies Alert Banner -->
     ${p.allergies && p.allergies.length ? `
@@ -2102,6 +2148,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   const pid = parseInt(urlParams.get('patient'));
   const cid = parseInt(urlParams.get('chat'));
+  const filterParam = urlParams.get('filter');
+
+  if (filterParam === 'leads') {
+    const leadsBtn = document.querySelector('.pm-pill-btn[data-filter="leads"]');
+    if (leadsBtn) setPmFilter('leads', leadsBtn);
+  }
 
   if (pid) {
     setTimeout(() => openPatientProfile(pid), 300);
