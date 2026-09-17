@@ -302,6 +302,7 @@ class CsStore {
       specialty: data.specialty || "باطنة عامة وجهاز هضمي",
       preferredDoctorId: data.doctorId ? parseInt(data.doctorId) : 1,
       complaint: data.complaint || "طلب استشارة طبية",
+      painData: data.painData || null,
       status: "NEW",
       urgency: data.urgency || "normal",
       assignedAgent: "سارة محمود",

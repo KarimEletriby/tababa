@@ -137,6 +137,332 @@
     display: flex; align-items: center; justify-content: center; gap: 5px;
   }
 
+  /* =============== CLINICAL BODY PAIN LOCATOR =============== */
+  .reg-dual-container {
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 1024px) {
+    .reg-dual-container {
+      grid-template-columns: 1fr;
+    }
+  }
+  .reg-form-col {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (max-width: 640px) {
+    .reg-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Body Locator Card & Hologram Figures */
+  .body-locator-card {
+    background: #08101d;
+    border: 1px solid rgba(31, 230, 168, 0.25);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 25px rgba(31, 230, 168, 0.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .body-locator-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .locator-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .locator-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .locator-active-badge {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(31, 230, 168, 0.15);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .locator-clinical-goal {
+    background: rgba(14, 27, 47, 0.7);
+    border: 1px dashed rgba(31, 230, 168, 0.25);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .locator-clinical-goal strong {
+    color: var(--accent);
+  }
+
+  /* View switch tabs (Front / Back) */
+  .locator-tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 3px;
+    margin-bottom: 12px;
+    gap: 4px;
+    border: 1px solid var(--border);
+  }
+  .locator-tab-btn {
+    flex: 1;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .locator-tab-btn.active {
+    background: rgba(31, 230, 168, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(31, 230, 168, 0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  /* Figure viewport stage */
+  .locator-figure-stage {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background: radial-gradient(circle at 50% 45%, rgba(31, 230, 168, 0.06), transparent 70%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    user-select: none;
+  }
+  .locator-figure-svg {
+    height: 94%;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(31, 230, 168, 0.12));
+  }
+  /* Interactive anatomical zone */
+  .body-zone {
+    cursor: pointer;
+    fill: rgba(31, 230, 168, 0.04);
+    stroke: rgba(31, 230, 168, 0.35);
+    stroke-width: 1.5;
+    transition: all 0.25s ease;
+  }
+  .body-zone:hover {
+    fill: rgba(31, 230, 168, 0.2);
+    stroke: var(--accent);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 6px rgba(31, 230, 168, 0.6));
+  }
+  .body-zone.active {
+    fill: rgba(242, 184, 75, 0.25);
+    stroke: #ffb84d;
+    stroke-width: 2.2;
+    filter: drop-shadow(0 0 8px rgba(242, 184, 75, 0.7));
+  }
+
+  /* Radar Pulse target indicator */
+  .radar-ring {
+    pointer-events: none;
+    animation: radarPulse 2s cubic-bezier(0.2, 0.6, 0.35, 1) infinite;
+    transform-origin: center;
+  }
+  @keyframes radarPulse {
+    0% { r: 6px; opacity: 1; stroke-width: 2; }
+    100% { r: 24px; opacity: 0; stroke-width: 0.5; }
+  }
+
+  /* Selected details panel */
+  .locator-details-box {
+    background: #0b1526;
+    border: 1px solid rgba(242, 184, 75, 0.3);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .locator-selected-header {
+    background: linear-gradient(90deg, rgba(242, 184, 75, 0.15), transparent);
+    border-right: 3px solid #ffb84d;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffb84d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .locator-slider-wrap {
+    margin-bottom: 12px;
+  }
+  .locator-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .vas-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 7px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #1fe6a8 0%, #a3e635 30%, #facc15 60%, #f97316 80%, #ef4444 100%);
+    outline: none;
+    cursor: pointer;
+  }
+  .vas-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #ffb84d;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .vas-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+  .vas-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .locator-row-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .locator-input-group label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .locator-input-group select {
+    width: 100%;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+  }
+
+  /* Insert into complaint button */
+  .locator-insert-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(31, 230, 168, 0.12);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.25s;
+  }
+  .locator-insert-btn:hover {
+    background: var(--accent);
+    color: #03261b;
+    box-shadow: 0 4px 15px rgba(31, 230, 168, 0.3);
+  }
+
+  /* Registered focus points list */
+  .locator-registered-list {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .locator-registered-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(242, 184, 75, 0.15);
+    border: 1px solid rgba(242, 184, 75, 0.4);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 11px;
+    color: #ffb84d;
+  }
+  .locator-registered-tag .tag-remove {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .locator-registered-tag .tag-remove:hover {
+    opacity: 1;
+    color: #ef4444;
+  }
+
+  /* Quick chips */
+  .locator-quick-chips {
+    margin-top: 12px;
+  }
+  .quick-chips-title {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .quick-chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .quick-chip-btn {
+    padding: 5px 12px;
+    background: rgba(31, 230, 168, 0.05);
+    border: 1px dashed rgba(31, 230, 168, 0.3);
+    border-radius: 999px;
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .quick-chip-btn:hover {
+    background: rgba(31, 230, 168, 0.18);
+    border-style: solid;
+  }
+
   /* Success overlay */
   .reg-success-overlay {
     display: none;
@@ -1542,83 +1868,341 @@ html, body {
 
         <!-- Header -->
         <div class="reg-header">
-          <div class="reg-icon"><i class="ti ti-user-plus"></i></div>
-          <h2>سجّل حالتك الآن واحصل على موعد فوري</h2>
-          <p>اكتب شكواك بالتفصيل وفريقنا الطبي هيتواصل معاك فوراً لتحديد أنسب طبيب وموعد</p>
+          <div class="reg-icon"><i class="ti ti-activity-heartbeat"></i></div>
+          <h2>حدد موضع الألم وسجّل حالتك فوراً</h2>
+          <p>اضغط على موضع ألمك في المجسم السريري لاختيار تخصصك بدقة، وسيتواصل معك استشاريونا خلال دقائق</p>
         </div>
 
         <div class="reg-badge-row">
-          <span class="reg-badge"><i class="ti ti-clock"></i> رد خلال 15 دقيقة</span>
-          <span class="reg-badge"><i class="ti ti-lock"></i> بياناتك آمنة 100%</span>
+          <span class="reg-badge"><i class="ti ti-clock"></i> رد فوري خلال 15 دقيقة</span>
+          <span class="reg-badge"><i class="ti ti-activity"></i> توطين سريري ذكي للألم</span>
           <span class="reg-badge"><i class="ti ti-discount"></i> أول كشف بخصم 20%</span>
+          <span class="reg-badge"><i class="ti ti-shield-check"></i> خصوصية مشفرة 100%</span>
         </div>
 
-        <!-- Form -->
-        <div class="reg-form-grid" id="regFormGrid">
-          <div class="reg-form-group">
-            <label class="reg-form-label"><i class="ti ti-user"></i> الاسم الكامل <span class="req">*</span></label>
-            <input class="reg-input" type="text" id="regName" placeholder="مثال: أحمد محمد عبد الرحمن" required>
-          </div>
-          <div class="reg-form-group">
-            <label class="reg-form-label"><i class="ti ti-phone"></i> رقم الهاتف <span class="req">*</span></label>
-            <input class="reg-input" type="tel" id="regPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right" required>
-          </div>
-          <div class="reg-form-group">
-            <label class="reg-form-label"><i class="ti ti-map-pin"></i> المدينة</label>
-            <input class="reg-input" type="text" id="regCity" placeholder="مثال: المنصورة، القاهرة، الجيزة">
-          </div>
-          <div class="reg-form-group">
-            <label class="reg-form-label"><i class="ti ti-briefcase-medical"></i> التخصص المطلوب</label>
-            <select class="reg-input" id="regSpecialty">
-              <option value="باطنة عامة وجهاز هضمي">باطنة عامة وجهاز هضمي</option>
-              <option value="أمراض القلب والأوعية الدموية">أمراض القلب والأوعية الدموية</option>
-              <option value="جراحة العظام والمفاصل والعمود الفقري">جراحة العظام والمفاصل والعمود الفقري</option>
-              <option value="طب الأطفال وحديثي الولادة">طب الأطفال وحديثي الولادة</option>
-              <option value="أسنان">أسنان</option>
-              <option value="جلدية وتجميل">جلدية وتجميل</option>
-              <option value="نساء وتوليد">نساء وتوليد</option>
-              <option value="عيون">عيون</option>
-              <option value="مخ وأعصاب">مخ وأعصاب</option>
-              <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
-              <option value="مسالك بولية">مسالك بولية</option>
-              <option value="غير متأكد">مش متأكد — ساعدني أختار</option>
-            </select>
-          </div>
-          <div class="reg-form-group full">
-            <label class="reg-form-label"><i class="ti ti-report-medical"></i> اوصف شكواك بالتفصيل <span class="req">*</span></label>
-            <textarea class="reg-input" id="regComplaint" rows="5" placeholder="مثال: بحس بألم شديد في المعدة من 3 أيام، الألم بيزيد بعد الأكل وبيصاحبه حرقان في الصدر. جربت مضاد حموضة بس مفيش تحسن..."></textarea>
-            <div class="reg-complaint-hint">
-              <strong>💡 نصيحة:</strong> كل ما كتبت تفاصيل أكتر، كل ما قدرنا نوصلك بالطبيب الأنسب لحالتك بشكل أسرع.
-              يمكنك ذكر: <strong>الأعراض</strong>، <strong>مدة المشكلة</strong>، <strong>أي أدوية جربتها</strong>، <strong>إذا كان في تحاليل أو أشعة سابقة</strong>.
+        <!-- DUAL CONTAINER: BODY LOCATOR + REGISTRATION FORM -->
+        <div class="reg-dual-container">
+
+          <!-- COLUMN 1: CLINICAL BODY PAIN LOCATOR -->
+          <div class="body-locator-card" id="bodyLocatorCard">
+            <div class="locator-topbar">
+              <div class="locator-title">
+                <i class="ti ti-user-check" style="color:var(--accent)"></i>
+                مجسم توطين الألم السريري
+              </div>
+              <span class="locator-active-badge" id="locatorActiveBadge">1 بؤرة نشطة</span>
+            </div>
+
+            <div class="locator-clinical-goal">
+              <strong>الهدف السريري:</strong> توطين بؤر الألم وتوثيق الشدة (VAS 0-10) لتحديد التخصص المناسب تلقائياً والربط بملف المريض.
+            </div>
+
+            <!-- View Switcher (Front / Back) -->
+            <div class="locator-tabs">
+              <button type="button" class="locator-tab-btn active" id="tabFront" onclick="switchBodyView('front')">
+                <i class="ti ti-rotate-2"></i> أمامي (Front)
+              </button>
+              <button type="button" class="locator-tab-btn" id="tabBack" onclick="switchBodyView('back')">
+                <i class="ti ti-rotate-clockwise-2"></i> خلفي (Back)
+              </button>
+            </div>
+
+            <!-- Interactive Figure Viewport -->
+            <div class="locator-figure-stage">
+              <!-- FRONT SVG -->
+              <svg id="bodySvgFront" class="locator-figure-svg" viewBox="0 0 240 440">
+                <!-- Blueprint Grid -->
+                <line x1="120" y1="10" x2="120" y2="430" stroke="rgba(31,230,168,0.12)" stroke-dasharray="3 3"/>
+                <line x1="50" y1="76" x2="190" y2="76" stroke="rgba(31,230,168,0.08)" stroke-dasharray="2 2"/>
+                <line x1="60" y1="140" x2="180" y2="140" stroke="rgba(31,230,168,0.08)" stroke-dasharray="2 2"/>
+                <line x1="70" y1="190" x2="170" y2="190" stroke="rgba(31,230,168,0.08)" stroke-dasharray="2 2"/>
+                <line x1="70" y1="320" x2="170" y2="320" stroke="rgba(31,230,168,0.08)" stroke-dasharray="2 2"/>
+
+                <!-- HEAD & FACE -->
+                <g class="body-zone" id="zone-head" data-zone="head" onclick="selectBodyZone('head')">
+                  <ellipse cx="120" cy="38" rx="22" ry="26" />
+                  <circle cx="113" cy="35" r="2" fill="rgba(31,230,168,0.6)" stroke="none" />
+                  <circle cx="127" cy="35" r="2" fill="rgba(31,230,168,0.6)" stroke="none" />
+                  <path d="M 115 45 Q 120 48 125 45" stroke="rgba(31,230,168,0.5)" fill="none" stroke-width="1.2" />
+                </g>
+
+                <!-- NECK -->
+                <path class="body-zone" id="zone-neck" data-zone="neck" onclick="selectBodyZone('neck')"
+                      d="M 112 64 L 110 76 L 130 76 L 128 64 Z" />
+
+                <!-- CHEST / THORAX -->
+                <path class="body-zone" id="zone-chest" data-zone="chest" onclick="selectBodyZone('chest')"
+                      d="M 88 78 L 152 78 L 146 140 L 94 140 Z" />
+                <path d="M 96 95 Q 120 102 144 95 M 98 112 Q 120 119 142 112 M 100 128 Q 120 134 140 128" 
+                      stroke="rgba(31,230,168,0.2)" fill="none" stroke-width="1" stroke-dasharray="2 2" pointer-events="none" />
+
+                <!-- ABDOMEN (Active by default) -->
+                <path class="body-zone active" id="zone-abdomen" data-zone="abdomen" onclick="selectBodyZone('abdomen')"
+                      d="M 94 142 L 146 142 L 141 190 L 99 190 Z" />
+
+                <!-- PELVIS / GROIN -->
+                <path class="body-zone" id="zone-pelvis" data-zone="pelvis" onclick="selectBodyZone('pelvis')"
+                      d="M 99 192 L 141 192 L 136 230 L 120 238 L 104 230 Z" />
+
+                <!-- RIGHT ARM (Patient Right = Left) -->
+                <g class="body-zone" id="zone-r_arm" data-zone="r_arm" onclick="selectBodyZone('r_arm')">
+                  <circle cx="80" cy="85" r="7" />
+                  <path d="M 74 88 L 86 88 L 83 148 L 72 148 Z" />
+                  <circle cx="77" cy="154" r="5" />
+                  <path d="M 73 158 L 82 158 L 79 210 L 72 210 Z" />
+                  <path d="M 72 212 Q 76 226 80 212 Z" />
+                </g>
+
+                <!-- LEFT ARM (Patient Left = Right) -->
+                <g class="body-zone" id="zone-l_arm" data-zone="l_arm" onclick="selectBodyZone('l_arm')">
+                  <circle cx="160" cy="85" r="7" />
+                  <path d="M 154 88 L 166 88 L 168 148 L 157 148 Z" />
+                  <circle cx="163" cy="154" r="5" />
+                  <path d="M 158 158 L 167 158 L 168 210 L 161 210 Z" />
+                  <path d="M 160 212 Q 164 226 168 212 Z" />
+                </g>
+
+                <!-- RIGHT THIGH & KNEE -->
+                <g class="body-zone" id="zone-r_knee" data-zone="r_knee" onclick="selectBodyZone('r_knee')">
+                  <path d="M 103 234 L 118 236 L 115 310 L 102 310 Z" />
+                  <circle cx="108" cy="318" r="7" />
+                  <path d="M 103 325 L 114 325 L 111 396 L 104 396 Z" />
+                </g>
+
+                <!-- LEFT THIGH & KNEE -->
+                <g class="body-zone" id="zone-l_knee" data-zone="l_knee" onclick="selectBodyZone('l_knee')">
+                  <path d="M 122 236 L 137 234 L 138 310 L 125 310 Z" />
+                  <circle cx="132" cy="318" r="7" />
+                  <path d="M 126 325 L 137 325 L 136 396 L 129 396 Z" />
+                </g>
+
+                <!-- FEET / ANKLES -->
+                <g class="body-zone" id="zone-feet" data-zone="feet" onclick="selectBodyZone('feet')">
+                  <ellipse cx="106" cy="406" rx="10" ry="6" />
+                  <ellipse cx="134" cy="406" rx="10" ry="6" />
+                </g>
+
+                <!-- RADAR TARGET ON FRONT FIGURE (Initially at Abdomen: cx=120, cy=165) -->
+                <g id="radarTargetFront" transform="translate(120, 165)">
+                  <circle cx="0" cy="0" r="14" stroke="#ffb84d" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+                  <circle cx="0" cy="0" r="8" stroke="#ffb84d" stroke-width="2" fill="rgba(242,184,75,0.4)"/>
+                  <circle cx="0" cy="0" r="3" fill="#ffb84d"/>
+                  <circle class="radar-ring" cx="0" cy="0" r="6" stroke="#ffb84d" fill="none"/>
+                </g>
+              </svg>
+
+              <!-- BACK SVG -->
+              <svg id="bodySvgBack" class="locator-figure-svg" viewBox="0 0 240 440" style="display:none">
+                <!-- Blueprint Grid -->
+                <line x1="120" y1="10" x2="120" y2="430" stroke="rgba(31,230,168,0.12)" stroke-dasharray="3 3"/>
+                <line x1="50" y1="76" x2="190" y2="76" stroke="rgba(31,230,168,0.08)" stroke-dasharray="2 2"/>
+                <line x1="60" y1="140" x2="180" y2="140" stroke="rgba(31,230,168,0.08)" stroke-dasharray="2 2"/>
+                <line x1="70" y1="190" x2="170" y2="190" stroke="rgba(31,230,168,0.08)" stroke-dasharray="2 2"/>
+
+                <!-- BACK OF HEAD -->
+                <g class="body-zone" id="zone-back_head" data-zone="back_head" onclick="selectBodyZone('back_head')">
+                  <ellipse cx="120" cy="38" rx="22" ry="26" />
+                  <path d="M 104 42 Q 120 52 136 42" stroke="rgba(31,230,168,0.35)" fill="none" stroke-width="1.2" />
+                </g>
+
+                <!-- UPPER BACK & SCAPULAE -->
+                <path class="body-zone" id="zone-upper_back" data-zone="upper_back" onclick="selectBodyZone('upper_back')"
+                      d="M 88 76 L 152 76 L 146 135 L 94 135 Z" />
+                <path d="M 98 88 L 108 122 L 102 124 M 142 88 L 132 122 L 138 124" stroke="rgba(31,230,168,0.25)" fill="none" stroke-width="1.2" pointer-events="none" />
+
+                <!-- MID BACK / THORACIC SPINE -->
+                <path class="body-zone" id="zone-mid_back" data-zone="mid_back" onclick="selectBodyZone('mid_back')"
+                      d="M 94 137 L 146 137 L 142 172 L 98 172 Z" />
+                <path d="M 120 76 L 120 205" stroke="#ffb84d" stroke-width="1.5" stroke-dasharray="4 2" pointer-events="none" opacity="0.6"/>
+
+                <!-- LOWER BACK / LUMBAR SPINE -->
+                <path class="body-zone" id="zone-lower_back" data-zone="lower_back" onclick="selectBodyZone('lower_back')"
+                      d="M 98 174 L 142 174 L 138 206 L 102 206 Z" />
+
+                <!-- GLUTES / SACRUM -->
+                <path class="body-zone" id="zone-glutes" data-zone="glutes" onclick="selectBodyZone('glutes')"
+                      d="M 101 208 L 139 208 L 142 242 L 120 248 L 98 242 Z" />
+                <path d="M 120 208 L 120 240" stroke="rgba(31,230,168,0.3)" fill="none" pointer-events="none"/>
+
+                <!-- ARMS (BACK VIEW) -->
+                <path class="body-zone" id="zone-r_arm_back" data-zone="r_arm" onclick="selectBodyZone('r_arm')"
+                      d="M 74 85 L 86 85 L 82 210 L 73 210 Z" />
+                <path class="body-zone" id="zone-l_arm_back" data-zone="l_arm" onclick="selectBodyZone('l_arm')"
+                      d="M 154 85 L 166 85 L 167 210 L 158 210 Z" />
+
+                <!-- THIGHS (BACK VIEW) -->
+                <g class="body-zone" id="zone-back_thighs" data-zone="lower_back" onclick="selectBodyZone('lower_back')">
+                  <path d="M 102 244 L 118 244 L 114 318 L 103 318 Z M 122 244 L 138 244 L 137 318 L 126 318 Z" />
+                </g>
+
+                <!-- CALVES & ACHILLES -->
+                <g class="body-zone" id="zone-back_calves" data-zone="back_calves" onclick="selectBodyZone('back_calves')">
+                  <path d="M 103 322 L 115 322 L 111 398 L 103 398 Z" />
+                  <path d="M 125 322 L 137 322 L 137 398 L 129 398 Z" />
+                  <ellipse cx="107" cy="406" rx="9" ry="5"/>
+                  <ellipse cx="133" cy="406" rx="9" ry="5"/>
+                </g>
+
+                <!-- RADAR TARGET BACK -->
+                <g id="radarTargetBack" style="display:none">
+                  <circle cx="0" cy="0" r="14" stroke="#ffb84d" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+                  <circle cx="0" cy="0" r="8" stroke="#ffb84d" stroke-width="2" fill="rgba(242,184,75,0.4)"/>
+                  <circle cx="0" cy="0" r="3" fill="#ffb84d"/>
+                  <circle class="radar-ring" cx="0" cy="0" r="6" stroke="#ffb84d" fill="none"/>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Selected Pain Details Panel -->
+            <div class="locator-details-box">
+              <div class="locator-selected-header">
+                <span id="painZoneTitle">البطن والجهاز الهضمي</span>
+                <span id="painZoneScore">6/10 • ألم متوسط</span>
+              </div>
+
+              <!-- VAS Slider -->
+              <div class="locator-slider-wrap">
+                <div class="locator-slider-labels">
+                  <div>
+                    <strong style="color:var(--text-primary)">شدة الألم:</strong>
+                    <span id="painVasVal" style="color:#ffb84d;font-weight:900">6</span>/10
+                    (<span id="painVasText" style="color:#ffb84d;font-weight:700">ألم متوسط</span>)
+                  </div>
+                  <span class="tiny" style="color:var(--text-muted)">مقياس (VAS 0-10)</span>
+                </div>
+                <input type="range" min="0" max="10" value="6" class="vas-slider" id="vasSlider" oninput="onVasChange(this.value)">
+                <div class="vas-ticks">
+                  <span>0 (لا يوجد)</span>
+                  <span>2</span>
+                  <span>4</span>
+                  <span>6</span>
+                  <span>8</span>
+                  <span>10 (أقصى ألم)</span>
+                </div>
+              </div>
+
+              <!-- Duration & Nature -->
+              <div class="locator-row-inputs">
+                <div class="locator-input-group">
+                  <label><i class="ti ti-clock"></i> المدة الزمنية</label>
+                  <select id="painDurationSelect" onchange="updatePainReportText()">
+                    <option value="أقل من 24 ساعة">أقل من 24 ساعة</option>
+                    <option value="1 - 3 أيام">1 - 3 أيام</option>
+                    <option value="4 أيام" selected>4 أيام</option>
+                    <option value="أسبوع إلى أسبوعين">أسبوع إلى أسبوعين</option>
+                    <option value="أكثر من شهر (ألم مزمن)">أكثر من شهر (مزمن)</option>
+                  </select>
+                </div>
+                <div class="locator-input-group">
+                  <label><i class="ti ti-activity"></i> طبيعة الألم</label>
+                  <select id="painNatureSelect" onchange="updatePainReportText()">
+                    <option value="مغص متقطع" selected>مغص متقطع</option>
+                    <option value="ألم حاد ومفاجئ">ألم حاد ومفاجئ</option>
+                    <option value="حرقان وحموضة">حرقان وحموضة</option>
+                    <option value="صداع وألم نابض">صداع وألم نابض</option>
+                    <option value="ثقل وضغط مستمر">ثقل وضغط مستمر</option>
+                    <option value="وخز وتنميل">وخز وتنميل</option>
+                    <option value="تيبس وصعوبة حركة">تيبس وصعوبة حركة</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Action Button: Insert into Complaint -->
+              <button type="button" class="locator-insert-btn" id="btnInsertReport" onclick="insertReportIntoComplaint()">
+                <i class="ti ti-file-text"></i> إدراج التقرير في الملاحظات السريرية والشكوى
+              </button>
+
+              <!-- Registered Focus Tag -->
+              <div class="locator-registered-list">
+                <span class="tiny" style="color:var(--text-muted)">بؤر الألم المسجلة (1):</span>
+                <div class="locator-registered-tag" id="registeredTagWrap">
+                  <span id="registeredTagText">البطن والجهاز الهضمي: 6/10</span>
+                  <span class="tag-remove" onclick="clearBodyZone()" title="إلغاء التحديد">✕</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick selection chips -->
+            <div class="locator-quick-chips">
+              <div class="quick-chips-title"><i class="ti ti-bolt"></i> تحديد سريع:</div>
+              <div class="quick-chips-row">
+                <button type="button" class="quick-chip-btn" onclick="quickSelectZone('head')">الرأس</button>
+                <button type="button" class="quick-chip-btn" onclick="quickSelectZone('chest')">الصدر</button>
+                <button type="button" class="quick-chip-btn" onclick="quickSelectZone('abdomen')">البطن</button>
+                <button type="button" class="quick-chip-btn" onclick="quickSelectZone('lower_back')">أسفل الظهر</button>
+                <button type="button" class="quick-chip-btn" onclick="quickSelectZone('r_knee')">الركبة</button>
+              </div>
             </div>
           </div>
-          <div class="reg-form-group">
-            <label class="reg-form-label"><i class="ti ti-building-hospital"></i> الفرع المفضل</label>
-            <select class="reg-input" id="regBranch">
-              <option value="clinic_mansoura">مركز طبابا — المنصورة</option>
-              <option value="clinic_cairo">عيادة النور — القاهرة</option>
-              <option value="clinic_giza">فيوتشر كير — الجيزة</option>
-            </select>
-          </div>
-          <div class="reg-form-group">
-            <label class="reg-form-label"><i class="ti ti-ad-2"></i> عرفت عننا منين؟</label>
-            <select class="reg-input" id="regSource">
-              <option value="website_lead">الموقع الإلكتروني</option>
-              <option value="facebook_ads">إعلان فيسبوك</option>
-              <option value="instagram_ads">إعلان انستجرام</option>
-              <option value="google_ads">بحث جوجل</option>
-              <option value="whatsapp">واتساب</option>
-              <option value="referral">ترشيح من صديق أو مريض</option>
-              <option value="phone_call">اتصال هاتفي</option>
-            </select>
-          </div>
-          <button class="reg-submit-btn" id="regSubmitBtn" onclick="submitPatientRegistration()">
-            <i class="ti ti-send"></i>
-            سجّل حالتك الآن — فريقنا هيتواصل معاك فوراً
-          </button>
-          <div class="reg-privacy">
-            <i class="ti ti-shield-check" style="color:var(--accent)"></i>
-            بياناتك محمية ومشفرة بالكامل ولن تُشارك مع أي طرف ثالث
+
+          <!-- COLUMN 2: REGISTRATION FORM -->
+          <div class="reg-form-col">
+            <div class="reg-form-grid" id="regFormGrid">
+              <div class="reg-form-group">
+                <label class="reg-form-label"><i class="ti ti-user"></i> الاسم الكامل <span class="req">*</span></label>
+                <input class="reg-input" type="text" id="regName" placeholder="مثال: أحمد محمد عبد الرحمن" required>
+              </div>
+              <div class="reg-form-group">
+                <label class="reg-form-label"><i class="ti ti-phone"></i> رقم الهاتف <span class="req">*</span></label>
+                <input class="reg-input" type="tel" id="regPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right" required>
+              </div>
+              <div class="reg-form-group">
+                <label class="reg-form-label"><i class="ti ti-map-pin"></i> المدينة</label>
+                <input class="reg-input" type="text" id="regCity" placeholder="مثال: المنصورة، القاهرة، الجيزة">
+              </div>
+              <div class="reg-form-group">
+                <label class="reg-form-label"><i class="ti ti-briefcase-medical"></i> التخصص المطلوب (محدد تلقائياً حسب الألم)</label>
+                <select class="reg-input" id="regSpecialty">
+                  <option value="باطنة عامة وجهاز هضمي" selected>باطنة عامة وجهاز هضمي</option>
+                  <option value="أمراض القلب والأوعية الدموية">أمراض القلب والأوعية الدموية</option>
+                  <option value="جراحة العظام والمفاصل والعمود الفقري">جراحة العظام والمفاصل والعمود الفقري</option>
+                  <option value="طب الأطفال وحديثي الولادة">طب الأطفال وحديثي الولادة</option>
+                  <option value="أسنان">أسنان</option>
+                  <option value="جلدية وتجميل">جلدية وتجميل</option>
+                  <option value="نساء وتوليد">نساء وتوليد</option>
+                  <option value="عيون">عيون</option>
+                  <option value="مخ وأعصاب">مخ وأعصاب</option>
+                  <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
+                  <option value="مسالك بولية">مسالك بولية</option>
+                  <option value="غير متأكد">مش متأكد — ساعدني أختار</option>
+                </select>
+              </div>
+              <div class="reg-form-group full">
+                <label class="reg-form-label"><i class="ti ti-report-medical"></i> اوصف شكواك بالتفصيل <span class="req">*</span></label>
+                <textarea class="reg-input" id="regComplaint" rows="5" placeholder="اكتب شكواك أو اضغط على زر إدراج التقرير في المجسم لكتابتها تلقائياً...">ألم في منطقة البطن والجهاز الهضمي، شدة الألم: 6/10 (ألم متوسط)، طبيعة الألم: مغص متقطع، المدة: 4 أيام.</textarea>
+                <div class="reg-complaint-hint">
+                  <strong>💡 نصيحة:</strong> تم توليد وصف الشكوى والتخصص تلقائياً من مجسم الألم السريري. يمكنك إضافة أي تفاصيل إضافية أو أدوية جربتها.
+                </div>
+              </div>
+              <div class="reg-form-group">
+                <label class="reg-form-label"><i class="ti ti-building-hospital"></i> الفرع المفضل</label>
+                <select class="reg-input" id="regBranch">
+                  <option value="clinic_mansoura">مركز طبابا — المنصورة</option>
+                  <option value="clinic_cairo">عيادة النور — القاهرة</option>
+                  <option value="clinic_giza">فيوتشر كير — الجيزة</option>
+                </select>
+              </div>
+              <div class="reg-form-group">
+                <label class="reg-form-label"><i class="ti ti-ad-2"></i> عرفت عننا منين؟</label>
+                <select class="reg-input" id="regSource">
+                  <option value="website_lead">الموقع الإلكتروني</option>
+                  <option value="facebook_ads">إعلان فيسبوك</option>
+                  <option value="instagram_ads">إعلان انستجرام</option>
+                  <option value="google_ads">بحث جوجل</option>
+                  <option value="whatsapp">واتساب</option>
+                  <option value="referral">ترشيح من صديق أو مريض</option>
+                  <option value="phone_call">اتصال هاتفي</option>
+                </select>
+              </div>
+              <button class="reg-submit-btn" id="regSubmitBtn" onclick="submitPatientRegistration()">
+                <i class="ti ti-send"></i>
+                سجّل حالتك الآن — فريقنا هيتواصل معاك فوراً
+              </button>
+              <div class="reg-privacy">
+                <i class="ti ti-shield-check" style="color:var(--accent)"></i>
+                بياناتك محمية ومشفرة بالكامل ولن تُشارك مع أي طرف ثالث
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2317,6 +2901,322 @@ function closeAllDrawers(){
     });
   });
 
+  // ==================== CLINICAL BODY PAIN LOCATOR CONTROLLER ====================
+  const BODY_ZONES = {
+    // FRONT
+    head: {
+      name: 'الرأس والوجه والمخ',
+      specialty: 'مخ وأعصاب',
+      defaultNature: 'صداع وألم نابض',
+      view: 'front',
+      cx: 120, cy: 38
+    },
+    neck: {
+      name: 'الرقبة والفقرات العنقية',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'تيبس وصعوبة حركة',
+      view: 'front',
+      cx: 120, cy: 70
+    },
+    chest: {
+      name: 'الصدر والجهاز التنفسي والقلب',
+      specialty: 'أمراض القلب والأوعية الدموية',
+      defaultNature: 'ثقل وضغط مستمر',
+      view: 'front',
+      cx: 120, cy: 110
+    },
+    abdomen: {
+      name: 'البطن والجهاز الهضمي',
+      specialty: 'باطنة عامة وجهاز هضمي',
+      defaultNature: 'مغص متقطع',
+      view: 'front',
+      cx: 120, cy: 165
+    },
+    pelvis: {
+      name: 'الحوض والمسالك البولية',
+      specialty: 'مسالك بولية',
+      defaultNature: 'ألم حاد ومفاجئ',
+      view: 'front',
+      cx: 120, cy: 210
+    },
+    r_arm: {
+      name: 'الكتف والذراع الأيمن',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'وخز وتنميل',
+      view: 'front',
+      cx: 77, cy: 154
+    },
+    l_arm: {
+      name: 'الكتف والذراع الأيسر',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'وخز وتنميل',
+      view: 'front',
+      cx: 163, cy: 154
+    },
+    r_knee: {
+      name: 'مفصل الركبة والساق اليمنى',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'تيبس وصعوبة حركة',
+      view: 'front',
+      cx: 108, cy: 318
+    },
+    l_knee: {
+      name: 'مفصل الركبة والساق اليسرى',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'تيبس وصعوبة حركة',
+      view: 'front',
+      cx: 132, cy: 318
+    },
+    feet: {
+      name: 'الكاحل والقدمين',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'وخز وتنميل',
+      view: 'front',
+      cx: 120, cy: 406
+    },
+
+    // BACK
+    back_head: {
+      name: 'مؤخرة الرأس وقاع الجمجمة',
+      specialty: 'مخ وأعصاب',
+      defaultNature: 'صداع وألم نابض',
+      view: 'back',
+      cx: 120, cy: 38
+    },
+    upper_back: {
+      name: 'أعلى الظهر والكتفين',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'ثقل وضغط مستمر',
+      view: 'back',
+      cx: 120, cy: 105
+    },
+    mid_back: {
+      name: 'منتصف الظهر والعمود الفقري',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'ثقل وضغط مستمر',
+      view: 'back',
+      cx: 120, cy: 154
+    },
+    lower_back: {
+      name: 'أسفل الظهر والفقرات القطنية',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'ألم حاد ومفاجئ',
+      view: 'back',
+      cx: 120, cy: 190
+    },
+    glutes: {
+      name: 'الحوض الخلفي والأرداف (عرق النسا)',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'وخز وتنميل',
+      view: 'back',
+      cx: 120, cy: 225
+    },
+    back_calves: {
+      name: 'عضلات الساق الخلفية وأوتار الكاحل',
+      specialty: 'جراحة العظام والمفاصل والعمود الفقري',
+      defaultNature: 'تيبس وصعوبة حركة',
+      view: 'back',
+      cx: 120, cy: 360
+    }
+  };
+
+  let currentBodyView = 'front';
+  let activeZoneKey = 'abdomen';
+
+  function switchBodyView(view) {
+    currentBodyView = view;
+    document.getElementById('tabFront').classList.toggle('active', view === 'front');
+    document.getElementById('tabBack').classList.toggle('active', view === 'back');
+    document.getElementById('bodySvgFront').style.display = view === 'front' ? 'block' : 'none';
+    document.getElementById('bodySvgBack').style.display = view === 'back' ? 'block' : 'none';
+
+    // If active zone is in the other view, adjust radar
+    if (activeZoneKey && BODY_ZONES[activeZoneKey]) {
+      if (BODY_ZONES[activeZoneKey].view === view) {
+        positionRadarTarget(activeZoneKey);
+      } else {
+        hideRadarTarget();
+      }
+    }
+  }
+
+  function selectBodyZone(zoneKey) {
+    const zone = BODY_ZONES[zoneKey];
+    if (!zone) return;
+
+    activeZoneKey = zoneKey;
+
+    // Switch view if needed
+    if (zone.view !== currentBodyView) {
+      switchBodyView(zone.view);
+    }
+
+    // Remove active class from all zones in both views
+    document.querySelectorAll('.body-zone').forEach(el => el.classList.remove('active'));
+
+    // Add active class to corresponding element in SVG
+    const targetEl = document.getElementById('zone-' + zoneKey);
+    if (targetEl) targetEl.classList.add('active');
+
+    // Position radar target
+    positionRadarTarget(zoneKey);
+
+    // Update Header and labels
+    document.getElementById('painZoneTitle').textContent = zone.name;
+    const vas = parseInt(document.getElementById('vasSlider').value);
+    document.getElementById('painZoneScore').textContent = `${vas}/10 • ${getVasLabel(vas)}`;
+    document.getElementById('registeredTagText').textContent = `${zone.name}: ${vas}/10`;
+    document.getElementById('registeredTagWrap').style.display = 'inline-flex';
+    document.getElementById('locatorActiveBadge').textContent = '1 بؤرة نشطة';
+
+    // Auto-set nature if default
+    if (zone.defaultNature) {
+      const natSelect = document.getElementById('painNatureSelect');
+      for (let opt of natSelect.options) {
+        if (opt.value === zone.defaultNature) {
+          natSelect.value = opt.value;
+          break;
+        }
+      }
+    }
+
+    // Auto-select specialty in registration form!
+    autoSelectSpecialty(zone.specialty);
+
+    // Update complaint preview
+    updatePainReportText();
+  }
+
+  function positionRadarTarget(zoneKey) {
+    const zone = BODY_ZONES[zoneKey];
+    if (!zone) return;
+    const isFront = zone.view === 'front';
+    const target = document.getElementById(isFront ? 'radarTargetFront' : 'radarTargetBack');
+    const otherTarget = document.getElementById(isFront ? 'radarTargetBack' : 'radarTargetFront');
+    if (otherTarget) otherTarget.style.display = 'none';
+
+    if (target) {
+      target.setAttribute('transform', `translate(${zone.cx}, ${zone.cy})`);
+      target.style.display = 'block';
+    }
+  }
+
+  function hideRadarTarget() {
+    const f = document.getElementById('radarTargetFront');
+    const b = document.getElementById('radarTargetBack');
+    if (f) f.style.display = 'none';
+    if (b) b.style.display = 'none';
+  }
+
+  function clearBodyZone() {
+    activeZoneKey = null;
+    document.querySelectorAll('.body-zone').forEach(el => el.classList.remove('active'));
+    hideRadarTarget();
+    document.getElementById('painZoneTitle').textContent = 'لم يتم تحديد بؤرة';
+    document.getElementById('painZoneScore').textContent = '0/10 • حدد موضع الألم';
+    document.getElementById('registeredTagWrap').style.display = 'none';
+    document.getElementById('locatorActiveBadge').textContent = '0 بؤرة نشطة';
+  }
+
+  function quickSelectZone(key) {
+    selectBodyZone(key);
+  }
+
+  function getVasLabel(score) {
+    if (score === 0) return 'لا يوجد ألم';
+    if (score <= 3) return 'ألم خفيف';
+    if (score <= 6) return 'ألم متوسط';
+    if (score <= 8) return 'ألم شديد';
+    return 'ألم حاد وطارئ';
+  }
+
+  function onVasChange(val) {
+    val = parseInt(val);
+    const label = getVasLabel(val);
+    document.getElementById('painVasVal').textContent = val;
+    document.getElementById('painVasText').textContent = label;
+
+    if (activeZoneKey && BODY_ZONES[activeZoneKey]) {
+      const zone = BODY_ZONES[activeZoneKey];
+      document.getElementById('painZoneScore').textContent = `${val}/10 • ${label}`;
+      document.getElementById('registeredTagText').textContent = `${zone.name}: ${val}/10`;
+    }
+
+    // Color code indicator
+    const color = val <= 3 ? '#1fe6a8' : (val <= 6 ? '#ffb84d' : '#ef4444');
+    document.getElementById('painVasVal').style.color = color;
+    document.getElementById('painVasText').style.color = color;
+
+    updatePainReportText();
+  }
+
+  function autoSelectSpecialty(specName) {
+    const select = document.getElementById('regSpecialty');
+    if (!select) return;
+    for (let opt of select.options) {
+      if (opt.value.includes(specName) || specName.includes(opt.value)) {
+        select.value = opt.value;
+        // Highlight briefly
+        select.style.borderColor = 'var(--accent)';
+        select.style.boxShadow = '0 0 12px rgba(31,230,168,0.4)';
+        setTimeout(() => {
+          select.style.borderColor = '';
+          select.style.boxShadow = '';
+        }, 1200);
+        break;
+      }
+    }
+  }
+
+  function generatePainClinicalNote() {
+    if (!activeZoneKey || !BODY_ZONES[activeZoneKey]) return '';
+    const zone = BODY_ZONES[activeZoneKey];
+    const score = document.getElementById('vasSlider').value;
+    const scoreLabel = getVasLabel(parseInt(score));
+    const duration = document.getElementById('painDurationSelect').value;
+    const nature = document.getElementById('painNatureSelect').value;
+
+    return `ألم في منطقة ${zone.name}، شدة الألم: ${score}/10 (${scoreLabel})، طبيعة الألم: ${nature}، المدة: ${duration}.`;
+  }
+
+  function updatePainReportText() {
+    const compEl = document.getElementById('regComplaint');
+    if (!compEl) return;
+    const current = compEl.value.trim();
+    if (!current || current.startsWith('ألم في منطقة')) {
+      compEl.value = generatePainClinicalNote();
+    }
+  }
+
+  function insertReportIntoComplaint() {
+    const compEl = document.getElementById('regComplaint');
+    const note = generatePainClinicalNote();
+    if (!note) {
+      alert('من فضلك اضغط على موضع الألم في المجسم أولاً لتسجيل التقرير');
+      return;
+    }
+
+    compEl.value = note;
+    compEl.focus();
+
+    // Visual feedback on button
+    const btn = document.getElementById('btnInsertReport');
+    const origHtml = btn.innerHTML;
+    btn.innerHTML = '<i class="ti ti-check" style="color:#1fe6a8"></i> تم إدراج التقرير في تفاصيل الشكوى بنجاح ✓';
+    btn.style.borderColor = '#1fe6a8';
+    btn.style.color = '#1fe6a8';
+    compEl.style.borderColor = '#1fe6a8';
+    compEl.style.boxShadow = '0 0 15px rgba(31,230,168,0.3)';
+
+    setTimeout(() => {
+      btn.innerHTML = origHtml;
+      btn.style.borderColor = '';
+      btn.style.color = '';
+      compEl.style.borderColor = '';
+      compEl.style.boxShadow = '';
+    }, 2000);
+  }
+
   // ==================== PATIENT REGISTRATION LOGIC ====================
   function submitPatientRegistration() {
     const name = document.getElementById('regName').value.trim();
@@ -2347,6 +3247,23 @@ function closeAllDrawers(){
     const branchId = document.getElementById('regBranch').value;
     const source = document.getElementById('regSource').value;
 
+    // Build structured painData from Body Locator if active
+    let painData = null;
+    if (activeZoneKey && BODY_ZONES[activeZoneKey]) {
+      const zone = BODY_ZONES[activeZoneKey];
+      const vasVal = parseInt(document.getElementById('vasSlider').value);
+      painData = {
+        zoneKey: activeZoneKey,
+        region: zone.name,
+        specialty: zone.specialty,
+        view: currentBodyView,
+        severity: vasVal,
+        severityLabel: getVasLabel(vasVal),
+        duration: document.getElementById('painDurationSelect').value,
+        nature: document.getElementById('painNatureSelect').value
+      };
+    }
+
     // Simulate brief processing delay for UX
     setTimeout(() => {
       // Save to CS Leads store (same localStorage used by cs-leads-dashboard.html)
@@ -2358,17 +3275,19 @@ function closeAllDrawers(){
         source: source,
         specialty: specialty,
         complaint: complaint,
-        campaign: 'تسجيل من الموقع الإلكتروني — صفحة المرضى الجدد',
-        urgency: detectUrgency(complaint)
+        painData: painData,
+        campaign: 'تسجيل سريري عبر مجسم توطين الألم بالموقع',
+        urgency: detectUrgency(complaint, painData)
       });
 
       // Update the lead's note and timeline to show it came from website registration
       const lead = window.csStore.getById(newLead.id);
       if (lead) {
-        lead.notes[0].text = 'تسجيل مريض جديد عبر نموذج الموقع الإلكتروني (صفحة المرضى الجدد)';
-        lead.notes[0].author = 'نموذج التسجيل';
-        lead.timeline[0].title = '🌐 تسجيل مريض جديد من الموقع';
-        lead.timeline[0].desc = 'سجّل المريض بياناته وشكواه بالتفصيل عبر صفحة طبابا الرئيسية';
+        const painSummary = painData ? ` [بؤرة الألم: ${painData.region} • ${painData.severity}/10]` : '';
+        lead.notes[0].text = `تسجيل مريض جديد عبر مجسم توطين الألم السريري${painSummary}`;
+        lead.notes[0].author = 'مجسم الألم السريري';
+        lead.timeline[0].title = '🩺 تسجيل سريري عبر مجسم الألم';
+        lead.timeline[0].desc = `تم توثيق الألم (${painData ? painData.region + ' - ' + painData.severity + '/10' : 'عام'}) وتحديد تخصص ${specialty}`;
         window.csStore.save();
       }
 
@@ -2381,7 +3300,9 @@ function closeAllDrawers(){
     }, 1200);
   }
 
-  function detectUrgency(complaint) {
+  function detectUrgency(complaint, painData) {
+    if (painData && painData.severity >= 9) return 'critical';
+    if (painData && painData.severity >= 7) return 'high';
     const criticalKeywords = ['ألم صدر', 'ضيق تنفس', 'نزيف', 'إغماء', 'فقدان وعي', 'ألم شديد جداً', 'طوارئ'];
     const highKeywords = ['ألم شديد', 'حرارة عالية', 'قيء مستمر', 'ألم حاد', 'مستمر من', 'لا أستطيع'];
     const text = complaint.toLowerCase();
@@ -2405,7 +3326,7 @@ function closeAllDrawers(){
     document.getElementById('regName').value = '';
     document.getElementById('regPhone').value = '';
     document.getElementById('regCity').value = '';
-    document.getElementById('regComplaint').value = '';
+    selectBodyZone('abdomen');
     document.getElementById('regSuccessOverlay').classList.remove('show');
   }
 </script>
