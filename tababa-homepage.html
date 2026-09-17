@@ -9,6 +9,171 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
 <link rel="stylesheet" href="responsive.css">
 <style>
+  /* =============== PATIENT REGISTRATION SECTION =============== */
+  .reg-section {
+    margin-top: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .reg-section::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(31,230,168,0.08), transparent 70%);
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .reg-wrapper {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(160deg, var(--bg-card), rgba(17,26,44,0.95));
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(31,230,168,0.1);
+  }
+  .reg-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .reg-header .reg-icon {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent), #0c7a58);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 24px; color: #fff;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 20px rgba(31,230,168,0.3);
+  }
+  .reg-header h2 {
+    font-size: 22px; font-weight: 900;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, var(--accent), #6ee7c9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .reg-header p {
+    color: var(--text-secondary); font-size: 13px;
+  }
+  .reg-badge-row {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .reg-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 12px; border-radius: 999px;
+    background: var(--accent-soft); border: 1px solid rgba(31,230,168,0.2);
+    font-size: 11px; font-weight: 600; color: var(--accent);
+  }
+  .reg-form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .reg-form-group {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .reg-form-group.full {
+    grid-column: 1 / -1;
+  }
+  .reg-form-label {
+    font-size: 12px; font-weight: 700; color: var(--text-secondary);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .reg-form-label .req {
+    color: var(--danger); font-size: 14px; line-height: 1;
+  }
+  .reg-input {
+    background: var(--bg-panel); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 11px 14px;
+    color: var(--text-primary); font-family: inherit; font-size: 14px;
+    outline: none; transition: all 0.25s;
+  }
+  .reg-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(31,230,168,0.12);
+  }
+  .reg-input::placeholder {
+    color: var(--text-muted); font-size: 13px;
+  }
+  textarea.reg-input {
+    resize: vertical; min-height: 100px; line-height: 1.6;
+  }
+  .reg-complaint-hint {
+    font-size: 11px; color: var(--text-muted);
+    padding: 6px 10px; background: rgba(31,230,168,0.06);
+    border-radius: 8px; border-right: 3px solid var(--accent);
+    margin-top: 4px; line-height: 1.7;
+  }
+  .reg-submit-btn {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 24px; border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--accent), #12b587);
+    color: #03261b; font-weight: 800; font-size: 15px;
+    border: none; cursor: pointer;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .reg-submit-btn::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  .reg-submit-btn:hover::after { left: 100%; }
+  .reg-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(31,230,168,0.35);
+  }
+  .reg-submit-btn:active { transform: translateY(0); }
+  .reg-submit-btn:disabled {
+    opacity: 0.6; cursor: not-allowed;
+    transform: none !important; box-shadow: none !important;
+  }
+  .reg-privacy {
+    grid-column: 1 / -1;
+    text-align: center; font-size: 11px; color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+
+  /* Success overlay */
+  .reg-success-overlay {
+    display: none;
+    position: absolute; inset: 0; z-index: 5;
+    background: rgba(7,11,20,0.92);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; text-align: center; padding: 32px;
+    animation: regFadeIn 0.4s ease;
+  }
+  .reg-success-overlay.show { display: flex; }
+  .reg-success-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #0c7a58);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; color: #fff;
+    box-shadow: 0 0 40px rgba(31,230,168,0.4);
+    animation: regPulse 1.5s infinite;
+  }
+  .reg-success-title { font-size: 20px; font-weight: 900; color: var(--accent); }
+  .reg-success-msg { font-size: 14px; color: var(--text-secondary); max-width: 400px; line-height: 1.7; }
+  .reg-success-code {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; border-radius: 999px;
+    background: var(--accent-soft); border: 1px solid rgba(31,230,168,0.3);
+    font-size: 15px; font-weight: 800; color: var(--accent);
+    letter-spacing: 1px;
+  }
+  @keyframes regFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  @keyframes regPulse { 0%,100% { box-shadow: 0 0 20px rgba(31,230,168,0.3); } 50% { box-shadow: 0 0 50px rgba(31,230,168,0.5); } }
+
+  @media (max-width: 768px) {
+    .reg-form-grid { grid-template-columns: 1fr; }
+    .reg-badge-row { gap: 6px; }
+  }
+
   :root{
     --bg-page:#070b14;
     --bg-panel:#0c1220;
@@ -1355,6 +1520,110 @@ html, body {
       </div>
     </div>
 
+    <!-- ==================== PATIENT REGISTRATION SECTION ==================== -->
+    <div class="reg-section" id="patientRegSection">
+      <div class="reg-wrapper">
+        <!-- Success Overlay -->
+        <div class="reg-success-overlay" id="regSuccessOverlay">
+          <div class="reg-success-icon"><i class="ti ti-circle-check"></i></div>
+          <div class="reg-success-title">تم تسجيل حالتك بنجاح! 🎉</div>
+          <div class="reg-success-msg">
+            فريق خدمة العملاء لدينا سيتواصل معك في أقرب وقت لتحديد موعدك مع أفضل طبيب مناسب لحالتك.
+          </div>
+          <div class="reg-success-code" id="regLeadCode">LD-000</div>
+          <div class="reg-success-msg" style="font-size:12px;margin-top:4px;">
+            <i class="ti ti-phone" style="color:var(--accent)"></i>
+            احتفظ بهذا الرقم — سيتصل بك فريقنا خلال دقائق
+          </div>
+          <button class="pill solid" onclick="resetRegForm()" style="margin-top:10px">
+            <i class="ti ti-plus"></i> تسجيل حالة أخرى
+          </button>
+        </div>
+
+        <!-- Header -->
+        <div class="reg-header">
+          <div class="reg-icon"><i class="ti ti-user-plus"></i></div>
+          <h2>سجّل حالتك الآن واحصل على موعد فوري</h2>
+          <p>اكتب شكواك بالتفصيل وفريقنا الطبي هيتواصل معاك فوراً لتحديد أنسب طبيب وموعد</p>
+        </div>
+
+        <div class="reg-badge-row">
+          <span class="reg-badge"><i class="ti ti-clock"></i> رد خلال 15 دقيقة</span>
+          <span class="reg-badge"><i class="ti ti-lock"></i> بياناتك آمنة 100%</span>
+          <span class="reg-badge"><i class="ti ti-discount"></i> أول كشف بخصم 20%</span>
+        </div>
+
+        <!-- Form -->
+        <div class="reg-form-grid" id="regFormGrid">
+          <div class="reg-form-group">
+            <label class="reg-form-label"><i class="ti ti-user"></i> الاسم الكامل <span class="req">*</span></label>
+            <input class="reg-input" type="text" id="regName" placeholder="مثال: أحمد محمد عبد الرحمن" required>
+          </div>
+          <div class="reg-form-group">
+            <label class="reg-form-label"><i class="ti ti-phone"></i> رقم الهاتف <span class="req">*</span></label>
+            <input class="reg-input" type="tel" id="regPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right" required>
+          </div>
+          <div class="reg-form-group">
+            <label class="reg-form-label"><i class="ti ti-map-pin"></i> المدينة</label>
+            <input class="reg-input" type="text" id="regCity" placeholder="مثال: المنصورة، القاهرة، الجيزة">
+          </div>
+          <div class="reg-form-group">
+            <label class="reg-form-label"><i class="ti ti-briefcase-medical"></i> التخصص المطلوب</label>
+            <select class="reg-input" id="regSpecialty">
+              <option value="باطنة عامة وجهاز هضمي">باطنة عامة وجهاز هضمي</option>
+              <option value="أمراض القلب والأوعية الدموية">أمراض القلب والأوعية الدموية</option>
+              <option value="جراحة العظام والمفاصل والعمود الفقري">جراحة العظام والمفاصل والعمود الفقري</option>
+              <option value="طب الأطفال وحديثي الولادة">طب الأطفال وحديثي الولادة</option>
+              <option value="أسنان">أسنان</option>
+              <option value="جلدية وتجميل">جلدية وتجميل</option>
+              <option value="نساء وتوليد">نساء وتوليد</option>
+              <option value="عيون">عيون</option>
+              <option value="مخ وأعصاب">مخ وأعصاب</option>
+              <option value="أنف وأذن وحنجرة">أنف وأذن وحنجرة</option>
+              <option value="مسالك بولية">مسالك بولية</option>
+              <option value="غير متأكد">مش متأكد — ساعدني أختار</option>
+            </select>
+          </div>
+          <div class="reg-form-group full">
+            <label class="reg-form-label"><i class="ti ti-report-medical"></i> اوصف شكواك بالتفصيل <span class="req">*</span></label>
+            <textarea class="reg-input" id="regComplaint" rows="5" placeholder="مثال: بحس بألم شديد في المعدة من 3 أيام، الألم بيزيد بعد الأكل وبيصاحبه حرقان في الصدر. جربت مضاد حموضة بس مفيش تحسن..."></textarea>
+            <div class="reg-complaint-hint">
+              <strong>💡 نصيحة:</strong> كل ما كتبت تفاصيل أكتر، كل ما قدرنا نوصلك بالطبيب الأنسب لحالتك بشكل أسرع.
+              يمكنك ذكر: <strong>الأعراض</strong>، <strong>مدة المشكلة</strong>، <strong>أي أدوية جربتها</strong>، <strong>إذا كان في تحاليل أو أشعة سابقة</strong>.
+            </div>
+          </div>
+          <div class="reg-form-group">
+            <label class="reg-form-label"><i class="ti ti-building-hospital"></i> الفرع المفضل</label>
+            <select class="reg-input" id="regBranch">
+              <option value="clinic_mansoura">مركز طبابا — المنصورة</option>
+              <option value="clinic_cairo">عيادة النور — القاهرة</option>
+              <option value="clinic_giza">فيوتشر كير — الجيزة</option>
+            </select>
+          </div>
+          <div class="reg-form-group">
+            <label class="reg-form-label"><i class="ti ti-ad-2"></i> عرفت عننا منين؟</label>
+            <select class="reg-input" id="regSource">
+              <option value="website_lead">الموقع الإلكتروني</option>
+              <option value="facebook_ads">إعلان فيسبوك</option>
+              <option value="instagram_ads">إعلان انستجرام</option>
+              <option value="google_ads">بحث جوجل</option>
+              <option value="whatsapp">واتساب</option>
+              <option value="referral">ترشيح من صديق أو مريض</option>
+              <option value="phone_call">اتصال هاتفي</option>
+            </select>
+          </div>
+          <button class="reg-submit-btn" id="regSubmitBtn" onclick="submitPatientRegistration()">
+            <i class="ti ti-send"></i>
+            سجّل حالتك الآن — فريقنا هيتواصل معاك فوراً
+          </button>
+          <div class="reg-privacy">
+            <i class="ti ti-shield-check" style="color:var(--accent)"></i>
+            بياناتك محمية ومشفرة بالكامل ولن تُشارك مع أي طرف ثالث
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="bottom-row">
       <div class="promo">
         <div class="promo-orb"></div>
@@ -2047,6 +2316,114 @@ function closeAllDrawers(){
       }
     });
   });
+
+  // ==================== PATIENT REGISTRATION LOGIC ====================
+  function submitPatientRegistration() {
+    const name = document.getElementById('regName').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const complaint = document.getElementById('regComplaint').value.trim();
+
+    // Validation
+    if (!name) {
+      shakeInput('regName');
+      return alert('من فضلك اكتب اسمك الكامل');
+    }
+    if (!phone || phone.length < 10) {
+      shakeInput('regPhone');
+      return alert('من فضلك اكتب رقم هاتف صحيح');
+    }
+    if (!complaint || complaint.length < 15) {
+      shakeInput('regComplaint');
+      return alert('من فضلك اوصف شكواك بالتفصيل (على الأقل 15 حرف) عشان نقدر نساعدك أحسن');
+    }
+
+    const btn = document.getElementById('regSubmitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="ti ti-loader" style="animation:spin 1s linear infinite"></i> جاري التسجيل...';
+
+    // Collect all data
+    const city = document.getElementById('regCity').value.trim();
+    const specialty = document.getElementById('regSpecialty').value;
+    const branchId = document.getElementById('regBranch').value;
+    const source = document.getElementById('regSource').value;
+
+    // Simulate brief processing delay for UX
+    setTimeout(() => {
+      // Save to CS Leads store (same localStorage used by cs-leads-dashboard.html)
+      const newLead = window.csStore.addLead({
+        name: name,
+        phone: phone,
+        city: city || 'غير محدد',
+        branchId: branchId,
+        source: source,
+        specialty: specialty,
+        complaint: complaint,
+        campaign: 'تسجيل من الموقع الإلكتروني — صفحة المرضى الجدد',
+        urgency: detectUrgency(complaint)
+      });
+
+      // Update the lead's note and timeline to show it came from website registration
+      const lead = window.csStore.getById(newLead.id);
+      if (lead) {
+        lead.notes[0].text = 'تسجيل مريض جديد عبر نموذج الموقع الإلكتروني (صفحة المرضى الجدد)';
+        lead.notes[0].author = 'نموذج التسجيل';
+        lead.timeline[0].title = '🌐 تسجيل مريض جديد من الموقع';
+        lead.timeline[0].desc = 'سجّل المريض بياناته وشكواه بالتفصيل عبر صفحة طبابا الرئيسية';
+        window.csStore.save();
+      }
+
+      // Show success
+      document.getElementById('regLeadCode').textContent = newLead.leadNumber;
+      document.getElementById('regSuccessOverlay').classList.add('show');
+
+      btn.disabled = false;
+      btn.innerHTML = '<i class="ti ti-send"></i> سجّل حالتك الآن — فريقنا هيتواصل معاك فوراً';
+    }, 1200);
+  }
+
+  function detectUrgency(complaint) {
+    const criticalKeywords = ['ألم صدر', 'ضيق تنفس', 'نزيف', 'إغماء', 'فقدان وعي', 'ألم شديد جداً', 'طوارئ'];
+    const highKeywords = ['ألم شديد', 'حرارة عالية', 'قيء مستمر', 'ألم حاد', 'مستمر من', 'لا أستطيع'];
+    const text = complaint.toLowerCase();
+    if (criticalKeywords.some(k => text.includes(k))) return 'critical';
+    if (highKeywords.some(k => text.includes(k))) return 'high';
+    return 'normal';
+  }
+
+  function shakeInput(id) {
+    const el = document.getElementById(id);
+    el.style.borderColor = 'var(--danger)';
+    el.style.animation = 'shake 0.4s ease';
+    el.focus();
+    setTimeout(() => {
+      el.style.borderColor = '';
+      el.style.animation = '';
+    }, 1500);
+  }
+
+  function resetRegForm() {
+    document.getElementById('regName').value = '';
+    document.getElementById('regPhone').value = '';
+    document.getElementById('regCity').value = '';
+    document.getElementById('regComplaint').value = '';
+    document.getElementById('regSuccessOverlay').classList.remove('show');
+  }
 </script>
+
+<style>
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+</style>
+
+<!-- Load CS Shared Data Engine for lead storage -->
+<script src="cs-shared.js"></script>
 </body>
 </html>
