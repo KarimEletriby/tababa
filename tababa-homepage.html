@@ -1240,53 +1240,55 @@
     .vitals-grid { grid-template-columns: repeat(2, 1fr); }
     .wallet-grid { grid-template-columns: 1fr; }
   }
-  /* ==================== PATIENT CRM COCKPIT & ACTION COMMAND HUB ==================== */
+  /* ==================== PATIENT CRM ACTION COMMAND HUB CARDS ==================== */
   .patient-crm-hub {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
-    margin-bottom: 18px;
+    gap: 14px;
+    margin-bottom: 26px;
   }
   @media (max-width: 1280px) {
-    .patient-crm-hub { grid-template-columns: repeat(3, 1fr); }
+    .patient-crm-hub { grid-template-columns: repeat(3, 1fr); gap: 12px; }
   }
   @media (max-width: 680px) {
-    .patient-crm-hub { grid-template-columns: repeat(2, 1fr); }
+    .patient-crm-hub { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   }
 
   .patient-action-tile {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px 12px;
+    background: linear-gradient(160deg, #111a2c 0%, #0d1525 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius);
+    padding: 16px 14px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 10px;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     text-align: right;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
   }
   .patient-action-tile::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
-    opacity: 0.85;
+    opacity: 0.95;
     transition: all 0.25s;
   }
   .patient-action-tile:hover {
     transform: translateY(-3px);
-    border-color: var(--border-strong);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
   .patient-action-tile.active {
     border-color: var(--accent);
-    background: linear-gradient(145deg, rgba(31,230,168,0.1), var(--bg-card));
-    box-shadow: 0 4px 20px rgba(31,230,168,0.22);
+    background: linear-gradient(150deg, rgba(31, 230, 168, 0.14) 0%, #111a2c 100%);
+    box-shadow: 0 6px 28px rgba(31, 230, 168, 0.28), 0 0 0 1px rgba(31, 230, 168, 0.3) inset;
+    transform: translateY(-2px);
   }
 
   /* Specific accents for action tiles */
@@ -1295,76 +1297,35 @@
   .patient-action-tile.tile-labs::before { background: #a855f7; }
   .patient-action-tile.tile-chat::before { background: #f2665c; }
   .patient-action-tile.tile-ins::before { background: #f2b84b; }
+  .patient-action-tile.tile-emergency::before { background: #ef4444; }
 
   .tile-icon-bubble {
-    width: 38px; height: 38px;
-    border-radius: 10px;
+    width: 42px; height: 42px;
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 19px;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s;
+  }
+  .patient-action-tile:hover .tile-icon-bubble {
+    transform: scale(1.08);
   }
   .tile-title {
-    font-size: 13.5px;
+    font-size: 14px;
     font-weight: 800;
     color: var(--text-primary);
-    line-height: 1.3;
+    line-height: 1.35;
   }
   .tile-badge {
-    font-size: 10.5px;
-    padding: 3px 8px;
+    font-size: 11px;
+    padding: 4px 9px;
     border-radius: 999px;
     font-weight: 700;
     white-space: nowrap;
     margin-top: auto;
-  }
-
-  /* CRM Main Nav Bar */
-  .patient-crm-navbar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    padding: 6px;
-    border-radius: 999px;
-    margin-bottom: 22px;
-    overflow-x: auto;
-  }
-  .patient-crm-navbar::-webkit-scrollbar { display: none; }
-  .crm-tab-link {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 9px 18px;
-    border-radius: 999px;
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-    font-family: inherit;
-  }
-  .crm-tab-link:hover {
-    color: var(--text-primary);
-    background: rgba(255,255,255,0.04);
-  }
-  .crm-tab-link.active {
-    background: linear-gradient(135deg, #10684f, #0d5440);
-    border-color: rgba(31,230,168,0.4);
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(31,230,168,0.25);
-  }
-  .crm-tab-link .crm-tab-badge {
-    font-size: 10px;
-    background: rgba(255,255,255,0.18);
-    padding: 2px 6px;
-    border-radius: 999px;
-  }
-  .crm-tab-link.active .crm-tab-badge {
-    background: var(--accent);
-    color: #03261b;
+    gap: 4px;
   }
 
   /* CRM Views Content */
@@ -2583,93 +2544,69 @@ html, body {
     <div class="patient-crm-hub" id="patientCrmHub">
       <!-- 1. مواعيدي واستشاراتي -->
       <div class="patient-action-tile tile-appt" onclick="switchCrmTab('appointments')">
-        <div class="tile-icon-bubble" style="background:rgba(31,230,168,0.15);color:#1fe6a8">
+        <div class="tile-icon-bubble" style="background:rgba(31,230,168,0.18);color:#1fe6a8;border:1px solid rgba(31,230,168,0.3)">
           <i class="ti ti-calendar-event"></i>
         </div>
         <div class="tile-title">مواعيدي واستشاراتي</div>
-        <span class="tile-badge" style="background:rgba(31,230,168,0.2);color:#1fe6a8">
+        <span class="tile-badge" style="background:rgba(31,230,168,0.18);color:#1fe6a8;border:1px solid rgba(31,230,168,0.3)">
           <span class="pulse-dot" style="display:inline-block;width:5px;height:5px;background:#1fe6a8;border-radius:50%;margin-left:3px;"></span> موعد اليوم 06:00 م
         </span>
       </div>
 
       <!-- 2. صيدليتي والروشتات -->
       <div class="patient-action-tile tile-rx" onclick="switchCrmTab('prescriptions')">
-        <div class="tile-icon-bubble" style="background:rgba(91,156,245,0.15);color:#5b9cf5">
+        <div class="tile-icon-bubble" style="background:rgba(91,156,245,0.18);color:#5b9cf5;border:1px solid rgba(91,156,245,0.3)">
           <i class="ti ti-pill"></i>
         </div>
         <div class="tile-title">صيدليتي والروشتات</div>
-        <span class="tile-badge" style="background:rgba(91,156,245,0.2);color:#5b9cf5">
+        <span class="tile-badge" style="background:rgba(91,156,245,0.18);color:#5b9cf5;border:1px solid rgba(91,156,245,0.3)">
           2 دواء • توصيل فوري 🛵
         </span>
       </div>
 
       <!-- 3. سجلاتي والتحاليل -->
       <div class="patient-action-tile tile-labs" onclick="switchCrmTab('labs')">
-        <div class="tile-icon-bubble" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <div class="tile-icon-bubble" style="background:rgba(168,85,247,0.18);color:#a855f7;border:1px solid rgba(168,85,247,0.3)">
           <i class="ti ti-file-analytics"></i>
         </div>
         <div class="tile-title">سجلاتي والتحاليل</div>
-        <span class="tile-badge" style="background:rgba(168,85,247,0.2);color:#a855f7">
+        <span class="tile-badge" style="background:rgba(168,85,247,0.18);color:#a855f7;border:1px solid rgba(168,85,247,0.3)">
           3 تقارير معتمدة ✓
         </span>
       </div>
 
       <!-- 4. محادثات الأطباء -->
       <div class="patient-action-tile tile-chat" onclick="switchCrmTab('chat')">
-        <div class="tile-icon-bubble" style="background:rgba(242,102,92,0.15);color:#f2665c">
+        <div class="tile-icon-bubble" style="background:rgba(242,102,92,0.18);color:#f2665c;border:1px solid rgba(242,102,92,0.3)">
           <i class="ti ti-messages"></i>
         </div>
         <div class="tile-title">محادثات الأطباء والـ AI</div>
-        <span class="tile-badge" style="background:rgba(242,102,92,0.2);color:#ff8e85">
+        <span class="tile-badge" style="background:rgba(242,102,92,0.18);color:#ff8e85;border:1px solid rgba(242,102,92,0.3)">
           متابعة مجانية (6 أيام)
         </span>
       </div>
 
       <!-- 5. التأمين والمحفظة -->
       <div class="patient-action-tile tile-ins" onclick="switchCrmTab('wallet')">
-        <div class="tile-icon-bubble" style="background:rgba(242,184,75,0.15);color:#f2b84b">
+        <div class="tile-icon-bubble" style="background:rgba(242,184,75,0.18);color:#f2b84b;border:1px solid rgba(242,184,75,0.3)">
           <i class="ti ti-wallet"></i>
         </div>
         <div class="tile-title">التأمين والمحفظة</div>
-        <span class="tile-badge" style="background:rgba(242,184,75,0.2);color:#f2b84b">
+        <span class="tile-badge" style="background:rgba(242,184,75,0.18);color:#f2b84b;border:1px solid rgba(242,184,75,0.3)">
           بوبا 80% • 450 نقطة
         </span>
       </div>
 
       <!-- 6. طلب طوارئ 24/7 -->
       <div class="patient-action-tile tile-emergency" onclick="openEmergencyModal()">
-        <div class="tile-icon-bubble" style="background:rgba(239,68,68,0.18);color:#ef4444">
+        <div class="tile-icon-bubble" style="background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid rgba(239,68,68,0.35)">
           <i class="ti ti-ambulance"></i>
         </div>
         <div class="tile-title" style="color:#ef4444">طلب طوارئ 24/7</div>
-        <span class="tile-badge" style="background:rgba(239,68,68,0.22);color:#ff8e85">
+        <span class="tile-badge" style="background:rgba(239,68,68,0.22);color:#ff8e85;border-color:rgba(239,68,68,0.35)">
           <span class="pulse-dot" style="display:inline-block;width:5px;height:5px;background:#ef4444;border-radius:50%;margin-left:3px;"></span> إسعاف وطبيب فوري
         </span>
       </div>
-    </div>
-
-    <!-- ==================== PATIENT CRM TABS WORKSPACE ==================== -->
-    <div class="patient-crm-navbar" id="patientCrmNavbar">
-      <button class="crm-tab-link" id="tabLink-appointments" onclick="switchCrmTab('appointments')">
-        <i class="ti ti-calendar"></i> مواعيدي واستشاراتي
-        <span class="crm-tab-badge">1 موعد اليوم</span>
-      </button>
-      <button class="crm-tab-link" id="tabLink-prescriptions" onclick="switchCrmTab('prescriptions')">
-        <i class="ti ti-prescription"></i> صيدليتي وروشتاتي
-        <span class="crm-tab-badge">2 دواء نشط</span>
-      </button>
-      <button class="crm-tab-link" id="tabLink-labs" onclick="switchCrmTab('labs')">
-        <i class="ti ti-file-analytics"></i> تحاليلي وفحوصاتي
-        <span class="crm-tab-badge">سليم ✓</span>
-      </button>
-      <button class="crm-tab-link" id="tabLink-chat" onclick="switchCrmTab('chat')">
-        <i class="ti ti-message-dots"></i> محادثاتي مع الأطباء
-        <span class="crm-tab-badge" style="background:#f2665c;color:#fff;">نشطة</span>
-      </button>
-      <button class="crm-tab-link" id="tabLink-wallet" onclick="switchCrmTab('wallet')">
-        <i class="ti ti-shield-check"></i> التأمين ورصيد المكافآت
-        <span class="crm-tab-badge">450 نقطة</span>
-      </button>
     </div>
 
     <!-- TAB 1: OVERVIEW COCKPIT (VIEW CONTAINER) -->
@@ -4125,14 +4062,7 @@ function switchCrmTab(tabKey) {
     tabKey = 'overview';
   }
 
-  // 1. Update tab links in navbar
-  document.querySelectorAll('.crm-tab-link').forEach(btn => btn.classList.remove('active'));
-  if (tabKey !== 'overview') {
-    const activeTabLink = document.getElementById('tabLink-' + tabKey);
-    if(activeTabLink) activeTabLink.classList.add('active');
-  }
-
-  // 2. Update action command hub tiles
+  // 1. Update action command hub cards
   const tileMapping = {
     appointments: 'tile-appt',
     prescriptions: 'tile-rx',
@@ -4146,13 +4076,13 @@ function switchCrmTab(tabKey) {
     if(activeTile) activeTile.classList.add('active');
   }
 
-  // 3. Switch view section
+  // 2. Switch view section
   document.querySelectorAll('.crm-view-section').forEach(view => view.classList.remove('active'));
   const targetView = document.getElementById('crm-view-' + tabKey);
   if(targetView) {
     targetView.classList.add('active');
     // Smooth scroll into view if scrolled below
-    const hub = document.getElementById('patientCrmNavbar');
+    const hub = document.getElementById('patientCrmHub');
     if(hub && window.scrollY > 200) {
       hub.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
