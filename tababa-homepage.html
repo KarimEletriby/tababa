@@ -3039,9 +3039,6 @@ html, body {
 
     <!-- ==================== PATIENT CRM TABS WORKSPACE ==================== -->
     <div class="patient-crm-navbar" id="patientCrmNavbar">
-      <button class="crm-tab-link active" id="tabLink-overview" onclick="switchCrmTab('overview')">
-        <i class="ti ti-dashboard"></i> نظرة عامة شاملة
-      </button>
       <button class="crm-tab-link" id="tabLink-appointments" onclick="switchCrmTab('appointments')">
         <i class="ti ti-calendar"></i> مواعيدي واستشاراتي
         <span class="crm-tab-badge">1 موعد اليوم</span>
@@ -4203,7 +4200,10 @@ html, body {
               <p class="crm-view-subtitle">إدارة الكشوفات الافتراضية، زيارات العيادات، وغرفة الانتظار بالفيديو</p>
             </div>
           </div>
-          <div style="display:flex;gap:8px;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="pill ghost sm" onclick="switchCrmTab('overview')">
+              <i class="ti ti-arrow-right"></i> العودة للرئيسية
+            </button>
             <button class="pill solid sm" onclick="switchCrmTab('overview'); setTimeout(()=>document.getElementById('patientRegSection')?.scrollIntoView({behavior:'smooth'}), 200)">
               <i class="ti ti-plus"></i> حجز كشف جديد الآن
             </button>
@@ -4289,9 +4289,14 @@ html, body {
               <p class="crm-view-subtitle">صرف وتوصيل فوري من الصيدليات المعتمدة مع التذكير الذكي بالجرعات</p>
             </div>
           </div>
-          <button class="pill solid sm" onclick="refillMedsAction()">
-            <i class="ti ti-truck-delivery"></i> صرف الروشتة للمنزل الآن
-          </button>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="pill ghost sm" onclick="switchCrmTab('overview')">
+              <i class="ti ti-arrow-right"></i> العودة للرئيسية
+            </button>
+            <button class="pill solid sm" onclick="refillMedsAction()">
+              <i class="ti ti-truck-delivery"></i> صرف الروشتة للمنزل الآن
+            </button>
+          </div>
         </div>
 
         <!-- ACTIVE PRESCRIPTION WITH TRACKING -->
@@ -4399,9 +4404,14 @@ html, body {
               <p class="crm-view-subtitle">ملفك الطبي الموحد، التحاليل المعملية، والأشعة المفسرة بالذكاء الاصطناعي</p>
             </div>
           </div>
-          <button class="pill solid sm" onclick="alert('قم بسحب أو اختيار ملف التقرير الطبي من جهازك ليقوم الذكاء الاصطناعي بتحليله.')">
-            <i class="ti ti-cloud-upload"></i> ارفع تقرير جديد
-          </button>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="pill ghost sm" onclick="switchCrmTab('overview')">
+              <i class="ti ti-arrow-right"></i> العودة للرئيسية
+            </button>
+            <button class="pill solid sm" onclick="alert('قم بسحب أو اختيار ملف التقرير الطبي من جهازك ليقوم الذكاء الاصطناعي بتحليله.')">
+              <i class="ti ti-cloud-upload"></i> ارفع تقرير جديد
+            </button>
+          </div>
         </div>
 
         <!-- Upload Drop Zone -->
@@ -4493,9 +4503,14 @@ html, body {
               <p class="crm-view-subtitle">استشارات مفتوحة مباشرة مع أطبائك المعالجين والمستشار الطبي السريري 24/7</p>
             </div>
           </div>
-          <span class="pill sm ghost" style="color:var(--accent);border-color:rgba(31,230,168,0.3)">
-            <span class="pulse-dot" style="display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-left:4px;"></span> استشارة نشطة حالياً
-          </span>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="pill ghost sm" onclick="switchCrmTab('overview')">
+              <i class="ti ti-arrow-right"></i> العودة للرئيسية
+            </button>
+            <span class="pill sm ghost" style="color:var(--accent);border-color:rgba(31,230,168,0.3)">
+              <span class="pulse-dot" style="display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-left:4px;"></span> استشارة نشطة حالياً
+            </span>
+          </div>
         </div>
 
         <div style="display:grid;grid-template-columns:300px 1fr;gap:18px;min-height:480px;">
@@ -4583,9 +4598,14 @@ html, body {
               <p class="crm-view-subtitle">بطاقة التأمين الرقمية المعتمدة، نقاط الرعاية، وسجل المدفوعات والفواتير</p>
             </div>
           </div>
-          <span class="pill sm ghost" style="color:var(--accent);border-color:rgba(31,230,168,0.3)">
-            <i class="ti ti-shield-check"></i> تغطية تأمينية نشطة
-          </span>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="pill ghost sm" onclick="switchCrmTab('overview')">
+              <i class="ti ti-arrow-right"></i> العودة للرئيسية
+            </button>
+            <span class="pill sm ghost" style="color:var(--accent);border-color:rgba(31,230,168,0.3)">
+              <i class="ti ti-shield-check"></i> تغطية تأمينية نشطة
+            </span>
+          </div>
         </div>
 
         <!-- DIGITAL INSURANCE PASS -->
@@ -4959,10 +4979,19 @@ html, body {
 
 // ==================== PATIENT CRM TABS & ACTION COMMAND HUB CONTROLLER ====================
 function switchCrmTab(tabKey) {
+  // If clicking the already active tab, toggle back to the default overview cockpit!
+  const currentActiveSection = document.querySelector('.crm-view-section.active');
+  const currentActiveKey = currentActiveSection ? currentActiveSection.id.replace('crm-view-', '') : 'overview';
+  if (tabKey !== 'overview' && currentActiveKey === tabKey) {
+    tabKey = 'overview';
+  }
+
   // 1. Update tab links in navbar
   document.querySelectorAll('.crm-tab-link').forEach(btn => btn.classList.remove('active'));
-  const activeTabLink = document.getElementById('tabLink-' + tabKey);
-  if(activeTabLink) activeTabLink.classList.add('active');
+  if (tabKey !== 'overview') {
+    const activeTabLink = document.getElementById('tabLink-' + tabKey);
+    if(activeTabLink) activeTabLink.classList.add('active');
+  }
 
   // 2. Update action command hub tiles
   const tileMapping = {
@@ -4973,7 +5002,7 @@ function switchCrmTab(tabKey) {
     wallet: 'tile-ins'
   };
   document.querySelectorAll('.patient-action-tile').forEach(tile => tile.classList.remove('active'));
-  if(tileMapping[tabKey]) {
+  if(tabKey !== 'overview' && tileMapping[tabKey]) {
     const activeTile = document.querySelector('.patient-action-tile.' + tileMapping[tabKey]);
     if(activeTile) activeTile.classList.add('active');
   }
