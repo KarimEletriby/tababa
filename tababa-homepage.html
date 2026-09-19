@@ -3329,6 +3329,27 @@ function closeAllDrawers(){
     selectBodyZone('abdomen');
     document.getElementById('regSuccessOverlay').classList.remove('show');
   }
+
+  // Smooth scroll and focus on registration section if navigated directly from landing page
+  window.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash === '#patientRegSection' || window.location.search.includes('book=now')) {
+      setTimeout(() => {
+        const regSec = document.getElementById('patientRegSection');
+        if (regSec) {
+          regSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const wrap = regSec.querySelector('.reg-wrapper');
+          if (wrap) {
+            wrap.style.borderColor = 'var(--accent)';
+            wrap.style.boxShadow = '0 0 40px rgba(31, 230, 168, 0.35)';
+            setTimeout(() => {
+              wrap.style.borderColor = '';
+              wrap.style.boxShadow = '';
+            }, 2500);
+          }
+        }
+      }, 350);
+    }
+  });
 </script>
 
 <style>
