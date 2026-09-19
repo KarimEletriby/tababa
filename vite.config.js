@@ -23,7 +23,8 @@ export default defineConfig({
         financial: resolve(__dirname, 'doctor-financial.html'),
         patients: resolve(__dirname, 'doctor-patients.html'),
         profile: resolve(__dirname, 'doctor-profile.html'),
-        csLeads: resolve(__dirname, 'cs-leads-dashboard.html')
+        csLeads: resolve(__dirname, 'cs-leads-dashboard.html'),
+        articles: resolve(__dirname, 'tababa-articles.html')
       }
     }
   }

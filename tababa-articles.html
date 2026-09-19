@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المكتبة والمقالات الطبية الموثوقة - منصة طبابة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="responsive.css">
+<style>
+  :root {
+    --bg-page: #070b14;
+    --bg-panel: #0c1220;
+    --bg-card: #111a2c;
+    --bg-card-2: #16213590;
+    --border: rgba(110,231,201,0.12);
+    --border-strong: rgba(110,231,201,0.32);
+    --accent: #1fe6a8;
+    --accent-dim: #12b587;
+    --accent-soft: rgba(31,230,168,0.12);
+    --text-primary: #f2f5f8;
+    --text-secondary: #8d97ab;
+    --text-muted: #57617a;
+    --danger: #f2665c;
+    --warn: #f2b84b;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(circle at 80% 0%, #0d1a24 0%, var(--bg-page) 45%);
+    color: var(--text-primary);
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 18px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .tiny { color: var(--text-muted); font-size: 12px; }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-primary);
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+  .pill.solid {
+    background: linear-gradient(135deg, var(--accent), #12b587);
+    color: #03261b;
+    border-color: var(--accent);
+    font-weight: 800;
+    box-shadow: 0 4px 16px rgba(31,230,168,0.25);
+  }
+  .pill.solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(31,230,168,0.4);
+  }
+  .pill.ghost { border-color: var(--border); color: var(--text-secondary); }
+  .pill.ghost:hover { border-color: var(--accent); color: var(--text-primary); background: rgba(255,255,255,0.03); }
+  .pill.sm { padding: 5px 12px; font-size: 12px; }
+  .pill.xs { padding: 3px 8px; font-size: 10.5px; }
+
+  /* Navigation */
+  .brand { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px 18px; }
+  .brand-name { font-size: 20px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+  .brand-badge {
+    width: 34px; height: 34px; border-radius: 10px; background: var(--accent-soft); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  nav.mainnav { display: flex; flex-direction: column; gap: 4px; margin-bottom: 18px; }
+  .navitem {
+    display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: var(--radius-sm);
+    font-size: 14px; color: var(--text-secondary); border: 1px solid transparent; transition: all 0.2s;
+  }
+  .navitem i { font-size: 18px; }
+  .navitem.active { background: var(--accent-soft); color: var(--accent); font-weight: 700; border-color: var(--border-strong); }
+  .navitem:hover:not(.active) { background: var(--bg-card-2); color: var(--text-primary); }
+
+  /* Mini Chat Aside */
+  .chatcard .chathead { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,#1fe6a8,#0c7a58);
+    display: flex; align-items: center; justify-content: center; font-weight: 700; color: #03261b; flex-shrink: 0;
+  }
+  .chathead .title { font-size: 14px; font-weight: 700; }
+  .status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--accent); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .bubble {
+    background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 12px 14px; font-size: 12.5px; line-height: 1.5; margin-bottom: 8px;
+  }
+
+  /* Page Header */
+  .articles-hero {
+    background: linear-gradient(135deg, rgba(31,230,168,0.12) 0%, rgba(17,26,44,0.95) 50%, rgba(12,18,32,0.98) 100%);
+    border: 1px solid var(--accent-dim);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+  .articles-hero::before {
+    content: ''; position: absolute; top: -60px; left: -60px; width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(31,230,168,0.25), transparent 70%); border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px;
+    background: var(--accent-soft); border: 1px solid rgba(31,230,168,0.3); color: var(--accent);
+    font-size: 12px; font-weight: 700; margin-bottom: 12px;
+  }
+  .articles-hero h1 { font-size: 26px; font-weight: 900; margin-bottom: 8px; color: #fff; }
+  .articles-hero p { font-size: 14px; color: var(--text-secondary); max-width: 720px; line-height: 1.6; }
+
+  /* Search & Filter Toolbar */
+  .toolbar-wrap {
+    display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;
+  }
+  .search-box {
+    display: flex; align-items: center; gap: 10px; background: var(--bg-card); border: 1px solid var(--border-strong);
+    border-radius: 999px; padding: 6px 8px 6px 18px; transition: all 0.25s ease;
+  }
+  .search-box:focus-within {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(31,230,168,0.15);
+  }
+  .search-box i { font-size: 20px; color: var(--accent); }
+  .search-box input {
+    flex: 1; background: transparent; border: none; outline: none; color: var(--text-primary);
+    font-family: inherit; font-size: 14px;
+  }
+  .search-box input::placeholder { color: var(--text-muted); }
+
+  .category-pills-row {
+    display: flex; align-items: center; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+  }
+  .category-pills-row::-webkit-scrollbar { display: none; }
+  .cat-pill {
+    padding: 7px 16px; border-radius: 999px; background: var(--bg-panel); border: 1px solid var(--border);
+    font-size: 12.5px; font-weight: 700; color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+    white-space: nowrap; font-family: inherit;
+  }
+  .cat-pill:hover { border-color: var(--border-strong); color: var(--text-primary); }
+  .cat-pill.active {
+    background: linear-gradient(135deg, #10684f, #0d5440); border-color: rgba(31,230,168,0.4);
+    color: #fff; box-shadow: 0 2px 12px rgba(31,230,168,0.25);
+  }
+
+  /* Articles Grid */
+  .articles-grid-main {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 30px;
+  }
+  @media (max-width: 1024px) {
+    .articles-grid-main { grid-template-columns: 1fr; }
+  }
+
+  .art-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px;
+    transition: all 0.25s ease; position: relative; overflow: hidden;
+  }
+  .art-card:hover {
+    border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  }
+  .art-top { display: flex; justify-content: space-between; align-items: center; }
+  .art-badge {
+    font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+    background: rgba(31,230,168,0.12); color: var(--accent); border: 1px solid rgba(31,230,168,0.25);
+  }
+  .art-read-time { font-size: 11.5px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+  .art-title { font-size: 17px; font-weight: 800; color: var(--text-primary); line-height: 1.4; margin: 4px 0; }
+  .art-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  .art-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .art-tag-item {
+    font-size: 11px; color: var(--text-muted); background: var(--bg-panel); padding: 2px 8px;
+    border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .art-doc-bar {
+    display: flex; justify-content: space-between; align-items: center; padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06); margin-top: 6px;
+  }
+  .art-author { display: flex; align-items: center; gap: 10px; }
+  .art-author-av {
+    width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), #0c7a58);
+    color: #03261b; font-weight: 900; font-size: 15px; display: flex; align-items: center; justify-content: center;
+  }
+  .art-author-info .name { font-size: 13px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 4px; }
+  .art-author-info .spec { font-size: 11px; color: var(--text-muted); }
+
+  .art-read-btn {
+    display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: 12.5px; font-weight: 700;
+    padding: 6px 12px; border-radius: 8px; background: var(--accent-soft); border: 1px solid rgba(31,230,168,0.25);
+    transition: all 0.2s;
+  }
+  .art-read-btn:hover { background: var(--accent); color: #03261b; }
+
+  /* Full Article Modal */
+  .modal-reader-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(3, 6, 12, 0.85);
+    backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-reader-overlay.show { display: flex; animation: readerIn 0.25s ease; }
+  @keyframes readerIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+  .modal-reader-card {
+    background: var(--bg-card); border: 1px solid var(--border-strong); border-radius: 20px;
+    max-width: 760px; width: 100%; max-height: 90vh; display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7); overflow: hidden; position: relative;
+  }
+  .modal-reader-header {
+    padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex;
+    justify-content: space-between; align-items: flex-start; gap: 14px; background: var(--bg-panel);
+  }
+  .modal-reader-body {
+    padding: 24px; overflow-y: auto; line-height: 1.8; font-size: 14px; color: var(--text-secondary);
+  }
+  .modal-reader-body h3 { font-size: 17px; font-weight: 800; color: var(--text-primary); margin: 18px 0 8px; }
+  .modal-reader-body ul { padding-right: 20px; margin-bottom: 14px; }
+  .modal-reader-body li { margin-bottom: 6px; }
+  .modal-reader-body .callout-tip {
+    background: rgba(31,230,168,0.08); border-right: 4px solid var(--accent); padding: 12px 16px;
+    border-radius: 8px; color: var(--text-primary); font-size: 13.5px; margin: 16px 0;
+  }
+  .modal-reader-footer {
+    padding: 16px 24px; border-top: 1px solid var(--border); background: var(--bg-panel);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+
+  @media (max-width: 1200px) {
+    .shell { grid-template-columns: 1fr; }
+    aside { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <div class="m-head-left">
+    <a href="tababa-homepage.html" class="m-brand">
+      <span class="m-brand-name">طبابا</span>
+      <span class="m-brand-badge"><i class="ti ti-book"></i></span>
+    </a>
+  </div>
+  <div class="m-head-right">
+    <a href="tababa-homepage.html" class="pill xs ghost"><i class="ti ti-home"></i> الرئيسية</a>
+    <a href="tababa-doctors.html" class="pill xs solid"><i class="ti ti-stethoscope"></i> الأطباء</a>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- RIGHT COLUMN (ASIDE NAV) -->
+  <aside>
+    <div class="brand">
+      <div class="brand-name">طبابا <div class="brand-badge"><i class="ti ti-book"></i></div></div>
+    </div>
+
+    <nav class="mainnav">
+      <a class="navitem" href="tababa-homepage.html"><i class="ti ti-home"></i>الصفحة الرئيسية</a>
+      <a class="navitem" href="tababa-doctors.html"><i class="ti ti-stethoscope"></i>الأطباء والعيادات</a>
+      <a class="navitem" href="tababa-specialties.html"><i class="ti ti-briefcase-medical"></i>التخصصات الطبية</a>
+      <a class="navitem active" href="tababa-articles.html"><i class="ti ti-file-text"></i>المقالات الطبية الموثوقة</a>
+      <a class="navitem" href="tababa-homepage.html#patientRegSection"><i class="ti ti-calendar"></i>حجز كشف مباشر</a>
+      <a class="navitem" href="cs-leads-dashboard.html"><i class="ti ti-headset"></i>خدمة العملاء (CRM)</a>
+    </nav>
+
+    <div class="card chatcard">
+      <div class="chathead">
+        <div class="avatar">د</div>
+        <div style="flex:1">
+          <div class="title">المستشار الطبي الذكي</div>
+          <div class="tiny">متاح للاستفسارات الطبية</div>
+        </div>
+      </div>
+      <div class="status" style="margin-bottom:10px"><span class="dot"></span>متصل 24/7</div>
+      <div class="bubble">
+        قرأت مقالاً وتريد استشارة حول حالتك؟ اسألني وسأوضح لك الخطوات الطبية فوراً!
+      </div>
+      <a href="tababa-homepage.html" class="pill solid" style="width:100%;justify-content:center;">
+        <i class="ti ti-message-chatbot"></i> فتح الشات الطبي الشامل
+      </a>
+    </div>
+  </aside>
+
+  <!-- CENTER MAIN COLUMN -->
+  <main>
+    <!-- TOPBAR -->
+    <div class="topbar" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted)">
+        <a href="tababa-homepage.html" style="color:var(--accent);"><i class="ti ti-home"></i> الرئيسية</a>
+        <span>/</span>
+        <span style="color:var(--text-primary);font-weight:700;">المكتبة والمقالات الطبية الموثوقة</span>
+      </div>
+
+      <div style="display:flex;gap:8px;">
+        <a href="tababa-homepage.html#patientRegSection" class="pill solid sm"><i class="ti ti-calendar-plus"></i> حجز كشف طبي</a>
+        <a href="tababa-doctors.html" class="pill ghost sm"><i class="ti ti-search"></i> استعراض الأطباء</a>
+      </div>
+    </div>
+
+    <!-- HERO BANNER -->
+    <div class="articles-hero">
+      <div class="hero-badge"><i class="ti ti-certificate"></i> محتوى سريري موثق 100%</div>
+      <h1>المكتبة والمقالات الطبية الموثوقة</h1>
+      <p>معلومات صحية وتوعوية مبسطة، مكتوبة ومراجعة سريرياً بواسطة نخبة استشاريي منصة طبابة لمساعدتك في فهم أعراضك، الحفاظ على عافيتك، وتجنب المضاعفات.</p>
+    </div>
+
+    <!-- SEARCH & CATEGORIES -->
+    <div class="toolbar-wrap">
+      <div class="search-box">
+        <i class="ti ti-search"></i>
+        <input type="text" id="articleSearchInput" placeholder="ابحث في المقالات... مثلاً: حساسية الصدر، السكر، التطعيمات، ضغط الدم، آلام الظهر" oninput="filterArticles()">
+      </div>
+
+      <div class="category-pills-row" id="categoryPills">
+        <button class="cat-pill active" onclick="selectCategory('all', this)">الكل (6 مقالات)</button>
+        <button class="cat-pill" onclick="selectCategory('باطنة', this)">باطنة وصدر</button>
+        <button class="cat-pill" onclick="selectCategory('قلب', this)">أمراض القلب</button>
+        <button class="cat-pill" onclick="selectCategory('أطفال', this)">صحة الطفل</button>
+        <button class="cat-pill" onclick="selectCategory('عظام', this)">عظام ومفاصل</button>
+        <button class="cat-pill" onclick="selectCategory('سكر', this)">سكر وغدد</button>
+        <button class="cat-pill" onclick="selectCategory('جلدية', this)">جلدية وتجميل</button>
+      </div>
+    </div>
+
+    <!-- ARTICLES GRID -->
+    <div class="articles-grid-main" id="articlesGrid">
+
+      <!-- Article 1 -->
+      <div class="art-card" data-cat="باطنة" data-id="art1">
+        <div>
+          <div class="art-top">
+            <span class="art-badge">باطنة وصدر</span>
+            <span class="art-read-time"><i class="ti ti-clock"></i> 4 دقائق قراءة</span>
+          </div>
+          <h2 class="art-title">الفرق بين حساسية الصدر ونزلات البرد الموسمية: متى تقلق؟</h2>
+          <p class="art-desc">أعراض تتشابه كثيراً في تقلبات الجو، كيف تميز بينهما في المنزل والخطوات الأولية للتعامل مع ضيق التنفس ومؤشرات الخطورة التي تستوجب كشفاً فورياً.</p>
+          <div class="art-tags">
+            <span class="art-tag-item">#حساسية_الصدر</span>
+            <span class="art-tag-item">#نزلة_برد</span>
+            <span class="art-tag-item">#وقاية</span>
+          </div>
+        </div>
+        <div class="art-doc-bar">
+          <div class="art-author">
+            <div class="art-author-av">أ</div>
+            <div class="art-author-info">
+              <div class="name">د. أحمد سامي <i class="ti ti-circle-check-filled" style="color:var(--accent);font-size:13px;" title="استشاري معتمد"></i></div>
+              <div class="spec">استشاري باطنة وجهاز تنفسي</div>
+            </div>
+          </div>
+          <button class="art-read-btn" type="button" onclick="openArticleModal('art1')">
+            <span>قراءة المقال</span>
+            <i class="ti ti-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Article 2 -->
+      <div class="art-card" data-cat="أطفال" data-id="art2">
+        <div>
+          <div class="art-top">
+            <span class="art-badge" style="color:#60a5fa;background:rgba(91,156,245,0.15);border-color:rgba(91,156,245,0.3)">صحة الطفل</span>
+            <span class="art-read-time"><i class="ti ti-clock"></i> 6 دقائق قراءة</span>
+          </div>
+          <h2 class="art-title">دليلك الشامل لجدول تطعيمات وفحوصات طفلك في السنة الأولى</h2>
+          <p class="art-desc">كل ما تحتاج معرفته عن تطعيمات وزارة الصحة والتطعيمات الإضافية الهامة للوقاية من النزلات المعوية والرئوية، مع إرشادات التعامل مع الحرارة بعد التطعيم.</p>
+          <div class="art-tags">
+            <span class="art-tag-item">#تطعيمات_الأطفال</span>
+            <span class="art-tag-item">#الروتا</span>
+            <span class="art-tag-item">#رعاية_الرضيع</span>
+          </div>
+        </div>
+        <div class="art-doc-bar">
+          <div class="art-author">
+            <div class="art-author-av" style="background:linear-gradient(135deg,#ff9472,#f2709c);">أ</div>
+            <div class="art-author-info">
+              <div class="name">د. أميرة سعد <i class="ti ti-circle-check-filled" style="color:var(--accent);font-size:13px;"></i></div>
+              <div class="spec">استشارية طب الأطفال وحديثي الولادة</div>
+            </div>
+          </div>
+          <button class="art-read-btn" type="button" onclick="openArticleModal('art2')">
+            <span>قراءة المقال</span>
+            <i class="ti ti-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Article 3 -->
+      <div class="art-card" data-cat="عظام" data-id="art3">
+        <div>
+          <div class="art-top">
+            <span class="art-badge" style="color:#c084fc;background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3)">عظام ومفاصل</span>
+            <span class="art-read-time"><i class="ti ti-clock"></i> 5 دقائق قراءة</span>
+          </div>
+          <h2 class="art-title">آلام أسفل الظهر والرقبة لمرتادي المكاتب: 5 تمارين وقائية</h2>
+          <p class="art-desc">ساعات الجلوس الطويلة قد تدمر فقراتك. دليل عملي بسيط للوضعية الصحية الصحيحة مع تمارين استطالة فعالة لحماية العمود الفقري من الانزلاق الغضروفي.</p>
+          <div class="art-tags">
+            <span class="art-tag-item">#آلام_الظهر</span>
+            <span class="art-tag-item">#العمود_الفقري</span>
+            <span class="art-tag-item">#تمارين_مكتبية</span>
+          </div>
+        </div>
+        <div class="art-doc-bar">
+          <div class="art-author">
+            <div class="art-author-av" style="background:linear-gradient(135deg,#c084fc,#7c3aed);">م</div>
+            <div class="art-author-info">
+              <div class="name">د. محمد رضا <i class="ti ti-circle-check-filled" style="color:var(--accent);font-size:13px;"></i></div>
+              <div class="spec">استشاري جراحة العظام والمفاصل</div>
+            </div>
+          </div>
+          <button class="art-read-btn" type="button" onclick="openArticleModal('art3')">
+            <span>قراءة المقال</span>
+            <i class="ti ti-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Article 4 -->
+      <div class="art-card" data-cat="قلب" data-id="art4">
+        <div>
+          <div class="art-top">
+            <span class="art-badge" style="color:#f87171;background:rgba(242,102,92,0.15);border-color:rgba(242,102,92,0.3)">أمراض القلب</span>
+            <span class="art-read-time"><i class="ti ti-clock"></i> 5 دقائق قراءة</span>
+          </div>
+          <h2 class="art-title">ارتفاع ضغط الدم الخفي: أسبابه، مخاطره، وكيف تحمي قلبك؟</h2>
+          <p class="art-desc">لماذا يُسمى الضغط المرتفع بالقاتل الصامت؟ استشاري القلب يوضح الطريقة الصحيحة لقياس الضغط منزلياً، وتأثير الأدوية والملح على استقرار الشرايين.</p>
+          <div class="art-tags">
+            <span class="art-tag-item">#ضغط_الدم</span>
+            <span class="art-tag-item">#صحة_القلب</span>
+            <span class="art-tag-item">#كونكور</span>
+          </div>
+        </div>
+        <div class="art-doc-bar">
+          <div class="art-author">
+            <div class="art-author-av">و</div>
+            <div class="art-author-info">
+              <div class="name">د. وائل مجدي <i class="ti ti-circle-check-filled" style="color:var(--accent);font-size:13px;"></i></div>
+              <div class="spec">استشاري أمراض القلب والقسطرة</div>
+            </div>
+          </div>
+          <button class="art-read-btn" type="button" onclick="openArticleModal('art4')">
+            <span>قراءة المقال</span>
+            <i class="ti ti-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Article 5 -->
+      <div class="art-card" data-cat="سكر" data-id="art5">
+        <div>
+          <div class="art-top">
+            <span class="art-badge" style="color:#fbbf24;background:rgba(242,184,75,0.15);border-color:rgba(242,184,75,0.3)">سكر وغدد</span>
+            <span class="art-read-time"><i class="ti ti-clock"></i> 7 دقائق قراءة</span>
+          </div>
+          <h2 class="art-title">سكر الدم الصائم 100 - 125 mg/dL: كيف تتراجع عن مرحلة ما قبل السكري؟</h2>
+          <p class="art-desc">قراءة السكر الصائم في هذا النطاق تُمثل فرصة ذهبية للوقاية التامة. خطة غذائية ونمط نشاط بسيط لإعادة القياسات إلى المعدل الطبيعي وخفض التراكمي.</p>
+          <div class="art-tags">
+            <span class="art-tag-item">#مرحلة_ماقبل_السكري</span>
+            <span class="art-tag-item">#سكر_صائم</span>
+            <span class="art-tag-item">#تراكمي_HbA1c</span>
+          </div>
+        </div>
+        <div class="art-doc-bar">
+          <div class="art-author">
+            <div class="art-author-av" style="background:linear-gradient(135deg,#6ee7c9,#12b587);">ل</div>
+            <div class="art-author-info">
+              <div class="name">د. لمياء خالد <i class="ti ti-circle-check-filled" style="color:var(--accent);font-size:13px;"></i></div>
+              <div class="spec">استشارية أمراض الباطنة والسكر</div>
+            </div>
+          </div>
+          <button class="art-read-btn" type="button" onclick="openArticleModal('art5')">
+            <span>قراءة المقال</span>
+            <i class="ti ti-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Article 6 -->
+      <div class="art-card" data-cat="جلدية" data-id="art6">
+        <div>
+          <div class="art-top">
+            <span class="art-badge">جلدية وتجميل</span>
+            <span class="art-read-time"><i class="ti ti-clock"></i> 4 دقائق قراءة</span>
+          </div>
+          <h2 class="art-title">إكزيما الجلد والحكة المزمنة: الأسباب، المحفزات، وخطة الترطيب</h2>
+          <p class="art-desc">جفاف الجلد وتقلبات الفصول قد تسبب نوبات حكة شديدة. دليلك لاختيار المرطبات الطبية الخالية من العطور، وطرق تجنب المهيجات، ومتى تستشير الطبيب.</p>
+          <div class="art-tags">
+            <span class="art-tag-item">#إكزيما</span>
+            <span class="art-tag-item">#ترطيب_طبي</span>
+            <span class="art-tag-item">#حساسية_الجلد</span>
+          </div>
+        </div>
+        <div class="art-doc-bar">
+          <div class="art-author">
+            <div class="art-author-av" style="background:linear-gradient(135deg,#f2887e,#c53030);">ن</div>
+            <div class="art-author-info">
+              <div class="name">د. نهى الشريف <i class="ti ti-circle-check-filled" style="color:var(--accent);font-size:13px;"></i></div>
+              <div class="spec">استشارية الأمراض الجلدية والعلاج بالليزر</div>
+            </div>
+          </div>
+          <button class="art-read-btn" type="button" onclick="openArticleModal('art6')">
+            <span>قراءة المقال</span>
+            <i class="ti ti-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- LEFT COLUMN (HELPFUL WIDGETS) -->
+  <aside>
+    <div class="card" style="margin-bottom:16px;">
+      <h3 style="font-size:14.5px;font-weight:800;margin-bottom:8px;color:var(--text-primary);"><i class="ti ti-shield-check" style="color:var(--accent)"></i> معايير النشر الطبي بطبابا</h3>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+        جميع المقالات والمعلومات الطبية المنشورة تخضع للمراجعة السريرية من استشاريين مرخصين من نقابة الأطباء المصرية ووزارة الصحة، بهدف التوعية والتثقيف الطبي الصحيح.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3 style="font-size:14.5px;font-weight:800;margin-bottom:10px;color:var(--text-primary);"><i class="ti ti-sparkles" style="color:#f2b84b"></i> مواضيع صحية شائعة</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button class="pill ghost sm" style="justify-content:flex-start;text-align:right;" onclick="document.getElementById('articleSearchInput').value='ضغط'; filterArticles();">
+          <i class="ti ti-heart-rate-monitor"></i> كيفية الحفاظ على ضغط دم مستقر
+        </button>
+        <button class="pill ghost sm" style="justify-content:flex-start;text-align:right;" onclick="document.getElementById('articleSearchInput').value='سكر'; filterArticles();">
+          <i class="ti ti-droplet"></i> قراءات السكر الصائم والتراكمي
+        </button>
+        <button class="pill ghost sm" style="justify-content:flex-start;text-align:right;" onclick="document.getElementById('articleSearchInput').value='عظام'; filterArticles();">
+          <i class="ti ti-bone"></i> آلام الرقبة والانزلاق الغضروفي
+        </button>
+        <button class="pill ghost sm" style="justify-content:flex-start;text-align:right;" onclick="document.getElementById('articleSearchInput').value='أطفال'; filterArticles();">
+          <i class="ti ti-baby-carriage"></i> التعامل مع حرارة الطفل والتطعيم
+        </button>
+      </div>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,rgba(31,230,168,0.1),var(--bg-card));border-color:rgba(31,230,168,0.3)">
+      <h3 style="font-size:14px;font-weight:800;color:var(--accent);margin-bottom:6px;"><i class="ti ti-phone-call"></i> عندك سؤال طبي عاجل؟</h3>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">تواصل مباشرة مع استشارينا أو استخدم الشات الطبي الذكي على مدار الساعة.</p>
+      <a href="tababa-homepage.html" class="pill solid sm" style="width:100%;justify-content:center;">
+        تحدث مع المستشار الطبي 24/7
+      </a>
+    </div>
+  </aside>
+
+</div>
+
+<!-- FULL ARTICLE READER MODAL -->
+<div class="modal-reader-overlay" id="articleReaderModal" onclick="handleReaderBackdrop(event)">
+  <div class="modal-reader-card" id="articleReaderCard">
+    <div class="modal-reader-header">
+      <div>
+        <span class="art-badge" id="modalArtCategory">باطنة وصدر</span>
+        <h2 style="font-size:18px;font-weight:900;color:#fff;margin-top:6px;" id="modalArtTitle">عنوان المقال الطبي</h2>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="modalArtAuthorMeta">بقلم: د. أحمد سامي • 4 دقائق قراءة</div>
+      </div>
+      <button class="pill sm ghost" onclick="closeArticleModal()" style="border-radius:50%;width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;">
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-reader-body" id="modalArtBody">
+      <!-- Article content will be dynamically injected here -->
+    </div>
+
+    <div class="modal-reader-footer">
+      <div style="font-size:12px;color:var(--text-muted);">
+        <i class="ti ti-info-circle"></i> المقال بهدف التثقيف الطبي ولا يغني عن استشارة الطبيب الفاحص لحالتك.
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="pill ghost sm" onclick="alert('تم حفظ المقال في مفضلتك للرجوع إليه لاحقاً ✓')"><i class="ti ti-bookmark"></i> حفظ في المفضلة</button>
+        <a href="tababa-homepage.html#patientRegSection" class="pill solid sm" id="modalBookDocBtn"><i class="ti ti-calendar-plus"></i> حجز كشف مع الطبيب</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Articles Data Store
+  const ARTICLES_DB = {
+    art1: {
+      category: "باطنة وصدر",
+      title: "الفرق بين حساسية الصدر ونزلات البرد الموسمية: متى تقلق؟",
+      author: "د. أحمد سامي (استشاري باطنة وجهاز تنفسي)",
+      readTime: "4 دقائق قراءة",
+      content: `
+        <p>مع بداية تغير الفصول وتقلبات درجات الحرارة، يختلط الأمر على الكثير من المرضى بين نزلة البرد الفيروسية العادية وبين نوبات حساسية الصدر أو الربو الشعبي. يهدف هذا المقال إلى توضيح الفروق الجوهرية وكيفية التصرف الطبي الصحيح.</p>
+
+        <h3>1. كيف تفرق بين العرضين؟</h3>
+        <ul>
+          <li><strong>نزلة البرد:</strong> تبدأ عادة باحتقان الحلق وسيلان الأنف، وتكون مصحوبة بارتفاع طفيف في درجة الحرارة وإرهاق عام بالجسم، وتستمر غالباً من 5 إلى 7 أيام.</li>
+          <li><strong>حساسية الصدر:</strong> تتميز بسعال جاف يزداد ليلاً أو عند التعرض للأتربة والروائح النفاذة، مع صوت تزييق أو صفير بالصدر (Wheezing)، ولا يصاحبها عادة ارتفاع في الحرارة.</li>
+        </ul>
+
+        <div class="callout-tip">
+          <strong>💡 نصيحة سريرية:</strong> إذا كان السعال مستمراً لأكثر من أسبوعين ويزداد مع المجهود البدني، فهذا مؤشر قوي على وجود تهيج تحسسي بالشعب الهوائية يتطلب تقييماً بوظائف التنفس.
+        </div>
+
+        <h3>2. مؤشرات تستوجب زيارة الطوارئ فوراً:</h3>
+        <ul>
+          <li>صعوبة ملحوظة في التنفس وعدم القدرة على إكمال جملة واحدة دون انقطاع النفس.</li>
+          <li>زرقة حول الشفاه أو أطراف الأصابع.</li>
+          <li>عدم استجابة ضيق التنفس للبخاخات الموسعة للشعب المقررة لك سابقاً.</li>
+        </ul>
+
+        <h3>3. خطوات وقائية منزلية:</h3>
+        <p>احرص على تهوية المنزل جيداً، تجنب استخدام معطرات الجو والبخور في وجود مريض الحساسية، واحرص على شرب السوائل الدافئة بانتظام لترطيب الأغشية المخاطية.</p>
+      `
+    },
+    art2: {
+      category: "صحة الطفل",
+      title: "دليلك الشامل لجدول تطعيمات وفحوصات طفلك في السنة الأولى",
+      author: "د. أميرة سعد (استشارية طب الأطفال وحديثي الولادة)",
+      readTime: "6 دقائق قراءة",
+      content: `
+        <p>تُعد السنة الأولى من عمر طفلك هي حجر الأساس لمناعته ونموه الحركي والذهني. الالتزام بمواعيد التطعيمات الإجبارية والإضافية يضمن حماية متكاملة ضد أخطر الأمراض البكتيرية والفيروسية.</p>
+
+        <h3>1. التطعيمات الإضافية الموصى بها طبياً:</h3>
+        <ul>
+          <li><strong>تطعيم الروتا (Rotavirus):</strong> يُعطى بالفم على جرعتين أو ثلاث (حسب نوع اللقاح) لحماية الطفل من النزلات المعوية الشديدة والجفاف.</li>
+          <li><strong>تطعيم المكورات الرئوية (Prevenar):</strong> يحمي من الالتهاب الرئوي الحاد والتهاب الأذن الوسطى والالتهاب السحائي.</li>
+        </ul>
+
+        <div class="callout-tip">
+          <strong>💡 نصيحة سريرية:</strong> تجنب إعطاء أدوية خافض الحرارة للطفل قبل موعد الحقن وقائياً؛ يتم إعطاء خافض الحرارة (باراسيتامول محسوب حسب الوزن) فقط في حال ارتفاع الحرارة الفعلي بعد التطعيم.
+        </div>
+
+        <h3>2. جدول الفحوصات الدورية:</h3>
+        <p>يجب وزن الطفل وقياس طوله ومحيط رأسه شهرياً ومطابقتها على منحنيات النمو (WHO Growth Charts) للتأكد من الرضاعة الطبيعية السليمة وتطور المهارات الحركية كالجلوس والحبو.</p>
+      `
+    },
+    art3: {
+      category: "عظام ومفاصل",
+      title: "آلام أسفل الظهر والرقبة لمرتادي المكاتب: 5 تمارين وقائية",
+      author: "د. محمد رضا (استشاري جراحة العظام والعمود الفقري)",
+      readTime: "5 دقائق قراءة",
+      content: `
+        <p>أصبح الجلوس المتواصل أمام شاشات الكمبيوتر لساعات طويلة السبب الأول لآلام الفقرات وتيبس عضلات الرقبة وأسفل الظهر في سن الشباب. إليك خطوات عملية لحماية فقراتك.</p>
+
+        <h3>1. الوضعية المريحة للجلوس (Ergonomics):</h3>
+        <ul>
+          <li>اجعل مستوى الشاشة موازياً لمستوى عينيك لمنع انحناء الرقبة إلى الأمام.</li>
+          <li>حافظ على قدميك ملامستين للأرض تماماً بزاوية 90 درجة عند الركبتين.</li>
+          <li>ضع وسادة صغيرة لدعم الانحناء الطبيعي لأسفل الظهر (Lumbar Support).</li>
+        </ul>
+
+        <div class="callout-tip">
+          <strong>💡 قاعدة 20-20-20:</strong> كل 20 دقيقة، قف وتحرك لمدة 20 ثانية، وانظر لشيء يبعد 20 قدماً. هذه الحركة البسيطة تعيد تروية الغضاريف الدموية وتمنع التشنج العضلي.
+        </div>
+
+        <h3>2. تمارين استطالة يومية سريعة:</h3>
+        <p>قم بتمارين إمالة الرأس بلطف لكل جانب لمدة 10 ثوان، واستطالة عضلات الفخذ الخلفية وأسفل الظهر أثناء الوقوف لتخفيف الضغط الواقع على الغضاريف القطنية.</p>
+      `
+    },
+    art4: {
+      category: "أمراض القلب",
+      title: "ارتفاع ضغط الدم الخفي: أسبابه، مخاطره، وكيف تحمي قلبك؟",
+      author: "د. وائل مجدي (استشاري أمراض القلب والأوعية الدموية)",
+      readTime: "5 دقائق قراءة",
+      content: `
+        <p>يُطلق أطباء القلب على ارتفاع ضغط الدم لقب "القاتل الصامت" لأن أكثر من 60% من المصابين به لا يشعرون بأي أعراض ملحوظة كالصداع أو الدوخة حتى وصوله لمستويات متقدمة تؤثر على شرايين القلب والمخ والكلى.</p>
+
+        <h3>1. الطريقة الصحيحة لقياس الضغط في المنزل:</h3>
+        <ul>
+          <li>استرخِ لمدة 5 دقائق قبل القياس في وضع الجلوس وظهَرك مدعوم.</li>
+          <li>امتنع عن شرب القهوة والتدخين لمدة 30 دقيقة على الأقل قبل القياس.</li>
+          <li>ضع حزام الجهاز على الذراع في مستوى القلب مباشرة.</li>
+          <li>القراءة المثالية هي أقل من 120/80 mmHg.</li>
+        </ul>
+
+        <div class="callout-tip">
+          <strong>💡 نصيحة استشاري القلب:</strong> تقليل استهلاك ملح الطعام إلى أقل من ملعقة صغيرة يومياً، مع ممارسة المشي 30 دقيقة معظم أيام الأسبوع، يمكن أن يخفض ضغط الدم الانقباضي بمقدار 5 إلى 8 درجات طبيعياً.
+        </div>
+      `
+    },
+    art5: {
+      category: "سكر وغدد",
+      title: "سكر الدم الصائم 100 - 125 mg/dL: كيف تتراجع عن مرحلة ما قبل السكري؟",
+      author: "د. لمياء خالد (استشارية أمراض الباطنة والسكر)",
+      readTime: "7 دقائق قراءة",
+      content: `
+        <p>إذا كانت قراءة سكرك الصائم تتراوح بين 100 و 125 mg/dL، فأنت في مرحلة تُسمى طبياً "مقدمات السكري" (Pre-diabetes). الخبر المطمئن جداً أن هذه المرحلة قابلة للعكس والشفاء التام بنسبة 100% إذا تم التدخل في الوقت المناسب.</p>
+
+        <h3>1. خطة العمل الوقائية:</h3>
+        <ul>
+          <li><strong>إنقاص الوزن:</strong> فقدان 5% إلى 7% فقط من وزنك الحالي يقلل من خطر الإصابة بالنوع الثاني من السكر بنسبة تزيد عن 58%.</li>
+          <li><strong>استبدال الكربوهيدرات المكررة:</strong> تجنب المشروبات الغازية والعصائر المحلاة والخبز الأبيض، واعتمد على الحبوب الكاملة والشوفان والبقوليات.</li>
+          <li><strong>المشي بعد الوجبات:</strong> المشي لمدة 10 إلى 15 دقيقة بعد وجبة الغداء أو العشاء يساعد العضلات على امتصاص الجلوكوز مباشرة بدون الحاجة لإفراز كميات إضافية من الأنسولين.</li>
+        </ul>
+      `
+    },
+    art6: {
+      category: "جلدية وتجميل",
+      title: "إكزيما الجلد والحكة المزمنة: الأسباب، المحفزات، وخطة الترطيب",
+      author: "د. نهى الشريف (استشارية الأمراض الجلدية والعلاج بالليزر)",
+      readTime: "4 دقائق قراءة",
+      content: `
+        <p>تُعد الإكزيما وحساسية الجلد التأتبيّة من أكثر المشكلات الجلدية المزعجة التي تشتد خلال فترات الجفاف وتقلبات الطقس. يكمن مفتاح السيطرة على المرض في ترميم حاجز الجلد الطبيعي بانتظام.</p>
+
+        <h3>1. قاعدة الثلاث دقائق للترطيب:</h3>
+        <p>أفضل وقت لوضع المرطب الطبي هو في غضون 3 دقائق مباشرة بعد الاستحمام بماء فاتر، لحبس الرطوبة داخل طبقات الجلد قبل تبخرها.</p>
+
+        <h3>2. نصائح لتجنب المحفزات:</h3>
+        <ul>
+          <li>ارتداء الملابس القطنية الفضفاضة وتجنب الصوف والألياف الصناعية الملامسة للجلد مباشرة.</li>
+          <li>استخدام منظفات خالية من الصابون والعطور (Soap-free Cleansers).</li>
+          <li>قص الأظافر وترطيب اليدين المتكرر لتجنب جروح الحكة والالتهابات البكتيرية الثانوية.</li>
+        </ul>
+      `
+    }
+  };
+
+  // Search & Category Filter logic
+  let activeCategory = 'all';
+
+  function filterArticles() {
+    const q = document.getElementById('articleSearchInput').value.trim().toLowerCase();
+    const cards = document.querySelectorAll('.art-card');
+
+    cards.forEach(card => {
+      const cat = card.getAttribute('data-cat') || '';
+      const text = card.textContent.toLowerCase();
+      const matchesCat = (activeCategory === 'all' || cat.includes(activeCategory));
+      const matchesSearch = (!q || text.includes(q));
+
+      if(matchesCat && matchesSearch) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function selectCategory(cat, btn) {
+    activeCategory = cat;
+    document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    filterArticles();
+  }
+
+  // Modal open & close
+  function openArticleModal(id) {
+    const art = ARTICLES_DB[id];
+    if(!art) return;
+
+    document.getElementById('modalArtCategory').textContent = art.category;
+    document.getElementById('modalArtTitle').textContent = art.title;
+    document.getElementById('modalArtAuthorMeta').textContent = `${art.author} • ${art.readTime}`;
+    document.getElementById('modalArtBody').innerHTML = art.content;
+    document.getElementById('articleReaderModal').classList.add('show');
+  }
+
+  function closeArticleModal() {
+    document.getElementById('articleReaderModal').classList.remove('show');
+  }
+
+  function handleReaderBackdrop(e) {
+    if(e.target === document.getElementById('articleReaderModal')) {
+      closeArticleModal();
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeArticleModal();
+  });
+</script>
+
+</body>
+</html>
