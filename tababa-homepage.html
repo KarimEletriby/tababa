@@ -500,6 +500,327 @@
     .reg-badge-row { gap: 6px; }
   }
 
+  /* =============== PATIENT HEALTH HUB & MOTIVATION STYLES =============== */
+  .patient-score-card {
+    background: linear-gradient(135deg, rgba(31,230,168,0.12) 0%, rgba(17,26,44,0.95) 45%, rgba(12,18,32,0.98) 100%);
+    border: 1px solid var(--accent-dim);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(31,230,168,0.2);
+  }
+  .score-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .score-info-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .score-circle {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) 0% 88%, rgba(255,255,255,0.08) 88% 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    box-shadow: 0 0 25px rgba(31,230,168,0.3);
+    flex-shrink: 0;
+  }
+  .score-circle-inner {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: #08101d;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 900; color: var(--accent);
+    line-height: 1.1;
+  }
+  .score-circle-inner span { font-size: 9px; color: var(--text-muted); font-weight: 500; }
+  .score-text h3 { font-size: 17px; font-weight: 900; color: var(--text-primary); margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+  .score-text p { font-size: 12px; color: var(--text-secondary); }
+
+  .score-badges-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .streak-badge {
+    background: rgba(242, 184, 75, 0.15);
+    border: 1px solid rgba(242, 184, 75, 0.4);
+    color: #f2b84b;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .points-badge {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #c084fc;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  /* Micro-Habits Bar */
+  .habits-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+  }
+  .habit-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+  .habit-info { display: flex; align-items: center; gap: 8px; }
+  .habit-btn {
+    background: var(--accent-soft);
+    border: 1px solid var(--border-strong);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .habit-btn:hover { background: var(--accent); color: #03261b; }
+
+  /* Interactive Vitals Grid */
+  .vitals-section {
+    margin-bottom: 24px;
+  }
+  .vitals-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .vitals-head h3 { font-size: 15px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+  .vitals-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .vital-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .vital-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+  .vital-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .vital-name { font-size: 11.5px; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .vital-val { font-size: 19px; font-weight: 900; color: var(--text-primary); line-height: 1.2; margin-bottom: 4px; }
+  .vital-status { font-size: 10.5px; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 4px; }
+  .vital-time { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Digital Health Wallet */
+  .health-wallet-section {
+    margin-bottom: 26px;
+  }
+  .wallet-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 0.8fr;
+    gap: 14px;
+  }
+  .wallet-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s;
+  }
+  .wallet-card:hover { border-color: var(--border-strong); }
+  .wallet-card-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rx-med-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background: var(--bg-panel);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  /* Interactive AI Chat Window in Left Column */
+  .ai-chat-card-enhanced {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    height: 490px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  }
+  .ai-chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .ai-chat-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ai-chat-badge-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #0c7a58);
+    color: #03261b;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .ai-chat-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+  .ai-chat-sub { font-size: 10.5px; color: var(--text-muted); }
+
+  .ai-chat-thread {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 4px;
+    margin-bottom: 12px;
+  }
+  .ai-chat-thread::-webkit-scrollbar { width: 4px; }
+  .ai-chat-thread::-webkit-scrollbar-thumb { background: rgba(31,230,168,0.25); border-radius: 4px; }
+  .chat-bubble {
+    max-width: 88%;
+    padding: 10px 13px;
+    border-radius: 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    animation: chatBubbleIn 0.25s ease;
+  }
+  @keyframes chatBubbleIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .chat-bubble.ai {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    align-self: flex-start;
+    border-top-right-radius: 2px;
+  }
+  .chat-bubble.patient {
+    background: linear-gradient(135deg, #10684f, #0c4d3a);
+    color: #fff;
+    align-self: flex-end;
+    border-top-left-radius: 2px;
+  }
+  .chat-typing-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: var(--bg-panel);
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    width: fit-content;
+  }
+  .chat-typing-dots span {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    animation: typingBlink 1.4s infinite;
+  }
+  .chat-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingBlink { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+
+  .chat-quick-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+  .chat-prompt-pill {
+    background: rgba(31, 230, 168, 0.07);
+    border: 1px solid rgba(31, 230, 168, 0.25);
+    color: var(--accent);
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .chat-prompt-pill:hover { background: var(--accent); color: #03261b; }
+
+  /* Vitals Entry Modal */
+  .vitals-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(4, 7, 13, 0.85);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .vitals-modal-overlay.show { display: flex; }
+  .vitals-modal-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 24px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+
+  @media (max-width: 1200px) {
+    .vitals-grid { grid-template-columns: repeat(2, 1fr); }
+    .wallet-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .habits-bar { grid-template-columns: 1fr; }
+  }
+
   :root{
     --bg-page:#070b14;
     --bg-panel:#0c1220;
@@ -1487,6 +1808,66 @@ html, body {
       </div>
     </div>
 
+    <!-- HEALTH SCORE & STREAK MOTIVATION CARD -->
+    <div class="patient-score-card" id="patientScoreCard" style="margin-bottom:20px;">
+      <div class="score-card-main">
+        <div class="score-circle-wrap">
+          <div class="score-circle-inner">
+            <span class="score-number" id="patientScoreVal">88</span>
+            <span class="score-denom">/100</span>
+          </div>
+        </div>
+        <div class="score-meta">
+          <div class="score-title-row">
+            <div class="score-title" id="patientScoreTitle">مؤشر عافيتك والالتزام الصحي</div>
+            <span class="score-status-badge" id="patientScoreBadge">ممتاز جداً 🌟</span>
+          </div>
+          <div class="score-desc" id="patientScoreDesc">
+            أداؤك الصحي هذا الأسبوع أفضل بنسبة <strong>15%</strong> مقارنة بالشهر السابق. استمرارك يضمن وقاية متكاملة!
+          </div>
+          <div class="habits-bar">
+            <div class="habit-chip" id="waterHabitChip">
+              <span class="habit-icon">💧</span>
+              <div class="habit-info">
+                <span class="habit-label">شرب الماء اليوم</span>
+                <span class="habit-val" id="waterCountText">5 من 8 أكواب</span>
+              </div>
+              <button class="habit-add-btn" type="button" title="أضف كوب ماء" onclick="addWaterCup(event)">+1 كوب</button>
+            </div>
+
+            <div class="habit-chip">
+              <span class="habit-icon">🚶‍♂️</span>
+              <div class="habit-info">
+                <span class="habit-label">النشاط البدني</span>
+                <span class="habit-val" id="habitStepsVal">6,420 / 8,000 خطوة</span>
+              </div>
+            </div>
+
+            <div class="habit-chip">
+              <span class="habit-icon">💊</span>
+              <div class="habit-info">
+                <span class="habit-label">الالتزام بالجرعات</span>
+                <span class="habit-val" id="habitMedStatus">2 من 3 جرعات (66%)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="score-card-stats">
+        <div class="streak-badge-box">
+          <div class="streak-icon">🔥</div>
+          <div class="streak-val" id="streakDaysCount">12 يوم</div>
+          <div class="streak-lbl" id="streakDescLbl">التزام متواصل بالعلاج</div>
+        </div>
+
+        <div class="reward-points-box">
+          <div class="points-val"><i class="ti ti-gift" style="font-size:16px;"></i> <span id="carePointsVal">450</span> <span style="font-size:11px;font-weight:normal;">نقطة</span></div>
+          <div class="points-lbl">نقاط رعاية طبابا (خصم 20% على كشفك القادم)</div>
+        </div>
+      </div>
+    </div>
+
     <!-- 1. UPCOMING APPOINTMENT BANNER (Prominent Top Banner) -->
     <div class="appointment-banner" id="appointmentBanner">
       <div class="banner-top-row">
@@ -1528,6 +1909,169 @@ html, body {
           </button>
           <button class="pill ghost sm" onclick="enterWaitingRoom()"><i class="ti ti-login"></i>غرفة الانتظار</button>
           <button class="pill ghost sm" onclick="rescheduleAppointment()"><i class="ti ti-calendar-time"></i>تعديل</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. VITALS & BIOMARKERS TRACKER -->
+    <div class="vitals-section" style="margin-top:20px; margin-bottom:20px;">
+      <div class="section-head-custom">
+        <div class="section-title-custom">
+          <div class="sec-badge"><i class="ti ti-activity-heartbeat"></i></div>
+          <span>مؤشراتك الحيوية وقياساتك الأخيرة</span>
+        </div>
+        <button class="pill sm ghost" type="button" onclick="openVitalsModal()" style="border-color:rgba(31,230,168,0.3);color:var(--accent)">
+          <i class="ti ti-plus"></i> تسجيل قراءة جديدة
+        </button>
+      </div>
+
+      <div class="vitals-grid">
+        <!-- BP -->
+        <div class="vital-card" id="vitalCard1">
+          <div class="vital-header">
+            <div class="vital-icon bp" id="vitalIcon1"><i class="ti ti-heart-rate-monitor"></i></div>
+            <span class="vital-badge normal" id="vitalBadge1">طبيعي ومثالي</span>
+          </div>
+          <div class="vital-name" id="vitalName1">ضغط الدم الشرياني</div>
+          <div class="vital-value" id="vitalBPVal">120/80 <span class="vital-unit" id="vitalUnit1">mmHg</span></div>
+          <div class="vital-foot">
+            <span class="time" id="vitalTime1"><i class="ti ti-clock"></i> اليوم 08:30 ص</span>
+            <span class="trend" id="vitalTrend1" style="color:var(--accent);font-size:11px;">مستقر ✓</span>
+          </div>
+        </div>
+
+        <!-- Blood Sugar -->
+        <div class="vital-card" id="vitalCard2">
+          <div class="vital-header">
+            <div class="vital-icon sugar" id="vitalIcon2"><i class="ti ti-droplet"></i></div>
+            <span class="vital-badge warning" id="vitalSugarBadge">مائل للارتفاع</span>
+          </div>
+          <div class="vital-name" id="vitalName2">سكر الدم (صائم)</div>
+          <div class="vital-value" id="vitalSugarVal">105 <span class="vital-unit" id="vitalUnit2">mg/dL</span></div>
+          <div class="vital-foot">
+            <span class="time" id="vitalTime2"><i class="ti ti-clock"></i> أمس 09:00 ص</span>
+            <span class="trend" id="vitalTrend2" style="color:#fbbf24;font-size:11px;">متابعة مطلوبة</span>
+          </div>
+        </div>
+
+        <!-- Heart Rate -->
+        <div class="vital-card" id="vitalCard3">
+          <div class="vital-header">
+            <div class="vital-icon heart" id="vitalIcon3"><i class="ti ti-heart"></i></div>
+            <span class="vital-badge normal" id="vitalBadge3">منتظم وممتاز</span>
+          </div>
+          <div class="vital-name" id="vitalName3">معدل نبضات القلب</div>
+          <div class="vital-value" id="vitalPulseVal">72 <span class="vital-unit" id="vitalUnit3">bpm</span></div>
+          <div class="vital-foot">
+            <span class="time" id="vitalTime3"><i class="ti ti-clock"></i> اليوم 08:30 ص</span>
+            <span class="trend" id="vitalTrend3" style="color:var(--accent);font-size:11px;">ممتاز ✓</span>
+          </div>
+        </div>
+
+        <!-- Weight / BMI -->
+        <div class="vital-card" id="vitalCard4">
+          <div class="vital-header">
+            <div class="vital-icon weight" id="vitalIcon4"><i class="ti ti-scale"></i></div>
+            <span class="vital-badge normal" id="vitalBadge4">BMI 24.2 (صحي)</span>
+          </div>
+          <div class="vital-name" id="vitalName4">الوزن ومؤشر الكتلة</div>
+          <div class="vital-value" id="vitalWeightVal">78 <span class="vital-unit" id="vitalUnit4">كجم</span></div>
+          <div class="vital-foot">
+            <span class="time" id="vitalTime4"><i class="ti ti-clock"></i> منذ 3 أيام</span>
+            <span class="trend" id="vitalTrend4" style="color:var(--accent);font-size:11px;">-1.2 كجم هذا الشهر</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. DIGITAL HEALTH WALLET & PRESCRIPTIONS -->
+    <div class="health-wallet-section" style="margin-bottom:24px;">
+      <div class="section-head-custom">
+        <div class="section-title-custom">
+          <div class="sec-badge" style="background:rgba(59,130,246,0.15);color:#60a5fa;"><i class="ti ti-wallet"></i></div>
+          <span>المحفظة الصحية والسجلات الرقمية</span>
+        </div>
+        <span class="pill sm ghost" style="font-size:11px;color:var(--text-muted);border-color:rgba(255,255,255,0.08);">
+          <i class="ti ti-shield-check" style="color:var(--accent)"></i> مشفّرة طبقاً لمعايير HIPAA
+        </span>
+      </div>
+
+      <div class="wallet-grid">
+        <!-- Active Prescription Card -->
+        <div class="wallet-card">
+          <div class="wallet-card-header">
+            <div class="w-badge prescription"><i class="ti ti-prescription"></i> الروشتة النشطة</div>
+            <span class="w-doc-tag" id="activeRxDocTag">د. وائل مجدي</span>
+          </div>
+          <div class="w-date" id="activeRxDate"><i class="ti ti-calendar"></i> صدرت بتاريخ: 14 سبتمبر 2026 (سارية المفعول)</div>
+          
+          <div class="rx-items-list" id="activeRxList">
+            <div class="rx-item">
+              <span class="rx-name">كونكور 5 مجم (Concor)</span>
+              <span class="rx-inst">قرص واحد صباحاً يومياً بعد الإفطار</span>
+            </div>
+            <div class="rx-item">
+              <span class="rx-name">أوجمنتين 1 جم (Augmentin)</span>
+              <span class="rx-inst">قرص كل 12 ساعة لمدة 7 أيام</span>
+            </div>
+          </div>
+
+          <div class="followup-alert-strip" id="activeRxFollowupStrip">
+            <i class="ti ti-sparkles" style="color:#60a5fa;font-size:15px;"></i>
+            <span>لديك <strong>متابعة واستشارة مجانية مفتوحة</strong> مع الطبيب (متبقي 6 أيام)</span>
+          </div>
+
+          <div class="w-actions">
+            <button class="w-btn pharmacy" type="button" onclick="refillMedsAction()">
+              <i class="ti ti-truck-delivery"></i> صرف الأدوية وتوصيل للمنزل
+            </button>
+            <button class="w-btn ghost" type="button" onclick="alert('جاري تجهيز نسخة الروشتة المعتمدة PDF برقم ترخيص 8943...')">
+              <i class="ti ti-download"></i> PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- Labs & Reports Card -->
+        <div class="wallet-card">
+          <div class="wallet-card-header">
+            <div class="w-badge lab"><i class="ti ti-file-analytics"></i> نتائج التحاليل والأشعة</div>
+            <span class="w-doc-tag">معامل البرج & كايرو سكان</span>
+          </div>
+          <div class="w-date"><i class="ti ti-clock"></i> آخر فحص: 12 سبتمبر 2026</div>
+
+          <div class="rx-items-list" id="activeLabList">
+            <div class="rx-item" style="flex-direction:row;justify-content:space-between;align-items:center;">
+              <div>
+                <div class="rx-name">صورة دم كاملة (CBC)</div>
+                <div class="rx-inst" style="color:var(--text-muted)">الهيموجلوبين: 14.2 g/dL • الصفائح: 260K</div>
+              </div>
+              <span class="vital-badge normal" style="font-size:10px;">طبيعي ✓</span>
+            </div>
+
+            <div class="rx-item" style="flex-direction:row;justify-content:space-between;align-items:center;">
+              <div>
+                <div class="rx-name">رسم قلب كهربائي (ECG)</div>
+                <div class="rx-inst" style="color:var(--text-muted)">Sinus Rhythm طبيعي بدون اختلالات</div>
+              </div>
+              <span class="vital-badge normal" style="font-size:10px;">سليم ✓</span>
+            </div>
+          </div>
+
+          <!-- Digital Insurance Badge -->
+          <div class="insurance-badge-strip">
+            <div class="ins-logo"><i class="ti ti-shield-half-filled"></i></div>
+            <div class="ins-info">
+              <div class="ins-name" id="insuranceCardName">تأمين بوبا الطبي (Bupa Egypt)</div>
+              <div class="ins-num" id="insuranceCardNum">رقم العضوية: TAB-8924-BUPA • تغطية 80%</div>
+            </div>
+            <span class="ins-status">مفعّل ✓</span>
+          </div>
+
+          <div class="w-actions">
+            <button class="w-btn ghost" type="button" style="width:100%;justify-content:center;" onclick="alert('الملف الطبي الشامل متاح للمشاركة مع طبيبك المعالج أو التحميل كملف موثق.')">
+              <i class="ti ti-folder"></i> تصفح الأرشيف الطبي والتقارير السابقة
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2226,22 +2770,52 @@ html, body {
 
   <!-- LEFT COLUMN (last in DOM = left side under RTL) -->
   <aside>
-    <div class="card">
-      <div class="ai-head">
-        <div class="brand-badge"><i class="ti ti-robot"></i></div>
-        <div class="title">AI Assistant</div>
+    <!-- ENHANCED INTERACTIVE CLINICAL AI CHAT -->
+    <div class="ai-chat-card-enhanced" id="aiClinicalChatCard">
+      <!-- HEADER -->
+      <div class="ai-chat-header">
+        <div class="ai-chat-title-group">
+          <div class="ai-chat-badge-icon">
+            <i class="ti ti-stethoscope"></i>
+          </div>
+          <div>
+            <div class="ai-chat-title" id="aiChatTitle">المستشار الطبي الذكي الشامل</div>
+            <div class="ai-chat-sub">Tababa Clinical AI • استشارات ونظم علاجية 24/7</div>
+          </div>
+        </div>
+        <span class="pill sm ghost" style="color:var(--accent);border-color:rgba(31,230,168,0.3);font-size:10px;padding:3px 8px;display:flex;align-items:center;gap:4px;">
+          <span class="pulse-dot" style="display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;"></span>
+          متصل
+        </span>
       </div>
-      <div class="ai-greet" id="aiGreetUser">مرحباً يا كريم 👋</div>
-      <div class="ai-sub">كيف أستطيع مساعدتك اليوم؟</div>
-      <div class="suggest" id="aiQuickSuggestions">
-        <button onclick="pickPrompt(this)">احجز موعد مع أقرب دكتور باطنة</button>
-        <button onclick="pickPrompt(this)">ذكرني بموعد المتابعة القادم</button>
-        <button onclick="pickPrompt(this)">قارن أسعار الكشف بين العيادات</button>
-        <button onclick="pickPrompt(this)">اعرض أفضل الأطباء حسب تقييم المرضى</button>
+
+      <!-- CHAT THREAD (Live conversation) -->
+      <div class="ai-chat-thread" id="aiChatThread">
+        <div class="chat-bubble ai" id="aiInitialBubble">
+          أهلاً بك يا <strong id="aiGreetUser">كريم</strong> 👋<br>
+          أنا <strong>مستشارك الطبي السريري الذكي</strong> على منصة طبابا.<br>
+          أنا مطلع على ملفك الصحي، أدويتك المقررة (مثل <strong>كونكور 5 مجم</strong>)، وقراءاتك الحيوية اليوم.<br>
+          <span style="display:block;margin-top:6px;color:var(--text-secondary);font-size:11px;">
+            تفضل بسؤالي عن أي دواء، استفسار حول جرعاتك، نتائج تحاليلك، أو أي أعراض صحية تشعر بها وسأجيبك فوراً!
+          </span>
+        </div>
       </div>
-      <div class="chat-input">
-        <input type="text" placeholder="اكتب سؤالك هنا..." id="aiSideInput">
-        <button class="send-btn" aria-label="إرسال" onclick="sendAiSide()"><i class="ti ti-send-2"></i></button>
+
+      <!-- QUICK PROMPT CHIPS -->
+      <div class="chat-quick-prompts" id="chatQuickPrompts">
+        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('هل كونكور يتعارض مع المسكنات مثل البروفين؟')">💊 كونكور والمسكنات</button>
+        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('هل قراءة ضغطي 120/80 ونبضي 72 تعتبر طبيعية؟')">🩺 هل قياس ضغطي طبيعي؟</button>
+        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('سكر الصائم عندي 105 mg/dL، ما التوجيه الصحي المناسب؟')">🩸 تفسير سكر صائم 105</button>
+        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('أشعر بصداع مع دوخة خفيفة، ماذا أفعل الآن؟')">⚡ صداع مع دوخة</button>
+        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('نصائح غذائية للمحافظة على استقرار ضغط الدم')">🥗 نصائح تغذية للضغط</button>
+      </div>
+
+      <!-- INPUT BAR -->
+      <div class="chat-input" style="margin-top:auto;">
+        <input type="text" id="aiChatInput" placeholder="اكتب سؤالك الطبي هنا..." onkeydown="if(event.key==='Enter') sendAiChat()">
+        <button class="send-btn" id="aiChatSendBtn" type="button" aria-label="إرسال" onclick="sendAiChat()">
+          <i class="ti ti-send-2"></i>
+        </button>
       </div>
     </div>
 
@@ -2385,6 +2959,52 @@ html, body {
     <div style="text-align:center;">
       <button class="pill ghost" onclick="closeEmergencyModal()" style="font-size:12px">إغلاق نافذة الطوارئ</button>
     </div>
+  </div>
+</div>
+
+<!-- RECORD NEW VITALS MODAL -->
+<div class="vitals-modal-overlay" id="vitalsModal" onclick="handleVitalsBackdrop(event)">
+  <div class="vitals-modal-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="sec-badge" style="width:34px;height:34px;border-radius:10px;background:rgba(31,230,168,0.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:17px;"><i class="ti ti-activity-heartbeat"></i></div>
+        <div>
+          <h3 style="margin:0;font-size:15px;font-weight:700;color:var(--text-primary)">تسجيل مؤشر حيوي جديد</h3>
+          <p style="margin:0;font-size:11px;color:var(--text-muted)">يتم تحديث سجلك الطبي ومشاركته تلقائياً مع أطبائك</p>
+        </div>
+      </div>
+      <button class="modal-close" type="button" onclick="closeVitalsModal()" style="background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;"><i class="ti ti-x"></i></button>
+    </div>
+
+    <form onsubmit="saveNewVital(event)">
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:12px;color:var(--text-secondary);margin-bottom:6px;">نوع القياس الحيوي:</label>
+        <select id="newVitalType" onchange="onVitalTypeChange()" style="width:100%;background:var(--bg-panel);border:1px solid var(--border);color:var(--text-primary);padding:10px 12px;border-radius:var(--radius-sm);font-family:inherit;font-size:13px;">
+          <option value="bp">ضغط الدم الشرياني (مثال: 120/80)</option>
+          <option value="sugar">سكر الدم الصائم (مثال: 95 mg/dL)</option>
+          <option value="pulse">معدل نبضات القلب (مثال: 72 bpm)</option>
+          <option value="weight">الوزن بالكيلوجرام (مثال: 77.5 كجم)</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:12px;color:var(--text-secondary);margin-bottom:6px;" id="vitalInputLabel">القراءة المسجلة:</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="newVitalValue" required placeholder="120/80" style="flex:1;background:var(--bg-panel);border:1px solid var(--border);color:var(--text-primary);padding:10px 12px;border-radius:var(--radius-sm);font-family:inherit;font-size:13px;">
+          <span id="vitalUnitBadge" style="display:flex;align-items:center;justify-content:center;padding:0 12px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;color:var(--accent);min-width:55px;">mmHg</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <label style="display:block;font-size:12px;color:var(--text-secondary);margin-bottom:6px;">ملاحظات الطبيب أو وقت القياس:</label>
+        <input type="text" id="newVitalNote" placeholder="مثال: قياس صباحي بعد الراحة 10 دقائق" style="width:100%;background:var(--bg-panel);border:1px solid var(--border);color:var(--text-primary);padding:10px 12px;border-radius:var(--radius-sm);font-family:inherit;font-size:13px;">
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button type="button" class="pill ghost sm" onclick="closeVitalsModal()">إلغاء</button>
+        <button type="submit" class="pill solid sm" style="background:var(--accent);color:#03261b;font-weight:700;"><i class="ti ti-check"></i> حفظ القراءة فوراً</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -2762,6 +3382,19 @@ function closeAllDrawers(){
     self: {
       name: 'كريم أحمد (أنا)',
       avatar: '👤',
+      score: 88,
+      streak: '12 يوم',
+      vitals: {
+        bp: '120/80', bpBadge: 'طبيعي ومثالي', bpTrend: 'مستقر ✓',
+        sugar: '105', sugarBadge: 'مائل للارتفاع', sugarTrend: 'متابعة مطلوبة',
+        pulse: '72', pulseBadge: 'منتظم وممتاز', pulseTrend: 'ممتاز ✓',
+        weight: '78', weightBadge: 'BMI 24.2 (صحي)', weightTrend: '-1.2 كجم هذا الشهر'
+      },
+      rxList: `
+        <div class="rx-item"><span class="rx-name">كونكور 5 مجم (Concor)</span><span class="rx-inst">قرص واحد صباحاً يومياً بعد الإفطار</span></div>
+        <div class="rx-item"><span class="rx-name">أوجمنتين 1 جم (Augmentin)</span><span class="rx-inst">قرص كل 12 ساعة لمدة 7 أيام</span></div>
+      `,
+      aiGreet: 'أهلاً بك يا <strong>كريم</strong> 👋 مستشارك الطبي السريري يتابع خطتك العلاجية، قراءاتك، وموعدك مع د. وائل اليوم.',
       chips: [
         {txt:'عندي وجع مستمر في البطن من كذا يوم', label:'وجع بطن'},
         {txt:'عندي صداع نصفي بيتكرر كل أسبوع', label:'صداع متكرر'},
@@ -2769,12 +3402,24 @@ function closeAllDrawers(){
         {txt:'فيه بقعة جلدية حمراء وحكة مستمرة', label:'مشكلة جلدية'},
         {txt:'ألم حاد في أسفل الظهر عند الوقوف', label:'ألم بالظهر'}
       ],
-      aiGreet: 'مرحباً يا كريم 👋',
       sideMsg: 'مرحباً يا كريم! 👋 كيف تشعر اليوم؟ هل تناولت جرعة أوجمنتين المقررة؟'
     },
     child: {
       name: 'عمر كريم (طفل)',
       avatar: '👶',
+      score: 95,
+      streak: '8 أيام',
+      vitals: {
+        bp: 'طفل (طبيعي)', bpBadge: 'سليم تماماً', bpTrend: 'مستقر ✓',
+        sugar: '86', sugarBadge: 'طبيعي وممتاز', sugarTrend: 'ممتاز ✓',
+        pulse: '98', pulseBadge: 'نبض أطفال طبيعي', pulseTrend: 'طبيعي ✓',
+        weight: '16.5', weightBadge: 'وزن مثالي لـ 4 سنوات', weightTrend: 'نمو متناسق'
+      },
+      rxList: `
+        <div class="rx-item"><span class="rx-name">شراب سيتال باراسيتامول 250</span><span class="rx-inst">5 مل عند ارتفاع الحرارة فوق 38.5°</span></div>
+        <div class="rx-item"><span class="rx-name">فيتامين د3 نقط (Vi-Drop)</span><span class="rx-inst">4 نقط بالفم يومياً صباحاً</span></div>
+      `,
+      aiGreet: 'أهلاً بك! تتابع الآن ملف طفلك <strong>عمر</strong> 👶 (4 سنوات)، جاهز لأي استفسار حول صحته، حرارته، أو جدول تطعيماته.',
       chips: [
         {txt:'بنتي/ابني عنده سخونية وكحة من يومين', label:'حرارة وكحة'},
         {txt:'مغص مستمر وبكاء بعد الرضاعة', label:'مغص ورجفان'},
@@ -2782,48 +3427,216 @@ function closeAllDrawers(){
         {txt:'فقدان شهية وخمول غير معتاد', label:'نقص شهية'},
         {txt:'استفسار عن موعد تطعيم الـ 4 سنوات', label:'تطعيمات'}
       ],
-      aiGreet: 'أهلاً بك! تتابع الآن ملف طفلك عمر 👶',
       sideMsg: 'مرحباً بك! 👋 أنا هنا لمساعدتك في متابعة صحة طفلك عمر وتطعيماته.'
     },
     parent: {
       name: 'الحاج أحمد (الوالد)',
       avatar: '🧓',
+      score: 79,
+      streak: '19 يوم',
+      vitals: {
+        bp: '138/86', bpBadge: 'متابعة مطلوبة', bpTrend: 'مرتفع قليلاً ⚠️',
+        sugar: '138', sugarBadge: 'سكر صائم متابعة', sugarTrend: 'جرعة جانوفيا',
+        pulse: '68', pulseBadge: 'طبيعي ومنتظم', pulseTrend: 'مستقر ✓',
+        weight: '84', weightBadge: 'BMI 28.5 (زيادة طفيفة)', weightTrend: 'متابعة الحمية'
+      },
+      rxList: `
+        <div class="rx-item"><span class="rx-name">جانوفيا 100 مجم (Januvia)</span><span class="rx-inst">قرص واحد يومياً مع وجبة الإفطار</span></div>
+        <div class="rx-item"><span class="rx-name">أملوديبين 5 مجم (Amlodipine)</span><span class="rx-inst">قرص واحد مساءً لضبط ضغط الدم</span></div>
+      `,
+      aiGreet: 'أهلاً بك! تتابع الآن ملف <strong>الحاج أحمد</strong> 🧓، نسأل الله له الشفاء والعافية، جاهز لتوجيهك في قياسات الضغط والسكر وأدويته المزمنة.',
       chips: [
         {txt:'قياس السكر الصائم مرتفع عن المعتاد', label:'متابعة السكر'},
         {txt:'آلام شديدة في الركبة والخشونة تزيد مع الحركة', label:'خشونة الركبة'},
         {txt:'دوخة وصداع مع ارتفاع الضغط', label:'متابعة الضغط'},
         {txt:'استشارة لتعديل جرعات أدوية القلب المزمنة', label:'أدوية مزمنة'}
       ],
-      aiGreet: 'أهلاً بك! تتابع الآن ملف الوالد أحمد 🧓',
       sideMsg: 'أهلاً بك! 👋 نسأل الله الشفاء للحاج أحمد، يمكنك متابعة ضغطه وسكره معنا.'
     }
   };
 
   function selectFamilyProfile(key, name, avatar) {
     activeFamilyProfile = key;
+    const pData = PROFILES_DATA[key];
+    if(!pData) return;
+
     document.getElementById('currentFamName').textContent = name;
     document.getElementById('currentFamAvatar').textContent = avatar;
     document.getElementById('familyDropdown').classList.remove('show');
 
     // Update active highlight in dropdown
     document.querySelectorAll('.fam-item').forEach(item => item.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    if(event && event.currentTarget) event.currentTarget.classList.add('active');
+
+    // Update Score & Streak
+    if(document.getElementById('patientScoreVal')) document.getElementById('patientScoreVal').textContent = pData.score;
+    if(document.getElementById('streakDaysCount')) document.getElementById('streakDaysCount').textContent = pData.streak;
+
+    // Update Vitals Cards
+    if(pData.vitals) {
+      const v = pData.vitals;
+      if(document.getElementById('vitalBPVal')) document.getElementById('vitalBPVal').innerHTML = `${v.bp} <span class="vital-unit">mmHg</span>`;
+      if(document.getElementById('vitalBadge1')) document.getElementById('vitalBadge1').textContent = v.bpBadge;
+      if(document.getElementById('vitalTrend1')) document.getElementById('vitalTrend1').textContent = v.bpTrend;
+
+      if(document.getElementById('vitalSugarVal')) document.getElementById('vitalSugarVal').innerHTML = `${v.sugar} <span class="vital-unit">mg/dL</span>`;
+      if(document.getElementById('vitalSugarBadge')) document.getElementById('vitalSugarBadge').textContent = v.sugarBadge;
+      if(document.getElementById('vitalTrend2')) document.getElementById('vitalTrend2').textContent = v.sugarTrend;
+
+      if(document.getElementById('vitalPulseVal')) document.getElementById('vitalPulseVal').innerHTML = `${v.pulse} <span class="vital-unit">bpm</span>`;
+      if(document.getElementById('vitalBadge3')) document.getElementById('vitalBadge3').textContent = v.pulseBadge;
+      if(document.getElementById('vitalTrend3')) document.getElementById('vitalTrend3').textContent = v.pulseTrend;
+
+      if(document.getElementById('vitalWeightVal')) document.getElementById('vitalWeightVal').innerHTML = `${v.weight} <span class="vital-unit">كجم</span>`;
+      if(document.getElementById('vitalBadge4')) document.getElementById('vitalBadge4').textContent = v.weightBadge;
+      if(document.getElementById('vitalTrend4')) document.getElementById('vitalTrend4').textContent = v.weightTrend;
+    }
+
+    // Update Rx List
+    if(document.getElementById('activeRxList') && pData.rxList) {
+      document.getElementById('activeRxList').innerHTML = pData.rxList;
+    }
 
     // Update Chips
-    const pData = PROFILES_DATA[key];
     const chipsContainer = document.getElementById('symptomChips');
-    chipsContainer.innerHTML = pData.chips.map(c => 
-      `<button class="chip" type="button" data-txt="${c.txt}">${c.label}</button>`
-    ).join('');
-    setupChips();
+    if(chipsContainer) {
+      chipsContainer.innerHTML = pData.chips.map(c => 
+        `<button class="chip" type="button" data-txt="${c.txt}">${c.label}</button>`
+      ).join('');
+      setupChips();
+    }
 
-    // Update Greetings
-    document.getElementById('aiGreetUser').textContent = pData.aiGreet;
-    document.getElementById('sideGreetingBubble').innerHTML = pData.sideMsg + '<div class="tiny">الآن</div>';
+    // Update AI Chat initial greeting
+    if(document.getElementById('aiGreetUser')) {
+      document.getElementById('aiGreetUser').textContent = pData.name;
+    }
+    const thread = document.getElementById('aiChatThread');
+    if(thread) {
+      const switchBubble = document.createElement('div');
+      switchBubble.className = 'chat-bubble ai';
+      switchBubble.innerHTML = pData.aiGreet;
+      thread.appendChild(switchBubble);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    const sideGreet = document.getElementById('sideGreetingBubble');
+    if(sideGreet) sideGreet.innerHTML = pData.sideMsg + '<div class="tiny">الآن</div>';
 
     // Clear input
     document.getElementById('symptomInput').value = '';
     document.getElementById('triageResult').hidden = true;
+  }
+
+  // ===================== HABITS & WATER TRACKER =====================
+  let waterCount = 5;
+  function addWaterCup(e) {
+    if(e) e.stopPropagation();
+    if(waterCount < 8) {
+      waterCount++;
+      const textEl = document.getElementById('waterCountText');
+      if(textEl) textEl.textContent = `${waterCount} من 8 أكواب`;
+      if(waterCount === 8) {
+        if(textEl) textEl.innerHTML = `8 من 8 أكواب <span style="color:var(--accent);font-weight:700;">مكتمل ✓</span>`;
+        const scoreEl = document.getElementById('patientScoreVal');
+        if(scoreEl) {
+          let cur = parseInt(scoreEl.textContent) || 88;
+          if(cur < 100) scoreEl.textContent = Math.min(100, cur + 2);
+        }
+        alert('💧 أحسنت! حققت هدف شرب الماء اليومي (8 أكواب). تم منحك +10 نقاط رعاية!');
+      }
+    } else {
+      waterCount++;
+      const textEl = document.getElementById('waterCountText');
+      if(textEl) textEl.textContent = `${waterCount} أكواب (أداء متميز 🌟)`;
+    }
+  }
+
+  // ===================== RECORD VITALS MODAL LOGIC =====================
+  function openVitalsModal() {
+    const m = document.getElementById('vitalsModal');
+    if(m) {
+      m.classList.add('show');
+      setTimeout(() => {
+        const inp = document.getElementById('newVitalValue');
+        if(inp) inp.focus();
+      }, 100);
+    }
+  }
+
+  function closeVitalsModal() {
+    const m = document.getElementById('vitalsModal');
+    if(m) m.classList.remove('show');
+  }
+
+  function handleVitalsBackdrop(e) {
+    if(e.target.id === 'vitalsModal') closeVitalsModal();
+  }
+
+  function onVitalTypeChange() {
+    const type = document.getElementById('newVitalType').value;
+    const valInput = document.getElementById('newVitalValue');
+    const unitBadge = document.getElementById('vitalUnitBadge');
+    if(!valInput || !unitBadge) return;
+
+    if(type === 'bp') {
+      valInput.placeholder = '120/80';
+      unitBadge.textContent = 'mmHg';
+    } else if(type === 'sugar') {
+      valInput.placeholder = '95';
+      unitBadge.textContent = 'mg/dL';
+    } else if(type === 'pulse') {
+      valInput.placeholder = '72';
+      unitBadge.textContent = 'bpm';
+    } else if(type === 'weight') {
+      valInput.placeholder = '77.5';
+      unitBadge.textContent = 'كجم';
+    }
+  }
+
+  function saveNewVital(e) {
+    e.preventDefault();
+    const type = document.getElementById('newVitalType').value;
+    const val = document.getElementById('newVitalValue').value.trim();
+    if(!val) return;
+
+    if(type === 'bp') {
+      if(document.getElementById('vitalBPVal')) document.getElementById('vitalBPVal').innerHTML = `${val} <span class="vital-unit">mmHg</span>`;
+      if(document.getElementById('vitalTime1')) document.getElementById('vitalTime1').innerHTML = `<i class="ti ti-clock"></i> الآن (مسجل)`;
+      if(document.getElementById('vitalBadge1')) document.getElementById('vitalBadge1').textContent = 'قراءة حديثة ✓';
+    } else if(type === 'sugar') {
+      if(document.getElementById('vitalSugarVal')) document.getElementById('vitalSugarVal').innerHTML = `${val} <span class="vital-unit">mg/dL</span>`;
+      if(document.getElementById('vitalTime2')) document.getElementById('vitalTime2').innerHTML = `<i class="ti ti-clock"></i> الآن (مسجل)`;
+      const num = parseFloat(val);
+      if(!isNaN(num) && num <= 100 && document.getElementById('vitalSugarBadge')) {
+        document.getElementById('vitalSugarBadge').textContent = 'طبيعي ومثالي';
+        document.getElementById('vitalSugarBadge').className = 'vital-badge normal';
+      }
+    } else if(type === 'pulse') {
+      if(document.getElementById('vitalPulseVal')) document.getElementById('vitalPulseVal').innerHTML = `${val} <span class="vital-unit">bpm</span>`;
+      if(document.getElementById('vitalTime3')) document.getElementById('vitalTime3').innerHTML = `<i class="ti ti-clock"></i> الآن (مسجل)`;
+    } else if(type === 'weight') {
+      if(document.getElementById('vitalWeightVal')) document.getElementById('vitalWeightVal').innerHTML = `${val} <span class="vital-unit">كجم</span>`;
+      if(document.getElementById('vitalTime4')) document.getElementById('vitalTime4').innerHTML = `<i class="ti ti-clock"></i> الآن (مسجل)`;
+    }
+
+    // Bump score & points
+    const scoreEl = document.getElementById('patientScoreVal');
+    if(scoreEl) {
+      let cur = parseInt(scoreEl.textContent) || 88;
+      if(cur < 100) scoreEl.textContent = Math.min(100, cur + 2);
+    }
+    const ptsEl = document.getElementById('carePointsVal');
+    if(ptsEl) {
+      ptsEl.textContent = (parseInt(ptsEl.textContent) || 450) + 15;
+    }
+
+    closeVitalsModal();
+    alert(`✓ تم تسجيل القياس (${val}) بنجاح وإضافته إلى سجلك الصحي مع منحك +15 نقطة رعاية.`);
+  }
+
+  // ===================== PHARMACY REFILL HANDLER =====================
+  function refillMedsAction() {
+    alert('🛵 تم إرسال طلب صرف وتوصيل الروشتة (كونكور 5 مجم + أوجمنتين 1 جم) إلى صيدليات العزبي الشريكة بنجاح!\n\nسيصلك اتصال لتأكيد العنوان والتوصيل خلال 45 دقيقة مع تطبيق خصم 15% لمشتركي منصة طبابا.');
   }
 
   // ===================== 7. MINI MEDICATION REMINDER =====================
@@ -2849,6 +3662,9 @@ function closeAllDrawers(){
     const pct = Math.round((completed / total) * 100);
     document.getElementById('medProgressBar').style.width = pct + '%';
     document.getElementById('medCounterBadge').textContent = `${completed} من ${total}`;
+    if(document.getElementById('habitMedStatus')) {
+      document.getElementById('habitMedStatus').textContent = `${completed} من ${total} جرعات (${pct}%)`;
+    }
 
     if(completed === total) {
       setTimeout(() => {
@@ -2857,29 +3673,144 @@ function closeAllDrawers(){
     }
   }
 
-  // ===================== QUICK ACTIONS & PROMPTS =====================
+  // ===================== INTERACTIVE CLINICAL AI CHAT ENGINE =====================
+  function askAiPrompt(promptText) {
+    const input = document.getElementById('aiChatInput');
+    if(input) {
+      input.value = promptText;
+      sendAiChat();
+    }
+  }
+
+  function sendAiChat() {
+    const input = document.getElementById('aiChatInput');
+    const thread = document.getElementById('aiChatThread');
+    if(!input || !thread) return;
+
+    const query = input.value.trim();
+    if(!query) return;
+
+    // Append patient message
+    const patientBubble = document.createElement('div');
+    patientBubble.className = 'chat-bubble patient';
+    patientBubble.textContent = query;
+    thread.appendChild(patientBubble);
+    input.value = '';
+
+    // Append typing indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.className = 'chat-typing-dots';
+    typingIndicator.id = 'aiChatTypingIndicator';
+    typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+    thread.appendChild(typingIndicator);
+    thread.scrollTop = thread.scrollHeight;
+
+    // Generate response after small realistic delay
+    setTimeout(() => {
+      const existingTyping = document.getElementById('aiChatTypingIndicator');
+      if(existingTyping) existingTyping.remove();
+
+      const replyBubble = document.createElement('div');
+      replyBubble.className = 'chat-bubble ai';
+      replyBubble.innerHTML = generateClinicalAiResponse(query);
+      thread.appendChild(replyBubble);
+      thread.scrollTop = thread.scrollHeight;
+    }, 600);
+  }
+
+  function generateClinicalAiResponse(q) {
+    const lower = q.toLowerCase();
+    
+    // 1. Concor & NSAIDs / Medications
+    if(lower.includes('كونكور') || lower.includes('concor') || lower.includes('مسكن') || lower.includes('بروفين') || lower.includes('فولتارين') || lower.includes('أوجمنتين')) {
+      return `
+        <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-pill"></i> توجيه دوائي وسريري:</div>
+        • دواء <strong>كونكور (Concor 5mg)</strong> هو من حاصرات بيتا لتنظيم ضربات القلب وخفض ضغط الدم.<br>
+        • <strong>التداخل مع المسكنات:</strong> مسكنات NSAIDs (مثل البروفين والفولتارين والكتافلام) قد ترفع ضغط الدم وتقلل من فعالية دواء الضغط وتجهد الكلى مع الاستخدام المتكرر.<br>
+        • <strong>البديل الآمن:</strong> يُفضل استخدام <strong>الباراسيتامول (مثل بنادول العادي)</strong> كمسكن أولي آمن.<br>
+        • 💡 يمكنك مناقشة <strong>د. وائل مجدي</strong> في موعدك اليوم لتحديد المسكن الأنسب لحالتك.
+      `;
+    }
+
+    // 2. Blood pressure
+    if(lower.includes('ضغط') || lower.includes('120') || lower.includes('80') || lower.includes('مرتفع') || lower.includes('واطي')) {
+      return `
+        <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-heart-rate-monitor"></i> تقييم قياس ضغط الدم (120/80):</div>
+        • قراءتك المسجلة <strong>120/80 mmHg</strong> تُعد <strong>مثالية وطبيعية تماماً</strong> طبقاً لأحدث المعايير الطبية الدولية.<br>
+        • هذا يوضح التزاماً ممتازاً بجرعة كونكور واستقرار الجهاز الدوري والقلب.<br>
+        • <strong>نصائح للحفاظ على هذا المستوى:</strong> الاعتدال بالملح، شرب الماء بانتظام (8 أكواب يومياً)، والمشي الخفيف لمدة 30 دقيقة.<br>
+        • إذا شعرت بأي دوخة أو إرهاق مفاجئ، يُنصح بإعادة القياس بعد الاسترخاء.
+      `;
+    }
+
+    // 3. Fasting Glucose 105
+    if(lower.includes('سكر') || lower.includes('105') || lower.includes('صائم') || lower.includes('تراكمي') || lower.includes('glucose')) {
+      return `
+        <div style="font-weight:700;color:#fbbf24;margin-bottom:5px;"><i class="ti ti-droplet"></i> تفسير قراءة السكر الصائم (105 mg/dL):</div>
+        • النطاق الطبيعي للسكر الصائم هو <strong>70 - 99 mg/dL</strong>.<br>
+        • قراءة 105 mg/dL تقع في مرحلة <em>"مقدمات السكري" (Pre-diabetes)</em> وهي مرحلة قابلة للعكس والتحسن التام بالنمط الصحي.<br>
+        • <strong>الإجراءات الموصى بها:</strong><br>
+        1. إجراء فحص السكر التراكمي (HbA1c) للتأكد من متوسط الشهور الثلاثة الماضية.<br>
+        2. تقليل السكريات والحلويات والخبز الأبيض واستبدالها بالحبوب الكاملة.<br>
+        3. استشر طبيبك في موعد اليوم لإضافة تحليل دهون ثلاثية وسكر تراكمي.
+      `;
+    }
+
+    // 4. Headache & Dizziness
+    if(lower.includes('صداع') || lower.includes('دوخة') || lower.includes('زغللة') || lower.includes('دوار')) {
+      return `
+        <div style="font-weight:700;color:#f87171;margin-bottom:5px;"><i class="ti ti-alert-circle"></i> تقييم أعراض الصداع والدوخة:</div>
+        • <strong>إجراء عاجل:</strong> قِس ضغط دمك ونبضك الآن للتأكد من عدم وجود هبوط أو ارتفاع مفاجئ.<br>
+        • استلقِ في غرفة هادئة مظلمة واشرب كوبين من الماء، فالجفاف وإجهاد العين سبب رئيسي للصداع.<br>
+        • ⚠️ <strong>علامات خطر:</strong> إذا كان الصداع شديداً جداً وغير مسبوق ومصحوباً بتلعثم في الكلام أو ثقل بأحد الأطراف، استخدم زر <strong>وحدة الطوارئ 24/7</strong> فوراً دون تأخير.
+      `;
+    }
+
+    // 5. Nutrition & Heart Health
+    if(lower.includes('تغذية') || lower.includes('أكل') || lower.includes('نظام') || lower.includes('دايت') || lower.includes('ملح') || lower.includes('رياضة')) {
+      return `
+        <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-salad"></i> إرشادات التغذية وصحة القلب:</div>
+        • <strong>أطعمة صديقة للقلب والشرايين:</strong> الخضروات الورقية، الموز والأفوكادو (مصادر بوتاسيوم ممتازة)، وزيت الزيتون البكر.<br>
+        • <strong>تقليل الصوديوم:</strong> تجنب المخللات والأطعمة المصنعة واستبدل ملح الطعام بالليمون والتوابل الطبيعية.<br>
+        • <strong>السوائل:</strong> شرب الماء المستمر يُحافظ على سيولة الدم ويُخفف العبء على عضلة القلب.
+      `;
+    }
+
+    // 6. Child (Omar)
+    if(lower.includes('طفل') || lower.includes('عمر') || lower.includes('حرارة') || lower.includes('تطعيم') || lower.includes('سخونية')) {
+      return `
+        <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-mood-kid"></i> إرشادات سريرية لصحة الطفل (عمر):</div>
+        • في حالات الحرارة: قِس درجة الحرارة بميزان ديجيتال، واستخدم شراب الباراسيتامول المخصص للأطفال بجرعة محسوبة حسب وزن الطفل.<br>
+        • كمادات ماء فاتر (من الصنبور) على الرقبة وتحت الإبط، وتجنب الماء المثلج تماماً.<br>
+        • شرب السوائل بكميات صغيرة متكررة لمنع الجفاف، وفي حال استمرار الحرارة أكثر من 48 ساعة يُنصح باستشارة طبيب أطفال فوراً.
+      `;
+    }
+
+    // 7. General inquiry
+    return `
+      <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-stethoscope"></i> تقييم طبي من Tababa Clinical AI:</div>
+      سؤالك تم تحليله عبر محرك الاستشارات الطبية السريرية في طبابا.<br>
+      • يُنصح بمتابعة تطور الأعراض وتدوين وقت بدايتها، وتجنب تناول أي أدوية دون وصفة طبية مباشرة.<br>
+      • يمكنك مناقشة هذا السؤال مباشرة مع <strong>د. وائل مجدي</strong> في استشارتك اليوم الساعة 06:00 م، أو الضغط على "تحدث مع الدكتور" لتوجيهك للعيادة المناسبة.
+    `;
+  }
+
+  // Backward-compatible triggers for existing buttons
   function pickPrompt(btn) {
-    document.getElementById('symptomInput').value = btn.textContent;
-    switchActionTab('talk', document.querySelector('.action-tab-btn:last-child'));
-    runTriage();
+    if(btn && btn.textContent) {
+      askAiPrompt(btn.textContent);
+    }
   }
 
   function sendAiSide() {
-    const input = document.getElementById('aiSideInput');
-    if(!input.value.trim()) return;
-    document.getElementById('symptomInput').value = input.value;
-    input.value = '';
-    switchActionTab('talk', document.querySelector('.action-tab-btn:last-child'));
-    runTriage();
+    sendAiChat();
   }
 
   function sendQuickSide() {
     const input = document.getElementById('quickSideInput');
-    if(!input.value.trim()) return;
-    document.getElementById('symptomInput').value = input.value;
+    if(!input || !input.value.trim()) return;
+    askAiPrompt(input.value);
     input.value = '';
-    switchActionTab('talk', document.querySelector('.action-tab-btn:last-child'));
-    runTriage();
   }
 
   function quickBookDoc(btn, docName) {
