@@ -808,6 +808,447 @@
     color: var(--text-muted);
   }
 
+  /* =============== PROMINENT DAILY MEDICATION SCHEDULE STYLES =============== */
+  .daily-med-schedule-section {
+    background: linear-gradient(160deg, rgba(17,26,44,0.95) 0%, rgba(12,18,32,0.98) 100%);
+    border: 1px solid rgba(31,230,168,0.25);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-top: 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 36px rgba(0,0,0,0.35), inset 0 1px 0 rgba(31,230,168,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .daily-med-schedule-section::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: 20%;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(31,230,168,0.06), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .sched-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .sched-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .sched-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(31,230,168,0.15);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: 1px solid rgba(31,230,168,0.3);
+    box-shadow: 0 0 16px rgba(31,230,168,0.2);
+    flex-shrink: 0;
+  }
+  .sched-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .sched-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .sched-pulse-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(31,230,168,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(31,230,168,0.3);
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .sched-subtitle {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .sched-actions-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .sched-counter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-strong);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .sched-pct-badge {
+    background: var(--accent);
+    color: #03261b;
+    padding: 1px 7px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+  }
+  .sched-progress-wrap {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+  }
+  .sched-progress-track {
+    height: 7px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .sched-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+    border-radius: 999px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(31,230,168,0.5);
+  }
+  .sched-progress-legend {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sched-progress-legend .next-dose-txt {
+    color: #f2b84b;
+    font-weight: 700;
+  }
+  .sched-cards-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 860px) {
+    .sched-cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .sched-dose-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    position: relative;
+    transition: all 0.25s ease;
+  }
+  .sched-dose-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  .sched-dose-card.taken {
+    background: rgba(31,230,168,0.03);
+    border-color: rgba(31,230,168,0.25);
+  }
+  .sched-dose-card.pending.highlight {
+    background: linear-gradient(145deg, rgba(242,184,75,0.06), rgba(17,26,44,0.95));
+    border: 1.5px solid rgba(242,184,75,0.45);
+    box-shadow: 0 0 24px rgba(242,184,75,0.12);
+  }
+  .dose-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .dose-time-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .dose-time-tag.active-alarm {
+    color: #f2b84b;
+  }
+  .dose-time-tag.active-alarm i {
+    animation: pulseAlarm 1.8s infinite;
+  }
+  @keyframes pulseAlarm {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+  .dose-status-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dose-status-pill.taken {
+    background: rgba(31,230,168,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(31,230,168,0.3);
+  }
+  .dose-status-pill.pending {
+    background: rgba(242,184,75,0.15);
+    color: #f2b84b;
+    border: 1px solid rgba(242,184,75,0.3);
+  }
+  .dose-status-pill.prn {
+    background: rgba(99,102,241,0.15);
+    color: #818cf8;
+    border: 1px solid rgba(99,102,241,0.3);
+  }
+  .dose-card-body {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .dose-med-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .dose-med-icon.concor {
+    background: rgba(239,68,68,0.12);
+    color: #f87171;
+    border: 1px solid rgba(239,68,68,0.25);
+  }
+  .dose-med-icon.augmentin {
+    background: rgba(59,130,246,0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(59,130,246,0.25);
+  }
+  .dose-med-icon.augmentin.active-pulse {
+    background: rgba(242,184,75,0.15);
+    color: #f2b84b;
+    border: 1px solid rgba(242,184,75,0.35);
+    box-shadow: 0 0 14px rgba(242,184,75,0.25);
+  }
+  .dose-med-icon.panadol {
+    background: rgba(168,85,247,0.12);
+    color: #c084fc;
+    border: 1px solid rgba(168,85,247,0.25);
+  }
+  .dose-med-details {
+    flex: 1;
+    min-width: 0;
+  }
+  .dose-title-with-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .dose-med-name {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .dose-highlight-tag {
+    background: rgba(242,184,75,0.2);
+    color: #f2b84b;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+  .dose-sci-name {
+    display: block;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .dose-instruction {
+    margin-top: 8px;
+    background: var(--bg-panel);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dose-instruction.warn-highlight {
+    background: rgba(242,184,75,0.08);
+    border-color: rgba(242,184,75,0.25);
+    color: #fef08a;
+  }
+  .dose-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+  .dose-target {
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .dose-doc {
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .dose-card-foot {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 4px;
+  }
+  .dose-toggle-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .dose-toggle-btn.taken {
+    background: rgba(31,230,168,0.12);
+    border: 1px solid rgba(31,230,168,0.3);
+    color: var(--accent);
+  }
+  .dose-toggle-btn.taken:hover {
+    background: rgba(31,230,168,0.2);
+    box-shadow: 0 0 12px rgba(31,230,168,0.25);
+  }
+  .dose-toggle-btn.action {
+    background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+    border: none;
+    color: #03261b;
+    font-weight: 800;
+    box-shadow: 0 4px 16px rgba(31,230,168,0.3);
+  }
+  .dose-toggle-btn.action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(31,230,168,0.45);
+  }
+  .dose-toggle-btn.prn-btn {
+    background: rgba(168,85,247,0.12);
+    border: 1px solid rgba(168,85,247,0.3);
+    color: #c084fc;
+  }
+  .dose-toggle-btn.prn-btn:hover {
+    background: rgba(168,85,247,0.2);
+  }
+  .dose-ask-btn {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .dose-ask-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .sched-footer-strip {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+  }
+  .sched-tip-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    flex: 1;
+    min-width: 280px;
+  }
+  .sched-tip-icon {
+    font-size: 18px;
+    color: #f2b84b;
+    flex-shrink: 0;
+  }
+  .sched-stock-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .sched-stock-alert .stock-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: var(--text-muted);
+  }
+
   /* Digital Health Wallet */
   .health-wallet-section {
     margin-bottom: 26px;
@@ -2731,7 +3172,245 @@ html, body {
       </div>
     </div>
 
-    <!-- 2. VITALS & BIOMARKERS TRACKER -->
+    <!-- ==================== 2. DAILY MEDICATION SCHEDULE (TODAY'S DOSES) ==================== -->
+    <div class="daily-med-schedule-section" id="dailyMedScheduleSection">
+      <div class="sched-header">
+        <div class="sched-title-group">
+          <div class="sched-icon-badge">
+            <i class="ti ti-pill"></i>
+          </div>
+          <div>
+            <div class="sched-title-row">
+              <h3 class="sched-title">جدول أدوية اليوم والتذكير الذكي بالجرعات</h3>
+              <span class="sched-pulse-badge"><span class="pulse-dot"></span> مباشر اليوم</span>
+            </div>
+            <p class="sched-subtitle">متابعة دقيقة لمواعيد علاجك والجرعات المقررة سريرياً مع تأكيد التناول بضغطة واحدة</p>
+          </div>
+        </div>
+
+        <div class="sched-actions-top">
+          <div class="sched-counter-pill" id="overviewMedCounterBadge">
+            <i class="ti ti-checklist" style="color:var(--accent)"></i>
+            <span id="overviewMedCounterText">2 من 3 جرعات مكتملة</span>
+            <span class="sched-pct-badge" id="overviewMedPctBadge">66%</span>
+          </div>
+          <button type="button" class="pill ghost sm" onclick="switchCrmTab('prescriptions')" style="border-color:rgba(91,156,245,0.3);color:#60a5fa;">
+            <i class="ti ti-prescription"></i> صيدليتي وروشتاتي
+          </button>
+          <button type="button" class="pill solid sm" onclick="refillMedsAction()">
+            <i class="ti ti-truck-delivery"></i> صرف وتوصيل الأدوية 🛵
+          </button>
+        </div>
+      </div>
+
+      <!-- Schedule Progress Bar -->
+      <div class="sched-progress-wrap">
+        <div class="sched-progress-track">
+          <div class="sched-progress-fill" id="overviewMedProgressBar" style="width:66%"></div>
+        </div>
+        <div class="sched-progress-legend">
+          <span><i class="ti ti-check" style="color:var(--accent)"></i> الجرعات المأخوذة: <strong>2</strong></span>
+          <span class="next-dose-txt"><i class="ti ti-alarm" style="color:#f2b84b"></i> الجرعة القادمة: <strong>09:00 م (بعد ساعتين و 15 دقيقة)</strong></span>
+          <span>إجمالي جدول اليوم: <strong>3 جرعات</strong></span>
+        </div>
+      </div>
+
+      <!-- Schedule Cards Grid -->
+      <div class="sched-cards-grid">
+
+        <!-- CARD 1: Morning Dose (Concor 5mg) -->
+        <div class="sched-dose-card taken" id="sched-dose-card-1">
+          <div class="dose-card-head">
+            <div class="dose-time-tag">
+              <i class="ti ti-sun"></i>
+              <span>صباحاً 08:00 ص</span>
+            </div>
+            <span class="dose-status-pill taken" id="sched-dose-status-1">
+              <i class="ti ti-check"></i> تم التناول 08:15 ص
+            </span>
+          </div>
+
+          <div class="dose-card-body">
+            <div class="dose-med-icon concor">
+              <i class="ti ti-heart-rate-monitor"></i>
+            </div>
+            <div class="dose-med-details">
+              <h4 class="dose-med-name">كونكور 5 مجم (Concor 5mg)</h4>
+              <span class="dose-sci-name">بيسوبرولول فومارات • Bisoprolol Fumarate</span>
+              <div class="dose-instruction">
+                <i class="ti ti-info-circle"></i>
+                <span>قرص واحد (5mg) بعد الإفطار مع كوب ماء</span>
+              </div>
+              <div class="dose-meta-row">
+                <span class="dose-target"><i class="ti ti-shield-check"></i> تنظيم ضربات القلب واستقرار الضغط</span>
+                <span class="dose-doc"><i class="ti ti-user-md"></i> د. وائل مجدي</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dose-card-foot">
+            <button type="button" class="dose-toggle-btn taken" id="sched-dose-btn-1" onclick="toggleMedDose(1)">
+              <i class="ti ti-check"></i>
+              <span id="sched-dose-btn-text-1">جرعة الصباح مأخوذة</span>
+            </button>
+            <button type="button" class="dose-ask-btn" title="اسأل المستشار الذكي عن كونكور" onclick="askMainAiPrompt('هل كونكور 5 مجم يؤخذ مع الأكل ولا قبله؟ وما هي نصائح استخدامه؟')">
+              <i class="ti ti-sparkles"></i> استفسار
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 2: Afternoon Dose (Augmentin 1g) -->
+        <div class="sched-dose-card taken" id="sched-dose-card-2">
+          <div class="dose-card-head">
+            <div class="dose-time-tag">
+              <i class="ti ti-sun-high"></i>
+              <span>ظهراً 02:00 م</span>
+            </div>
+            <span class="dose-status-pill taken" id="sched-dose-status-2">
+              <i class="ti ti-check"></i> تم التناول 02:20 م
+            </span>
+          </div>
+
+          <div class="dose-card-body">
+            <div class="dose-med-icon augmentin">
+              <i class="ti ti-shield-half-filled"></i>
+            </div>
+            <div class="dose-med-details">
+              <h4 class="dose-med-name">أوجمنتين 1 جم (Augmentin 1g)</h4>
+              <span class="dose-sci-name">أموكسيسيلين + كلافولانات البوتاسيوم</span>
+              <div class="dose-instruction">
+                <i class="ti ti-info-circle"></i>
+                <span>قرص واحد (1000mg) بعد وجبة الغداء مباشرة</span>
+              </div>
+              <div class="dose-meta-row">
+                <span class="dose-target"><i class="ti ti-virus-off"></i> مضاد حيوي واسع المجال (اليوم 5 من 7)</span>
+                <span class="dose-doc"><i class="ti ti-user-md"></i> د. أحمد سامي</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dose-card-foot">
+            <button type="button" class="dose-toggle-btn taken" id="sched-dose-btn-2" onclick="toggleMedDose(2)">
+              <i class="ti ti-check"></i>
+              <span id="sched-dose-btn-text-2">جرعة الظهيرة مأخوذة</span>
+            </button>
+            <button type="button" class="dose-ask-btn" title="اسأل المستشار الذكي عن أوجمنتين" onclick="askMainAiPrompt('هل أوجمنتين 1 جم يسبب أي مغص أو تعب بالمعدة وكيف أتجنبه؟')">
+              <i class="ti ti-sparkles"></i> استفسار
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 3: Evening Dose (Augmentin 1g) - PENDING & HIGHLIGHTED -->
+        <div class="sched-dose-card pending highlight" id="sched-dose-card-3">
+          <div class="dose-card-head">
+            <div class="dose-time-tag active-alarm">
+              <i class="ti ti-moon-stars"></i>
+              <span>مساءً 09:00 م</span>
+            </div>
+            <span class="dose-status-pill pending" id="sched-dose-status-3">
+              <span class="pulse-dot orange"></span> الموعد المرتقب ⏱️
+            </span>
+          </div>
+
+          <div class="dose-card-body">
+            <div class="dose-med-icon augmentin active-pulse">
+              <i class="ti ti-alarm"></i>
+            </div>
+            <div class="dose-med-details">
+              <div class="dose-title-with-badge">
+                <h4 class="dose-med-name">أوجمنتين 1 جم (الجرعة المسائية)</h4>
+                <span class="dose-highlight-tag">حان موعدها قريباً</span>
+              </div>
+              <span class="dose-sci-name">الجرعة الثانية اليومية (فاصل 12 ساعة)</span>
+              <div class="dose-instruction warn-highlight">
+                <i class="ti ti-clock"></i>
+                <span>قرص واحد (1000mg) بعد وجبة العشاء أو مع كوب زبادي</span>
+              </div>
+              <div class="dose-meta-row">
+                <span class="dose-target" style="color:#fbbf24;"><i class="ti ti-bell-ringing"></i> تذكير بالمنبه عبر إشعار SMS</span>
+                <span class="dose-doc"><i class="ti ti-user-md"></i> د. أحمد سامي</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dose-card-foot">
+            <button type="button" class="dose-toggle-btn action" id="sched-dose-btn-3" onclick="toggleMedDose(3)">
+              <i class="ti ti-circle-check"></i>
+              <span id="sched-dose-btn-text-3">تأكيد تناول الجرعة الآن ✓</span>
+            </button>
+            <button type="button" class="dose-ask-btn" title="اسأل المستشار الذكي عن الجرعة المسائية" onclick="askMainAiPrompt('ماذا أفعل لو نسيت جرعة أوجمنتين المسائية وتأخرت ساعة؟')">
+              <i class="ti ti-sparkles"></i> استفسار
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 4: PRN (As Needed) - Panadol Joint -->
+        <div class="sched-dose-card prn" id="sched-dose-card-4">
+          <div class="dose-card-head">
+            <div class="dose-time-tag">
+              <i class="ti ti-first-aid-kit"></i>
+              <span>عند اللزوم (PRN)</span>
+            </div>
+            <span class="dose-status-pill prn" id="sched-dose-status-4">
+              مسكن مفاصل وعظام
+            </span>
+          </div>
+
+          <div class="dose-card-body">
+            <div class="dose-med-icon panadol">
+              <i class="ti ti-bone"></i>
+            </div>
+            <div class="dose-med-details">
+              <h4 class="dose-med-name">بانادول جوينت 665 مجم (Panadol Joint)</h4>
+              <span class="dose-sci-name">باراسيتامول ممتد المفعول • Paracetamol SR</span>
+              <div class="dose-instruction">
+                <i class="ti ti-info-circle"></i>
+                <span>قرص عند اشتداد ألم أسفل الظهر أو الركبة (بحد أقصى مرتين يومياً)</span>
+              </div>
+              <div class="dose-meta-row">
+                <span class="dose-target"><i class="ti ti-shield-check"></i> آمن مع كونكور وأوجمنتين</span>
+                <span class="dose-doc"><i class="ti ti-user-md"></i> د. محمد رضا</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dose-card-foot">
+            <button type="button" class="dose-toggle-btn prn-btn" id="sched-dose-btn-4" onclick="recordPrnDose()">
+              <i class="ti ti-plus"></i>
+              <span id="sched-dose-btn-text-4">تسجيل أخذ جرعة مسكن</span>
+            </button>
+            <button type="button" class="dose-ask-btn" title="اسأل المستشار الذكي عن المسكنات" onclick="askMainAiPrompt('هل بانادول جوينت آمن لمريض الضغط وما هو الحد الأقصى منه؟')">
+              <i class="ti ti-sparkles"></i> استفسار
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Schedule Footer Clinical Tips & Refill Strip -->
+      <div class="sched-footer-strip">
+        <div class="sched-tip-box">
+          <div class="sched-tip-icon"><i class="ti ti-bulb"></i></div>
+          <div class="sched-tip-content">
+            <strong>إرشادات صيدلانية معتمدة من طبابا:</strong>
+            <span>أدوية الضغط (كونكور) والمضاد الحيوي (أوجمنتين) متوافقة تماماً ولا تعارض كيميائي بينهما. احرص على إكمال مدة المضاد الحيوي كاملة (7 أيام) حتى مع زوال الأعراض.</span>
+          </div>
+        </div>
+        <div class="sched-stock-alert">
+          <div class="stock-info">
+            <i class="ti ti-alert-triangle" style="color:#f2b84b"></i>
+            <span>مخزون شريط أوجمنتين يكفي حتى <strong>غداً مساءً</strong></span>
+          </div>
+          <button type="button" class="pill solid sm" onclick="refillMedsAction()" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 0 16px rgba(16,185,129,0.3);">
+            <i class="ti ti-truck-delivery"></i> إعادة طلب الصرف الآن 🛵
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <!-- ==================== END DAILY MEDICATION SCHEDULE ==================== -->
+
+    <!-- 3. VITALS & BIOMARKERS TRACKER -->
     <div class="vitals-section" style="margin-top:20px; margin-bottom:20px;">
       <div class="section-head-custom">
         <div class="section-title-custom">
@@ -4945,37 +5624,149 @@ function closeAllDrawers(){
     alert('🛵 تم إرسال طلب صرف وتوصيل الروشتة (كونكور 5 مجم + أوجمنتين 1 جم) إلى صيدليات العزبي الشريكة بنجاح!\n\nسيصلك اتصال لتأكيد العنوان والتوصيل خلال 45 دقيقة مع تطبيق خصم 15% لمشتركي منصة طبابا.');
   }
 
-  // ===================== 7. MINI MEDICATION REMINDER =====================
+  // ===================== 7. MEDICATION REMINDERS & DAILY SCHEDULE =====================
   const doseStates = {1:true, 2:true, 3:false};
-  function toggleMedDose(id) {
-    doseStates[id] = !doseStates[id];
-    const item = document.getElementById('dose-' + id);
-    const statusTag = document.getElementById('dose-status-' + id);
+  let prnDoseTaken = false;
 
-    if(doseStates[id]) {
-      item.classList.add('taken');
-      statusTag.textContent = 'تمت ✓';
-      statusTag.style.color = 'var(--accent)';
-    } else {
-      item.classList.remove('taken');
-      statusTag.textContent = 'لم تؤخذ';
-      statusTag.style.color = 'var(--warn)';
+  function syncDoseUI(id) {
+    const isTaken = doseStates[id];
+    
+    // 1. Update Mini Card if present
+    const miniItem = document.getElementById('dose-' + id);
+    const miniStatusTag = document.getElementById('dose-status-' + id);
+    if(miniItem) {
+      if(isTaken) {
+        miniItem.classList.add('taken');
+        if(miniStatusTag) {
+          miniStatusTag.textContent = 'تمت ✓';
+          miniStatusTag.style.color = 'var(--accent)';
+        }
+      } else {
+        miniItem.classList.remove('taken');
+        if(miniStatusTag) {
+          miniStatusTag.textContent = id === 3 ? 'الموعد القادم' : 'لم تؤخذ';
+          miniStatusTag.style.color = 'var(--warn)';
+        }
+      }
     }
 
-    // Update Progress
+    // 2. Update Prominent Schedule Card
+    const schedCard = document.getElementById('sched-dose-card-' + id);
+    const schedStatus = document.getElementById('sched-dose-status-' + id);
+    const schedBtn = document.getElementById('sched-dose-btn-' + id);
+    const schedBtnText = document.getElementById('sched-dose-btn-text-' + id);
+
+    if(schedCard) {
+      if(isTaken) {
+        schedCard.classList.add('taken');
+        schedCard.classList.remove('pending', 'highlight');
+        if(schedStatus) {
+          schedStatus.className = 'dose-status-pill taken';
+          schedStatus.innerHTML = '<i class="ti ti-check"></i> تم التناول بنجاح ✓';
+        }
+        if(schedBtn) {
+          schedBtn.className = 'dose-toggle-btn taken';
+        }
+        if(schedBtnText) {
+          schedBtnText.textContent = id === 1 ? 'جرعة الصباح مأخوذة' : (id === 2 ? 'جرعة الظهيرة مأخوذة' : 'تم أخذ الجرعة المسائية ✓');
+        }
+      } else {
+        schedCard.classList.remove('taken');
+        if(id === 3) {
+          schedCard.classList.add('pending', 'highlight');
+          if(schedStatus) {
+            schedStatus.className = 'dose-status-pill pending';
+            schedStatus.innerHTML = '<span class="pulse-dot orange"></span> الموعد المرتقب ⏱️';
+          }
+          if(schedBtn) {
+            schedBtn.className = 'dose-toggle-btn action';
+          }
+          if(schedBtnText) {
+            schedBtnText.textContent = 'تأكيد تناول الجرعة الآن ✓';
+          }
+        } else {
+          schedCard.classList.add('pending');
+          if(schedStatus) {
+            schedStatus.className = 'dose-status-pill pending';
+            schedStatus.innerHTML = '<i class="ti ti-alert-circle"></i> لم تؤخذ بعد';
+          }
+          if(schedBtn) {
+            schedBtn.className = 'dose-toggle-btn action';
+          }
+          if(schedBtnText) {
+            schedBtnText.textContent = 'تأكيد التناول الآن ✓';
+          }
+        }
+      }
+    }
+
+    // 3. Update Progress Counters
     const total = 3;
     const completed = Object.values(doseStates).filter(Boolean).length;
     const pct = Math.round((completed / total) * 100);
-    document.getElementById('medProgressBar').style.width = pct + '%';
-    document.getElementById('medCounterBadge').textContent = `${completed} من ${total}`;
+
+    // Mini progress
+    if(document.getElementById('medProgressBar')) {
+      document.getElementById('medProgressBar').style.width = pct + '%';
+    }
+    if(document.getElementById('medCounterBadge')) {
+      document.getElementById('medCounterBadge').textContent = `${completed} من ${total}`;
+    }
+
+    // Prominent Overview progress
+    if(document.getElementById('overviewMedProgressBar')) {
+      document.getElementById('overviewMedProgressBar').style.width = pct + '%';
+    }
+    if(document.getElementById('overviewMedCounterText')) {
+      document.getElementById('overviewMedCounterText').textContent = `${completed} من ${total} جرعات مكتملة`;
+    }
+    if(document.getElementById('overviewMedPctBadge')) {
+      document.getElementById('overviewMedPctBadge').textContent = pct + '%';
+    }
     if(document.getElementById('habitMedStatus')) {
       document.getElementById('habitMedStatus').textContent = `${completed} من ${total} جرعات (${pct}%)`;
     }
 
+    // Score & Celebration
     if(completed === total) {
+      if(document.getElementById('patientScoreVal')) {
+        document.getElementById('patientScoreVal').textContent = '92';
+      }
       setTimeout(() => {
-        alert('🎉 أحسنت يا بطل! تم إكمال جميع جرعات اليوم بنجاح ورفع نسبة التزامك الصحي.');
-      }, 200);
+        alert('🎉 أحسنت يا بطل! تم إكمال جميع جرعات اليوم بنجاح (100%) وارتفع مؤشر عافيتك إلى 92/100 🌟');
+      }, 250);
+    }
+  }
+
+  function toggleMedDose(id) {
+    doseStates[id] = !doseStates[id];
+    syncDoseUI(id);
+  }
+
+  function recordPrnDose() {
+    prnDoseTaken = !prnDoseTaken;
+    const btn = document.getElementById('sched-dose-btn-4');
+    const status = document.getElementById('sched-dose-status-4');
+    const card = document.getElementById('sched-dose-card-4');
+    const btnText = document.getElementById('sched-dose-btn-text-4');
+
+    if(prnDoseTaken) {
+      if(card) card.classList.add('taken');
+      if(status) {
+        status.innerHTML = '<i class="ti ti-check"></i> تم تسجيل الجرعة 07:30 م';
+        status.style.color = 'var(--accent)';
+      }
+      if(btn) btn.className = 'dose-toggle-btn taken';
+      if(btnText) btnText.textContent = 'تم تسجيل جرعة المسكن ✓';
+      alert('💊 تم تسجيل جرعة بانادول جوينت بنجاح في سجلك اليومي. نتمنى لك دوام الراحة والشفاء!');
+    } else {
+      if(card) card.classList.remove('taken');
+      if(status) {
+        status.innerHTML = 'مسكن مفاصل وعظام';
+        status.style.color = '';
+      }
+      if(btn) btn.className = 'dose-toggle-btn prn-btn';
+      if(btnText) btnText.textContent = 'تسجيل أخذ جرعة مسكن';
     }
   }
 
