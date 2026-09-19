@@ -1967,6 +1967,67 @@
   }
   .emergency-fab i{font-size:20px;}
 
+  /* 5.1. FLOATING PATIENT SUPPORT WIDGET (خدمة ومساعدة المريض) */
+  .patient-support-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 998;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #162035 0%, #0d1627 100%);
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 13.5px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    border: 1.5px solid rgba(168, 85, 247, 0.35);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(12px);
+  }
+  .patient-support-fab:hover {
+    transform: translateY(-3px) scale(1.02);
+    border-color: rgba(168, 85, 247, 0.7);
+    box-shadow: 0 12px 30px rgba(168, 85, 247, 0.35);
+  }
+  .patient-support-fab .support-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.4);
+  }
+  .patient-support-fab .online-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+    display: inline-block;
+  }
+  @media (max-width: 768px) {
+    .patient-support-fab {
+      bottom: 82px;
+      right: 14px;
+      padding: 9px 14px;
+      font-size: 12px;
+    }
+    .emergency-fab {
+      bottom: 82px;
+      left: 14px;
+      padding: 9px 14px;
+      font-size: 12px;
+    }
+  }
+
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(3,7,14,0.85);backdrop-filter:blur(6px);
     z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;
@@ -2447,6 +2508,7 @@ html, body {
       <a class="navitem" href="#"><i class="ti ti-user"></i>ملفي الشخصي</a>
       <a class="navitem" href="#"><i class="ti ti-calendar"></i>حجوزاتي</a>
       <a class="navitem" href="#"><i class="ti ti-heart"></i>المفضلة</a>
+      <a class="navitem" href="cs-leads-dashboard.html" style="margin-top:6px;border-top:1px dashed var(--border);padding-top:8px;opacity:0.85;"><i class="ti ti-headset" style="color:#a855f7"></i>بوابة خدمة العملاء (CRM)</a>
     </nav>
 
     <div class="card chatcard">
@@ -2534,7 +2596,6 @@ html, body {
           <span>طلب طوارئ 24/7</span>
           <span class="pulse-dot-red"></span>
         </button>
-        <a class="pill sm ghost" href="cs-leads-dashboard.html" style="background:rgba(168,85,247,0.12);color:#a855f7;border-color:rgba(168,85,247,0.3)"><i class="ti ti-headset"></i>خدمة العملاء (Leads)</a>
         <a class="pill sm" href="tababa-doctor-dashboard.html"><i class="ti ti-user-plus"></i>انضم كطبيب</a>
         <span class="pill solid sm"><i class="ti ti-door-exit"></i>تسجيل الخروج</span>
       </div>
@@ -3920,6 +3981,15 @@ html, body {
   <span>طوارئ 24/7</span>
 </div>
 
+<!-- 5.1. FLOATING PATIENT SUPPORT WIDGET -->
+<div class="patient-support-fab" onclick="openPatientSupportModal()" title="مركز مساعدة ودعم المريض 24/7">
+  <div class="support-icon-wrap">
+    <i class="ti ti-headset"></i>
+  </div>
+  <span>مساعدة ودعم المريض</span>
+  <span class="online-indicator" title="متصل الآن"></span>
+</div>
+
 <!-- EMERGENCY ACTION MODAL -->
 <div class="modal-backdrop" id="emergencyModal" onclick="handleModalBackdropClick(event)">
   <div class="modal-box">
@@ -3976,6 +4046,69 @@ html, body {
 
     <div style="text-align:center;">
       <button class="pill ghost" onclick="closeEmergencyModal()" style="font-size:12px">إغلاق نافذة الطوارئ</button>
+    </div>
+  </div>
+</div>
+
+<!-- PATIENT SUPPORT & HELP CENTER MODAL (مركز خدمة ومساعدة المريض) -->
+<div class="modal-backdrop" id="patientSupportModal" onclick="handleSupportModalBackdrop(event)">
+  <div class="modal-box" style="border-color:rgba(168,85,247,0.4);">
+    <button class="modal-close" onclick="closePatientSupportModal()"><i class="ti ti-x"></i></button>
+    
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+      <div style="width:46px;height:46px;border-radius:14px;background:rgba(168,85,247,0.18);color:#a855f7;display:flex;align-items:center;justify-content:center;font-size:24px;border:1px solid rgba(168,85,247,0.3);flex-shrink:0;">
+        <i class="ti ti-headset"></i>
+      </div>
+      <div>
+        <h3 style="margin:0;font-size:17px;font-weight:800;color:var(--text-primary);">مركز مساعدة ودعم المريض 🎧</h3>
+        <p class="tiny" style="margin:2px 0 0;color:var(--text-secondary);">فريق الرعاية وخدمة عملاء طبابة متواجد لمساعدتك على مدار الساعة</p>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:18px;">
+      <!-- Option 1: WhatsApp Support -->
+      <a href="https://wa.me/201000000000?text=مرحباً%20خدمة%20عملاء%20طبابة،%20أحتاج%20مساعدة%20طبية" target="_blank" class="emerg-opt-card" style="border-color:rgba(37,211,102,0.3);text-decoration:none;">
+        <div class="emerg-opt-info">
+          <i class="ti ti-brand-whatsapp" style="color:#25d366;font-size:24px;"></i>
+          <div>
+            <div class="title" style="color:#25d366;">محادثة واتساب فورية (WhatsApp)</div>
+            <div class="desc">تواصل مباشر مع أحد ممثلي خدمة العملاء الطبية في أقل من دقيقة</div>
+          </div>
+        </div>
+        <span class="pill sm" style="background:#25d366;color:#03261b;font-weight:700;"><i class="ti ti-brand-whatsapp"></i> محادثة</span>
+      </a>
+
+      <!-- Option 2: Live Chat with Doctors & AI -->
+      <div class="emerg-opt-card" onclick="closePatientSupportModal(); switchCrmTab('chat');" style="border-color:rgba(31,230,168,0.3);cursor:pointer;">
+        <div class="emerg-opt-info">
+          <i class="ti ti-messages" style="color:var(--accent);font-size:24px;"></i>
+          <div>
+            <div class="title">استشارة سريعة مع الطبيب والذكاء الاصطناعي</div>
+            <div class="desc">أسئلة الجرعات، الأعراض، والمتابعة الصحية المجانية</div>
+          </div>
+        </div>
+        <button type="button" class="pill sm solid" style="background:var(--accent);color:#03261b;font-weight:700;">فتح الشات</button>
+      </div>
+
+      <!-- Option 3: Call Hotline -->
+      <a href="tel:16000" class="emerg-opt-card" style="border-color:rgba(91,156,245,0.3);text-decoration:none;">
+        <div class="emerg-opt-info">
+          <i class="ti ti-phone" style="color:#60a5fa;font-size:24px;"></i>
+          <div>
+            <div class="title" style="color:#60a5fa;">الخط الساخن الموحد (16000)</div>
+            <div class="desc">مكالمة هاتفية فورية لحجوزات العيادات والعمليات والتأمين الطبي</div>
+          </div>
+        </div>
+        <span class="pill sm ghost" style="color:#60a5fa;border-color:rgba(91,156,245,0.4);"><i class="ti ti-phone-outgoing"></i> اتصال</span>
+      </a>
+    </div>
+
+    <!-- Staff CRM Leads Portal Notice (For Demo & Staff) -->
+    <div style="background:rgba(255,255,255,0.03);border:1px dashed var(--border);border-radius:var(--radius-sm);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;font-size:12px;">
+      <span style="color:var(--text-muted);"><i class="ti ti-lock"></i> خاص بموظفي خدمة العملاء:</span>
+      <a href="cs-leads-dashboard.html" style="color:#a855f7;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+        لوحة الـ Leads CRM <i class="ti ti-arrow-left"></i>
+      </a>
     </div>
   </div>
 </div>
@@ -4446,6 +4579,21 @@ function closeAllDrawers(){
   function handleModalBackdropClick(e) {
     if(e.target === document.getElementById('emergencyModal')) {
       closeEmergencyModal();
+    }
+  }
+
+  // ===================== 5.1. PATIENT SUPPORT MODAL (مركز مساعدة ودعم المريض) =====================
+  function openPatientSupportModal() {
+    const m = document.getElementById('patientSupportModal');
+    if(m) m.classList.add('show');
+  }
+  function closePatientSupportModal() {
+    const m = document.getElementById('patientSupportModal');
+    if(m) m.classList.remove('show');
+  }
+  function handleSupportModalBackdrop(e) {
+    if(e.target === document.getElementById('patientSupportModal')) {
+      closePatientSupportModal();
     }
   }
 
