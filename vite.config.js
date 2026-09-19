@@ -24,7 +24,8 @@ export default defineConfig({
         patients: resolve(__dirname, 'doctor-patients.html'),
         profile: resolve(__dirname, 'doctor-profile.html'),
         csLeads: resolve(__dirname, 'cs-leads-dashboard.html'),
-        articles: resolve(__dirname, 'tababa-articles.html')
+        articles: resolve(__dirname, 'tababa-articles.html'),
+        booking: resolve(__dirname, 'tababa-booking.html')
       }
     }
   }
