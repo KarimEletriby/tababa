@@ -817,8 +817,289 @@
     .vitals-grid { grid-template-columns: repeat(2, 1fr); }
     .wallet-grid { grid-template-columns: 1fr; }
   }
-  @media (max-width: 768px) {
-    .habits-bar { grid-template-columns: 1fr; }
+  /* ==================== PATIENT CRM COCKPIT & ACTION COMMAND HUB ==================== */
+  .patient-crm-hub {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 1200px) {
+    .patient-crm-hub { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 680px) {
+    .patient-crm-hub { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .patient-action-tile {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    text-align: right;
+  }
+  .patient-action-tile::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    opacity: 0.85;
+    transition: all 0.25s;
+  }
+  .patient-action-tile:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-strong);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  }
+  .patient-action-tile.active {
+    border-color: var(--accent);
+    background: linear-gradient(145deg, rgba(31,230,168,0.1), var(--bg-card));
+    box-shadow: 0 4px 20px rgba(31,230,168,0.22);
+  }
+
+  /* Specific accents for action tiles */
+  .patient-action-tile.tile-appt::before { background: #1fe6a8; }
+  .patient-action-tile.tile-rx::before { background: #5b9cf5; }
+  .patient-action-tile.tile-labs::before { background: #a855f7; }
+  .patient-action-tile.tile-chat::before { background: #f2665c; }
+  .patient-action-tile.tile-ins::before { background: #f2b84b; }
+
+  .tile-icon-bubble {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px;
+  }
+  .tile-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+  .tile-badge {
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-weight: 700;
+    white-space: nowrap;
+    margin-top: auto;
+  }
+
+  /* CRM Main Nav Bar */
+  .patient-crm-navbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 6px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+    overflow-x: auto;
+  }
+  .patient-crm-navbar::-webkit-scrollbar { display: none; }
+  .crm-tab-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .crm-tab-link:hover {
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.04);
+  }
+  .crm-tab-link.active {
+    background: linear-gradient(135deg, #10684f, #0d5440);
+    border-color: rgba(31,230,168,0.4);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(31,230,168,0.25);
+  }
+  .crm-tab-link .crm-tab-badge {
+    font-size: 10px;
+    background: rgba(255,255,255,0.18);
+    padding: 2px 6px;
+    border-radius: 999px;
+  }
+  .crm-tab-link.active .crm-tab-badge {
+    background: var(--accent);
+    color: #03261b;
+  }
+
+  /* CRM Views Content */
+  .crm-view-section {
+    display: none;
+    animation: crmFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .crm-view-section.active {
+    display: block;
+  }
+  @keyframes crmFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Sub-View Component Styles */
+  .crm-view-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  }
+  .crm-view-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .crm-view-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .crm-view-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .crm-view-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* Prescription Delivery Stepper */
+  .delivery-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 18px 0;
+    position: relative;
+  }
+  .delivery-stepper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 40px; right: 40px;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    z-index: 1;
+    transform: translateY(-50%);
+  }
+  .stepper-step {
+    position: relative;
+    z-index: 2;
+    background: var(--bg-card);
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .stepper-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--bg-panel);
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .stepper-step.completed .stepper-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #03261b;
+  }
+  .stepper-step.active .stepper-dot {
+    border-color: #5b9cf5;
+    background: rgba(91,156,245,0.2);
+    color: #5b9cf5;
+    box-shadow: 0 0 14px rgba(91,156,245,0.4);
+  }
+  .stepper-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+  .stepper-step.completed .stepper-label, .stepper-step.active .stepper-label {
+    color: var(--text-primary);
+  }
+
+  /* Digital Insurance Pass Card */
+  .insurance-pass-card {
+    background: linear-gradient(135deg, #0b1a30 0%, #0d2745 50%, #091728 100%);
+    border: 1px solid rgba(91, 156, 245, 0.4);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+  }
+  .insurance-pass-card::after {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(91,156,245,0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Reward Coupon Card */
+  .coupon-reward-card {
+    background: var(--bg-panel);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s;
+  }
+  .coupon-reward-card:hover {
+    border-color: var(--accent);
+    background: rgba(31,230,168,0.03);
+  }
+
+  /* Lab Upload Zone */
+  .lab-upload-zone {
+    border: 2px dashed rgba(168,85,247,0.35);
+    background: rgba(168,85,247,0.04);
+    border-radius: var(--radius);
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lab-upload-zone:hover {
+    border-color: #a855f7;
+    background: rgba(168,85,247,0.08);
   }
 
   :root{
@@ -1808,6 +2089,94 @@ html, body {
       </div>
     </div>
 
+    <!-- ==================== PATIENT CRM COMMAND HUB (مسارات التحكم الصحي السريعة) ==================== -->
+    <div class="patient-crm-hub" id="patientCrmHub">
+      <!-- 1. مواعيدي واستشاراتي -->
+      <div class="patient-action-tile tile-appt" onclick="switchCrmTab('appointments')">
+        <div class="tile-icon-bubble" style="background:rgba(31,230,168,0.15);color:#1fe6a8">
+          <i class="ti ti-calendar-event"></i>
+        </div>
+        <div class="tile-title">مواعيدي واستشاراتي</div>
+        <span class="tile-badge" style="background:rgba(31,230,168,0.2);color:#1fe6a8">
+          <span class="pulse-dot" style="display:inline-block;width:5px;height:5px;background:#1fe6a8;border-radius:50%;margin-left:3px;"></span> موعد اليوم 06:00 م
+        </span>
+      </div>
+
+      <!-- 2. صيدليتي والروشتات -->
+      <div class="patient-action-tile tile-rx" onclick="switchCrmTab('prescriptions')">
+        <div class="tile-icon-bubble" style="background:rgba(91,156,245,0.15);color:#5b9cf5">
+          <i class="ti ti-pill"></i>
+        </div>
+        <div class="tile-title">صيدليتي والروشتات</div>
+        <span class="tile-badge" style="background:rgba(91,156,245,0.2);color:#5b9cf5">
+          2 دواء • توصيل فوري 🛵
+        </span>
+      </div>
+
+      <!-- 3. سجلاتي والتحاليل -->
+      <div class="patient-action-tile tile-labs" onclick="switchCrmTab('labs')">
+        <div class="tile-icon-bubble" style="background:rgba(168,85,247,0.15);color:#a855f7">
+          <i class="ti ti-file-analytics"></i>
+        </div>
+        <div class="tile-title">سجلاتي والتحاليل</div>
+        <span class="tile-badge" style="background:rgba(168,85,247,0.2);color:#a855f7">
+          3 تقارير معتمدة ✓
+        </span>
+      </div>
+
+      <!-- 4. محادثات الأطباء -->
+      <div class="patient-action-tile tile-chat" onclick="switchCrmTab('chat')">
+        <div class="tile-icon-bubble" style="background:rgba(242,102,92,0.15);color:#f2665c">
+          <i class="ti ti-messages"></i>
+        </div>
+        <div class="tile-title">محادثات الأطباء والـ AI</div>
+        <span class="tile-badge" style="background:rgba(242,102,92,0.2);color:#ff8e85">
+          متابعة مجانية (6 أيام)
+        </span>
+      </div>
+
+      <!-- 5. التأمين والمحفظة -->
+      <div class="patient-action-tile tile-ins" onclick="switchCrmTab('wallet')">
+        <div class="tile-icon-bubble" style="background:rgba(242,184,75,0.15);color:#f2b84b">
+          <i class="ti ti-wallet"></i>
+        </div>
+        <div class="tile-title">التأمين والمحفظة</div>
+        <span class="tile-badge" style="background:rgba(242,184,75,0.2);color:#f2b84b">
+          بوبا 80% • 450 نقطة
+        </span>
+      </div>
+    </div>
+
+    <!-- ==================== PATIENT CRM TABS WORKSPACE ==================== -->
+    <div class="patient-crm-navbar" id="patientCrmNavbar">
+      <button class="crm-tab-link active" id="tabLink-overview" onclick="switchCrmTab('overview')">
+        <i class="ti ti-dashboard"></i> نظرة عامة شاملة
+      </button>
+      <button class="crm-tab-link" id="tabLink-appointments" onclick="switchCrmTab('appointments')">
+        <i class="ti ti-calendar"></i> مواعيدي واستشاراتي
+        <span class="crm-tab-badge">1 موعد اليوم</span>
+      </button>
+      <button class="crm-tab-link" id="tabLink-prescriptions" onclick="switchCrmTab('prescriptions')">
+        <i class="ti ti-prescription"></i> صيدليتي وروشتاتي
+        <span class="crm-tab-badge">2 دواء نشط</span>
+      </button>
+      <button class="crm-tab-link" id="tabLink-labs" onclick="switchCrmTab('labs')">
+        <i class="ti ti-file-analytics"></i> تحاليلي وفحوصاتي
+        <span class="crm-tab-badge">سليم ✓</span>
+      </button>
+      <button class="crm-tab-link" id="tabLink-chat" onclick="switchCrmTab('chat')">
+        <i class="ti ti-message-dots"></i> محادثاتي مع الأطباء
+        <span class="crm-tab-badge" style="background:#f2665c;color:#fff;">نشطة</span>
+      </button>
+      <button class="crm-tab-link" id="tabLink-wallet" onclick="switchCrmTab('wallet')">
+        <i class="ti ti-shield-check"></i> التأمين ورصيد المكافآت
+        <span class="crm-tab-badge">450 نقطة</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: OVERVIEW COCKPIT (VIEW CONTAINER) -->
+    <div class="crm-view-section active" id="crm-view-overview">
+
     <!-- HEALTH SCORE & STREAK MOTIVATION CARD -->
     <div class="patient-score-card" id="patientScoreCard" style="margin-bottom:20px;">
       <div class="score-card-main">
@@ -2766,6 +3135,504 @@ html, body {
         <div class="stat"><div class="num">+50,000</div><div class="lbl">مستخدم يثقون بطبابا</div></div>
       </div>
     </div>
+    </div> <!-- /#crm-view-overview -->
+
+    <!-- ==================== TAB 2: APPOINTMENTS & VIRTUAL CONSULTATIONS ==================== -->
+    <div class="crm-view-section" id="crm-view-appointments">
+      <div class="crm-view-card">
+        <div class="crm-view-head">
+          <div class="crm-view-title-group">
+            <div class="sec-badge" style="background:rgba(31,230,168,0.15);color:var(--accent);"><i class="ti ti-calendar-time"></i></div>
+            <div>
+              <h2 class="crm-view-title">مواعيدي واستشاراتي الطبية</h2>
+              <p class="crm-view-subtitle">إدارة الكشوفات الافتراضية، زيارات العيادات، وغرفة الانتظار بالفيديو</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="pill solid sm" onclick="switchCrmTab('overview'); setTimeout(()=>document.getElementById('patientRegSection')?.scrollIntoView({behavior:'smooth'}), 200)">
+              <i class="ti ti-plus"></i> حجز كشف جديد الآن
+            </button>
+            <button class="pill ghost sm" onclick="window.open('tababa-doctors.html', '_blank')">
+              <i class="ti ti-search"></i> استكشاف الأطباء
+            </button>
+          </div>
+        </div>
+
+        <!-- Appointment Status Tabs Filter -->
+        <div style="display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:12px;">
+          <button class="filter-pill active" onclick="this.parentElement.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));this.classList.add('active');">الكل (3)</button>
+          <button class="filter-pill" onclick="this.parentElement.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));this.classList.add('active');">المواعيد القادمة (1)</button>
+          <button class="filter-pill" onclick="this.parentElement.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));this.classList.add('active');">المكتملة والسابقة (2)</button>
+        </div>
+
+        <!-- ACTIVE UPCOMING APPOINTMENT (Card) -->
+        <div style="background:linear-gradient(145deg, rgba(31,230,168,0.08), rgba(12,18,32,0.9));border:1px solid rgba(31,230,168,0.35);border-radius:var(--radius);padding:20px;margin-bottom:18px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <span class="live-tag"><span class="pulse-dot"></span> موعد اليوم المرتقب • استشارة فيديو أونلاين</span>
+            <span class="confirmed-tag"><i class="ti ti-circle-check"></i> مؤكد ومحجوز بنجاح</span>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap;">
+            <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#0c5e44);color:#03261b;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;">و</div>
+            <div>
+              <h3 style="margin:0 0 4px;font-size:17px;font-weight:800;color:#fff;">د. وائل مجدي</h3>
+              <div style="display:flex;gap:10px;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;">
+                <span><i class="ti ti-heart-rate-monitor" style="color:var(--accent)"></i> استشاري أمراض القلب والأوعية الدموية</span>
+                <span>•</span>
+                <span><i class="ti ti-clock"></i> اليوم 06:00 م (بعد ساعتين)</span>
+                <span>•</span>
+                <span><i class="ti ti-device-laptop"></i> عيادة الفيديو الافتراضية المعتمدة</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,0.06);padding-top:14px;">
+            <button class="pill solid" onclick="enterWaitingRoom()"><i class="ti ti-video"></i> الدخول لغرفة الانتظار الافتراضية</button>
+            <button class="pill ghost" onclick="confirmAppointmentAttendance()"><i class="ti ti-circle-check"></i> تأكيد الحضور الآن</button>
+            <button class="pill ghost" onclick="rescheduleAppointment()"><i class="ti ti-calendar-time"></i> تعديل الموعد</button>
+            <button class="pill ghost" style="color:var(--danger);border-color:rgba(242,102,92,0.3)" onclick="alert('تم استلام طلبك، سيتم إلغاء الحجز وإعادة رسوم الكشف إلى محفظتك الطبية فوراً.')"><i class="ti ti-x"></i> إلغاء الموعد</button>
+          </div>
+        </div>
+
+        <!-- PAST APPOINTMENTS ARCHIVE -->
+        <h4 style="font-size:14px;font-weight:700;color:var(--text-secondary);margin:20px 0 12px;"><i class="ti ti-history"></i> سجل الاستشارات السابقة:</h4>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <!-- Past 1 -->
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div>
+              <div style="font-weight:800;font-size:14px;color:var(--text-primary);">د. أحمد سامي — <span style="font-size:12px;font-weight:normal;color:var(--text-secondary)">استشاري باطنة وجهاز هضمي</span></div>
+              <div style="font-size:11.5px;color:var(--text-muted);margin-top:3px;"><i class="ti ti-calendar-check"></i> 28 أغسطس 2026 • كشف فيديو مكتمل • التشخيص: التهاب معدي ارتجاعي طفيف</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="pill sm ghost" onclick="switchCrmTab('prescriptions')"><i class="ti ti-prescription"></i> الروشتة</button>
+              <button class="pill sm ghost" onclick="alert('تم تفعيل طلب إعادة كشف مع د. أحمد سامي بتخفيض 25%.')"><i class="ti ti-rotate-clockwise"></i> إعادة كشف</button>
+            </div>
+          </div>
+
+          <!-- Past 2 -->
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div>
+              <div style="font-weight:800;font-size:14px;color:var(--text-primary);">د. سارة فهمي — <span style="font-size:12px;font-weight:normal;color:var(--text-secondary)">استشاري الجلدية والتجميل</span></div>
+              <div style="font-size:11.5px;color:var(--text-muted);margin-top:3px;"><i class="ti ti-calendar-check"></i> 10 يوليو 2026 • عيادة المعادي • فحص حساسية موسمية</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="pill sm ghost" onclick="alert('عرض التقرير السريري للدكتورة سارة فهمي.')"><i class="ti ti-file-text"></i> التقرير الطبي</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: PRESCRIPTIONS & PHARMACY DELIVERY ==================== -->
+    <div class="crm-view-section" id="crm-view-prescriptions">
+      <div class="crm-view-card">
+        <div class="crm-view-head">
+          <div class="crm-view-title-group">
+            <div class="sec-badge" style="background:rgba(91,156,245,0.15);color:#5b9cf5;"><i class="ti ti-pill"></i></div>
+            <div>
+              <h2 class="crm-view-title">صيدليتي الرقمية ومتابعة الروشتات</h2>
+              <p class="crm-view-subtitle">صرف وتوصيل فوري من الصيدليات المعتمدة مع التذكير الذكي بالجرعات</p>
+            </div>
+          </div>
+          <button class="pill solid sm" onclick="refillMedsAction()">
+            <i class="ti ti-truck-delivery"></i> صرف الروشتة للمنزل الآن
+          </button>
+        </div>
+
+        <!-- ACTIVE PRESCRIPTION WITH TRACKING -->
+        <div style="background:linear-gradient(145deg, rgba(91,156,245,0.08), rgba(12,18,32,0.95));border:1px solid rgba(91,156,245,0.35);border-radius:var(--radius);padding:22px;margin-bottom:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="w-badge prescription"><i class="ti ti-prescription"></i> الروشتة الحالية السارية</span>
+              <span style="font-size:12px;color:var(--text-secondary);">الطبيب: <strong>د. وائل مجدي</strong> (أمراض القلب)</span>
+            </div>
+            <span class="pill sm ghost" style="color:#60a5fa;border-color:rgba(96,165,250,0.3);font-size:11px;">تاريخ الصدور: 14 سبتمبر 2026</span>
+          </div>
+
+          <!-- Prescription Items -->
+          <div class="rx-items-list" style="margin-bottom:18px;">
+            <div class="rx-item">
+              <div>
+                <span class="rx-name">كونكور 5 مجم (Concor 5mg - Bisoprolol)</span>
+                <span class="rx-inst">قرص واحد صباحاً بعد الإفطار • لتنظيم ضربات القلب وضغط الدم الشرياني</span>
+              </div>
+              <span class="vital-badge normal" style="font-size:11px;">منتظم عليه ✓</span>
+            </div>
+            <div class="rx-item">
+              <div>
+                <span class="rx-name">أوجمنتين 1 جم (Augmentin 1g - Amoxicillin/Clavulanate)</span>
+                <span class="rx-inst">قرص واحد كل 12 ساعة بعد الأكل • مضاد حيوي واسع المجال لمدة 7 أيام</span>
+              </div>
+              <span class="vital-badge warning" style="font-size:11px;">متبقي يومين ⏱️</span>
+            </div>
+          </div>
+
+          <!-- Pharmacy Delivery Status Stepper -->
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:10px;">
+              <span style="font-weight:700;color:var(--text-primary);"><i class="ti ti-building-store" style="color:var(--accent)"></i> حالة توصيل طلب الأدوية (صيدليات العزبي):</span>
+              <span style="color:var(--accent);font-weight:700;">في الطريق إليك (متبقي 25 دقيقة)</span>
+            </div>
+            <div class="delivery-stepper">
+              <div class="stepper-step completed">
+                <div class="stepper-dot"><i class="ti ti-check"></i></div>
+                <span class="stepper-label">اعتماد الروشتة</span>
+              </div>
+              <div class="stepper-step completed">
+                <div class="stepper-dot"><i class="ti ti-check"></i></div>
+                <span class="stepper-label">تجهيز الأدوية</span>
+              </div>
+              <div class="stepper-step active">
+                <div class="stepper-dot"><i class="ti ti-moped"></i></div>
+                <span class="stepper-label">المندوب بالمسار</span>
+              </div>
+              <div class="stepper-step">
+                <div class="stepper-dot"><i class="ti ti-home-check"></i></div>
+                <span class="stepper-label">الاستلام بالمنزل</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="pill solid sm" onclick="refillMedsAction()"><i class="ti ti-rotate-clockwise"></i> إعادة طلب الصرف وتوصيل فوري للمنزل</button>
+            <button class="pill ghost sm" onclick="alert('جاري تحميل نسخة الروشتة المعتمدة PDF برقم ترخيص 8943...')"><i class="ti ti-download"></i> تحميل الروشتة PDF</button>
+            <button class="pill ghost sm" onclick="switchCrmTab('chat')"><i class="ti ti-message-dots"></i> سؤال الطبيب عن الجرعات</button>
+          </div>
+        </div>
+
+        <!-- Medication Dose Schedule for Today -->
+        <h4 style="font-size:14px;font-weight:700;color:var(--text-secondary);margin:20px 0 12px;"><i class="ti ti-clock"></i> جدول تذكير الجرعات اليومي (تفاعلي):</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
+          <div class="med-item taken" style="cursor:pointer;" onclick="toggleMedDose(1)">
+            <div class="med-check"><i class="ti ti-check"></i></div>
+            <div class="med-info">
+              <div class="med-name">كونكور 5 مجم (الجرعة الصباحية)</div>
+              <div class="med-time"><i class="ti ti-clock"></i> 08:00 ص • تم تناولها مع الإفطار</div>
+            </div>
+            <span class="med-done-badge">تمت ✓</span>
+          </div>
+
+          <div class="med-item taken" style="cursor:pointer;" onclick="toggleMedDose(2)">
+            <div class="med-check"><i class="ti ti-check"></i></div>
+            <div class="med-info">
+              <div class="med-name">أوجمنتين 1 جم (جرعة الظهيرة)</div>
+              <div class="med-time"><i class="ti ti-clock"></i> 02:00 م • تم تناولها بعد الغداء</div>
+            </div>
+            <span class="med-done-badge">تمت ✓</span>
+          </div>
+
+          <div class="med-item" style="cursor:pointer;" onclick="toggleMedDose(3)">
+            <div class="med-check"><i class="ti ti-clock"></i></div>
+            <div class="med-info">
+              <div class="med-name">الجرعة المسائية (أوجمنتين 1 جم)</div>
+              <div class="med-time"><i class="ti ti-clock"></i> 09:00 م • بعد العشاء</div>
+            </div>
+            <span class="pill sm ghost" style="font-size:10px;">اضغط للتأكيد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 4: LABS & MEDICAL RECORDS ==================== -->
+    <div class="crm-view-section" id="crm-view-labs">
+      <div class="crm-view-card">
+        <div class="crm-view-head">
+          <div class="crm-view-title-group">
+            <div class="sec-badge" style="background:rgba(168,85,247,0.15);color:#a855f7;"><i class="ti ti-file-analytics"></i></div>
+            <div>
+              <h2 class="crm-view-title">سجل التحاليل والأشعة والتقارير الطبية</h2>
+              <p class="crm-view-subtitle">ملفك الطبي الموحد، التحاليل المعملية، والأشعة المفسرة بالذكاء الاصطناعي</p>
+            </div>
+          </div>
+          <button class="pill solid sm" onclick="alert('قم بسحب أو اختيار ملف التقرير الطبي من جهازك ليقوم الذكاء الاصطناعي بتحليله.')">
+            <i class="ti ti-cloud-upload"></i> ارفع تقرير جديد
+          </button>
+        </div>
+
+        <!-- Upload Drop Zone -->
+        <div class="lab-upload-zone" onclick="switchActionTab('upload', document.querySelector('.action-tab-btn:first-child')); switchCrmTab('overview');" style="margin-bottom:20px;">
+          <div style="width:48px;height:48px;border-radius:50%;background:rgba(168,85,247,0.15);color:#a855f7;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 10px;">
+            <i class="ti ti-upload"></i>
+          </div>
+          <h3 style="font-size:15px;margin:0 0 6px;color:var(--text-primary);">اسحب وأفلت نتيجة التحليل أو الأشعة هنا (PDF / صورة)</h3>
+          <p style="font-size:12px;color:var(--text-muted);margin:0;">يقوم المساعد الذكي بقراءة الأرقام الطبية، مقارنتها بالمعدلات الطبيعية، وتنبيه طبيبك المعالج فوراً.</p>
+        </div>
+
+        <!-- Verified Diagnostic Reports -->
+        <h4 style="font-size:14px;font-weight:700;color:var(--text-secondary);margin:0 0 12px;"><i class="ti ti-certificate"></i> التقارير والنتائج المعتمدة في ملفك:</h4>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <!-- Lab 1 -->
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-weight:800;font-size:15px;color:var(--text-primary);">صورة دم كاملة (Complete Blood Count - CBC)</span>
+                <span class="vital-badge normal">طبيعي تماماً ✓</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">
+                معمل البرج • تاريخ الفحص: 12 سبتمبر 2026 • الهيموجلوبين: 14.2 g/dL • كرات الدم البيضاء: 6.8K • الصفائح: 260K
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="pill sm ghost" onclick="alert('نتائج صورة الدم كاملة: الهيموجلوبين سليم، المناعة مستقرة، والصفائح ممتازة.')"><i class="ti ti-eye"></i> قراءة التقرير</button>
+              <button class="pill sm ghost" onclick="alert('جاري تحميل التقرير PDF...')"><i class="ti ti-download"></i> PDF</button>
+            </div>
+          </div>
+
+          <!-- Lab 2 -->
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-weight:800;font-size:15px;color:var(--text-primary);">رسم قلب كهربائي (12-Lead Electrocardiogram - ECG)</span>
+                <span class="vital-badge normal">سليم Sinus Rhythm ✓</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">
+                مركز كايرو سكان • تاريخ الفحص: 12 سبتمبر 2026 • النبض منتظم، عدم وجود أي علامات قصور أو جلطات سابقة
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="pill sm ghost" onclick="alert('تقرير رسم القلب: Normal Sinus Rhythm بمعدل 72 نبضة/دقيقة.')"><i class="ti ti-eye"></i> قراءة التقرير</button>
+              <button class="pill sm ghost" onclick="alert('جاري تحميل التقرير PDF...')"><i class="ti ti-download"></i> PDF</button>
+            </div>
+          </div>
+
+          <!-- Lab 3 -->
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-weight:800;font-size:15px;color:var(--text-primary);">وظائف كبد وكلى وسكر صائم (Liver, Kidney & Glucose Panel)</span>
+                <span class="vital-badge normal">ضمن المعدل الطبيعي ✓</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">
+                معامل المختبر • كرياتينين: 0.9 mg/dL • ALT: 24 U/L • سكر صائم: 105 mg/dL (متابعة وقائية)
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="pill sm ghost" onclick="alert('ملف الكلى والكبد سليم تماماً.')"><i class="ti ti-eye"></i> قراءة التقرير</button>
+              <button class="pill sm ghost" onclick="alert('جاري تحميل التقرير PDF...')"><i class="ti ti-download"></i> PDF</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Share Medical Passport Strip -->
+        <div style="margin-top:20px;background:rgba(31,230,168,0.06);border:1px solid rgba(31,230,168,0.25);border-radius:var(--radius-sm);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <i class="ti ti-shield-lock" style="color:var(--accent);font-size:22px;"></i>
+            <div>
+              <div style="font-weight:800;font-size:13.5px;color:var(--text-primary);">مشاركة جواز السفر الصحي (Medical Passport)</div>
+              <div style="font-size:11.5px;color:var(--text-secondary);">إنشاء رابط أو QR Code مؤقت مشفر لمشاركة سجلك الطبي مع أي طبيب أو مستشفى طوارئ</div>
+            </div>
+          </div>
+          <button class="pill sm solid" onclick="alert('تم إنشاء رمز QR مؤقت ومحمي برمز تحقق لمشاركة ملفك الطبي مع طبيبك لمدة 24 ساعة.')"><i class="ti ti-qrcode"></i> توليد رمز QR الطبي</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 5: DOCTOR CHATS & CLINICAL AI ==================== -->
+    <div class="crm-view-section" id="crm-view-chat">
+      <div class="crm-view-card">
+        <div class="crm-view-head">
+          <div class="crm-view-title-group">
+            <div class="sec-badge" style="background:rgba(242,102,92,0.15);color:#f2665c;"><i class="ti ti-messages"></i></div>
+            <div>
+              <h2 class="crm-view-title">مركز المحادثات الطبية والمتابعات</h2>
+              <p class="crm-view-subtitle">استشارات مفتوحة مباشرة مع أطبائك المعالجين والمستشار الطبي السريري 24/7</p>
+            </div>
+          </div>
+          <span class="pill sm ghost" style="color:var(--accent);border-color:rgba(31,230,168,0.3)">
+            <span class="pulse-dot" style="display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-left:4px;"></span> استشارة نشطة حالياً
+          </span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:300px 1fr;gap:18px;min-height:480px;">
+          <!-- Conversations List -->
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;display:flex;flex-direction:column;gap:8px;">
+            <div style="font-size:12px;font-weight:800;color:var(--text-muted);padding:4px 6px;">المحادثات النشطة:</div>
+            
+            <!-- Dr. Wael Chat Item -->
+            <div style="background:rgba(31,230,168,0.08);border:1px solid rgba(31,230,168,0.3);border-radius:10px;padding:10px 12px;cursor:pointer;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <strong style="font-size:13px;color:var(--text-primary);">د. وائل مجدي</strong>
+                <span class="tiny" style="color:var(--accent);font-weight:700;">نشط</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px;">استشاري أمراض القلب والأوعية الدموية</div>
+              <div class="tiny" style="color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">"تابع قياس الضغط صباحاً ونتقابل اليوم بالكشف"</div>
+              <span class="pill xs" style="background:rgba(31,230,168,0.15);color:var(--accent);font-size:9.5px;padding:2px 6px;margin-top:4px;display:inline-block;">متبقي 6 أيام متابعة مجانية</span>
+            </div>
+
+            <!-- AI Consultant Item -->
+            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;" onclick="document.getElementById('aiClinicalChatCard')?.scrollIntoView({behavior:'smooth'})">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <strong style="font-size:13px;color:var(--text-primary);"><i class="ti ti-robot" style="color:var(--accent)"></i> المستشار الطبي الذكي</strong>
+                <span class="tiny" style="color:var(--text-muted)">24/7</span>
+              </div>
+              <div class="tiny" style="color:var(--text-secondary)">Tababa Clinical AI • استفسارات الأدوية والأعراض</div>
+            </div>
+
+            <!-- Past Doctor Item -->
+            <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:10px;padding:10px 12px;opacity:0.75;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <strong style="font-size:12.5px;color:var(--text-secondary);">د. أحمد سامي</strong>
+                <span class="tiny" style="color:var(--text-muted)">28 أغسطس</span>
+              </div>
+              <div class="tiny" style="color:var(--text-muted)">استشارة باطنة سابقة (مغلقة)</div>
+            </div>
+          </div>
+
+          <!-- Chat Window with Dr. Wael Magdy -->
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;flex-direction:column;padding:18px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:14px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#0c5e44);color:#03261b;display:flex;align-items:center;justify-content:center;font-weight:900;">و</div>
+                <div>
+                  <div style="font-weight:800;font-size:14px;color:var(--text-primary);">د. وائل مجدي (طبيبك المعالج)</div>
+                  <div class="tiny" style="color:var(--accent);"><i class="ti ti-sparkles"></i> متابعة مجانية مفتوحة لكشف 14 سبتمبر</div>
+                </div>
+              </div>
+              <button class="pill sm solid" onclick="enterWaitingRoom()"><i class="ti ti-video"></i> كشف الفيديو 06:00 م</button>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-bottom:14px;max-height:280px;padding-right:6px;" id="doctorDirectChatThread">
+              <div class="chat-bubble ai" style="background:#111a2c;">
+                أهلاً يا كريم، راجعت آخر قراءة ضغط سجلتها (120/80) وهي ممتازة جداً ومطمئنة. استمر على قرص كونكور صباحاً بعد الإفطار، ونناقش أي تفاصيل في موعد الاستشارة بالفيديو اليوم الساعة 06:00 م.
+                <div class="tiny" style="margin-top:4px;color:var(--text-muted);text-align:left;">د. وائل مجدي • اليوم 09:15 ص</div>
+              </div>
+              <div class="chat-bubble patient">
+                شكراً يا دكتور، قياس السكر طلع 105 صائم، هل أحتاج تحليل تراكمي؟
+                <div class="tiny" style="margin-top:4px;color:rgba(255,255,255,0.7);text-align:left;">كريم • اليوم 10:20 ص</div>
+              </div>
+              <div class="chat-bubble ai" style="background:#111a2c;">
+                نعم، خطوة جيدة وسأكتب لك طلب فحص سكر تراكمي ودهون ثلاثية بالروشتة اليوم للاطمئنان الكامل.
+                <div class="tiny" style="margin-top:4px;color:var(--text-muted);text-align:left;">د. وائل مجدي • اليوم 10:45 ص</div>
+              </div>
+            </div>
+
+            <!-- Input Bar -->
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="doctorDirectChatInput" placeholder="اكتب استفسارك للدكتور وائل مجدي..." style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-primary);font-family:inherit;font-size:13px;" onkeydown="if(event.key==='Enter') sendDoctorDirectMessage()">
+              <button class="pill solid" onclick="sendDoctorDirectMessage()"><i class="ti ti-send-2"></i> إرسال</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 6: INSURANCE, CARE POINTS & BILLING ==================== -->
+    <div class="crm-view-section" id="crm-view-wallet">
+      <div class="crm-view-card">
+        <div class="crm-view-head">
+          <div class="crm-view-title-group">
+            <div class="sec-badge" style="background:rgba(242,184,75,0.15);color:#f2b84b;"><i class="ti ti-wallet"></i></div>
+            <div>
+              <h2 class="crm-view-title">المحفظة الصحية والتأمين ورصيد المكافآت</h2>
+              <p class="crm-view-subtitle">بطاقة التأمين الرقمية المعتمدة، نقاط الرعاية، وسجل المدفوعات والفواتير</p>
+            </div>
+          </div>
+          <span class="pill sm ghost" style="color:var(--accent);border-color:rgba(31,230,168,0.3)">
+            <i class="ti ti-shield-check"></i> تغطية تأمينية نشطة
+          </span>
+        </div>
+
+        <!-- DIGITAL INSURANCE PASS -->
+        <div class="insurance-pass-card" style="margin-bottom:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;position:relative;z-index:2;">
+            <div>
+              <div style="font-size:11px;letter-spacing:1px;color:#93c5fd;font-weight:700;text-transform:uppercase;">بطاقة التأمين الطبي الرقمية</div>
+              <div style="font-size:24px;font-weight:900;color:#fff;margin-top:2px;">Bupa Egypt Insurance</div>
+              <div style="font-size:12px;color:#bfdbfe;">شبكة الرعاية الذهبية (Gold Healthcare Network)</div>
+            </div>
+            <div style="width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;">
+              <i class="ti ti-shield-check"></i>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:20px;position:relative;z-index:2;">
+            <div>
+              <div style="font-size:11px;color:#93c5fd;">اسم المستفيد المؤمن:</div>
+              <div style="font-size:15px;font-weight:800;color:#fff;">كريم أحمد عبد الله</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#93c5fd;">رقم الوثيقة / العضوية:</div>
+              <div style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.5px;">TAB-8924-BUPA</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#93c5fd;">نسبة التحمل والتغطية:</div>
+              <div style="font-size:15px;font-weight:800;color:#1fe6a8;">80% كشوفات وتحاليل</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#93c5fd;">سريان البطاقة:</div>
+              <div style="font-size:15px;font-weight:800;color:#fff;">حتى 31 ديسمبر 2026</div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.12);padding-top:14px;position:relative;z-index:2;">
+            <div style="font-size:11.5px;color:#93c5fd;"><i class="ti ti-barcode"></i> باركود التحقق الطبي المعتمد في جميع مستشفيات وعيادات الشراكة</div>
+            <button class="pill sm solid" style="background:#fff;color:#091728;font-weight:800;" onclick="alert('رمز التأمين الرقمي فعال: TAB-8924-BUPA معتمد لدى جميع عيادات طبابا.')">إظهار الباركود 📱</button>
+          </div>
+        </div>
+
+        <!-- CARE POINTS REWARDS -->
+        <h3 style="font-size:16px;font-weight:800;color:var(--text-primary);margin:0 0 14px;"><i class="ti ti-gift" style="color:var(--accent)"></i> محفظة مكافآت نقاط الرعاية (Care Points Wallet):</h3>
+        <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;margin-bottom:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+            <div>
+              <div style="font-size:12px;color:var(--text-secondary);">رصيدك القابل للاستبدال:</div>
+              <div style="font-size:26px;font-weight:900;color:var(--accent);">450 <span style="font-size:14px;color:var(--text-primary);font-weight:normal;">نقطة رعاية</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);">تحصل على نقاط مع كل كشف، التزام علاجي، أو تسجيل مؤشراتك الحيوية!</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;">
+            <!-- Coupon 1 -->
+            <div class="coupon-reward-card">
+              <div>
+                <strong style="font-size:13px;color:var(--text-primary);">خصم 20% على استشارة الفيديو القادمة</strong>
+                <div class="tiny" style="color:var(--text-secondary);margin-top:2px;">تكلفة الاستبدال: 300 نقطة</div>
+              </div>
+              <button class="pill sm solid" onclick="alert('🎉 مبروك! تم استبدال 300 نقطة وتفعيل كوبون خصم 20% بكشفك القادم.')">استبدال 🎁</button>
+            </div>
+
+            <!-- Coupon 2 -->
+            <div class="coupon-reward-card">
+              <div>
+                <strong style="font-size:13px;color:var(--text-primary);">تحليل سكر تراكمي مجاني (معمل البرج)</strong>
+                <div class="tiny" style="color:var(--text-secondary);margin-top:2px;">تكلفة الاستبدال: 400 نقطة</div>
+              </div>
+              <button class="pill sm solid" onclick="alert('🎉 تم حجز قسيمة فحص سكر تراكمي مجاني لدى فرع معمل البرج الأقرب لك.')">استبدال 🎁</button>
+            </div>
+
+            <!-- Coupon 3 -->
+            <div class="coupon-reward-card">
+              <div>
+                <strong style="font-size:13px;color:var(--text-primary);">قسيمة 50 ج.م على صيدليات العزبي</strong>
+                <div class="tiny" style="color:var(--text-secondary);margin-top:2px;">تكلفة الاستبدال: 150 نقطة</div>
+              </div>
+              <button class="pill sm solid" onclick="alert('🎉 تم إرسال كود خصم 50 ج.م لروشتتك القادمة.')">استبدال 🎁</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BILLING HISTORY -->
+        <h3 style="font-size:15px;font-weight:800;color:var(--text-primary);margin:0 0 12px;"><i class="ti ti-receipt"></i> سجل الفواتير والمعاملات:</h3>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;">
+            <div>
+              <strong>استشارة د. وائل مجدي (أمراض قلب)</strong> • 14 سبتمبر 2026
+              <div class="tiny" style="color:var(--text-muted)">إجمالي: 280 ج.م • تغطية بوبا (80%): 224 ج.م • المدفوع كاش: 56 ج.م</div>
+            </div>
+            <span class="pill sm ghost" style="color:var(--accent)"><i class="ti ti-check"></i> مدفوعة</span>
+          </div>
+
+          <div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;">
+            <div>
+              <strong>فحوصات معمل البرج (صورة دم CBC)</strong> • 12 سبتمبر 2026
+              <div class="tiny" style="color:var(--text-muted)">إجمالي: 180 ج.م • تغطية تأمين بوبا بالكامل (100%)</div>
+            </div>
+            <span class="pill sm ghost" style="color:var(--accent)"><i class="ti ti-check"></i> مدفوعة</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- LEFT COLUMN (last in DOM = left side under RTL) -->
@@ -3034,6 +3901,69 @@ html, body {
 </nav>
 
 <script>
+
+// ==================== PATIENT CRM TABS & ACTION COMMAND HUB CONTROLLER ====================
+function switchCrmTab(tabKey) {
+  // 1. Update tab links in navbar
+  document.querySelectorAll('.crm-tab-link').forEach(btn => btn.classList.remove('active'));
+  const activeTabLink = document.getElementById('tabLink-' + tabKey);
+  if(activeTabLink) activeTabLink.classList.add('active');
+
+  // 2. Update action command hub tiles
+  const tileMapping = {
+    appointments: 'tile-appt',
+    prescriptions: 'tile-rx',
+    labs: 'tile-labs',
+    chat: 'tile-chat',
+    wallet: 'tile-ins'
+  };
+  document.querySelectorAll('.patient-action-tile').forEach(tile => tile.classList.remove('active'));
+  if(tileMapping[tabKey]) {
+    const activeTile = document.querySelector('.patient-action-tile.' + tileMapping[tabKey]);
+    if(activeTile) activeTile.classList.add('active');
+  }
+
+  // 3. Switch view section
+  document.querySelectorAll('.crm-view-section').forEach(view => view.classList.remove('active'));
+  const targetView = document.getElementById('crm-view-' + tabKey);
+  if(targetView) {
+    targetView.classList.add('active');
+    // Smooth scroll into view if scrolled below
+    const hub = document.getElementById('patientCrmNavbar');
+    if(hub && window.scrollY > 200) {
+      hub.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+}
+
+function sendDoctorDirectMessage() {
+  const input = document.getElementById('doctorDirectChatInput');
+  const thread = document.getElementById('doctorDirectChatThread');
+  if(!input || !thread) return;
+  const msg = input.value.trim();
+  if(!msg) return;
+
+  // Append patient bubble
+  const patientBubble = document.createElement('div');
+  patientBubble.className = 'chat-bubble patient';
+  patientBubble.innerHTML = `${msg}<div class="tiny" style="margin-top:4px;color:rgba(255,255,255,0.7);text-align:left;">كريم • الآن</div>`;
+  thread.appendChild(patientBubble);
+  input.value = '';
+  thread.scrollTop = thread.scrollHeight;
+
+  // Doctor simulated reply
+  setTimeout(() => {
+    const docBubble = document.createElement('div');
+    docBubble.className = 'chat-bubble ai';
+    docBubble.style.background = '#111a2c';
+    docBubble.innerHTML = `
+      تم استلام استفسارك يا كريم واطلعت عليه. سأراجع ذلك معك بالتفصيل في استشارتنا اليوم 06:00 م.
+      <div class="tiny" style="margin-top:4px;color:var(--text-muted);text-align:left;">د. وائل مجدي • الآن</div>
+    `;
+    thread.appendChild(docBubble);
+    thread.scrollTop = thread.scrollHeight;
+  }, 1000);
+}
 
 // ============================= MOBILE NAVIGATION HELPERS =============================
 function toggleMobileNav(){
