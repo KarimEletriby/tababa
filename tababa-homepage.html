@@ -501,144 +501,312 @@
   }
 
   /* =============== PATIENT HEALTH HUB & MOTIVATION STYLES =============== */
+  /* =============== PATIENT HEALTH HUB & MOTIVATION STYLES =============== */
   .patient-score-card {
     background: linear-gradient(135deg, rgba(31,230,168,0.12) 0%, rgba(17,26,44,0.95) 45%, rgba(12,18,32,0.98) 100%);
     border: 1px solid var(--accent-dim);
     border-radius: var(--radius);
-    padding: 22px 24px;
+    padding: 24px;
     margin-bottom: 22px;
     position: relative;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(31,230,168,0.2);
-  }
-  .score-card-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 24px;
     flex-wrap: wrap;
-    gap: 14px;
-    margin-bottom: 18px;
   }
-  .score-info-left {
+  .score-card-main {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
+    flex: 1;
+    min-width: 320px;
   }
-  .score-circle {
-    width: 64px; height: 64px;
+  .score-circle-wrap {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: conic-gradient(var(--accent) 0% 88%, rgba(255,255,255,0.08) 88% 100%);
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    box-shadow: 0 0 25px rgba(31,230,168,0.3);
+    box-shadow: 0 0 28px rgba(31,230,168,0.35);
     flex-shrink: 0;
   }
   .score-circle-inner {
-    width: 52px; height: 52px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: #08101d;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 900; color: var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     line-height: 1.1;
+    border: 1px solid rgba(31,230,168,0.2);
   }
-  .score-circle-inner span { font-size: 9px; color: var(--text-muted); font-weight: 500; }
-  .score-text h3 { font-size: 17px; font-weight: 900; color: var(--text-primary); margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
-  .score-text p { font-size: 12px; color: var(--text-secondary); }
-
-  .score-badges-right {
+  .score-number {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent);
+    font-family: inherit;
+  }
+  .score-denom {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .score-meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .score-title-row {
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
   }
-  .streak-badge {
-    background: rgba(242, 184, 75, 0.15);
-    border: 1px solid rgba(242, 184, 75, 0.4);
-    color: #f2b84b;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 800;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+  .score-title {
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--text-primary);
   }
-  .points-badge {
-    background: rgba(168, 85, 247, 0.15);
-    border: 1px solid rgba(168, 85, 247, 0.4);
-    color: #c084fc;
-    padding: 6px 14px;
+  .score-status-badge {
+    background: rgba(31,230,168,0.18);
+    border: 1px solid rgba(31,230,168,0.4);
+    color: var(--accent);
+    padding: 3px 10px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 800;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
+  }
+  .score-desc {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .score-desc strong {
+    color: var(--accent);
   }
 
-  /* Micro-Habits Bar */
+  /* Micro-Habits */
   .habits-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-  }
-  .habit-item {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
   }
-  .habit-info { display: flex; align-items: center; gap: 8px; }
-  .habit-btn {
-    background: var(--accent-soft);
-    border: 1px solid var(--border-strong);
+  .habit-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(8, 16, 29, 0.7);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+  }
+  .habit-chip:hover {
+    border-color: rgba(31,230,168,0.3);
+  }
+  .habit-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .habit-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .habit-label {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .habit-val {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .habit-add-btn {
+    background: linear-gradient(135deg, rgba(31,230,168,0.25), rgba(31,230,168,0.1));
+    border: 1px solid rgba(31,230,168,0.4);
     color: var(--accent);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    margin-inline-start: 4px;
+    outline: none;
+  }
+  .habit-add-btn:hover {
+    background: var(--accent);
+    color: #03261b;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(31,230,168,0.4);
+  }
+
+  .score-card-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    min-width: 220px;
+  }
+  .streak-badge-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(242, 184, 75, 0.12);
+    border: 1px solid rgba(242, 184, 75, 0.35);
+    padding: 8px 14px;
+    border-radius: 12px;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .streak-icon { font-size: 20px; }
+  .streak-val { font-size: 15px; font-weight: 900; color: #f2b84b; }
+  .streak-lbl { font-size: 11.5px; color: var(--text-secondary); margin-inline-start: auto; }
+  .reward-points-box {
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    padding: 8px 14px;
+    border-radius: 12px;
+    width: 100%;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .habit-btn:hover { background: var(--accent); color: #03261b; }
+  .reward-points-box:hover {
+    border-color: rgba(168, 85, 247, 0.6);
+    transform: translateY(-2px);
+  }
+  .points-val { font-size: 14px; font-weight: 900; color: #c084fc; display: flex; align-items: center; gap: 6px; }
+  .points-lbl { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; }
 
   /* Interactive Vitals Grid */
   .vitals-section {
     margin-bottom: 24px;
   }
-  .vitals-head {
+  .section-head-custom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
-  .vitals-head h3 { font-size: 15px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+  .section-title-custom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .sec-badge {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    background: rgba(31,230,168,0.15);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
   .vitals-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 14px;
+  }
+  @media (max-width: 1100px) {
+    .vitals-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 580px) {
+    .vitals-grid { grid-template-columns: 1fr; }
   }
   .vital-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 14px;
-    transition: all 0.25s;
+    padding: 16px;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     position: relative;
     overflow: hidden;
   }
-  .vital-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
-  .vital-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .vital-name { font-size: 11.5px; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 5px; }
-  .vital-val { font-size: 19px; font-weight: 900; color: var(--text-primary); line-height: 1.2; margin-bottom: 4px; }
-  .vital-status { font-size: 10.5px; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 4px; }
-  .vital-time { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+  .vital-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .vital-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .vital-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .vital-icon.bp { background: rgba(31,230,168,0.15); color: #1fe6a8; }
+  .vital-icon.sugar { background: rgba(242,184,75,0.15); color: #f2b84b; }
+  .vital-icon.heart { background: rgba(242,102,92,0.15); color: #f2665c; }
+  .vital-icon.weight { background: rgba(91,156,245,0.15); color: #5b9cf5; }
+  .vital-badge {
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+  .vital-badge.normal {
+    background: rgba(31,230,168,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(31,230,168,0.3);
+  }
+  .vital-badge.warning {
+    background: rgba(242,184,75,0.15);
+    color: #f2b84b;
+    border: 1px solid rgba(242,184,75,0.3);
+  }
+  .vital-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+  .vital-value {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+  .vital-unit {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .vital-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
 
   /* Digital Health Wallet */
   .health-wallet-section {
@@ -646,38 +814,316 @@
   }
   .wallet-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr 0.8fr;
-    gap: 14px;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 900px) {
+    .wallet-grid { grid-template-columns: 1fr; }
   }
   .wallet-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 18px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.25s;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    transition: all 0.25s ease;
   }
-  .wallet-card:hover { border-color: var(--border-strong); }
-  .wallet-card-title {
-    font-size: 13.5px;
+  .wallet-card:hover {
+    border-color: var(--border-strong);
+  }
+  .wallet-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .w-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .w-badge.prescription {
+    background: rgba(91,156,245,0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(91,156,245,0.3);
+  }
+  .w-badge.lab {
+    background: rgba(168,85,247,0.15);
+    color: #c084fc;
+    border: 1px solid rgba(168,85,247,0.3);
+  }
+  .w-doc-tag {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 700;
+  }
+  .w-date {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .rx-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .rx-item {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 12.5px;
+  }
+  .rx-name {
     font-weight: 800;
     color: var(--text-primary);
-    margin-bottom: 12px;
+  }
+  .rx-inst {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+  }
+  .followup-alert-strip {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.25);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 11.5px;
+    color: #93c5fd;
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  .rx-med-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 10px;
-    background: var(--bg-panel);
+  .insurance-badge-strip {
+    background: rgba(242,184,75,0.08);
+    border: 1px solid rgba(242,184,75,0.25);
     border-radius: 8px;
-    margin-bottom: 8px;
-    font-size: 12px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ins-logo {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(242,184,75,0.15);
+    color: #f2b84b;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .ins-info { flex: 1; }
+  .ins-name { font-size: 12px; font-weight: 800; color: var(--text-primary); }
+  .ins-num { font-size: 10.5px; color: var(--text-muted); }
+  .ins-status {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .w-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+  .w-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    border: none;
+    outline: none;
+  }
+  .w-btn.pharmacy {
+    background: linear-gradient(135deg, var(--accent), #12b587);
+    color: #03261b;
+    flex: 1;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(31,230,168,0.25);
+  }
+  .w-btn.pharmacy:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 18px rgba(31,230,168,0.4);
+  }
+  .w-btn.ghost {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-strong);
+    color: var(--text-secondary);
+  }
+  .w-btn.ghost:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* General Clinical AI Chat Main Console */
+  .general-ai-chat-console {
+    background: linear-gradient(145deg, var(--bg-card), rgba(12,18,32,0.98));
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(31,230,168,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .general-ai-chat-console::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(31,230,168,0.08), transparent 70%);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .gchat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .gchat-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .gchat-icon-badge {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), #0c7a58);
+    color: #03261b;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 16px rgba(31,230,168,0.3);
+  }
+  .gchat-title-group h2 {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin: 0 0 3px;
+  }
+  .gchat-title-group p {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .gchat-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(31,230,168,0.3);
+    color: var(--accent);
+    font-size: 11.5px;
+    font-weight: 700;
+  }
+  .gchat-thread-container {
+    height: 380px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 14px;
+    scroll-behavior: smooth;
+  }
+  .gchat-thread-container::-webkit-scrollbar { width: 5px; }
+  .gchat-thread-container::-webkit-scrollbar-thumb { background: rgba(31,230,168,0.25); border-radius: 5px; }
+  .gchat-chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .gchat-prompt-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .gchat-prompt-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(31,230,168,0.06);
+  }
+  .gchat-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 6px 8px 6px 14px;
+    transition: all 0.2s;
+  }
+  .gchat-input-bar:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(31,230,168,0.15);
+  }
+  .gchat-input-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+  }
+  .gchat-input-bar input::placeholder {
+    color: var(--text-muted);
+  }
+  .gchat-send-btn {
+    background: linear-gradient(135deg, var(--accent), #12b587);
+    color: #03261b;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 800;
+    font-size: 13.5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .gchat-send-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(31,230,168,0.4);
   }
 
   /* Interactive AI Chat Window in Left Column */
@@ -2451,49 +2897,74 @@ html, body {
       <button class="pill solid action-tab-btn" onclick="switchActionTab('talk', this)"><i class="ti ti-message"></i>تحدث مع الدكتور</button>
     </div>
 
-    <!-- TAB 1: Talk -->
+    <!-- TAB 1: General Medical Clinical AI Chat -->
     <div id="tab-talk" class="action-tab-content">
-      <div class="hero-solo">
-        <h1>قولّي مشكلتك الصحية... <span class="accent-text">AI</span> هيوجهك لأنسب تخصص ودكتور</h1>
-        <p class="hero-sub">اكتب اللي حاسس بيه بكلامك العادي، وطبابا هترشحلك التخصص المناسب وأفضل الأطباء المتاحين دلوقتي.</p>
-
-        <div class="triage-card">
-          <!-- 2. Consultation Type Selector inside AI Box -->
-          <div class="consult-select-box">
-            <div class="consult-lbl"><i class="ti ti-stethoscope" style="color:var(--accent)"></i> كيف تفضل مقابلة الطبيب؟</div>
-            <div class="consult-options">
-              <button type="button" class="consult-opt active" data-type="video" onclick="selectConsultType('video', this)">
-                <i class="ti ti-video"></i><span>كشف فيديو أونلاين</span>
-              </button>
-              <button type="button" class="consult-opt" data-type="clinic" onclick="selectConsultType('clinic', this)">
-                <i class="ti ti-building-hospital"></i><span>عيادة الطبيب</span>
-              </button>
-              <button type="button" class="consult-opt" data-type="voice" onclick="selectConsultType('voice', this)">
-                <i class="ti ti-phone-call"></i><span>استشارة صوتية</span>
-              </button>
-              <button type="button" class="consult-opt" data-type="home" onclick="selectConsultType('home', this)">
-                <i class="ti ti-home"></i><span>زيارة منزلية</span>
-              </button>
+      <div class="general-ai-chat-console" id="generalAiChatConsole">
+        <!-- HEADER -->
+        <div class="gchat-header">
+          <div class="gchat-title-group">
+            <div class="gchat-icon-badge">
+              <i class="ti ti-stethoscope"></i>
+            </div>
+            <div>
+              <h2>المستشار الطبي الذكي العام — تحدث بحرية في أي استفسار طبي 24/7</h2>
+              <p>اسأل عن أدويتك وتعارضاتها، تفسير تحاليلك وأرقامك، أي أعراض أو آلام، أو نصائح صحية متخصصة</p>
             </div>
           </div>
-
-          <div class="triage-input-row">
-            <textarea id="symptomInput" rows="2" placeholder="مثلاً: عندي ألم في الركبة من أسبوعين وبيزيد لما امشي..."></textarea>
-            <button class="pill solid triage-btn" id="triageBtn" onclick="runTriage()"><i class="ti ti-sparkles"></i>حدد التخصص المناسب</button>
+          <div class="gchat-status-badge">
+            <span class="pulse-dot" style="display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;"></span>
+            <span>متصل 24/7 • مدعوم بسجلك الطبي</span>
           </div>
-          <div id="triageError" class="field-error" hidden></div>
+        </div>
 
-          <!-- Dynamic personalized chips -->
-          <div class="chip-row" id="symptomChips">
-            <button class="chip" type="button" data-txt="عندي وجع مستمر في البطن من كذا يوم">وجع بطن</button>
-            <button class="chip" type="button" data-txt="عندي صداع نصفي بيتكرر كل أسبوع">صداع متكرر</button>
-            <button class="chip" type="button" data-txt="ضغطي مرتفع في آخر قياسات">ضغط مرتفع</button>
-            <button class="chip" type="button" data-txt="فيه بقعة جلدية حمراء وحكة مستمرة">مشكلة جلدية</button>
-            <button class="chip" type="button" data-txt="ألم حاد في أسفل الظهر عند الوقوف">ألم بالظهر</button>
+        <!-- CONSULTATION TYPE QUICK SELECTOR -->
+        <div class="consult-select-box" style="margin-bottom:14px;">
+          <div class="consult-lbl"><i class="ti ti-user-check" style="color:var(--accent)"></i> إذا رغبت في مقابلة الطبيب، كيف تفضل الكشف؟</div>
+          <div class="consult-options">
+            <button type="button" class="consult-opt active" data-type="video" onclick="selectConsultType('video', this)">
+              <i class="ti ti-video"></i><span>كشف فيديو أونلاين</span>
+            </button>
+            <button type="button" class="consult-opt" data-type="clinic" onclick="selectConsultType('clinic', this)">
+              <i class="ti ti-building-hospital"></i><span>عيادة الطبيب</span>
+            </button>
+            <button type="button" class="consult-opt" data-type="voice" onclick="selectConsultType('voice', this)">
+              <i class="ti ti-phone-call"></i><span>استشارة صوتية</span>
+            </button>
+            <button type="button" class="consult-opt" data-type="home" onclick="selectConsultType('home', this)">
+              <i class="ti ti-home"></i><span>زيارة منزلية</span>
+            </button>
           </div>
+        </div>
 
-          <!-- 4. Result with Insurance and Price Filters -->
-          <div id="triageResult" class="triage-result" hidden></div>
+        <!-- LIVE CHAT THREAD -->
+        <div class="gchat-thread-container" id="mainAiChatThread">
+          <div class="chat-bubble ai">
+            أهلاً بك يا <strong>كريم</strong>! 👋 أنا <strong>مستشارك الطبي السريري العام</strong> على منصة طبابا.<br>
+            أنا مطلع على ملفك الصحي: قراءة ضغطك اليوم (<strong>120/80 mmHg</strong> مستقر ومثالي)، سكر صائم (<strong>105 mg/dL</strong>)، وأدويتك النشطة (<strong>كونكور 5 مجم</strong> و <strong>أوجمنتين 1 جم</strong>).<br>
+            <span style="display:block;margin-top:6px;color:var(--text-secondary);font-size:12px;">
+              تفضل بسؤالي عن أي شيء: تداخل الأدوية والمسكنات، تفسير نتائج التحاليل، أي أعراض أو آلام، أو نصائح وقائية، وسأجيبك بدقة سريرية فوراً!
+            </span>
+          </div>
+        </div>
+
+        <!-- QUICK PROMPT CHIPS -->
+        <div class="gchat-chips-row" id="mainChatQuickPrompts">
+          <button type="button" class="gchat-prompt-btn" onclick="askMainAiPrompt('هل يتعارض دواء كونكور 5 مجم مع المسكنات مثل البروفين والفولتارين؟')">💊 كونكور والمسكنات</button>
+          <button type="button" class="gchat-prompt-btn" onclick="askMainAiPrompt('تحليل السكر الصائم 105 mg/dL، ما التوجيه الصحي المناسب لحالتي؟')">🩸 تفسير سكر صائم 105</button>
+          <button type="button" class="gchat-prompt-btn" onclick="askMainAiPrompt('هل قراءة ضغطي 120/80 ونبضي 72 تعتبر طبيعية ومستقرة؟')">🩺 هل قياس ضغطي طبيعي؟</button>
+          <button type="button" class="gchat-prompt-btn" onclick="askMainAiPrompt('ما هي نتائج فحص صورة الدم CBC ورسم القلب في ملفي؟')">🧪 نتائج CBC ورسم القلب</button>
+          <button type="button" class="gchat-prompt-btn" onclick="askMainAiPrompt('أشعر بصداع مع دوخة خفيفة وإرهاق، ماذا أفعل الآن؟')">⚡ صداع ودوخة مفاجئة</button>
+          <button type="button" class="gchat-prompt-btn" onclick="askMainAiPrompt('نصائح غذائية ونمط حياة للحفاظ على صحة القلب والشرايين')">🥗 نصائح تغذية للقلب</button>
+          <button type="button" class="gchat-prompt-btn" onclick="askMainAiPrompt('عندي ألم في الركبة والظهر وعايز احجز كشف مع دكتور متخصص')">📍 تحديد مكان الألم وحجز كشف</button>
+        </div>
+
+        <!-- INPUT BAR -->
+        <div class="gchat-input-bar">
+          <input type="text" id="mainAiChatInput" placeholder="اكتب سؤالك الطبي هنا بحرية... مثلاً: هل أتناول أوجمنتين قبل الأكل؟ أو أشعر بألم في الصدر" onkeydown="if(event.key==='Enter') sendMainAiChat()">
+          <button class="gchat-send-btn" id="mainAiChatSendBtn" type="button" onclick="sendMainAiChat()">
+            <i class="ti ti-send-2"></i>
+            <span>إرسال</span>
+          </button>
         </div>
       </div>
     </div>
@@ -4604,6 +5075,70 @@ function closeAllDrawers(){
   }
 
   // ===================== INTERACTIVE CLINICAL AI CHAT ENGINE =====================
+  function askMainAiPrompt(promptText) {
+    const input = document.getElementById('mainAiChatInput');
+    if(input) {
+      input.value = promptText;
+      sendMainAiChat();
+    }
+  }
+
+  function sendMainAiChat() {
+    const input = document.getElementById('mainAiChatInput');
+    const thread = document.getElementById('mainAiChatThread');
+    if(!input || !thread) return;
+
+    const query = input.value.trim();
+    if(!query) return;
+
+    // Append patient message to main thread
+    const patientBubble = document.createElement('div');
+    patientBubble.className = 'chat-bubble patient';
+    patientBubble.textContent = query;
+    thread.appendChild(patientBubble);
+    input.value = '';
+
+    // Also sync to sidebar chat if present
+    const sideThread = document.getElementById('aiChatThread');
+    if(sideThread) {
+      const sidePatient = document.createElement('div');
+      sidePatient.className = 'chat-bubble patient';
+      sidePatient.textContent = query;
+      sideThread.appendChild(sidePatient);
+    }
+
+    // Append typing indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.className = 'chat-typing-dots';
+    typingIndicator.id = 'mainAiChatTypingIndicator';
+    typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+    thread.appendChild(typingIndicator);
+    thread.scrollTop = thread.scrollHeight;
+
+    // Generate response after small realistic delay
+    setTimeout(() => {
+      const existingTyping = document.getElementById('mainAiChatTypingIndicator');
+      if(existingTyping) existingTyping.remove();
+
+      const replyHtml = generateClinicalAiResponse(query);
+
+      const replyBubble = document.createElement('div');
+      replyBubble.className = 'chat-bubble ai';
+      replyBubble.innerHTML = replyHtml;
+      thread.appendChild(replyBubble);
+      thread.scrollTop = thread.scrollHeight;
+
+      // Sync to sidebar chat
+      if(sideThread) {
+        const sideReply = document.createElement('div');
+        sideReply.className = 'chat-bubble ai';
+        sideReply.innerHTML = replyHtml;
+        sideThread.appendChild(sideReply);
+        sideThread.scrollTop = sideThread.scrollHeight;
+      }
+    }, 600);
+  }
+
   function askAiPrompt(promptText) {
     const input = document.getElementById('aiChatInput');
     if(input) {
@@ -4651,8 +5186,22 @@ function closeAllDrawers(){
   function generateClinicalAiResponse(q) {
     const lower = q.toLowerCase();
     
+    // 0. Pain / Booking / Doctor locator
+    if(lower.includes('حجز') || lower.includes('كشف') || lower.includes('موعد') || lower.includes('مجسم') || lower.includes('تحديد') || lower.includes('تخصص') || lower.includes('ركبة') || lower.includes('ظهر') || lower.includes('عظام')) {
+      return `
+        <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-stethoscope"></i> توجيه سريري وحجز كشف:</div>
+        • لتحديد شدة ونوع الألم بدقة، قمنا بتوفير <strong>مجسم الألم السريري التفاعلي (3D Body Locator)</strong> أسفل الصفحة.<br>
+        • يمكنك الضغط على العضو الذي تشعر بالألم فيه (الركبة، الظهر، الصدر، أو البطن) لتحديد التخصص المناسب تلقائياً وحجز كشف فوري.<br>
+        <div style="margin-top:10px;">
+          <button class="pill solid sm" type="button" onclick="document.getElementById('patientRegSection')?.scrollIntoView({behavior:'smooth'})" style="font-size:12px;cursor:pointer;">
+            <i class="ti ti-activity"></i> الانتقال لمجسم الألم وحجز الكشف فوراً
+          </button>
+        </div>
+      `;
+    }
+
     // 1. Concor & NSAIDs / Medications
-    if(lower.includes('كونكور') || lower.includes('concor') || lower.includes('مسكن') || lower.includes('بروفين') || lower.includes('فولتارين') || lower.includes('أوجمنتين')) {
+    if(lower.includes('كونكور') || lower.includes('concor') || lower.includes('مسكن') || lower.includes('بروفين') || lower.includes('فولتارين') || lower.includes('كتافلام')) {
       return `
         <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-pill"></i> توجيه دوائي وسريري:</div>
         • دواء <strong>كونكور (Concor 5mg)</strong> هو من حاصرات بيتا لتنظيم ضربات القلب وخفض ضغط الدم.<br>
@@ -4662,18 +5211,40 @@ function closeAllDrawers(){
       `;
     }
 
-    // 2. Blood pressure
-    if(lower.includes('ضغط') || lower.includes('120') || lower.includes('80') || lower.includes('مرتفع') || lower.includes('واطي')) {
+    // 2. Augmentin Antibiotics
+    if(lower.includes('أوجمنتين') || lower.includes('augmentin') || lower.includes('مضاد') || lower.includes('حيوي') || lower.includes('جرعة')) {
       return `
-        <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-heart-rate-monitor"></i> تقييم قياس ضغط الدم (120/80):</div>
-        • قراءتك المسجلة <strong>120/80 mmHg</strong> تُعد <strong>مثالية وطبيعية تماماً</strong> طبقاً لأحدث المعايير الطبية الدولية.<br>
-        • هذا يوضح التزاماً ممتازاً بجرعة كونكور واستقرار الجهاز الدوري والقلب.<br>
-        • <strong>نصائح للحفاظ على هذا المستوى:</strong> الاعتدال بالملح، شرب الماء بانتظام (8 أكواب يومياً)، والمشي الخفيف لمدة 30 دقيقة.<br>
-        • إذا شعرت بأي دوخة أو إرهاق مفاجئ، يُنصح بإعادة القياس بعد الاسترخاء.
+        <div style="font-weight:700;color:#60a5fa;margin-bottom:5px;"><i class="ti ti-prescription"></i> إرشادات تناول أوجمنتين 1 جم (Augmentin):</div>
+        • <strong>طريقة التناول:</strong> يُؤخذ قرص كل 12 ساعة <em>مع بداية وجبة الطعام أو بعدها مباشرة</em> لتجنب أي اضطراب أو غثيان في المعدة.<br>
+        • <strong>الالتزام بالكورس:</strong> يجب استكمال مدة الـ 7 أيام المقررة بالكامل، حتى إذا شعرت بتحسن مبكر، لمنع نشوء أي بكتيريا مقاومة للمضادات.<br>
+        • <strong>نصيحة:</strong> اشرب كوب ماء كبير مع القرص، وتناول الزبادي أو الأطعمة الغنية بالبروبيوتيك للحفاظ على توازن بكتيريا الجهاز الهضمي النافعة.
       `;
     }
 
-    // 3. Fasting Glucose 105
+    // 3. Labs & CBC & ECG in patient record
+    if(lower.includes('cbc') || lower.includes('تحليل دم') || lower.includes('هيموجلوبين') || lower.includes('صفائح') || lower.includes('رسم قلب') || lower.includes('ecg')) {
+      return `
+        <div style="font-weight:700;color:#c084fc;margin-bottom:5px;"><i class="ti ti-file-analytics"></i> قراءة ملفك التشخيصي والمخبري:</div>
+        • <strong>صورة الدم الكاملة (معمل البرج - 12 سبتمبر):</strong><br>
+        - الهيموجلوبين: <strong>14.2 g/dL</strong> (ممتاز، لا يوجد فقر دم أو أنيميا).<br>
+        - الصفائح الدموية: <strong>260,000</strong> (طبيعية ومثالية للتخثر).<br>
+        - كرات الدم البيضاء: <strong>6.8K</strong> (معدل مناعي طبيعي بدون علامات عدوى نشطة).<br>
+        • <strong>رسم القلب الكهربائي (كايرو سكان - 12 سبتمبر):</strong> سليم Sinus Rhythm بدون أي اختلالات نبض أو إجهاد لعضلة القلب.
+      `;
+    }
+
+    // 4. Blood pressure & Pulse
+    if(lower.includes('ضغط') || lower.includes('120') || lower.includes('80') || lower.includes('مرتفع') || lower.includes('واطي') || lower.includes('نبض')) {
+      return `
+        <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-heart-rate-monitor"></i> تقييم قياس ضغط الدم (120/80) والنبض (72):</div>
+        • قراءتك المسجلة <strong>120/80 mmHg</strong> ونبضك <strong>72 bpm</strong> تُعد <strong>مثالية وطبيعية تماماً</strong> طبقاً لأحدث المعايير الطبية الدولية (AHA).<br>
+        • هذا يوضح التزاماً ممتازاً بجرعة كونكور واستقرار الجهاز الدوري والقلب.<br>
+        • <strong>نصائح للحفاظ على هذا المستوى:</strong> الاعتدال بالملح، شرب الماء بانتظام (8 أكواب يومياً)، والمشي الخفيف لمدة 30 دقيقة.<br>
+        • إذا شعرت بأي دوخة أو إرهاق مفاجئ، يُنصح بإعادة القياس بعد 10 دقائق من الاسترخاء التام.
+      `;
+    }
+
+    // 5. Fasting Glucose 105
     if(lower.includes('سكر') || lower.includes('105') || lower.includes('صائم') || lower.includes('تراكمي') || lower.includes('glucose')) {
       return `
         <div style="font-weight:700;color:#fbbf24;margin-bottom:5px;"><i class="ti ti-droplet"></i> تفسير قراءة السكر الصائم (105 mg/dL):</div>
@@ -4681,12 +5252,12 @@ function closeAllDrawers(){
         • قراءة 105 mg/dL تقع في مرحلة <em>"مقدمات السكري" (Pre-diabetes)</em> وهي مرحلة قابلة للعكس والتحسن التام بالنمط الصحي.<br>
         • <strong>الإجراءات الموصى بها:</strong><br>
         1. إجراء فحص السكر التراكمي (HbA1c) للتأكد من متوسط الشهور الثلاثة الماضية.<br>
-        2. تقليل السكريات والحلويات والخبز الأبيض واستبدالها بالحبوب الكاملة.<br>
-        3. استشر طبيبك في موعد اليوم لإضافة تحليل دهون ثلاثية وسكر تراكمي.
+        2. تقليل السكريات الصريحة والخبز الأبيض واستبدالها بالحبوب الكاملة والألياف.<br>
+        3. استشر طبيبك في موعد اليوم لإضافة تحليل دهون ثلاثية وسكر تراكمي للاطمئنان.
       `;
     }
 
-    // 4. Headache & Dizziness
+    // 6. Headache & Dizziness
     if(lower.includes('صداع') || lower.includes('دوخة') || lower.includes('زغللة') || lower.includes('دوار')) {
       return `
         <div style="font-weight:700;color:#f87171;margin-bottom:5px;"><i class="ti ti-alert-circle"></i> تقييم أعراض الصداع والدوخة:</div>
@@ -4696,7 +5267,7 @@ function closeAllDrawers(){
       `;
     }
 
-    // 5. Nutrition & Heart Health
+    // 7. Nutrition & Heart Health
     if(lower.includes('تغذية') || lower.includes('أكل') || lower.includes('نظام') || lower.includes('دايت') || lower.includes('ملح') || lower.includes('رياضة')) {
       return `
         <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-salad"></i> إرشادات التغذية وصحة القلب:</div>
@@ -4706,29 +5277,24 @@ function closeAllDrawers(){
       `;
     }
 
-    // 6. Child (Omar)
-    if(lower.includes('طفل') || lower.includes('عمر') || lower.includes('حرارة') || lower.includes('تطعيم') || lower.includes('سخونية')) {
-      return `
-        <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-mood-kid"></i> إرشادات سريرية لصحة الطفل (عمر):</div>
-        • في حالات الحرارة: قِس درجة الحرارة بميزان ديجيتال، واستخدم شراب الباراسيتامول المخصص للأطفال بجرعة محسوبة حسب وزن الطفل.<br>
-        • كمادات ماء فاتر (من الصنبور) على الرقبة وتحت الإبط، وتجنب الماء المثلج تماماً.<br>
-        • شرب السوائل بكميات صغيرة متكررة لمنع الجفاف، وفي حال استمرار الحرارة أكثر من 48 ساعة يُنصح باستشارة طبيب أطفال فوراً.
-      `;
-    }
-
-    // 7. General inquiry
+    // 8. General inquiry
     return `
       <div style="font-weight:700;color:var(--accent);margin-bottom:5px;"><i class="ti ti-stethoscope"></i> تقييم طبي من Tababa Clinical AI:</div>
       سؤالك تم تحليله عبر محرك الاستشارات الطبية السريرية في طبابا.<br>
       • يُنصح بمتابعة تطور الأعراض وتدوين وقت بدايتها، وتجنب تناول أي أدوية دون وصفة طبية مباشرة.<br>
-      • يمكنك مناقشة هذا السؤال مباشرة مع <strong>د. وائل مجدي</strong> في استشارتك اليوم الساعة 06:00 م، أو الضغط على "تحدث مع الدكتور" لتوجيهك للعيادة المناسبة.
+      • يمكنك مناقشة هذا السؤال مباشرة مع <strong>د. وائل مجدي</strong> في استشارتك اليوم الساعة 06:00 م، أو استخدام مجسم الألم بالأسفل لحجز كشف مع استشاري متخصص.
+      <div style="margin-top:8px;">
+        <button class="pill sm ghost" onclick="document.getElementById('patientRegSection')?.scrollIntoView({behavior:'smooth'})" style="font-size:11px;">
+          <i class="ti ti-calendar"></i> حجز كشف مع طبيب متخصص
+        </button>
+      </div>
     `;
   }
 
   // Backward-compatible triggers for existing buttons
   function pickPrompt(btn) {
     if(btn && btn.textContent) {
-      askAiPrompt(btn.textContent);
+      askMainAiPrompt(btn.textContent);
     }
   }
 
@@ -4739,7 +5305,7 @@ function closeAllDrawers(){
   function sendQuickSide() {
     const input = document.getElementById('quickSideInput');
     if(!input || !input.value.trim()) return;
-    askAiPrompt(input.value);
+    askMainAiPrompt(input.value);
     input.value = '';
   }
 
