@@ -1707,11 +1707,11 @@
   /* ==================== PATIENT CRM COCKPIT & ACTION COMMAND HUB ==================== */
   .patient-crm-hub {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 12px;
     margin-bottom: 18px;
   }
-  @media (max-width: 1200px) {
+  @media (max-width: 1280px) {
     .patient-crm-hub { grid-template-columns: repeat(3, 1fr); }
   }
   @media (max-width: 680px) {
@@ -2021,11 +2021,62 @@
   button{font-family:inherit;cursor:pointer;}
   .shell{
     display:grid;
-    grid-template-columns:280px 1fr 280px;
-    gap:18px;
+    grid-template-columns:260px 1fr;
+    gap:22px;
     max-width:1560px;
     margin:0 auto;
     padding:20px;
+  }
+  .emergency-main-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(239, 68, 68, 0.45);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .emergency-main-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 24px rgba(239, 68, 68, 0.65);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  .emergency-main-btn i {
+    font-size: 16px;
+    animation: emergIconShake 2.2s infinite ease-in-out;
+  }
+  .pulse-dot-red {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 8px #fff;
+    animation: pulseDot 1.4s infinite;
+  }
+  @keyframes emergIconShake {
+    0%, 100% { transform: rotate(0deg); }
+    15% { transform: rotate(-8deg); }
+    30% { transform: rotate(8deg); }
+    45% { transform: rotate(-4deg); }
+    60% { transform: rotate(4deg); }
+    75% { transform: rotate(0deg); }
+  }
+  .tile-emergency {
+    border-color: rgba(239, 68, 68, 0.35) !important;
+    background: linear-gradient(145deg, rgba(239, 68, 68, 0.08), rgba(12, 18, 32, 0.95)) !important;
+  }
+  .tile-emergency:hover {
+    border-color: #ef4444 !important;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25) !important;
+    transform: translateY(-2px);
   }
   .card{
     background:var(--bg-card);
@@ -2973,6 +3024,11 @@ html, body {
       </div>
 
       <div class="topbar-left">
+        <button type="button" class="emergency-main-btn" onclick="openEmergencyModal()" title="طلب طوارئ طبية فورية 24/7">
+          <i class="ti ti-ambulance"></i>
+          <span>طلب طوارئ 24/7</span>
+          <span class="pulse-dot-red"></span>
+        </button>
         <a class="pill sm ghost" href="cs-leads-dashboard.html" style="background:rgba(168,85,247,0.12);color:#a855f7;border-color:rgba(168,85,247,0.3)"><i class="ti ti-headset"></i>خدمة العملاء (Leads)</a>
         <a class="pill sm" href="tababa-doctor-dashboard.html"><i class="ti ti-user-plus"></i>انضم كطبيب</a>
         <span class="pill solid sm"><i class="ti ti-door-exit"></i>تسجيل الخروج</span>
@@ -3033,6 +3089,17 @@ html, body {
         <div class="tile-title">التأمين والمحفظة</div>
         <span class="tile-badge" style="background:rgba(242,184,75,0.2);color:#f2b84b">
           بوبا 80% • 450 نقطة
+        </span>
+      </div>
+
+      <!-- 6. طلب طوارئ 24/7 -->
+      <div class="patient-action-tile tile-emergency" onclick="openEmergencyModal()">
+        <div class="tile-icon-bubble" style="background:rgba(239,68,68,0.18);color:#ef4444">
+          <i class="ti ti-ambulance"></i>
+        </div>
+        <div class="tile-title" style="color:#ef4444">طلب طوارئ 24/7</div>
+        <span class="tile-badge" style="background:rgba(239,68,68,0.22);color:#ff8e85">
+          <span class="pulse-dot" style="display:inline-block;width:5px;height:5px;background:#ef4444;border-radius:50%;margin-left:3px;"></span> إسعاف وطبيب فوري
         </span>
       </div>
     </div>
@@ -4709,132 +4776,6 @@ html, body {
       </div>
     </div>
   </main>
-
-  <!-- LEFT COLUMN (last in DOM = left side under RTL) -->
-  <aside>
-    <!-- ENHANCED INTERACTIVE CLINICAL AI CHAT -->
-    <div class="ai-chat-card-enhanced" id="aiClinicalChatCard">
-      <!-- HEADER -->
-      <div class="ai-chat-header">
-        <div class="ai-chat-title-group">
-          <div class="ai-chat-badge-icon">
-            <i class="ti ti-stethoscope"></i>
-          </div>
-          <div>
-            <div class="ai-chat-title" id="aiChatTitle">المستشار الطبي الذكي الشامل</div>
-            <div class="ai-chat-sub">Tababa Clinical AI • استشارات ونظم علاجية 24/7</div>
-          </div>
-        </div>
-        <span class="pill sm ghost" style="color:var(--accent);border-color:rgba(31,230,168,0.3);font-size:10px;padding:3px 8px;display:flex;align-items:center;gap:4px;">
-          <span class="pulse-dot" style="display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;"></span>
-          متصل
-        </span>
-      </div>
-
-      <!-- CHAT THREAD (Live conversation) -->
-      <div class="ai-chat-thread" id="aiChatThread">
-        <div class="chat-bubble ai" id="aiInitialBubble">
-          أهلاً بك يا <strong id="aiGreetUser">كريم</strong> 👋<br>
-          أنا <strong>مستشارك الطبي السريري الذكي</strong> على منصة طبابا.<br>
-          أنا مطلع على ملفك الصحي، أدويتك المقررة (مثل <strong>كونكور 5 مجم</strong>)، وقراءاتك الحيوية اليوم.<br>
-          <span style="display:block;margin-top:6px;color:var(--text-secondary);font-size:11px;">
-            تفضل بسؤالي عن أي دواء، استفسار حول جرعاتك، نتائج تحاليلك، أو أي أعراض صحية تشعر بها وسأجيبك فوراً!
-          </span>
-        </div>
-      </div>
-
-      <!-- QUICK PROMPT CHIPS -->
-      <div class="chat-quick-prompts" id="chatQuickPrompts">
-        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('هل كونكور يتعارض مع المسكنات مثل البروفين؟')">💊 كونكور والمسكنات</button>
-        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('هل قراءة ضغطي 120/80 ونبضي 72 تعتبر طبيعية؟')">🩺 هل قياس ضغطي طبيعي؟</button>
-        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('سكر الصائم عندي 105 mg/dL، ما التوجيه الصحي المناسب؟')">🩸 تفسير سكر صائم 105</button>
-        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('أشعر بصداع مع دوخة خفيفة، ماذا أفعل الآن؟')">⚡ صداع مع دوخة</button>
-        <button class="chat-prompt-pill" type="button" onclick="askAiPrompt('نصائح غذائية للمحافظة على استقرار ضغط الدم')">🥗 نصائح تغذية للضغط</button>
-      </div>
-
-      <!-- INPUT BAR -->
-      <div class="chat-input" style="margin-top:auto;">
-        <input type="text" id="aiChatInput" placeholder="اكتب سؤالك الطبي هنا..." onkeydown="if(event.key==='Enter') sendAiChat()">
-        <button class="send-btn" id="aiChatSendBtn" type="button" aria-label="إرسال" onclick="sendAiChat()">
-          <i class="ti ti-send-2"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- 7. MINI MEDICATION REMINDER CARD -->
-    <div class="card med-card">
-      <div class="med-head">
-        <div class="med-title"><i class="ti ti-pill" style="color:var(--accent)"></i> جرعات اليوم</div>
-        <span class="pill sm ghost" id="medCounterBadge" style="font-size:11px;padding:3px 8px;">2 من 3</span>
-      </div>
-      <div class="tiny" style="color:var(--text-secondary)">تذكير ذكي لالتزامك بالعلاج</div>
-      
-      <div class="med-progress">
-        <div class="med-progress-bar" id="medProgressBar" style="width:66%"></div>
-      </div>
-
-      <div class="med-list">
-        <div class="med-item taken" id="dose-1" onclick="toggleMedDose(1)">
-          <div class="med-check"><i class="ti ti-check"></i></div>
-          <div class="med-info">
-            <div class="med-name">كونكور 5 مجم</div>
-            <div class="med-time"><i class="ti ti-clock"></i> 08:00 ص • بعد الإفطار</div>
-          </div>
-          <span class="med-done-badge" id="dose-status-1">تمت ✓</span>
-        </div>
-
-        <div class="med-item taken" id="dose-2" onclick="toggleMedDose(2)">
-          <div class="med-check"><i class="ti ti-check"></i></div>
-          <div class="med-info">
-            <div class="med-name">أوجمنتين 1 جم</div>
-            <div class="med-time"><i class="ti ti-clock"></i> 02:00 م • بعد الغداء</div>
-          </div>
-          <span class="med-done-badge" id="dose-status-2">تمت ✓</span>
-        </div>
-
-        <div class="med-item" id="dose-3" onclick="toggleMedDose(3)">
-          <div class="med-check"><i class="ti ti-check"></i></div>
-          <div class="med-info">
-            <div class="med-name">بانادول جوينت</div>
-            <div class="med-time"><i class="ti ti-clock"></i> 09:00 م • عند اللزوم</div>
-          </div>
-          <span class="med-done-badge" id="dose-status-3" style="color:var(--warn)">الموعد القادم</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card metric-card">
-      <div class="metric-title">متابعة خطة علاجك</div>
-      <div class="tiny" style="margin-bottom:10px">نظرة سريعة على تقدمك في خطة العلاج الحالية</div>
-      <div class="metric-grid">
-        <div class="metric-list">
-          <div class="metric-row"><span class="mdot"></span>الجلسات المكتملة: 6 من 8</div>
-          <div class="metric-row"><span class="mdot"></span>الالتزام بالمواعيد: ممتاز</div>
-          <div class="metric-row"><span class="mdot warn"></span>الموعد القادم: اليوم 6:00 م</div>
-          <div class="metric-row"><span class="mdot"></span>حالة الدفع: مكتملة</div>
-        </div>
-        <div class="ring">
-          <div class="ring-label"><span class="pct">78%</span><span class="lbl">مكتمل</span></div>
-        </div>
-      </div>
-      <div class="tip">
-        <span>موعدك القادم اليوم - تأكيد الحضور يضمن عدم إلغاء الموعد</span>
-        <i class="ti ti-clock" style="flex-shrink:0"></i>
-      </div>
-      <div class="tiny" style="margin-top:8px">تحديث تلقائي بعد كل استشارة</div>
-    </div>
-
-    <div class="card trust-card">
-      <div class="metric-title">لماذا تثق بطبابا؟</div>
-      <div class="trust-grid">
-        <div class="trust-item"><i class="ti ti-star"></i><span>تقييمات موثقة</span></div>
-        <div class="trust-item"><i class="ti ti-lock"></i><span>خصوصية تامة</span></div>
-        <div class="trust-item"><i class="ti ti-file-certificate"></i><span>بيانات آمنة</span></div>
-        <div class="trust-item"><i class="ti ti-shield-check"></i><span>أطباء معتمدون</span></div>
-      </div>
-    </div>
-  </aside>
-
 </div>
 
 <!-- 5. FLOATING EMERGENCY BUTTON -->
@@ -5869,6 +5810,8 @@ function closeAllDrawers(){
     if(input) {
       input.value = promptText;
       sendAiChat();
+    } else {
+      askMainAiPrompt(promptText);
     }
   }
 
