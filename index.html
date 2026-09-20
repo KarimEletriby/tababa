@@ -506,21 +506,34 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 480px;
+      padding: 10px;
       user-select: none;
+    }
+
+    /* 1:1 Locked Anatomical Canvas */
+    .scanner-canvas {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .hero-scanner-img {
       width: 100%;
-      height: 480px;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
       display: block;
+      border-radius: 16px;
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
       filter: drop-shadow(0 0 25px rgba(31, 230, 168, 0.25));
     }
 
-    .hero-scanner-stage:hover .hero-scanner-img {
-      transform: scale(1.025);
+    .scanner-canvas:hover .hero-scanner-img {
+      transform: scale(1.02);
     }
 
     /* Ambient Hologram Grid Background */
@@ -822,22 +835,23 @@
 
     @media (max-width: 768px) {
       .hero-scanner-stage {
-        min-height: 360px;
+        padding: 4px;
       }
-      .hero-scanner-img {
-        height: 360px;
+      .scanner-canvas {
+        max-width: 350px;
       }
       .scanner-bottom-hud {
-        font-size: 10.5px;
+        font-size: 10px;
         padding: 6px 10px;
       }
       .scanner-float-badge {
-        padding: 6px 10px;
-        font-size: 11px;
+        padding: 5px 10px;
+        font-size: 10.5px;
       }
       .hotspot-tooltip {
-        min-width: 160px;
-        font-size: 11px;
+        min-width: 150px;
+        font-size: 10.5px;
+        padding: 8px 10px;
       }
     }
 
@@ -1410,91 +1424,142 @@
           <!-- Laser Scan Line -->
           <div class="laser-scanner"></div>
 
-          <!-- Full Body Scan Image Asset -->
-          <img src="full-body-ai-scan.jpg" alt="تحليل سريري كامل لجسم المريض بالذكاء الاصطناعي" class="hero-scanner-img" id="scannerBodyImg">
+          <!-- 1:1 Locked Anatomical Canvas for Male Body -->
+          <div class="scanner-canvas">
+            <!-- Full Body Male Scan Image Asset -->
+            <img src="full-body-ai-scan.jpg" alt="مسح سريري كامل لجسم المريض بالذكاء الاصطناعي" class="hero-scanner-img" id="scannerBodyImg">
 
-          <!-- Interactive Anatomical Hotspots -->
-          <!-- 1. Brain / Head Hotspot -->
-          <button class="scan-hotspot" style="top: 13.5%; left: 50%;" onclick="quickSelectSymptom('صداع مزمن وإجهاد عصبي مع زغللة بالعينين')" title="المخ والجهاز العصبي">
-            <div class="hotspot-beacon">
-              <div class="hotspot-center"><i class="ti ti-brain"></i></div>
-              <div class="hotspot-ring-inner"></div>
-              <div class="hotspot-ring-outer"></div>
-            </div>
-            <div class="hotspot-tooltip">
-              <div class="tooltip-tag"><i class="ti ti-activity"></i> فحص الجهاز العصبي</div>
-              <div class="tooltip-title">🧠 الدماغ والمخ والأعصاب</div>
-              <div class="tooltip-metric">نشاط النواقل: متوازن • فحص الصداع والإجهاد</div>
-              <div class="tooltip-action">انقر لبدء التحليل الفوري ←</div>
-            </div>
-          </button>
+            <!-- Interactive Anatomical Hotspots Positioned Exactly on Male Anatomy -->
 
-          <!-- 2. Heart / Chest Hotspot -->
-          <button class="scan-hotspot" style="top: 26.5%; left: 51.5%;" onclick="quickSelectSymptom('خفقان سريع في نبضات القلب مع ضيق تنفس خفيف')" title="القلب والأوعية الدموية">
-            <div class="hotspot-beacon">
-              <div class="hotspot-center"><i class="ti ti-heart"></i></div>
-              <div class="hotspot-ring-inner"></div>
-              <div class="hotspot-ring-outer"></div>
-            </div>
-            <div class="hotspot-tooltip">
-              <div class="tooltip-tag"><i class="ti ti-heart-rate-monitor"></i> فحص الدورة الدموية</div>
-              <div class="tooltip-title">🫀 القلب والشرايين</div>
-              <div class="tooltip-metric">النبض: 72 bpm • ضغط الدم: 120/80</div>
-              <div class="tooltip-action">انقر لفحص النبض وخفقان القلب ←</div>
-            </div>
-          </button>
+            <!-- 1. Brain / Head Hotspot (10.6%, 50.0%) -->
+            <button class="scan-hotspot" style="top: 10.6%; left: 50.0%;" onclick="quickSelectSymptom('صداع مزمن وإجهاد عصبي مع زغللة بالعينين')" title="المخ والجهاز العصبي">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-brain"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-activity"></i> فحص الجهاز العصبي</div>
+                <div class="tooltip-title">🧠 الدماغ والمخ والأعصاب</div>
+                <div class="tooltip-metric">نشاط النواقل: متوازن • فحص الصداع والإجهاد</div>
+                <div class="tooltip-action">انقر لبدء التحليل الفوري ←</div>
+              </div>
+            </button>
 
-          <!-- 3. Lungs / Respiratory Hotspot -->
-          <button class="scan-hotspot" style="top: 28%; left: 42%;" onclick="quickSelectSymptom('ضيق في التنفس مع سعال متكرر وألم خفيف بالصدر')" title="الرئتين والجهاز التنفسي">
-            <div class="hotspot-beacon">
-              <div class="hotspot-center"><i class="ti ti-wind"></i></div>
-              <div class="hotspot-ring-inner"></div>
-              <div class="hotspot-ring-outer"></div>
-            </div>
-            <div class="hotspot-tooltip">
-              <div class="tooltip-tag"><i class="ti ti-lungs"></i> كفاءة الجهاز التنفسي</div>
-              <div class="tooltip-title">🫁 الرئتان والقفص الصدري</div>
-              <div class="tooltip-metric">نسبة الأكسجين: SpO2 99% • الشعب الهوائية</div>
-              <div class="tooltip-action">انقر لفحص حساسية الصدر والتنفس ←</div>
-            </div>
-          </button>
+            <!-- 2. Heart / Cardiovascular Hotspot (26.2%, 52.3%) -->
+            <button class="scan-hotspot" style="top: 26.2%; left: 52.3%;" onclick="quickSelectSymptom('خفقان سريع في نبضات القلب مع ضيق تنفس خفيف')" title="القلب والأوعية الدموية">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center" style="background:#ef4444;box-shadow:0 0 14px #ef4444;"><i class="ti ti-heart" style="color:#ffffff;"></i></div>
+                <div class="hotspot-ring-inner" style="border-color:#ef4444;"></div>
+                <div class="hotspot-ring-outer" style="border-color:rgba(239,68,68,0.6);"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag" style="color:#ef4444;"><i class="ti ti-heart-rate-monitor"></i> فحص الدورة الدموية</div>
+                <div class="tooltip-title">🫀 القلب والشرايين التاجية</div>
+                <div class="tooltip-metric">النبض: 72 bpm • ضغط الدم: 120/80</div>
+                <div class="tooltip-action">انقر لفحص النبض وخفقان القلب ←</div>
+              </div>
+            </button>
 
-          <!-- 4. Abdomen / GI Hotspot -->
-          <button class="scan-hotspot" style="top: 41%; left: 50%;" onclick="quickSelectSymptom('حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')" title="الجهاز الهضمي والمعدة">
-            <div class="hotspot-beacon">
-              <div class="hotspot-center"><i class="ti ti-ripple"></i></div>
-              <div class="hotspot-ring-inner"></div>
-              <div class="hotspot-ring-outer"></div>
-            </div>
-            <div class="hotspot-tooltip">
-              <div class="tooltip-tag"><i class="ti ti-dna"></i> الجهاز الهضمي</div>
-              <div class="tooltip-title">🔬 المعدة والقولون والكبد</div>
-              <div class="tooltip-metric">حموضة المريء • التمثيل الغذائي</div>
-              <div class="tooltip-action">انقر لتحليل عسر الهضم والمغص ←</div>
-            </div>
-          </button>
+            <!-- 3. Lungs / Thoracic Hotspot (24.8%, 44.0%) -->
+            <button class="scan-hotspot" style="top: 24.8%; left: 44.0%;" onclick="quickSelectSymptom('ضيق في التنفس مع سعال متكرر وألم خفيف بالصدر')" title="الرئتين والجهاز التنفسي">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-wind"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-lungs"></i> كفاءة الجهاز التنفسي</div>
+                <div class="tooltip-title">🫁 الرئتان والقفص الصدري</div>
+                <div class="tooltip-metric">نسبة الأكسجين: SpO2 99% • الشعب الهوائية</div>
+                <div class="tooltip-action">انقر لفحص حساسية الصدر والتنفس ←</div>
+              </div>
+            </button>
 
-          <!-- 5. Skeleton / Joints Hotspot -->
-          <button class="scan-hotspot" style="top: 68%; left: 47%;" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')" title="العظام والمفاصل">
-            <div class="hotspot-beacon">
-              <div class="hotspot-center"><i class="ti ti-bone"></i></div>
-              <div class="hotspot-ring-inner"></div>
-              <div class="hotspot-ring-outer"></div>
-            </div>
-            <div class="hotspot-tooltip">
-              <div class="tooltip-tag"><i class="ti ti-walk"></i> الجهاز الحركي</div>
-              <div class="tooltip-title">🦴 المفاصل والعمود الفقري</div>
-              <div class="tooltip-metric">صحة الغضاريف • أوتار الركبة</div>
-              <div class="tooltip-action">انقر لفحص خشونة المفاصل والظهر ←</div>
-            </div>
-          </button>
+            <!-- 4. Stomach & Liver Hotspot (34.0%, 50.8%) -->
+            <button class="scan-hotspot" style="top: 34.0%; left: 50.8%;" onclick="quickSelectSymptom('حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')" title="المعدة والكبد">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-ripple"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-dna"></i> الجهاز الهضمي العلوي</div>
+                <div class="tooltip-title">🔬 المعدة والكبد</div>
+                <div class="tooltip-metric">حموضة المريء • كفاءة الهضم</div>
+                <div class="tooltip-action">انقر لتحليل حرقان المعدة والمغص ←</div>
+              </div>
+            </button>
+
+            <!-- 5. Intestines & Colon Hotspot (41.5%, 50.2%) -->
+            <button class="scan-hotspot" style="top: 41.5%; left: 50.2%;" onclick="quickSelectSymptom('انتفاخ وتقلصات متكررة بالقولون مع عسر هضم')" title="القولون والأمعاء">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-activity"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-activity"></i> الجهاز الهضمي السفلي</div>
+                <div class="tooltip-title">🧬 القولون والأمعاء الدقيقة</div>
+                <div class="tooltip-metric">فحص القولون العصبي • الانتفاخ والغازات</div>
+                <div class="tooltip-action">انقر لتحليل اضطرابات القولون ←</div>
+              </div>
+            </button>
+
+            <!-- 6. Pelvis / Hip Joints (48.4%, 42.5%) -->
+            <button class="scan-hotspot" style="top: 48.4%; left: 42.5%;" onclick="quickSelectSymptom('ألم في مفصل الحوض وأسفل الظهر')" title="الحوض ومفصل الفخذ">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-layers-linked"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-bone"></i> الجهاز الهيكلي</div>
+                <div class="tooltip-title">🦴 مفصل الحوض والفخذ</div>
+                <div class="tooltip-metric">استقرار المفصل • فحص آلام الحوض</div>
+                <div class="tooltip-action">انقر لفحص آلام الحوض والمفصل ←</div>
+              </div>
+            </button>
+
+            <!-- 7. Knees & Leg Joints (68.5%, 44.3%) -->
+            <button class="scan-hotspot" style="top: 68.5%; left: 44.3%;" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')" title="مفاصل الركبة">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-bone"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-walk"></i> الجهاز الحركي والمفاصل</div>
+                <div class="tooltip-title">🦴 الركبة والغضاريف</div>
+                <div class="tooltip-metric">صحة الغضاريف • أوتار الركبة والأربطة</div>
+                <div class="tooltip-action">انقر لفحص خشونة الركبة والمفاصل ←</div>
+              </div>
+            </button>
+
+            <!-- 8. Left Knee Joint (68.5%, 55.9%) -->
+            <button class="scan-hotspot" style="top: 68.5%; left: 55.9%;" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')" title="مفصل الركبة اليسرى">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-bone"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-walk"></i> مفصل الركبة</div>
+                <div class="tooltip-title">🦴 غضروف الركبة اليسرى</div>
+                <div class="tooltip-metric">تقييم المرونة الحركية ومستوى الإجهاد</div>
+                <div class="tooltip-action">انقر لبدء التحليل ←</div>
+              </div>
+            </button>
+          </div>
 
           <!-- Floating HUD Badge Top Right -->
           <div class="scanner-float-badge top-right">
             <span class="live-pulse-dot"></span>
             <div>
-              <div style="font-weight:800;color:#ffffff;">المسح السريري الشامل</div>
-              <div style="font-size:10.5px;color:var(--accent);">دقة الذكاء الاصطناعي 99.4%</div>
+              <div style="font-weight:800;color:#ffffff;display:flex;align-items:center;gap:5px;">
+                <i class="ti ti-man" style="color:var(--accent);font-size:16px;"></i> مسح سريري للذكور 3D
+              </div>
+              <div style="font-size:10.5px;color:var(--accent);">دقة تشريحية 100% • Clinical AI v4</div>
             </div>
           </div>
 
@@ -1503,7 +1568,7 @@
             <i class="ti ti-heart-rate-monitor" style="color:#ef4444;font-size:18px;"></i>
             <div>
               <div style="font-weight:800;color:#ffffff;">72 bpm</div>
-              <div style="font-size:10.5px;color:#94a3b8;">إيقاع قلبي مستقر</div>
+              <div style="font-size:10.5px;color:#94a3b8;">إيقاع قلبي وضغط 120/80</div>
             </div>
           </div>
 
@@ -1511,10 +1576,10 @@
           <div class="scanner-bottom-hud">
             <div class="scanner-bottom-hud-hint">
               <i class="ti ti-hand-finger" style="color:var(--accent);font-size:14px;"></i>
-              <span>انقر على <strong>أي عضو في الجسم</strong> لتحليله سريرياً فوراً</span>
+              <span>انقر على <strong>أي عضو في المجسم</strong> لتحليله سريرياً فوراً</span>
             </div>
             <div style="display:flex;align-items:center;gap:4px;color:var(--cyan);font-weight:700;">
-              <i class="ti ti-sparkles"></i> 360° AI Scan
+              <i class="ti ti-sparkles"></i> 360° Male Anatomy Scan
             </div>
           </div>
         </div>
