@@ -488,75 +488,357 @@
       transform: translateY(-2px);
     }
 
-    /* ================= VISUAL HERO SIDE ================= */
-    .hero-visual-card {
+    /* ================= FULL-BODY INTERACTIVE CLINICAL SCANNER ================= */
+    .hero-scanner-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-scanner-stage {
       position: relative;
       border-radius: var(--radius-lg);
       overflow: hidden;
-      border: 1px solid rgba(31, 230, 168, 0.25);
-      background: linear-gradient(180deg, rgba(12, 22, 38, 0.6) 0%, rgba(6, 13, 23, 0.95) 100%);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(31, 230, 168, 0.15);
+      border: 1px solid rgba(31, 230, 168, 0.22);
+      background: radial-gradient(circle at 50% 40%, rgba(14, 30, 50, 0.8) 0%, rgba(6, 13, 23, 0.98) 75%);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(31, 230, 168, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
-      max-height: 480px;
+      min-height: 480px;
+      user-select: none;
     }
 
-    .hero-visual-img {
+    .hero-scanner-img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: 480px;
+      object-fit: contain;
       display: block;
-      transition: transform 0.5s ease;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+      filter: drop-shadow(0 0 25px rgba(31, 230, 168, 0.25));
     }
 
-    .hero-visual-card:hover .hero-visual-img {
-      transform: scale(1.02);
+    .hero-scanner-stage:hover .hero-scanner-img {
+      transform: scale(1.025);
     }
 
-    .laser-scanner {
+    /* Ambient Hologram Grid Background */
+    .scanner-ambient-grid {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent 0%, #1fe6a8 50%, transparent 100%);
-      box-shadow: 0 0 15px #1fe6a8;
-      animation: scanLaser 3.5s infinite ease-in-out;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(31, 230, 168, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31, 230, 168, 0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
       pointer-events: none;
     }
 
-    @keyframes scanLaser {
-      0% { top: 0%; opacity: 0.1; }
-      50% { top: 95%; opacity: 0.9; }
-      100% { top: 0%; opacity: 0.1; }
+    /* Laser Scanner Line */
+    .laser-scanner {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0%, #1fe6a8 30%, #38bdf8 70%, transparent 100%);
+      box-shadow: 0 0 20px #1fe6a8, 0 0 8px #38bdf8;
+      animation: scanLaser 4s infinite ease-in-out;
+      pointer-events: none;
+      z-index: 5;
     }
 
-    .hud-overlay {
+    @keyframes scanLaser {
+      0% { top: 3%; opacity: 0.2; }
+      50% { top: 92%; opacity: 0.95; }
+      100% { top: 3%; opacity: 0.2; }
+    }
+
+    /* Anatomical Hotspots */
+    .scan-hotspot {
       position: absolute;
-      bottom: 16px;
-      left: 16px;
-      right: 16px;
-      background: rgba(6, 13, 23, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-md);
-      padding: 12px 16px;
+      transform: translate(-50%, -50%);
+      z-index: 12;
+      cursor: pointer;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
+      outline: none;
+      border: none;
+      background: none;
+      padding: 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .hotspot-beacon {
+      position: relative;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hotspot-center {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #1fe6a8;
+      box-shadow: 0 0 14px #1fe6a8, 0 0 24px rgba(31, 230, 168, 0.8);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #04241a;
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .hotspot-ring-inner {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid #1fe6a8;
+      animation: pulseWave 2.2s infinite ease-out;
+      pointer-events: none;
+    }
+
+    .hotspot-ring-outer {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      animation: pulseWave 2.2s infinite ease-out 0.6s;
+      pointer-events: none;
+    }
+
+    @keyframes pulseWave {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      50% { opacity: 0.6; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .scan-hotspot:hover .hotspot-center,
+    .scan-hotspot:focus .hotspot-center,
+    .scan-hotspot.active-hotspot .hotspot-center {
+      transform: scale(1.35);
+      background: #38bdf8;
+      box-shadow: 0 0 20px #38bdf8, 0 0 30px #1fe6a8;
+      color: #032030;
+    }
+
+    /* Hotspot Rich Glassmorphic Tooltip Card */
+    .hotspot-tooltip {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(8, 17, 30, 0.95);
+      border: 1px solid rgba(31, 230, 168, 0.4);
+      backdrop-filter: blur(16px);
+      border-radius: 12px;
+      padding: 10px 14px;
+      white-space: nowrap;
+      min-width: 200px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75), 0 0 20px rgba(31, 230, 168, 0.2);
+      z-index: 25;
+      text-align: right;
+      direction: rtl;
+    }
+
+    .hotspot-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: rgba(8, 17, 30, 0.95) transparent transparent transparent;
+    }
+
+    .scan-hotspot:hover .hotspot-tooltip,
+    .scan-hotspot:focus .hotspot-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .tooltip-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+
+    .tooltip-title {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 3px;
+    }
+
+    .tooltip-metric {
+      font-size: 11px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tooltip-action {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    /* Floating Badges on Scanner */
+    .scanner-float-badge {
+      position: absolute;
+      background: rgba(6, 13, 23, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #cbd5e1;
+      z-index: 10;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+      transition: all 0.3s ease;
+    }
+
+    .scanner-float-badge:hover {
+      border-color: rgba(31, 230, 168, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .scanner-float-badge.top-right {
+      top: 14px;
+      right: 14px;
+    }
+
+    .scanner-float-badge.bottom-left {
+      bottom: 58px;
+      left: 14px;
+    }
+
+    .live-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #1fe6a8;
+      box-shadow: 0 0 10px #1fe6a8;
+      animation: dotBlink 1.5s infinite;
+    }
+
+    @keyframes dotBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.85); }
+    }
+
+    /* Bottom Status HUD */
+    .scanner-bottom-hud {
+      position: absolute;
+      bottom: 12px;
+      left: 14px;
+      right: 14px;
+      background: rgba(6, 13, 23, 0.94);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(31, 230, 168, 0.25);
+      border-radius: 10px;
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       font-size: 12px;
       color: var(--text-secondary);
+      z-index: 10;
     }
 
-    .hud-stat-item {
+    .scanner-bottom-hud-hint {
       display: flex;
       align-items: center;
       gap: 6px;
+      color: #94a3b8;
     }
 
-    .hud-stat-item strong {
-      color: #ffffff;
+    .scanner-bottom-hud-hint strong {
+      color: var(--accent);
+    }
+
+    /* Organ Quick Switcher Tabs */
+    .organ-tabs-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 2px;
+      scrollbar-width: none;
+    }
+
+    .organ-tabs-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .organ-tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .organ-tab-btn:hover {
+      background: rgba(31, 230, 168, 0.12);
+      border-color: rgba(31, 230, 168, 0.4);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .organ-tab-btn.active {
+      background: rgba(31, 230, 168, 0.18);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .hero-scanner-stage {
+        min-height: 360px;
+      }
+      .hero-scanner-img {
+        height: 360px;
+      }
+      .scanner-bottom-hud {
+        font-size: 10.5px;
+        padding: 6px 10px;
+      }
+      .scanner-float-badge {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+      .hotspot-tooltip {
+        min-width: 160px;
+        font-size: 11px;
+      }
     }
 
     /* ================= INTERACTIVE CHAT STREAM SECTION ================= */
@@ -1119,23 +1401,144 @@
         </div>
       </div>
 
-      <!-- Left Side: Visual Medical Futuristic Scan Asset -->
-      <div class="hero-visual-card">
-        <img src="ai-medical-scan.jpg" alt="مسح طبي بالذكاء الاصطناعي" class="hero-visual-img">
-        <div class="laser-scanner"></div>
-        <div class="hud-overlay">
-          <div class="hud-stat-item">
-            <i class="ti ti-cpu" style="color:var(--accent)"></i>
-            <span>المعالج: <strong>Clinical AI v4</strong></span>
+      <!-- Left Side: Interactive Full-Body Clinical AI Scanner -->
+      <div class="hero-scanner-wrapper">
+        <div class="hero-scanner-stage" id="patientScannerStage">
+          <!-- Background Hologram Grid -->
+          <div class="scanner-ambient-grid"></div>
+
+          <!-- Laser Scan Line -->
+          <div class="laser-scanner"></div>
+
+          <!-- Full Body Scan Image Asset -->
+          <img src="full-body-ai-scan.jpg" alt="تحليل سريري كامل لجسم المريض بالذكاء الاصطناعي" class="hero-scanner-img" id="scannerBodyImg">
+
+          <!-- Interactive Anatomical Hotspots -->
+          <!-- 1. Brain / Head Hotspot -->
+          <button class="scan-hotspot" style="top: 13.5%; left: 50%;" onclick="quickSelectSymptom('صداع مزمن وإجهاد عصبي مع زغللة بالعينين')" title="المخ والجهاز العصبي">
+            <div class="hotspot-beacon">
+              <div class="hotspot-center"><i class="ti ti-brain"></i></div>
+              <div class="hotspot-ring-inner"></div>
+              <div class="hotspot-ring-outer"></div>
+            </div>
+            <div class="hotspot-tooltip">
+              <div class="tooltip-tag"><i class="ti ti-activity"></i> فحص الجهاز العصبي</div>
+              <div class="tooltip-title">🧠 الدماغ والمخ والأعصاب</div>
+              <div class="tooltip-metric">نشاط النواقل: متوازن • فحص الصداع والإجهاد</div>
+              <div class="tooltip-action">انقر لبدء التحليل الفوري ←</div>
+            </div>
+          </button>
+
+          <!-- 2. Heart / Chest Hotspot -->
+          <button class="scan-hotspot" style="top: 26.5%; left: 51.5%;" onclick="quickSelectSymptom('خفقان سريع في نبضات القلب مع ضيق تنفس خفيف')" title="القلب والأوعية الدموية">
+            <div class="hotspot-beacon">
+              <div class="hotspot-center"><i class="ti ti-heart"></i></div>
+              <div class="hotspot-ring-inner"></div>
+              <div class="hotspot-ring-outer"></div>
+            </div>
+            <div class="hotspot-tooltip">
+              <div class="tooltip-tag"><i class="ti ti-heart-rate-monitor"></i> فحص الدورة الدموية</div>
+              <div class="tooltip-title">🫀 القلب والشرايين</div>
+              <div class="tooltip-metric">النبض: 72 bpm • ضغط الدم: 120/80</div>
+              <div class="tooltip-action">انقر لفحص النبض وخفقان القلب ←</div>
+            </div>
+          </button>
+
+          <!-- 3. Lungs / Respiratory Hotspot -->
+          <button class="scan-hotspot" style="top: 28%; left: 42%;" onclick="quickSelectSymptom('ضيق في التنفس مع سعال متكرر وألم خفيف بالصدر')" title="الرئتين والجهاز التنفسي">
+            <div class="hotspot-beacon">
+              <div class="hotspot-center"><i class="ti ti-wind"></i></div>
+              <div class="hotspot-ring-inner"></div>
+              <div class="hotspot-ring-outer"></div>
+            </div>
+            <div class="hotspot-tooltip">
+              <div class="tooltip-tag"><i class="ti ti-lungs"></i> كفاءة الجهاز التنفسي</div>
+              <div class="tooltip-title">🫁 الرئتان والقفص الصدري</div>
+              <div class="tooltip-metric">نسبة الأكسجين: SpO2 99% • الشعب الهوائية</div>
+              <div class="tooltip-action">انقر لفحص حساسية الصدر والتنفس ←</div>
+            </div>
+          </button>
+
+          <!-- 4. Abdomen / GI Hotspot -->
+          <button class="scan-hotspot" style="top: 41%; left: 50%;" onclick="quickSelectSymptom('حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')" title="الجهاز الهضمي والمعدة">
+            <div class="hotspot-beacon">
+              <div class="hotspot-center"><i class="ti ti-ripple"></i></div>
+              <div class="hotspot-ring-inner"></div>
+              <div class="hotspot-ring-outer"></div>
+            </div>
+            <div class="hotspot-tooltip">
+              <div class="tooltip-tag"><i class="ti ti-dna"></i> الجهاز الهضمي</div>
+              <div class="tooltip-title">🔬 المعدة والقولون والكبد</div>
+              <div class="tooltip-metric">حموضة المريء • التمثيل الغذائي</div>
+              <div class="tooltip-action">انقر لتحليل عسر الهضم والمغص ←</div>
+            </div>
+          </button>
+
+          <!-- 5. Skeleton / Joints Hotspot -->
+          <button class="scan-hotspot" style="top: 68%; left: 47%;" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')" title="العظام والمفاصل">
+            <div class="hotspot-beacon">
+              <div class="hotspot-center"><i class="ti ti-bone"></i></div>
+              <div class="hotspot-ring-inner"></div>
+              <div class="hotspot-ring-outer"></div>
+            </div>
+            <div class="hotspot-tooltip">
+              <div class="tooltip-tag"><i class="ti ti-walk"></i> الجهاز الحركي</div>
+              <div class="tooltip-title">🦴 المفاصل والعمود الفقري</div>
+              <div class="tooltip-metric">صحة الغضاريف • أوتار الركبة</div>
+              <div class="tooltip-action">انقر لفحص خشونة المفاصل والظهر ←</div>
+            </div>
+          </button>
+
+          <!-- Floating HUD Badge Top Right -->
+          <div class="scanner-float-badge top-right">
+            <span class="live-pulse-dot"></span>
+            <div>
+              <div style="font-weight:800;color:#ffffff;">المسح السريري الشامل</div>
+              <div style="font-size:10.5px;color:var(--accent);">دقة الذكاء الاصطناعي 99.4%</div>
+            </div>
           </div>
-          <div class="hud-stat-item">
-            <i class="ti ti-heart-rate-monitor" style="color:var(--danger)"></i>
-            <span>النبض: <strong>72 bpm</strong></span>
+
+          <!-- Floating HUD Badge Bottom Left -->
+          <div class="scanner-float-badge bottom-left">
+            <i class="ti ti-heart-rate-monitor" style="color:#ef4444;font-size:18px;"></i>
+            <div>
+              <div style="font-weight:800;color:#ffffff;">72 bpm</div>
+              <div style="font-size:10.5px;color:#94a3b8;">إيقاع قلبي مستقر</div>
+            </div>
           </div>
-          <div class="hud-stat-item">
-            <i class="ti ti-shield-check" style="color:var(--cyan)"></i>
-            <span>التشخيص: <strong>معتمد 99.2%</strong></span>
+
+          <!-- Bottom Telemetry HUD Bar -->
+          <div class="scanner-bottom-hud">
+            <div class="scanner-bottom-hud-hint">
+              <i class="ti ti-hand-finger" style="color:var(--accent);font-size:14px;"></i>
+              <span>انقر على <strong>أي عضو في الجسم</strong> لتحليله سريرياً فوراً</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;color:var(--cyan);font-weight:700;">
+              <i class="ti ti-sparkles"></i> 360° AI Scan
+            </div>
           </div>
+        </div>
+
+        <!-- Quick Organ System Navigation Tabs -->
+        <div class="organ-tabs-bar">
+          <button class="organ-tab-btn active" onclick="selectOrganTab(this, 'فحص طبي شامل لكافة أجهزة الجسم والمؤشرات الحيوية')">
+            <i class="ti ti-scan"></i> مسح شامل
+          </button>
+          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'صداع مزمن وإجهاد عصبي مع زغللة بالعينين')">
+            <i class="ti ti-brain"></i> المخ والأعصاب
+          </button>
+          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'خفقان سريع في نبضات القلب مع ضيق تنفس خفيف')">
+            <i class="ti ti-heart-rate-monitor"></i> القلب والأوعية
+          </button>
+          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'ضيق في التنفس مع سعال متكرر وألم خفيف بالصدر')">
+            <i class="ti ti-wind"></i> الصدر والرئتان
+          </button>
+          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')">
+            <i class="ti ti-ripple"></i> الجهاز الهضمي
+          </button>
+          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'ألم في مفصل الركبة وخشونة عند صعود السلم')">
+            <i class="ti ti-bone"></i> العظام والمفاصل
+          </button>
         </div>
       </div>
     </div>
@@ -1395,6 +1798,25 @@
           { name: 'د. ريهام العسال', spec: 'استشاري الأمراض الجلدية والليزر وتجميل البشرة', rating: '4.94 ★', fee: '260 ج.م', time: 'اليوم 05:00 م', loc: 'القاهرة — مصر الجديدة' }
         ]
       },
+      'صدر': {
+        title: 'فحص كفاءة الجهاز التنفسي والرئتين',
+        diag: 'السعال المتكرر أو ضيق التنفس يستوجب فحص كفاءة الشعب الهوائية لاستبعاد حساسية الصدر، الربو الشعبي، أو التهاب القفص الصدري. ينصح بالابتعاد عن الأتربة والروائح النفاذة وتناول سوائل دافئة، مع استشارة أخصائي أمراض صدرية لقياس وظائف التنفس وتخطيط الرئة.',
+        spec: 'أمراض الصدر والجهاز التنفسي والحساسية',
+        docs: [
+          { name: 'د. خالد عبد الرحمن', spec: 'استشاري الأمراض الصدرية والحساسية والمناظير', rating: '4.91 ★', fee: '270 ج.م', time: 'اليوم 05:00 م', loc: 'المنصورة — شارع البحر' },
+          { name: 'د. عاصم الجمل', spec: 'أخصائي الأمراض الصدرية ومناظير الشعب الهوائية', rating: '4.87 ★', fee: '240 ج.م', time: 'غداً 04:30 م', loc: 'القاهرة — مصر الجديدة' }
+        ]
+      },
+      'شامل': {
+        title: 'الفحص الطبي السريري الشامل لجميع أجهزة الجسم',
+        diag: 'تم تفعيل بروتوكول المسح الطبي الشامل (Full Body Clinical Assessment). يتضمن الفحص تقييم كفاءة عضلة القلب، الدورة الدموية، الجهاز التنفسي، الجهاز الهضمي، وصحة العظام والمفاصل والمؤشرات الحيوية. يُنصح بإجراء التحاليل المعملية الدورية والفحص السريري مع استشاري الطب الباطني الشامل.',
+        spec: 'الباطنة العامة والفحص الدوري الشامل',
+        docs: [
+          { name: 'د. وائل مجدي', spec: 'استشاري الباطنة العامة وأمراض القلب', rating: '4.95 ★', fee: '280 ج.م', time: 'اليوم 06:00 م', loc: 'القاهرة — المعادي' },
+          { name: 'د. نهال سالم', spec: 'استشاري الجهاز الهضمي والكبد والمناظير', rating: '4.92 ★', fee: '290 ج.م', time: 'اليوم 08:00 م', loc: 'القاهرة — التجمع الخامس' },
+          { name: 'د. حسام الشريف', spec: 'استشاري جراحة العظام والمفاصل', rating: '4.88 ★', fee: '320 ج.م', time: 'اليوم 07:00 م', loc: 'الجيزة — المهندسين' }
+        ]
+      },
       'طفل': {
         title: 'نزلات الأطفال وارتفاع الحرارة',
         diag: 'ارتفاع الحرارة مع السعال والرشح لدى الأطفال غالباً ما يرجع لعدوى فيروسية تنفسية شائعة. تأكد من إعطاء الطفل السوائل الدافئة بانتظام، استخدام خافض حرارة مناسب لوزنه، ومراجعة استشاري طب الأطفال إذا استمرت الحرارة أكثر من 48 ساعة.',
@@ -1434,6 +1856,12 @@
       processSymptomInput(text);
     }
 
+    function selectOrganTab(tabBtn, text) {
+      document.querySelectorAll('.organ-tab-btn').forEach(btn => btn.classList.remove('active'));
+      if(tabBtn) tabBtn.classList.add('active');
+      quickSelectSymptom(text);
+    }
+
     function handleChipClick(type) {
       if(type === 'تحدث مع الدكتور') {
         location.href = 'tababa-booking.html';
@@ -1465,13 +1893,17 @@
       // Match Knowledge Base
       let matchedData = CLINICAL_KNOWLEDGE['default'];
       const q = query.toLowerCase();
-      if(q.includes('صداع') || q.includes('رأس') || q.includes('عصب')) {
+      if(q.includes('صداع') || q.includes('رأس') || q.includes('عصب') || q.includes('مخ') || q.includes('دماغ')) {
         matchedData = CLINICAL_KNOWLEDGE['صداع'];
-      } else if(q.includes('عظام') || q.includes('مفصل') || q.includes('ركبة') || q.includes('ظهر')) {
+      } else if(q.includes('عظام') || q.includes('مفصل') || q.includes('ركبة') || q.includes('ظهر') || q.includes('فقر')) {
         matchedData = CLINICAL_KNOWLEDGE['عظام'];
-      } else if(q.includes('قلب') || q.includes('ضغط') || q.includes('نبض') || q.includes('صدر')) {
+      } else if(q.includes('صدر') || q.includes('تنفس') || q.includes('سعال') || q.includes('كحة') || q.includes('رئة') || q.includes('رئتين')) {
+        matchedData = CLINICAL_KNOWLEDGE['صدر'];
+      } else if(q.includes('شامل') || q.includes('كامل') || q.includes('فحص دوري') || q.includes('مؤشرات حيوية') || q.includes('360')) {
+        matchedData = CLINICAL_KNOWLEDGE['شامل'];
+      } else if(q.includes('قلب') || q.includes('ضغط') || q.includes('نبض') || q.includes('خفقان') || q.includes('شريان')) {
         matchedData = CLINICAL_KNOWLEDGE['قلب'];
-      } else if(q.includes('معدة') || q.includes('بطن') || q.includes('حرقان') || q.includes('قولون') || q.includes('مغص')) {
+      } else if(q.includes('معدة') || q.includes('بطن') || q.includes('حرقان') || q.includes('قولون') || q.includes('مغص') || q.includes('ارتجاع')) {
         matchedData = CLINICAL_KNOWLEDGE['معدة'];
       } else if(q.includes('أسنان') || q.includes('ضرس') || q.includes('لثة')) {
         matchedData = CLINICAL_KNOWLEDGE['أسنان'];
