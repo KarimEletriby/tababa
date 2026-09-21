@@ -493,7 +493,63 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+    }
+
+    /* Prominent Pain Locator Header Banner */
+    .pain-locator-banner {
+      background: linear-gradient(135deg, rgba(14, 26, 45, 0.96) 0%, rgba(9, 17, 30, 0.98) 100%);
+      border: 1.5px solid rgba(31, 230, 168, 0.35);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45), 0 0 25px rgba(31, 230, 168, 0.15);
+      text-align: right;
+      direction: rtl;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pain-locator-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(31, 230, 168, 0.12);
+      border: 1px solid rgba(31, 230, 168, 0.35);
+      border-radius: var(--radius-pill);
+      padding: 4px 12px;
+      color: var(--accent);
+      font-size: 11.5px;
+      font-weight: 800;
+      width: fit-content;
+    }
+
+    .locator-blink-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #1fe6a8;
+      box-shadow: 0 0 8px #1fe6a8;
+      animation: dotBlink 1.4s infinite;
+    }
+
+    .pain-locator-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #ffffff;
+      margin: 0;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pain-locator-subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+      margin: 0;
+      line-height: 1.5;
     }
 
     .hero-scanner-stage {
@@ -564,6 +620,61 @@
       0% { top: 3%; opacity: 0.2; }
       50% { top: 92%; opacity: 0.95; }
       100% { top: 3%; opacity: 0.2; }
+    }
+
+    /* ================= ORGAN INTERACTIVE CLICKABLE HITBOXES ================= */
+    .organ-click-zone {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      z-index: 15;
+      cursor: pointer;
+      border-radius: 14px;
+      border: 1.5px solid transparent;
+      background: transparent;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      padding: 0;
+    }
+
+    .organ-click-zone:hover {
+      background: rgba(31, 230, 168, 0.15);
+      border-color: rgba(31, 230, 168, 0.65);
+      box-shadow: 0 0 25px rgba(31, 230, 168, 0.4), inset 0 0 15px rgba(31, 230, 168, 0.2);
+      backdrop-filter: blur(1px);
+    }
+
+    .organ-click-zone:active {
+      transform: translate(-50%, -50%) scale(0.96);
+      background: rgba(31, 230, 168, 0.3);
+    }
+
+    .organ-click-zone.heart-zone:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.7);
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.45), inset 0 0 15px rgba(239, 68, 68, 0.25);
+    }
+
+    .organ-click-zone:hover .hotspot-beacon .hotspot-center {
+      transform: scale(1.4);
+      background: #38bdf8;
+      box-shadow: 0 0 20px #38bdf8, 0 0 30px #1fe6a8;
+      color: #032030;
+    }
+
+    .organ-click-zone.heart-zone:hover .hotspot-beacon .hotspot-center {
+      background: #ef4444;
+      box-shadow: 0 0 20px #ef4444, 0 0 30px #f87171;
+      color: #ffffff;
+    }
+
+    .organ-click-zone:hover .hotspot-tooltip,
+    .organ-click-zone:focus .hotspot-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
     }
 
     /* Anatomical Hotspots */
@@ -1417,6 +1528,22 @@
 
       <!-- Left Side: Interactive Full-Body Clinical AI Scanner -->
       <div class="hero-scanner-wrapper">
+        <!-- 1. Prominent Pain Locator Header Banner -->
+        <div class="pain-locator-banner">
+          <div class="pain-locator-top-badge">
+            <span class="locator-blink-dot"></span>
+            <i class="ti ti-target-arrow"></i>
+            <span>محدد مكان الألم السريري التفاعلي</span>
+          </div>
+          <h3 class="pain-locator-title">
+            أين تشعر بالألم؟ <span class="gradient-emerald">اضغط على العضو المصاب بالمجسم</span> 📍
+          </h3>
+          <p class="pain-locator-subtitle">
+            انقر مباشرةً على أي منطقة أو مفصل يؤلمك في جسمك، وسيقوم طبيب طبابة الذكي بتشخيص حالتك وتوجيهك لأفضل طبيب معتمد فوراً.
+          </p>
+        </div>
+
+        <!-- 2. The 3D Scanner Stage -->
         <div class="hero-scanner-stage" id="patientScannerStage">
           <!-- Background Hologram Grid -->
           <div class="scanner-ambient-grid"></div>
@@ -1424,15 +1551,13 @@
           <!-- Laser Scan Line -->
           <div class="laser-scanner"></div>
 
-          <!-- 1:1 Locked Anatomical Canvas for Male Body -->
+          <!-- 1:1 Locked Anatomical Canvas for Male Body with Clickable Organs -->
           <div class="scanner-canvas">
             <!-- Full Body Male Scan Image Asset -->
             <img src="full-body-ai-scan.jpg" alt="مسح سريري كامل لجسم المريض بالذكاء الاصطناعي" class="hero-scanner-img" id="scannerBodyImg">
 
-            <!-- Interactive Anatomical Hotspots Positioned Exactly on Male Anatomy -->
-
-            <!-- 1. Brain / Head Hotspot (10.6%, 50.0%) -->
-            <button class="scan-hotspot" style="top: 10.6%; left: 50.0%;" onclick="quickSelectSymptom('صداع مزمن وإجهاد عصبي مع زغللة بالعينين')" title="المخ والجهاز العصبي">
+            <!-- 1. Head, Brain & Eyes Click Zone (Whole Cranium Clickable) -->
+            <button type="button" class="organ-click-zone" style="top: 10.6%; left: 50.0%; width: 105px; height: 95px; border-radius: 45px;" onclick="quickSelectSymptom('صداع مزمن وإجهاد عصبي مع زغللة بالعينين')" title="الرأس والمخ والعيون">
               <div class="hotspot-beacon">
                 <div class="hotspot-center"><i class="ti ti-brain"></i></div>
                 <div class="hotspot-ring-inner"></div>
@@ -1440,29 +1565,59 @@
               </div>
               <div class="hotspot-tooltip">
                 <div class="tooltip-tag"><i class="ti ti-activity"></i> فحص الجهاز العصبي</div>
-                <div class="tooltip-title">🧠 الدماغ والمخ والأعصاب</div>
-                <div class="tooltip-metric">نشاط النواقل: متوازن • فحص الصداع والإجهاد</div>
-                <div class="tooltip-action">انقر لبدء التحليل الفوري ←</div>
+                <div class="tooltip-title">🧠 الرأس والمخ والعيون</div>
+                <div class="tooltip-metric">صداع نصفي، إجهاد النظر والتوتر العصبي</div>
+                <div class="tooltip-action">انقر لتحليل ألم الرأس والمخ ←</div>
               </div>
             </button>
 
-            <!-- 2. Heart / Cardiovascular Hotspot (26.2%, 52.3%) -->
-            <button class="scan-hotspot" style="top: 26.2%; left: 52.3%;" onclick="quickSelectSymptom('خفقان سريع في نبضات القلب مع ضيق تنفس خفيف')" title="القلب والأوعية الدموية">
+            <!-- 2. Throat, Neck, Teeth & ENT Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 17.5%; left: 50.0%; width: 70px; height: 46px; border-radius: 14px;" onclick="quickSelectSymptom('احتقان شديد بالحلق وصعوبة بلع مع ألم بالأسنان والجيوب الأنفية')" title="الحلق والرقبة والأسنان">
               <div class="hotspot-beacon">
-                <div class="hotspot-center" style="background:#ef4444;box-shadow:0 0 14px #ef4444;"><i class="ti ti-heart" style="color:#ffffff;"></i></div>
-                <div class="hotspot-ring-inner" style="border-color:#ef4444;"></div>
-                <div class="hotspot-ring-outer" style="border-color:rgba(239,68,68,0.6);"></div>
+                <div class="hotspot-center"><i class="ti ti-dental"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
               </div>
               <div class="hotspot-tooltip">
-                <div class="tooltip-tag" style="color:#ef4444;"><i class="ti ti-heart-rate-monitor"></i> فحص الدورة الدموية</div>
-                <div class="tooltip-title">🫀 القلب والشرايين التاجية</div>
-                <div class="tooltip-metric">النبض: 72 bpm • ضغط الدم: 120/80</div>
-                <div class="tooltip-action">انقر لفحص النبض وخفقان القلب ←</div>
+                <div class="tooltip-tag"><i class="ti ti-stethoscope"></i> الأنف والأذن والحنجرة والأسنان</div>
+                <div class="tooltip-title">🗣️ الحلق، الرقبة والأسنان</div>
+                <div class="tooltip-metric">احتقان اللوزتين، الجيوب الأنفية واللثة</div>
+                <div class="tooltip-action">انقر لتحليل ألم الحلق والأسنان ←</div>
               </div>
             </button>
 
-            <!-- 3. Lungs / Thoracic Hotspot (24.8%, 44.0%) -->
-            <button class="scan-hotspot" style="top: 24.8%; left: 44.0%;" onclick="quickSelectSymptom('ضيق في التنفس مع سعال متكرر وألم خفيف بالصدر')" title="الرئتين والجهاز التنفسي">
+            <!-- 3. Right Shoulder Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 23.5%; left: 37.0%; width: 55px; height: 55px; border-radius: 50%;" onclick="quickSelectSymptom('ألم وتيبس بمفصل الكتف وصعوبة رفع الذراع')" title="مفصل الكتف الأيمن">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-arm"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-bone"></i> الجهاز العضلي الهيكلي</div>
+                <div class="tooltip-title">🦾 مفصل وأوتار الكتف</div>
+                <div class="tooltip-metric">تيبس الكتف، التهاب الأوتار والأربطة</div>
+                <div class="tooltip-action">انقر لتحليل ألم الكتف ←</div>
+              </div>
+            </button>
+
+            <!-- 4. Left Shoulder Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 23.5%; left: 63.0%; width: 55px; height: 55px; border-radius: 50%;" onclick="quickSelectSymptom('ألم وتيبس بمفصل الكتف وصعوبة رفع الذراع')" title="مفصل الكتف الأيسر">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-arm"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-bone"></i> الجهاز العضلي الهيكلي</div>
+                <div class="tooltip-title">🦾 مفصل وأوتار الكتف</div>
+                <div class="tooltip-metric">تيبس الكتف، التهاب الأوتار والأربطة</div>
+                <div class="tooltip-action">انقر لتحليل ألم الكتف ←</div>
+              </div>
+            </button>
+
+            <!-- 5. Lungs & Respiratory Click Zone (Whole Left Thoracic Area) -->
+            <button type="button" class="organ-click-zone" style="top: 25.5%; left: 43.5%; width: 68px; height: 75px; border-radius: 18px;" onclick="quickSelectSymptom('ضيق في التنفس مع سعال متكرر وألم خفيف بالصدر')" title="الرئتان والجهاز التنفسي">
               <div class="hotspot-beacon">
                 <div class="hotspot-center"><i class="ti ti-wind"></i></div>
                 <div class="hotspot-ring-inner"></div>
@@ -1471,13 +1626,28 @@
               <div class="hotspot-tooltip">
                 <div class="tooltip-tag"><i class="ti ti-lungs"></i> كفاءة الجهاز التنفسي</div>
                 <div class="tooltip-title">🫁 الرئتان والقفص الصدري</div>
-                <div class="tooltip-metric">نسبة الأكسجين: SpO2 99% • الشعب الهوائية</div>
-                <div class="tooltip-action">انقر لفحص حساسية الصدر والتنفس ←</div>
+                <div class="tooltip-metric">نسبة الأكسجين SpO2 99% • حساسية الصدر والكحة</div>
+                <div class="tooltip-action">انقر لتحليل ضيق التنفس والصدر ←</div>
               </div>
             </button>
 
-            <!-- 4. Stomach & Liver Hotspot (34.0%, 50.8%) -->
-            <button class="scan-hotspot" style="top: 34.0%; left: 50.8%;" onclick="quickSelectSymptom('حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')" title="المعدة والكبد">
+            <!-- 6. Heart & Coronary Arteries Click Zone (Whole Heart Area) -->
+            <button type="button" class="organ-click-zone heart-zone" style="top: 26.2%; left: 52.5%; width: 62px; height: 62px; border-radius: 50%;" onclick="quickSelectSymptom('خفقان سريع في نبضات القلب مع نغزات بالصدر وضيق تنفس')" title="القلب والشرايين">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center" style="background:#ef4444;box-shadow:0 0 14px #ef4444;"><i class="ti ti-heart" style="color:#ffffff;"></i></div>
+                <div class="hotspot-ring-inner" style="border-color:#ef4444;"></div>
+                <div class="hotspot-ring-outer" style="border-color:rgba(239,68,68,0.6);"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag" style="color:#ef4444;"><i class="ti ti-heart-rate-monitor"></i> فحص الدورة الدموية والقلب</div>
+                <div class="tooltip-title">🫀 عضلة القلب والشرايين التاجية</div>
+                <div class="tooltip-metric">النبض: 72 bpm • استقرار الإيقاع والضغط</div>
+                <div class="tooltip-action">انقر لتحليل خفقان ونبضات القلب ←</div>
+              </div>
+            </button>
+
+            <!-- 7. Stomach & Liver Click Zone (Upper Abdomen) -->
+            <button type="button" class="organ-click-zone" style="top: 34.2%; left: 50.8%; width: 120px; height: 55px; border-radius: 16px;" onclick="quickSelectSymptom('حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')" title="المعدة والكبد">
               <div class="hotspot-beacon">
                 <div class="hotspot-center"><i class="ti ti-ripple"></i></div>
                 <div class="hotspot-ring-inner"></div>
@@ -1485,14 +1655,29 @@
               </div>
               <div class="hotspot-tooltip">
                 <div class="tooltip-tag"><i class="ti ti-dna"></i> الجهاز الهضمي العلوي</div>
-                <div class="tooltip-title">🔬 المعدة والكبد</div>
-                <div class="tooltip-metric">حموضة المريء • كفاءة الهضم</div>
+                <div class="tooltip-title">🔬 المعدة والكبد والمرارة</div>
+                <div class="tooltip-metric">حموضة المريء، جرثومة المعدة، وعسر الهضم</div>
                 <div class="tooltip-action">انقر لتحليل حرقان المعدة والمغص ←</div>
               </div>
             </button>
 
-            <!-- 5. Intestines & Colon Hotspot (41.5%, 50.2%) -->
-            <button class="scan-hotspot" style="top: 41.5%; left: 50.2%;" onclick="quickSelectSymptom('انتفاخ وتقلصات متكررة بالقولون مع عسر هضم')" title="القولون والأمعاء">
+            <!-- 8. Kidneys & Flanks Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 38.5%; left: 38.5%; width: 50px; height: 50px; border-radius: 14px;" onclick="quickSelectSymptom('ألم حاد ومغص كلوي في الجانبين مع حرقان بالبول')" title="الكلى والخاصرة">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-droplet"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-droplet"></i> المسالك البولية والكلى</div>
+                <div class="tooltip-title">💧 الكلى والخاصرة</div>
+                <div class="tooltip-metric">فحص المغص الكلوي، الأملاح ومجرى البول</div>
+                <div class="tooltip-action">انقر لتحليل ألم الجنب والكلى ←</div>
+              </div>
+            </button>
+
+            <!-- 9. Colon & Lower Intestines Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 42.0%; left: 50.4%; width: 100px; height: 65px; border-radius: 16px;" onclick="quickSelectSymptom('انتفاخ وتقلصات متكررة بالقولون مع عسر هضم')" title="القولون والأمعاء">
               <div class="hotspot-beacon">
                 <div class="hotspot-center"><i class="ti ti-activity"></i></div>
                 <div class="hotspot-ring-inner"></div>
@@ -1500,54 +1685,114 @@
               </div>
               <div class="hotspot-tooltip">
                 <div class="tooltip-tag"><i class="ti ti-activity"></i> الجهاز الهضمي السفلي</div>
-                <div class="tooltip-title">🧬 القولون والأمعاء الدقيقة</div>
-                <div class="tooltip-metric">فحص القولون العصبي • الانتفاخ والغازات</div>
+                <div class="tooltip-title">🧬 القولون العصبي والأمعاء</div>
+                <div class="tooltip-metric">الغازات، اضطرابات الهضم والانتفاخ المزمن</div>
                 <div class="tooltip-action">انقر لتحليل اضطرابات القولون ←</div>
               </div>
             </button>
 
-            <!-- 6. Pelvis / Hip Joints (48.4%, 42.5%) -->
-            <button class="scan-hotspot" style="top: 48.4%; left: 42.5%;" onclick="quickSelectSymptom('ألم في مفصل الحوض وأسفل الظهر')" title="الحوض ومفصل الفخذ">
+            <!-- 10. Pelvis & Lower Back Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 49.0%; left: 50.0%; width: 135px; height: 55px; border-radius: 16px;" onclick="quickSelectSymptom('ألم في مفصل الحوض وأسفل الظهر مع تنميل')" title="الحوض وأسفل الظهر">
               <div class="hotspot-beacon">
                 <div class="hotspot-center"><i class="ti ti-layers-linked"></i></div>
                 <div class="hotspot-ring-inner"></div>
                 <div class="hotspot-ring-outer"></div>
               </div>
               <div class="hotspot-tooltip">
-                <div class="tooltip-tag"><i class="ti ti-bone"></i> الجهاز الهيكلي</div>
-                <div class="tooltip-title">🦴 مفصل الحوض والفخذ</div>
-                <div class="tooltip-metric">استقرار المفصل • فحص آلام الحوض</div>
-                <div class="tooltip-action">انقر لفحص آلام الحوض والمفصل ←</div>
+                <div class="tooltip-tag"><i class="ti ti-bone"></i> الجهاز الحركي والفقرات</div>
+                <div class="tooltip-title">🦴 الحوض والفقرات القطنية</div>
+                <div class="tooltip-metric">آلام أسفل الظهر، عرق النسا ومفصل الحوض</div>
+                <div class="tooltip-action">انقر لتحليل ألم الظهر والحوض ←</div>
               </div>
             </button>
 
-            <!-- 7. Knees & Leg Joints (68.5%, 44.3%) -->
-            <button class="scan-hotspot" style="top: 68.5%; left: 44.3%;" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')" title="مفاصل الركبة">
+            <!-- 11. Hands & Wrists Click Zone (Right Hand) -->
+            <button type="button" class="organ-click-zone" style="top: 48.5%; left: 32.5%; width: 48px; height: 60px; border-radius: 14px;" onclick="quickSelectSymptom('تنميل في أصابع اليد وألم في أوتار المعصم')" title="المعصم واليد اليمنى">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-hand-stop"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-hand-stop"></i> الأطراف والأوتار</div>
+                <div class="tooltip-title">🖐️ المعصم وأصابع اليد</div>
+                <div class="tooltip-metric">متلازمة النفق الرسغي والتهاب الأوتار</div>
+                <div class="tooltip-action">انقر لتحليل ألم اليد والمعصم ←</div>
+              </div>
+            </button>
+
+            <!-- 12. Hands & Wrists Click Zone (Left Hand) -->
+            <button type="button" class="organ-click-zone" style="top: 48.5%; left: 67.5%; width: 48px; height: 60px; border-radius: 14px;" onclick="quickSelectSymptom('تنميل في أصابع اليد وألم في أوتار المعصم')" title="المعصم واليد اليسرى">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-hand-stop"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-hand-stop"></i> الأطراف والأوتار</div>
+                <div class="tooltip-title">🖐️ المعصم وأصابع اليد</div>
+                <div class="tooltip-metric">متلازمة النفق الرسغي والتهاب الأوتار</div>
+                <div class="tooltip-action">انقر لتحليل ألم اليد والمعصم ←</div>
+              </div>
+            </button>
+
+            <!-- 13. Thighs & Musculoskeletal Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 57.5%; left: 50.0%; width: 125px; height: 75px; border-radius: 18px;" onclick="quickSelectSymptom('شد عضلي حاد في عضلات الفخذ وإجهاد حركي')" title="عضلات الفخذ">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-walk"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-walk"></i> الجهاز الحركي</div>
+                <div class="tooltip-title">🦵 عضلات وأوتار الفخذ</div>
+                <div class="tooltip-metric">تمزق العضلات، الشد الحاد والإجهاد الحركي</div>
+                <div class="tooltip-action">انقر لتحليل ألم الفخذ ←</div>
+              </div>
+            </button>
+
+            <!-- 14. Right Knee Joint Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 68.5%; left: 44.3%; width: 55px; height: 55px; border-radius: 50%;" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')" title="الركبة اليمنى">
               <div class="hotspot-beacon">
                 <div class="hotspot-center"><i class="ti ti-bone"></i></div>
                 <div class="hotspot-ring-inner"></div>
                 <div class="hotspot-ring-outer"></div>
               </div>
               <div class="hotspot-tooltip">
-                <div class="tooltip-tag"><i class="ti ti-walk"></i> الجهاز الحركي والمفاصل</div>
-                <div class="tooltip-title">🦴 الركبة والغضاريف</div>
-                <div class="tooltip-metric">صحة الغضاريف • أوتار الركبة والأربطة</div>
-                <div class="tooltip-action">انقر لفحص خشونة الركبة والمفاصل ←</div>
+                <div class="tooltip-tag"><i class="ti ti-walk"></i> مفصل الركبة والغضاريف</div>
+                <div class="tooltip-title">🦴 الركبة اليمنى</div>
+                <div class="tooltip-metric">خشونة المفصل، غضروف الركبة والأربطة</div>
+                <div class="tooltip-action">انقر لتحليل ألم الركبة ←</div>
               </div>
             </button>
 
-            <!-- 8. Left Knee Joint (68.5%, 55.9%) -->
-            <button class="scan-hotspot" style="top: 68.5%; left: 55.9%;" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')" title="مفصل الركبة اليسرى">
+            <!-- 15. Left Knee Joint Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 68.5%; left: 55.9%; width: 55px; height: 55px; border-radius: 50%;" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')" title="الركبة اليسرى">
               <div class="hotspot-beacon">
                 <div class="hotspot-center"><i class="ti ti-bone"></i></div>
                 <div class="hotspot-ring-inner"></div>
                 <div class="hotspot-ring-outer"></div>
               </div>
               <div class="hotspot-tooltip">
-                <div class="tooltip-tag"><i class="ti ti-walk"></i> مفصل الركبة</div>
-                <div class="tooltip-title">🦴 غضروف الركبة اليسرى</div>
-                <div class="tooltip-metric">تقييم المرونة الحركية ومستوى الإجهاد</div>
-                <div class="tooltip-action">انقر لبدء التحليل ←</div>
+                <div class="tooltip-tag"><i class="ti ti-walk"></i> مفصل الركبة والغضاريف</div>
+                <div class="tooltip-title">🦴 الركبة اليسرى</div>
+                <div class="tooltip-metric">مرونة الحركة، استقرار المفصل والأوتار</div>
+                <div class="tooltip-action">انقر لتحليل ألم الركبة ←</div>
+              </div>
+            </button>
+
+            <!-- 16. Ankles & Feet Click Zone -->
+            <button type="button" class="organ-click-zone" style="top: 90.0%; left: 50.0%; width: 110px; height: 55px; border-radius: 16px;" onclick="quickSelectSymptom('ألم في باطن القدم والتهاب بالكاحل عند المشي')" title="الكاحل والقدمين">
+              <div class="hotspot-beacon">
+                <div class="hotspot-center"><i class="ti ti-walk"></i></div>
+                <div class="hotspot-ring-inner"></div>
+                <div class="hotspot-ring-outer"></div>
+              </div>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-tag"><i class="ti ti-walk"></i> القدم والكاحل</div>
+                <div class="tooltip-title">🦶 الكاحل وباطن القدم</div>
+                <div class="tooltip-metric">الشوكة العظمية، التهاب الأوتار والتواء الكاحل</div>
+                <div class="tooltip-action">انقر لتحليل ألم القدم والكاحل ←</div>
               </div>
             </button>
           </div>
@@ -1557,9 +1802,9 @@
             <span class="live-pulse-dot"></span>
             <div>
               <div style="font-weight:800;color:#ffffff;display:flex;align-items:center;gap:5px;">
-                <i class="ti ti-man" style="color:var(--accent);font-size:16px;"></i> مسح سريري للذكور 3D
+                <i class="ti ti-man" style="color:var(--accent);font-size:16px;"></i> مسح تفاعلي لمواضع الألم
               </div>
-              <div style="font-size:10.5px;color:var(--accent);">دقة تشريحية 100% • Clinical AI v4</div>
+              <div style="font-size:10.5px;color:var(--accent);">انقر على أي عضو للتشخيص الفوري</div>
             </div>
           </div>
 
@@ -1575,11 +1820,11 @@
           <!-- Bottom Telemetry HUD Bar -->
           <div class="scanner-bottom-hud">
             <div class="scanner-bottom-hud-hint">
-              <i class="ti ti-hand-finger" style="color:var(--accent);font-size:14px;"></i>
-              <span>انقر على <strong>أي عضو في المجسم</strong> لتحليله سريرياً فوراً</span>
+              <i class="ti ti-hand-finger" style="color:var(--accent);font-size:15px;"></i>
+              <span>انقر مباشرةً على <strong>العضو أو المنطقة التي تؤلمك</strong> في المجسم</span>
             </div>
             <div style="display:flex;align-items:center;gap:4px;color:var(--cyan);font-weight:700;">
-              <i class="ti ti-sparkles"></i> 360° Male Anatomy Scan
+              <i class="ti ti-sparkles"></i> 16 موضع سريري نشط
             </div>
           </div>
         </div>
@@ -1590,16 +1835,25 @@
             <i class="ti ti-scan"></i> مسح شامل
           </button>
           <button class="organ-tab-btn" onclick="selectOrganTab(this, 'صداع مزمن وإجهاد عصبي مع زغللة بالعينين')">
-            <i class="ti ti-brain"></i> المخ والأعصاب
+            <i class="ti ti-brain"></i> الرأس والمخ
+          </button>
+          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'احتقان شديد بالحلق وصعوبة بلع مع ألم بالأسنان والجيوب الأنفية')">
+            <i class="ti ti-dental"></i> الحلق والأسنان
           </button>
           <button class="organ-tab-btn" onclick="selectOrganTab(this, 'خفقان سريع في نبضات القلب مع ضيق تنفس خفيف')">
-            <i class="ti ti-heart-rate-monitor"></i> القلب والأوعية
+            <i class="ti ti-heart-rate-monitor"></i> القلب والشرايين
           </button>
           <button class="organ-tab-btn" onclick="selectOrganTab(this, 'ضيق في التنفس مع سعال متكرر وألم خفيف بالصدر')">
             <i class="ti ti-wind"></i> الصدر والرئتان
           </button>
           <button class="organ-tab-btn" onclick="selectOrganTab(this, 'حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')">
-            <i class="ti ti-ripple"></i> الجهاز الهضمي
+            <i class="ti ti-ripple"></i> المعدة والكبد
+          </button>
+          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'انتفاخ وتقلصات متكررة بالقولون مع عسر هضم')">
+            <i class="ti ti-activity"></i> القولون والأمعاء
+          </button>
+          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'ألم حاد ومغص كلوي في الجانبين مع حرقان بالبول')">
+            <i class="ti ti-droplet"></i> الكلى والمسالك
           </button>
           <button class="organ-tab-btn" onclick="selectOrganTab(this, 'ألم في مفصل الركبة وخشونة عند صعود السلم')">
             <i class="ti ti-bone"></i> العظام والمفاصل
@@ -1882,6 +2136,24 @@
           { name: 'د. حسام الشريف', spec: 'استشاري جراحة العظام والمفاصل', rating: '4.88 ★', fee: '320 ج.م', time: 'اليوم 07:00 م', loc: 'الجيزة — المهندسين' }
         ]
       },
+      'حلق': {
+        title: 'التهاب الحلق والجيوب الأنفية (ENT)',
+        diag: 'أهلاً بك وسلامتك أولاً. احتقان الحلق وصعوبة البلع المصحوبة بآلام في الفك أو الرقبة قد تنتج عن عدوى بكتيرية أو فيروسية باللوزتين، ارتشاح الجيوب الأنفية، أو التهابات بالأسنان. يُنصح بالغرغرة بمحلول ملحي دافئ، تجنب المشروبات المثلجة، ومراجعة استشاري الأنف والأذن والحنجرة أو الأسنان لفحص الحلق بدقة.',
+        spec: 'الأنف والأذن والحنجرة وجراحة الأسنان',
+        docs: [
+          { name: 'د. سامح عبد الوهاب', spec: 'استشاري الأنف والأذن والحنجرة والمناظير', rating: '4.93 ★', fee: '260 ج.م', time: 'اليوم 05:30 م', loc: 'المنصورة — شارع قناة السويس' },
+          { name: 'د. مروان النجار', spec: 'استشاري علاج الجذور وتجميل الأسنان', rating: '4.9 ★', fee: '200 ج.م', time: 'اليوم 04:30 م', loc: 'المنصورة — حي المشاية' }
+        ]
+      },
+      'كلى': {
+        title: 'المغص الكلوي والتهاب المسالك البولية',
+        diag: 'ألم الخاصرة والجانبين الحاد المصحوب بحرقان أو تغير في البول يستوجب اهتماماً سريعاً لاستبعاد وجود أملاح زائدة، حصوات بالكلى أو الحالب، أو التهاب بمجرى البول. ننصح بشرب كميات وفيرة من المياه النقية، وعمل سونار سريري وتحليل بول مع استشاري المسالك البولية والكلى.',
+        spec: 'جراحة المسالك البولية وأمراض الكلى',
+        docs: [
+          { name: 'د. أشرف قنديل', spec: 'استشاري جراحة المسالك البولية وتفتيت الحصوات', rating: '4.92 ★', fee: '290 ج.م', time: 'اليوم 06:00 م', loc: 'المنصورة — شارع بنك مصر' },
+          { name: 'د. كريم عبد الباقي', spec: 'استشاري أمراض الكلى والباطنة', rating: '4.89 ★', fee: '270 ج.م', time: 'غداً 05:00 م', loc: 'الجيزة — الدقي' }
+        ]
+      },
       'طفل': {
         title: 'نزلات الأطفال وارتفاع الحرارة',
         diag: 'ارتفاع الحرارة مع السعال والرشح لدى الأطفال غالباً ما يرجع لعدوى فيروسية تنفسية شائعة. تأكد من إعطاء الطفل السوائل الدافئة بانتظام، استخدام خافض حرارة مناسب لوزنه، ومراجعة استشاري طب الأطفال إذا استمرت الحرارة أكثر من 48 ساعة.',
@@ -1958,17 +2230,21 @@
       // Match Knowledge Base
       let matchedData = CLINICAL_KNOWLEDGE['default'];
       const q = query.toLowerCase();
-      if(q.includes('صداع') || q.includes('رأس') || q.includes('عصب') || q.includes('مخ') || q.includes('دماغ')) {
+      if(q.includes('صداع') || q.includes('رأس') || q.includes('عصب') || q.includes('مخ') || q.includes('دماغ') || q.includes('عين') || q.includes('نظر')) {
         matchedData = CLINICAL_KNOWLEDGE['صداع'];
-      } else if(q.includes('عظام') || q.includes('مفصل') || q.includes('ركبة') || q.includes('ظهر') || q.includes('فقر')) {
+      } else if(q.includes('حلق') || q.includes('بلع') || q.includes('لوز') || q.includes('أنف') || q.includes('أذن') || q.includes('جيوب')) {
+        matchedData = CLINICAL_KNOWLEDGE['حلق'];
+      } else if(q.includes('كلى') || q.includes('مسالك') || q.includes('جنب') || q.includes('خاصرة') || q.includes('بول') || q.includes('حصو')) {
+        matchedData = CLINICAL_KNOWLEDGE['كلى'];
+      } else if(q.includes('عظام') || q.includes('مفصل') || q.includes('ركبة') || q.includes('ظهر') || q.includes('كتف') || q.includes('حوض') || q.includes('فخذ') || q.includes('يد') || q.includes('معصم') || q.includes('قدم') || q.includes('كاحل') || q.includes('فقر') || q.includes('غضروف')) {
         matchedData = CLINICAL_KNOWLEDGE['عظام'];
-      } else if(q.includes('صدر') || q.includes('تنفس') || q.includes('سعال') || q.includes('كحة') || q.includes('رئة') || q.includes('رئتين')) {
+      } else if(q.includes('صدر') || q.includes('تنفس') || q.includes('سعال') || q.includes('كحة') || q.includes('رئة') || q.includes('رئتين') || q.includes('شعب')) {
         matchedData = CLINICAL_KNOWLEDGE['صدر'];
       } else if(q.includes('شامل') || q.includes('كامل') || q.includes('فحص دوري') || q.includes('مؤشرات حيوية') || q.includes('360')) {
         matchedData = CLINICAL_KNOWLEDGE['شامل'];
-      } else if(q.includes('قلب') || q.includes('ضغط') || q.includes('نبض') || q.includes('خفقان') || q.includes('شريان')) {
+      } else if(q.includes('قلب') || q.includes('ضغط') || q.includes('نبض') || q.includes('خفقان') || q.includes('شريان') || q.includes('نغز')) {
         matchedData = CLINICAL_KNOWLEDGE['قلب'];
-      } else if(q.includes('معدة') || q.includes('بطن') || q.includes('حرقان') || q.includes('قولون') || q.includes('مغص') || q.includes('ارتجاع')) {
+      } else if(q.includes('معدة') || q.includes('بطن') || q.includes('حرقان') || q.includes('قولون') || q.includes('مغص') || q.includes('ارتجاع') || q.includes('أمعاء') || q.includes('كبد') || q.includes('انتفاخ')) {
         matchedData = CLINICAL_KNOWLEDGE['معدة'];
       } else if(q.includes('أسنان') || q.includes('ضرس') || q.includes('لثة')) {
         matchedData = CLINICAL_KNOWLEDGE['أسنان'];
