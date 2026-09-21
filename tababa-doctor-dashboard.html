@@ -634,69 +634,164 @@
   box-shadow: 0 6px 26px rgba(31, 230, 168, 0.55);
 }
 
-/* ===== 3. GLASSMORPHIC STATS WITH SPARKLINE CHARTS ===== */
+/* ===== 3. EXECUTIVE GLASSMORPHIC STATS WITH SPARKLINE CHARTS ===== */
 .stats-sparkline-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-bottom: 20px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
   .stats-sparkline-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 600px) {
   .stats-sparkline-grid {
     grid-template-columns: 1fr;
   }
 }
 
 .spark-card {
-  background: #0d1527;
-  border: 1px solid rgba(110, 231, 201, 0.12);
-  border-radius: 14px;
-  padding: 16px;
+  background: rgba(13, 21, 39, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 16px 18px 12px 18px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 10px;
+  min-height: 158px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .spark-card:hover {
-  border-color: rgba(31, 230, 168, 0.35);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
 }
 
-.spark-top {
+.spark-card.card-patients:hover {
+  border-color: rgba(31, 230, 168, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 24px rgba(31, 230, 168, 0.15);
+}
+
+.spark-card.card-appointments:hover {
+  border-color: rgba(91, 156, 245, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 24px rgba(91, 156, 245, 0.15);
+}
+
+.spark-card.card-revenue:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 24px rgba(16, 185, 129, 0.15);
+}
+
+.spark-card.card-alerts:hover {
+  border-color: rgba(242, 102, 92, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 24px rgba(242, 102, 92, 0.15);
+}
+
+/* Card Header: Icon, Title, and Badge */
+.spark-head {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.spark-num {
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--text-primary);
-  margin-top: 2px;
+.spark-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
+
+.spark-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.spark-icon.emerald { background: rgba(31, 230, 168, 0.12); color: #1fe6a8; border: 1px solid rgba(31, 230, 168, 0.25); }
+.spark-icon.sapphire { background: rgba(91, 156, 245, 0.12); color: #5b9cf5; border: 1px solid rgba(91, 156, 245, 0.25); }
+.spark-icon.teal { background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25); }
+.spark-icon.ruby { background: rgba(242, 102, 92, 0.12); color: #f2665c; border: 1px solid rgba(242, 102, 92, 0.25); }
 
 .spark-lbl {
   font-size: 12px;
-  color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: 700;
+  color: #94a3b8;
+  white-space: nowrap;
 }
 
+.spark-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.spark-badge.emerald { background: rgba(31, 230, 168, 0.14); color: #1fe6a8; border: 1px solid rgba(31, 230, 168, 0.25); }
+.spark-badge.sapphire { background: rgba(91, 156, 245, 0.14); color: #5b9cf5; border: 1px solid rgba(91, 156, 245, 0.25); }
+.spark-badge.teal { background: rgba(16, 185, 129, 0.14); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25); }
+.spark-badge.ruby { background: rgba(242, 102, 92, 0.14); color: #f2665c; border: 1px solid rgba(242, 102, 92, 0.25); }
+
+/* Card Body: Metric Value and Subtitle */
+.spark-mid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: right;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.spark-num {
+  font-size: 26px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.spark-sub {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+/* Dedicated Chart Box - Isolated from Text */
 .spark-chart-box {
   width: 100%;
   height: 38px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
   display: flex;
   align-items: flex-end;
+  margin-top: auto;
+}
+
+.spark-chart-box svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* ===== 4. TIMELINE VS LIST VIEW TOGGLE ===== */
@@ -1960,72 +2055,109 @@
   <!-- ==================== 3. SPARKLINE KPI STATS ==================== -->
   <div class="stats-sparkline-grid" id="statsSparklineGrid">
     <!-- Stat 1: Active Patients -->
-    <div class="spark-card" onclick="location.href='doctor-patients.html'">
-      <div class="spark-top">
-        <div>
+    <div class="spark-card card-patients" onclick="location.href='doctor-patients.html'" title="عرض وإدارة المرضى النشطين">
+      <div class="spark-head">
+        <div class="spark-title-group">
+          <div class="spark-icon emerald"><i class="ti ti-users"></i></div>
           <div class="spark-lbl">المرضى المسجلين والنشطين</div>
-          <div class="spark-num" id="sparkPatientsVal">128</div>
         </div>
-        <span class="pill xs" style="background:rgba(31,230,168,0.12);color:#1fe6a8;border:none"><i class="ti ti-trending-up"></i> +4 اليوم</span>
+        <span class="spark-badge emerald"><i class="ti ti-trending-up"></i> +4 اليوم</span>
+      </div>
+      <div class="spark-mid">
+        <div class="spark-num" id="sparkPatientsVal">128</div>
+        <div class="spark-sub">إجمالي الحالات النشطة بمختلف الفروع</div>
       </div>
       <div class="spark-chart-box">
-        <svg viewBox="0 0 100 28" width="100%" height="28" style="overflow:visible">
-          <polyline fill="none" stroke="#1fe6a8" stroke-width="2.5" stroke-linecap="round" points="0,22 20,18 40,24 60,12 80,15 100,4" />
-          <circle cx="100" cy="4" r="3" fill="#1fe6a8" />
+        <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gradPatients" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1fe6a8" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#1fe6a8" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,32 Q25,20 50,26 T100,16 T150,22 T200,8 L200,40 L0,40 Z" fill="url(#gradPatients)" />
+          <path d="M0,32 Q25,20 50,26 T100,16 T150,22 T200,8" fill="none" stroke="#1fe6a8" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="198" cy="8" r="3.5" fill="#1fe6a8" />
         </svg>
       </div>
     </div>
 
     <!-- Stat 2: Today's Bookings -->
-    <div class="spark-card" onclick="location.href='doctor-consultation.html'">
-      <div class="spark-top">
-        <div>
+    <div class="spark-card card-appointments" onclick="location.href='doctor-consultation.html'" title="عرض جدول كشوفات وحجوزات اليوم">
+      <div class="spark-head">
+        <div class="spark-title-group">
+          <div class="spark-icon sapphire"><i class="ti ti-calendar-event"></i></div>
           <div class="spark-lbl">حجوزات وكشوفات اليوم</div>
-          <div class="spark-num" id="sparkAppointmentsVal">34</div>
         </div>
-        <span class="pill xs" style="background:rgba(91,156,245,0.12);color:#5b9cf5;border:none">4 مكتمل</span>
+        <span class="spark-badge sapphire"><i class="ti ti-check"></i> 4 مكتمل</span>
+      </div>
+      <div class="spark-mid">
+        <div class="spark-num" id="sparkAppointmentsVal">34</div>
+        <div class="spark-sub">12 قيد الانتظار · 18 كشف قادم</div>
       </div>
       <div class="spark-chart-box">
-        <svg viewBox="0 0 100 28" width="100%" height="28" style="overflow:visible">
-          <rect x="5" y="16" width="10" height="12" rx="2" fill="rgba(91,156,245,0.3)" />
-          <rect x="25" y="10" width="10" height="18" rx="2" fill="rgba(91,156,245,0.4)" />
-          <rect x="45" y="6" width="10" height="22" rx="2" fill="rgba(91,156,245,0.6)" />
-          <rect x="65" y="2" width="10" height="26" rx="2" fill="#5b9cf5" />
-          <rect x="85" y="12" width="10" height="16" rx="2" fill="rgba(91,156,245,0.3)" />
+        <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+          <rect x="12" y="20" width="18" height="20" rx="4" fill="rgba(91,156,245,0.25)" />
+          <rect x="52" y="14" width="18" height="26" rx="4" fill="rgba(91,156,245,0.45)" />
+          <rect x="92" y="8"  width="18" height="32" rx="4" fill="rgba(91,156,245,0.7)" />
+          <rect x="132" y="2" width="18" height="38" rx="4" fill="#5b9cf5" />
+          <rect x="172" y="14" width="18" height="26" rx="4" fill="rgba(91,156,245,0.35)" />
         </svg>
       </div>
     </div>
 
     <!-- Stat 3: Today's Revenue -->
-    <div class="spark-card" onclick="location.href='doctor-financial.html'">
-      <div class="spark-top">
-        <div>
+    <div class="spark-card card-revenue" onclick="location.href='doctor-financial.html'" title="عرض التقرير المالي والإيرادات">
+      <div class="spark-head">
+        <div class="spark-title-group">
+          <div class="spark-icon teal"><i class="ti ti-receipt-2"></i></div>
           <div class="spark-lbl">إيراد العيادات اليوم</div>
-          <div class="spark-num" id="sparkRevenueVal">24,500 <span style="font-size:13px;font-weight:400">ج.م</span></div>
         </div>
-        <span class="pill xs" style="background:rgba(16,185,129,0.12);color:#10b981;border:none"><i class="ti ti-arrow-up-right"></i> +12%</span>
+        <span class="spark-badge teal"><i class="ti ti-arrow-up-right"></i> +12%</span>
+      </div>
+      <div class="spark-mid">
+        <div class="spark-num" id="sparkRevenueVal">24,500 <span style="font-size:13px;font-weight:400;color:#64748b">ج.م</span></div>
+        <div class="spark-sub">التحصيل التراكمي لكشوفات اليوم</div>
       </div>
       <div class="spark-chart-box">
-        <svg viewBox="0 0 100 28" width="100%" height="28" style="overflow:visible">
-          <polyline fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" points="0,26 25,20 50,22 75,10 100,5" />
-          <circle cx="100" cy="5" r="3" fill="#10b981" />
+        <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gradRevenue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#10b981" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#10b981" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,34 Q30,28 65,22 T120,20 T160,12 T200,6 L200,40 L0,40 Z" fill="url(#gradRevenue)" />
+          <path d="M0,34 Q30,28 65,22 T120,20 T160,12 T200,6" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="198" cy="6" r="3.5" fill="#10b981" />
         </svg>
       </div>
     </div>
 
     <!-- Stat 4: AI Clinical Alerts -->
-    <div class="spark-card" onclick="openAiRecomModal()">
-      <div class="spark-top">
-        <div>
+    <div class="spark-card card-alerts" onclick="openAiRecomModal()" title="فتح رادار توصيات الذكاء الاصطناعي">
+      <div class="spark-head">
+        <div class="spark-title-group">
+          <div class="spark-icon ruby"><i class="ti ti-alert-triangle"></i></div>
           <div class="spark-lbl">تنبيهات الفرز السريري (AI)</div>
-          <div class="spark-num" id="sparkAlertsVal" style="color:#f2665c">5</div>
         </div>
-        <span class="pill xs" style="background:rgba(242,102,92,0.15);color:#f2665c;border:none"><i class="ti ti-flame"></i> عاجل</span>
+        <span class="spark-badge ruby"><i class="ti ti-flame"></i> عاجل</span>
+      </div>
+      <div class="spark-mid">
+        <div class="spark-num" id="sparkAlertsVal" style="color:#f2665c;">5</div>
+        <div class="spark-sub">حالات تتطلب مراجعة فورية للجرعات</div>
       </div>
       <div class="spark-chart-box">
-        <svg viewBox="0 0 100 28" width="100%" height="28" style="overflow:visible">
-          <path d="M0,20 Q25,5 50,18 T100,6" fill="none" stroke="#f2665c" stroke-width="2.5" stroke-linecap="round" />
-          <circle cx="100" cy="6" r="3" fill="#f2665c" />
+        <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gradAlerts" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f2665c" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#f2665c" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,28 Q30,12 60,26 T120,22 T160,12 T200,8 L200,40 L0,40 Z" fill="url(#gradAlerts)" />
+          <path d="M0,28 Q30,12 60,26 T120,22 T160,12 T200,8" fill="none" stroke="#f2665c" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="198" cy="8" r="3.5" fill="#f2665c" />
         </svg>
       </div>
     </div>
