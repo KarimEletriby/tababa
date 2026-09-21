@@ -14,60 +14,332 @@
    ADVANCED DOCTOR COMMAND DASHBOARD STYLES
    ========================================================================== */
 
-/* ===== FULL-WIDTH EDGE-TO-EDGE LAYOUT (توسيع الشاشة بالكامل وحواف متطرفة) ===== */
+/* ===== FULL-WIDTH EDGE-TO-EDGE DASHBOARD WITH COLLAPSIBLE SIDEBAR DRAWERS ===== */
 .shell {
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
-  padding: 12px 18px !important;
-  gap: 16px !important;
-  grid-template-columns: 260px 1fr 315px !important;
+  padding: 14px 28px !important;
+  display: block !important;
   box-sizing: border-box !important;
+  position: relative !important;
 }
 
-@media (min-width: 1600px) {
+@media (max-width: 768px) {
   .shell {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 14px 22px !important;
-    gap: 18px !important;
-    grid-template-columns: 270px 1fr 325px !important;
-  }
-}
-
-@media (max-width: 1280px) {
-  .shell {
-    grid-template-columns: 240px 1fr 285px !important;
-    gap: 12px !important;
     padding: 10px 14px !important;
-  }
-}
-
-@media (max-width: 1024px) {
-  .shell {
-    grid-template-columns: 1fr !important;
-    padding: 10px !important;
   }
 }
 
 .shell > main {
   min-width: 0 !important;
   width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  display: block !important;
 }
 
+/* Off-Canvas Slide Drawer for Right Sidebar (لوحة الطبيب والرسائل السريعة) */
 .sidebar-r {
-  position: sticky !important;
-  top: 12px !important;
-  max-height: calc(100vh - 24px) !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 340px !important;
+  max-width: 90vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  z-index: 1060 !important;
+  background: rgba(9, 15, 26, 0.98) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-left: 1px solid rgba(31, 230, 168, 0.3) !important;
+  border-right: none !important;
+  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.85) !important;
   overflow-y: auto !important;
+  padding: 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  transform: translateX(105%) !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
+.sidebar-r.drawer-open {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Off-Canvas Slide Drawer for Left Sidebar (رادار التنبيهات وقائمة الانتظار والعيادات) */
 .sidebar-l {
-  position: sticky !important;
-  top: 12px !important;
-  max-height: calc(100vh - 24px) !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 360px !important;
+  max-width: 90vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  z-index: 1060 !important;
+  background: rgba(9, 15, 26, 0.98) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-right: 1px solid rgba(91, 156, 245, 0.3) !important;
+  border-left: none !important;
+  box-shadow: 10px 0 50px rgba(0, 0, 0, 0.85) !important;
   overflow-y: auto !important;
+  padding: 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  transform: translateX(-105%) !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.sidebar-l.drawer-open {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Drawer Header with Close Button */
+.drawer-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 4px;
+}
+
+.drawer-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.drawer-close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: rotate(90deg);
+}
+
+/* ================= FLOATING EDGE DRAWER TRIGGER DOTS ================= */
+.edge-drawer-trigger {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1040;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.edge-drawer-trigger.right-trigger {
+  right: 0;
+}
+
+.edge-drawer-trigger.left-trigger {
+  left: 0;
+}
+
+.edge-trigger-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 18, 32, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 10px 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.right-trigger .edge-trigger-pill {
+  border-radius: 16px 0 0 16px;
+  border-right: none;
+  border-color: rgba(31, 230, 168, 0.35);
+}
+
+.left-trigger .edge-trigger-pill {
+  border-radius: 0 16px 16px 0;
+  border-left: none;
+  border-color: rgba(91, 156, 245, 0.35);
+}
+
+.edge-drawer-trigger:hover .edge-trigger-pill {
+  transform: scale(1.05);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
+}
+
+.right-trigger:hover .edge-trigger-pill {
+  border-color: #1fe6a8;
+  box-shadow: 0 8px 30px rgba(31, 230, 168, 0.35);
+}
+
+.left-trigger:hover .edge-trigger-pill {
+  border-color: #5b9cf5;
+  box-shadow: 0 8px 30px rgba(91, 156, 245, 0.35);
+}
+
+/* Pulsing Beacon Dot */
+.trigger-beacon {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.trigger-beacon .beacon-core {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+.trigger-beacon.emerald .beacon-core {
+  background: #1fe6a8;
+  box-shadow: 0 0 10px #1fe6a8;
+}
+
+.trigger-beacon.sapphire .beacon-core {
+  background: #5b9cf5;
+  box-shadow: 0 0 10px #5b9cf5;
+}
+
+.trigger-beacon .beacon-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: beaconWave 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.trigger-beacon.emerald .beacon-pulse {
+  background: rgba(31, 230, 168, 0.6);
+}
+
+.trigger-beacon.sapphire .beacon-pulse {
+  background: rgba(91, 156, 245, 0.6);
+}
+
+@keyframes beaconWave {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.trigger-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trigger-icon {
+  font-size: 16px;
+}
+.right-trigger .trigger-icon { color: #1fe6a8; }
+.left-trigger .trigger-icon { color: #5b9cf5; }
+
+.trigger-label {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.trigger-badge {
+  font-size: 11px;
+  font-weight: 900;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.trigger-badge.emerald {
+  background: rgba(31, 230, 168, 0.2);
+  color: #1fe6a8;
+  border: 1px solid rgba(31, 230, 168, 0.4);
+}
+
+.trigger-badge.sapphire {
+  background: rgba(91, 156, 245, 0.2);
+  color: #5b9cf5;
+  border: 1px solid rgba(91, 156, 245, 0.4);
+}
+
+/* Topbar Drawer Trigger Buttons */
+.topbar-drawer-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.topbar-drawer-trigger-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.trigger-mini-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.trigger-mini-dot.emerald {
+  background: #1fe6a8;
+  box-shadow: 0 0 8px #1fe6a8;
+}
+.trigger-mini-dot.sapphire {
+  background: #5b9cf5;
+  box-shadow: 0 0 8px #5b9cf5;
+}
+
+/* Sidebars Backdrop Overlay */
+.sidebars-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 16, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1055;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.sidebars-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ===== 1. REDESIGNED QUICK ACTION COMMAND HUB (البانل التفاعلي المطور) ===== */
@@ -689,10 +961,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  position: sticky;
-  top: 14px;
-  max-height: calc(100vh - 28px);
-  overflow-y: auto;
   scrollbar-width: thin;
   padding-left: 2px;
 }
@@ -1196,9 +1464,14 @@
 <div class="shell">
 
 <!-- ==================== RIGHT SIDEBAR (CLINICAL COCKPIT) ==================== -->
-<aside class="sidebar-r">
-  <div class="brand">
-    <a class="brand-name" href="tababa-homepage.html" style="display:flex;align-items:center;gap:8px">طبابا <div class="brand-badge"><i class="ti ti-home"></i></div></a>
+<aside class="sidebar-r" id="rightSidebar">
+  <div class="drawer-header-row">
+    <div class="brand" style="margin:0">
+      <a class="brand-name" href="tababa-homepage.html" style="display:flex;align-items:center;gap:8px">طبابا <div class="brand-badge"><i class="ti ti-home"></i></div></a>
+    </div>
+    <button type="button" class="drawer-close-btn" onclick="toggleRightSidebar(false)" title="إغلاق القائمة">
+      <i class="ti ti-x"></i>
+    </button>
   </div>
 
   <!-- 1. Doctor Profile & Room Controller -->
@@ -1341,7 +1614,21 @@
 <main>
   <!-- Topbar -->
   <div class="topbar">
-    <div class="topbar-right" style="display:flex;align-items:center;gap:10px">
+    <div class="topbar-right" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <!-- Brand Logo in Central Topbar -->
+      <a class="brand-name" href="tababa-homepage.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;margin-left:4px">
+        <span style="font-weight:900;font-size:20px;letter-spacing:-0.5px;color:#ffffff">طبابا</span>
+        <div class="brand-badge" style="background:linear-gradient(135deg,#1fe6a8,#059669);color:#03261b;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px"><i class="ti ti-heart-rate-monitor"></i></div>
+      </a>
+
+      <!-- Quick Trigger for Right Sidebar (Doctor Profile & Messages) -->
+      <button type="button" class="topbar-drawer-trigger-btn" onclick="toggleRightSidebar()" title="فتح لوحة الطبيب والرسائل السريعة">
+        <span class="trigger-mini-dot emerald"></span>
+        <i class="ti ti-user-circle"></i>
+        <span>لوحة الطبيب والرسائل</span>
+        <span class="trigger-badge emerald">2</span>
+      </button>
+
       <!-- Clinic Switcher -->
       <div class="clinic-switcher-wrap" id="clinicSwitcherWrap">
         <div class="clinic-switcher-btn" onclick="toggleClinicDropdown()">
@@ -1389,7 +1676,15 @@
       </div>
     </div>
 
-    <div class="topbar-left">
+    <div class="topbar-left" style="display:flex;align-items:center;gap:10px">
+      <!-- Quick Trigger for Left Sidebar (Alerts Radar & Waiting Queue) -->
+      <button type="button" class="topbar-drawer-trigger-btn" onclick="toggleLeftSidebar()" title="فتح رادار التنبيهات وقائمة الانتظار">
+        <span class="trigger-mini-dot sapphire"></span>
+        <i class="ti ti-radar-2"></i>
+        <span>رادار التنبيهات والانتظار</span>
+        <span class="trigger-badge sapphire">5</span>
+      </button>
+
       <div class="notif-wrapper">
         <button class="btn-icon notif-btn" onclick="toggleNotifications()" title="الإشعارات">
           <i class="ti ti-bell"></i>
@@ -1912,7 +2207,16 @@
 </main>
 
 <!-- ==================== LEFT SIDEBAR ==================== -->
-<aside class="sidebar-l">
+<aside class="sidebar-l" id="leftSidebar">
+  <div class="drawer-header-row">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="trigger-mini-dot sapphire"></span>
+      <span style="font-size:13.5px;font-weight:800;color:#ffffff">رادار التنبيهات وقائمة الانتظار</span>
+    </div>
+    <button type="button" class="drawer-close-btn" onclick="toggleLeftSidebar(false)" title="إغلاق القائمة">
+      <i class="ti ti-x"></i>
+    </button>
+  </div>
   <div id="desktopAiSlot">
     <!-- 1. Live Clinical & Lab Alerts Radar -->
     <div class="card radar-card" id="aiAttentionCard">
@@ -2124,6 +2428,38 @@
 </aside>
 
 </div>
+
+<!-- Floating Edge Drawer Trigger Dots (Right & Left) -->
+<div class="edge-drawer-trigger right-trigger" id="rightTriggerDot" onclick="toggleRightSidebar()" title="فتح لوحة الطبيب والرسائل السريعة">
+  <div class="edge-trigger-pill">
+    <div class="trigger-beacon emerald">
+      <span class="beacon-pulse"></span>
+      <span class="beacon-core"></span>
+    </div>
+    <div class="trigger-content">
+      <i class="ti ti-user-circle trigger-icon"></i>
+      <span class="trigger-label">لوحة الطبيب والرسائل</span>
+      <span class="trigger-badge emerald">2</span>
+    </div>
+  </div>
+</div>
+
+<div class="edge-drawer-trigger left-trigger" id="leftTriggerDot" onclick="toggleLeftSidebar()" title="فتح رادار التنبيهات وقائمة الانتظار">
+  <div class="edge-trigger-pill">
+    <div class="trigger-beacon sapphire">
+      <span class="beacon-pulse"></span>
+      <span class="beacon-core"></span>
+    </div>
+    <div class="trigger-content">
+      <i class="ti ti-radar-2 trigger-icon"></i>
+      <span class="trigger-label">التنبيهات وقائمة الانتظار</span>
+      <span class="trigger-badge sapphire">5</span>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop Overlay for Sidebars -->
+<div class="sidebars-backdrop" id="sidebarsBackdrop" onclick="closeSidebars()"></div>
 
 <!-- ==================== MODALS & DRAWERS ==================== -->
 <div class="drawer-backdrop" id="drawerBackdrop" onclick="closeAllDrawers()"></div>
@@ -2795,6 +3131,63 @@ function aiSuggestAction(btn) {
     sendAiMessage();
   }
 }
+
+// ================= COLLAPSIBLE SIDEBAR DRAWERS CONTROLLER =================
+function toggleRightSidebar(force) {
+  const sbR = document.getElementById('rightSidebar') || document.querySelector('.sidebar-r');
+  const sbL = document.getElementById('leftSidebar') || document.querySelector('.sidebar-l');
+  const backdrop = document.getElementById('sidebarsBackdrop');
+  if (!sbR) return;
+
+  const isOpen = force !== undefined ? force : !sbR.classList.contains('drawer-open');
+
+  if (isOpen) {
+    if (sbL) sbL.classList.remove('drawer-open');
+    sbR.classList.add('drawer-open');
+    if (backdrop) backdrop.classList.add('active');
+    document.body.style.overflow = window.innerWidth <= 1024 ? 'hidden' : '';
+  } else {
+    sbR.classList.remove('drawer-open');
+    if (!sbL || !sbL.classList.contains('drawer-open')) {
+      if (backdrop) backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+}
+
+function toggleLeftSidebar(force) {
+  const sbR = document.getElementById('rightSidebar') || document.querySelector('.sidebar-r');
+  const sbL = document.getElementById('leftSidebar') || document.querySelector('.sidebar-l');
+  const backdrop = document.getElementById('sidebarsBackdrop');
+  if (!sbL) return;
+
+  const isOpen = force !== undefined ? force : !sbL.classList.contains('drawer-open');
+
+  if (isOpen) {
+    if (sbR) sbR.classList.remove('drawer-open');
+    sbL.classList.add('drawer-open');
+    if (backdrop) backdrop.classList.add('active');
+    document.body.style.overflow = window.innerWidth <= 1024 ? 'hidden' : '';
+  } else {
+    sbL.classList.remove('drawer-open');
+    if (!sbR || !sbR.classList.contains('drawer-open')) {
+      if (backdrop) backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+}
+
+function closeSidebars() {
+  toggleRightSidebar(false);
+  toggleLeftSidebar(false);
+}
+
+// Close sidebars on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeSidebars();
+  }
+});
 
 // Initial Run
 document.addEventListener('DOMContentLoaded', () => {
