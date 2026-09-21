@@ -256,29 +256,14 @@
       justify-content: center;
     }
 
-    .hero-layout-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      align-items: center;
-      gap: 36px;
-      margin-bottom: 30px;
-    }
-
-    @media (max-width: 1024px) {
-      .hero-layout-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .nav-links-row {
-        display: none;
-      }
-    }
-
-    /* Content Column */
-    .hero-content {
+    /* ================= HERO INTRO HEADER ================= */
+    .hero-intro-header {
+      text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
     }
 
     .hero-badge-pill {
@@ -295,18 +280,13 @@
       width: fit-content;
     }
 
-    @media (max-width: 1024px) {
-      .hero-badge-pill {
-        margin: 0 auto;
-      }
-    }
-
     .hero-title {
-      font-size: 42px;
+      font-size: 38px;
       font-weight: 900;
       line-height: 1.25;
       color: #ffffff;
       letter-spacing: -0.5px;
+      margin: 0;
     }
 
     .gradient-emerald {
@@ -317,211 +297,474 @@
     }
 
     .hero-desc {
-      font-size: 16px;
+      font-size: 15.5px;
       color: var(--text-secondary);
       line-height: 1.6;
-      max-width: 600px;
+      max-width: 720px;
+      margin: 0;
     }
 
-    @media (max-width: 1024px) {
-      .hero-desc {
-        margin: 0 auto;
+    /* ================= MAIN HERO GRID (CHAT CENTERPIECE + SIDE COMPANION) ================= */
+    .hero-layout-grid {
+      display: grid;
+      grid-template-columns: 1.42fr 0.82fr;
+      align-items: start;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 1080px) {
+      .hero-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .nav-links-row {
+        display: none;
       }
       .hero-title {
-        font-size: 32px;
+        font-size: 28px;
       }
     }
 
-    /* ================= AI COMMAND BAR (THE CORE BOX) ================= */
-    .ai-command-wrapper {
-      position: relative;
-      margin-top: 10px;
-    }
-
-    .ai-command-box {
-      background: linear-gradient(150deg, rgba(14, 26, 45, 0.95) 0%, rgba(9, 17, 30, 0.98) 100%);
-      border: 1.5px solid rgba(31, 230, 168, 0.35);
-      border-radius: var(--radius-lg);
-      padding: 14px 18px;
-      box-shadow: 0 0 35px rgba(31, 230, 168, 0.18), 0 20px 45px rgba(0, 0, 0, 0.55);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    /* ================= 1. PRIMARY AI CHATBOT WORKSPACE (THE MAIN EVENT) ================= */
+    .main-chat-workspace {
+      background: linear-gradient(165deg, rgba(14, 26, 45, 0.96) 0%, rgba(8, 15, 26, 0.98) 100%);
+      border: 1.5px solid rgba(31, 230, 168, 0.38);
+      border-radius: 22px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 35px rgba(31, 230, 168, 0.16);
+      display: flex;
+      flex-direction: column;
+      height: 720px;
+      overflow: hidden;
       backdrop-filter: blur(20px);
+      position: relative;
     }
 
-    .ai-command-box:focus-within {
-      border-color: var(--accent);
-      box-shadow: 0 0 45px rgba(31, 230, 168, 0.35), 0 25px 60px rgba(0, 0, 0, 0.7);
-      transform: translateY(-2px);
+    @media (max-width: 768px) {
+      .main-chat-workspace {
+        height: 640px;
+      }
     }
 
-    .ai-input-row {
+    .chat-console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(10, 20, 35, 0.85);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chat-doctor-profile {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .ai-input-field {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 16px;
-      outline: none;
-      direction: rtl;
-    }
-
-    .ai-input-field::placeholder {
-      color: var(--text-muted);
-      font-size: 15px;
-    }
-
-    .ai-send-btn {
-      width: 44px;
-      height: 44px;
+    .chat-avatar-wrapper {
+      position: relative;
+      width: 42px;
+      height: 42px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #1fe6a8 0%, #059669 100%);
-      color: #03261b;
-      border: none;
-      font-size: 20px;
+      background: linear-gradient(135deg, rgba(31, 230, 168, 0.25) 0%, rgba(56, 189, 248, 0.25) 100%);
+      border: 1px solid rgba(31, 230, 168, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(31, 230, 168, 0.4);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      flex-shrink: 0;
+      font-size: 22px;
+      color: var(--accent);
     }
 
-    .ai-send-btn:hover {
-      transform: scale(1.06);
-      box-shadow: 0 6px 20px rgba(31, 230, 168, 0.6);
+    .online-indicator-dot {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #10b981;
+      border: 2px solid #060d17;
+      box-shadow: 0 0 8px #10b981;
+      animation: dotBlink 1.5s infinite;
     }
 
-    /* Sub-Action Buttons Row */
-    .ai-actions-row {
+    .chat-doctor-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-top: 12px;
-      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .action-chip {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-family: inherit;
-      font-size: 12.5px;
+    .ai-badge-verified {
+      background: rgba(31, 230, 168, 0.15);
+      border: 1px solid rgba(31, 230, 168, 0.35);
+      color: var(--accent);
+      font-size: 11px;
       font-weight: 700;
-      padding: 7px 14px;
+      padding: 2px 8px;
       border-radius: var(--radius-pill);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
+      gap: 4px;
     }
 
-    .action-chip:hover {
+    .chat-doctor-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .status-pulse-text {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .chat-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-tool-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .chat-tool-btn:hover {
       background: rgba(255, 255, 255, 0.1);
       color: #ffffff;
       border-color: rgba(255, 255, 255, 0.2);
     }
 
-    .action-chip.active-chip {
-      background: var(--accent-soft);
-      border-color: var(--accent);
-      color: var(--accent);
+    .chat-tool-btn.emergency {
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.1);
     }
 
-    /* ================= POPULAR CHIPS SECTION ================= */
-    .popular-searches-box {
+    .chat-tool-btn.emergency:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ffffff;
+    }
+
+    /* Messages Viewport */
+    .chat-messages-viewport {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 18px;
+      gap: 16px;
+      scroll-behavior: smooth;
     }
 
-    .popular-title {
-      font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 700;
-      text-align: center;
+    .chat-messages-viewport::-webkit-scrollbar {
+      width: 6px;
+    }
+    .chat-messages-viewport::-webkit-scrollbar-thumb {
+      background: rgba(31, 230, 168, 0.25);
+      border-radius: 10px;
     }
 
-    .popular-grid {
+    .chat-bubble-row {
+      display: flex;
+      gap: 12px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .chat-bubble-row.ai-row {
+      align-items: flex-start;
+    }
+
+    .chat-bubble-row.user-row {
+      flex-direction: row-reverse;
+      align-items: flex-start;
+    }
+
+    .chat-msg-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(31, 230, 168, 0.18);
+      color: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
-    .popular-pill {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border);
+    .chat-msg-avatar.user-avatar {
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--cyan);
+    }
+
+    .chat-msg-content {
+      max-width: 88%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      line-height: 1.6;
+      font-size: 14.5px;
+    }
+
+    .chat-msg-content.ai-content {
+      background: rgba(14, 25, 42, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-main);
-      padding: 8px 14px;
-      border-radius: 12px;
+      border-radius: 4px 18px 18px 18px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .chat-msg-content.user-content {
+      background: linear-gradient(135deg, rgba(31, 230, 168, 0.22) 0%, rgba(56, 189, 248, 0.18) 100%);
+      border: 1px solid rgba(31, 230, 168, 0.4);
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 18px 4px 18px 18px;
+    }
+
+    .chat-sender-name {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chat-sender-name.user-name {
+      color: var(--cyan);
+    }
+
+    .chat-text {
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    .quick-prompts-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin: 12px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chat-quick-chips-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .chat-quick-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .chat-quick-chip:hover {
+      background: rgba(31, 230, 168, 0.15);
+      border-color: rgba(31, 230, 168, 0.4);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* Thinking Indicator */
+    .ai-thinking-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
       font-size: 13px;
       font-weight: 700;
+      padding: 6px 0;
+    }
+
+    .thinking-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: dotPulse 1.2s infinite ease-in-out;
+    }
+    .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dotPulse {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1.2); opacity: 1; }
+    }
+
+    /* Chat Input Dock */
+    .chat-input-dock {
+      padding: 14px 18px 12px;
+      background: rgba(6, 13, 23, 0.96);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(14, 26, 45, 0.9);
+      border: 1.5px solid rgba(31, 230, 168, 0.3);
+      border-radius: 14px;
+      padding: 8px 14px;
+      transition: all 0.2s ease;
+    }
+
+    .chat-input-row:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(31, 230, 168, 0.3);
+    }
+
+    .chat-input-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 14.5px;
+      outline: none;
+      direction: rtl;
+    }
+
+    .chat-input-field::placeholder {
+      color: var(--text-muted);
+      font-size: 13.5px;
+    }
+
+    .chat-send-btn {
+      background: linear-gradient(135deg, #1fe6a8 0%, #059669 100%);
+      color: #03261b;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 13px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       cursor: pointer;
       transition: all 0.2s;
+      flex-shrink: 0;
     }
 
-    .popular-pill i {
-      font-size: 16px;
-      color: var(--cyan);
+    .chat-send-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 16px rgba(31, 230, 168, 0.5);
     }
 
-    .popular-pill:hover {
-      background: rgba(31, 230, 168, 0.12);
-      border-color: rgba(31, 230, 168, 0.4);
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    /* ================= FULL-BODY INTERACTIVE CLINICAL SCANNER ================= */
-    .hero-scanner-wrapper {
-      position: relative;
+    .chat-input-sub-row {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    /* Prominent Pain Locator Header Banner */
-    .pain-locator-banner {
-      background: linear-gradient(135deg, rgba(14, 26, 45, 0.96) 0%, rgba(9, 17, 30, 0.98) 100%);
-      border: 1.5px solid rgba(31, 230, 168, 0.35);
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45), 0 0 25px rgba(31, 230, 168, 0.15);
-      text-align: right;
-      direction: rtl;
+    .chat-media-actions {
       display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .pain-locator-top-badge {
-      display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(31, 230, 168, 0.12);
-      border: 1px solid rgba(31, 230, 168, 0.35);
+    }
+
+    .chat-mini-action {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 5px 10px;
       border-radius: var(--radius-pill);
-      padding: 4px 12px;
-      color: var(--accent);
       font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .chat-mini-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .chat-disclaimer-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ================= 2. COMPANION SIDE 3D SCANNER CARD (THE SIDE TOOL) ================= */
+    .companion-scanner-card {
+      background: linear-gradient(160deg, rgba(14, 26, 45, 0.92) 0%, rgba(9, 17, 30, 0.97) 100%);
+      border: 1px solid rgba(31, 230, 168, 0.28);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      backdrop-filter: blur(16px);
+      height: 720px;
+    }
+
+    @media (max-width: 1080px) {
+      .companion-scanner-card {
+        height: auto;
+      }
+    }
+
+    .companion-banner {
+      background: rgba(31, 230, 168, 0.06);
+      border: 1px solid rgba(31, 230, 168, 0.2);
+      border-radius: 14px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: right;
+    }
+
+    .companion-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      font-size: 11px;
       font-weight: 800;
-      width: fit-content;
     }
 
     .locator-blink-dot {
@@ -533,23 +776,72 @@
       animation: dotBlink 1.4s infinite;
     }
 
-    .pain-locator-title {
-      font-size: 16px;
+    .companion-title {
+      font-size: 15px;
       font-weight: 900;
       color: #ffffff;
       margin: 0;
-      line-height: 1.4;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
+      line-height: 1.3;
     }
 
-    .pain-locator-subtitle {
-      font-size: 12px;
-      color: #94a3b8;
+    .companion-subtitle {
+      font-size: 11.5px;
+      color: var(--text-secondary);
       margin: 0;
-      line-height: 1.5;
+      line-height: 1.4;
+    }
+
+    .companion-scanner-stage {
+      position: relative;
+      flex: 1;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(31, 230, 168, 0.2);
+      background: radial-gradient(circle at 50% 40%, rgba(14, 30, 50, 0.8) 0%, rgba(6, 13, 23, 0.98) 75%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+    }
+
+    .companion-scanner-card .scanner-canvas {
+      max-width: 360px;
+    }
+
+    .companion-scanner-card .organ-click-zone {
+      transform: translate(-50%, -50%) scale(0.82);
+      transform-origin: center center;
+    }
+
+    .companion-organ-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      padding-top: 4px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .companion-organ-tabs .organ-tab-btn {
+      padding: 5px 9px;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .companion-organ-tabs .organ-tab-btn:hover,
+    .companion-organ-tabs .organ-tab-btn.active {
+      background: rgba(31, 230, 168, 0.15);
+      border-color: rgba(31, 230, 168, 0.4);
+      color: var(--accent);
     }
 
     .hero-scanner-stage {
@@ -966,77 +1258,54 @@
       }
     }
 
-    /* ================= INTERACTIVE CHAT STREAM SECTION ================= */
-    .chat-stream-section {
-      display: none;
-      margin-top: 20px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-accent);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-      animation: fadeIn 0.3s ease;
-    }
-
-    .chat-stream-section.active {
-      display: block;
-    }
-
-    .chat-head-row {
+    /* AI Clinical Diagnostic Bubble Elements */
+    .ai-assessment-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-
-    .chat-user-bubble {
-      background: rgba(31, 230, 168, 0.12);
-      border: 1px solid rgba(31, 230, 168, 0.3);
-      color: #ffffff;
-      padding: 14px 18px;
-      border-radius: 16px 4px 16px 16px;
-      font-weight: 700;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      max-width: 80%;
-      margin-right: auto;
-    }
-
-    .chat-ai-response {
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: 4px 16px 16px 16px;
-      padding: 22px;
-      margin-bottom: 20px;
-    }
-
-    .ai-speaker-tag {
-      display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 8px;
-      color: var(--accent);
-      font-weight: 800;
-      font-size: 14px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
-    .ai-diag-text {
+    .ai-assessment-title {
+      color: var(--accent);
       font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-confidence-pill {
+      background: rgba(31, 230, 168, 0.12);
+      border: 1px solid rgba(31, 230, 168, 0.35);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ai-rec-specialty-box {
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      background: rgba(31, 230, 168, 0.1);
+      border-radius: 10px;
+      border-right: 3px solid var(--accent);
+      font-size: 13px;
       color: var(--text-main);
-      line-height: 1.7;
-      margin-bottom: 18px;
     }
 
     /* Doctors Recommendation Cards */
     .rec-doctors-title {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: var(--cyan);
-      margin-bottom: 12px;
+      margin: 14px 0 10px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -1044,9 +1313,9 @@
 
     .rec-doctors-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
     .doc-rec-card {
@@ -1451,109 +1720,150 @@
 
   <!-- ==================== MAIN HERO SECTION ==================== -->
   <main class="hero-container">
+    <!-- Top Sleek Intro -->
+    <div class="hero-intro-header">
+      <div class="hero-badge-pill">
+        <i class="ti ti-sparkles"></i>
+        المساعد الطبي الذكي الأول في الشرق الأوسط
+      </div>
+      <h1 class="hero-title">
+        استشر طبيب طبابة الذكي فوراً...<br>
+        <span class="gradient-emerald">شات طبي تشخيصي وتوجيه سريري فوري</span>
+      </h1>
+      <p class="hero-desc">
+        تحدث مع طبيب الذكاء الاصطناعي مباشرةً لوصف أعراضك، أو استعن بمجسم الجسم الجانبي لتحديد مكان الألم بدقة والحصول على تشخيص مبدئي وترشيح لأفضل الأطباء المعتمدين.
+      </p>
+    </div>
+
+    <!-- The 2-Column Hero Grid: Chatbot Main (Dominant) + Scanner Companion (Side Tool) -->
     <div class="hero-layout-grid">
       
-      <!-- Right Side: AI Interaction & Pitch -->
-      <div class="hero-content">
-        <div class="hero-badge-pill">
-          <i class="ti ti-sparkles"></i>
-          المساعد الطبي الذكي الأول في الشرق الأوسط
-        </div>
-
-        <h1 class="hero-title">
-          ابحث عن أي مشكلة صحية...<br>
-          <span class="gradient-emerald">وسيجد لك AI طبابة أفضل الحلول</span>
-        </h1>
-
-        <p class="hero-desc">
-          استشر طبيب طبابة الذكي فوراً بلغة مبسطة، حلل أعراضك وشكواك بدقة، تعرف على أنسب التخصصات، واحجز مع نخبة الأطباء المعتمدين مع تفعيل ملفك الصحي الشامل.
-        </p>
-
-        <!-- THE CORE AI COMMAND BAR -->
-        <div class="ai-command-wrapper">
-          <div class="ai-command-box">
-            <div class="ai-input-row">
-              <input type="text" id="aiUserInput" class="ai-input-field" placeholder="اسأل طبيب طبابة الذكي عن مشكلتك أو ما تشعر به..." onkeydown="handleInputKey(event)">
-              <button class="ai-send-btn" id="aiSendBtn" type="button" onclick="sendAiMessage()" title="إرسال للطبيب الذكي">
-                <i class="ti ti-send-2"></i>
-              </button>
+      <!-- 1. PRIMARY AI CHATBOT WORKSPACE (Dominant Centerpiece) -->
+      <div class="main-chat-workspace" id="aiMainChatWorkspace">
+        <!-- Chat Console Header -->
+        <div class="chat-console-header">
+          <div class="chat-doctor-profile">
+            <div class="chat-avatar-wrapper">
+              <i class="ti ti-robot"></i>
+              <span class="online-indicator-dot" title="طبيب الذكاء الاصطناعي متصل وجاهز"></span>
             </div>
-
-            <!-- 4 Actions Pills Below Input -->
-            <div class="ai-actions-row">
-              <button type="button" class="action-chip" onclick="handleChipClick('تحدث مع الدكتور')">
-                <i class="ti ti-stethoscope" style="color:var(--accent)"></i> تحدث مع الدكتور
-              </button>
-              <button type="button" class="action-chip" onclick="openVoiceModal()">
-                <i class="ti ti-microphone" style="color:var(--cyan)"></i> مساعد صوتي
-              </button>
-              <button type="button" class="action-chip" onclick="openImageModal()">
-                <i class="ti ti-photo" style="color:var(--purple)"></i> تحليل بالصورة
-              </button>
-              <button type="button" class="action-chip active-chip" onclick="triggerAiTriageFast()">
-                <i class="ti ti-sparkles"></i> تحليل بالذكاء الاصطناعي
-              </button>
+            <div>
+              <div class="chat-doctor-title">
+                طبيب طبابة الذكي <span class="ai-badge-verified"><i class="ti ti-badge-check"></i> ذكاء اصطناعي سريري</span>
+              </div>
+              <div class="chat-doctor-subtitle">
+                <span class="status-pulse-text">متصل الآن 24/7</span> • فحص سريري فوري • مدعوم ببروتوكولات الفحص العالمية
+              </div>
             </div>
           </div>
 
-          <!-- Popular Search Chips -->
-          <div class="popular-searches-box">
-            <div class="popular-title">أو اختر من مجالات البحث الأكثر شيوعاً:</div>
-            <div class="popular-grid">
-              <button type="button" class="popular-pill" onclick="quickSelectSymptom('صداع نصفي مستمر وإجهاد بالعينين')">
-                <i class="ti ti-brain"></i> الصداع والأعصاب
+          <div class="chat-header-actions">
+            <button type="button" class="chat-tool-btn" onclick="resetChatStream()" title="بدء جلسة جديدة">
+              <i class="ti ti-rotate-clockwise"></i> استشارة جديدة
+            </button>
+            <button type="button" class="chat-tool-btn emergency" onclick="openEmergencyModal()" title="طوارئ 24/7">
+              <i class="ti ti-ambulance"></i> طوارئ 123
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Messages Viewport (Always visible, open, and interactive!) -->
+        <div class="chat-messages-viewport" id="chatMessagesViewport">
+          <!-- Initial AI Welcome Greeting -->
+          <div class="chat-bubble-row ai-row">
+            <div class="chat-msg-avatar"><i class="ti ti-robot"></i></div>
+            <div class="chat-msg-content ai-content">
+              <div class="chat-sender-name"><i class="ti ti-sparkles"></i> طبيب طبابة الذكي (الفرز السريري الأولي):</div>
+              <p class="chat-text">
+                أهلاً بك في منصة طبابة الطبية 🩺! أنا طبيبك الذكي، هنا لمساعدتك في فحص وتحليل أي أعراض أو آلام تشعر بها وتوجيهك لأفضل الأطباء والاستشاريين المعتمدين فوراً.
+              </p>
+              <p class="chat-text" style="color:var(--text-secondary);font-size:13.5px;margin-top:6px;">
+                يمكنك كتابة ما تشعر به في خانة المحادثة بالأسفل، أو <strong>النقر مباشرةً على مكان الألم في المجسم الطبي الجانبي 👈</strong> لتحليله فوراً.
+              </p>
+
+              <div class="quick-prompts-label"><i class="ti ti-bolt"></i> شكاوى سريرية شائعة للبدء بنقرة واحدة:</div>
+              <div class="chat-quick-chips-grid">
+                <button type="button" class="chat-quick-chip" onclick="quickSelectSymptom('صداع مزمن وإجهاد عصبي مع زغللة بالعينين')">
+                  🧠 صداع نصفي وإجهاد العيون
+                </button>
+                <button type="button" class="chat-quick-chip" onclick="quickSelectSymptom('خفقان سريع في نبضات القلب مع نغزات بالصدر وضيق تنفس')">
+                  🫀 خفقان القلب ونغزات الصدر
+                </button>
+                <button type="button" class="chat-quick-chip" onclick="quickSelectSymptom('حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')">
+                  🔬 حرقان المعدة والارتجاع
+                </button>
+                <button type="button" class="chat-quick-chip" onclick="quickSelectSymptom('ألم حاد ومغص كلوي في الجانبين مع حرقان بالبول')">
+                  💧 ألم الكلى ومغص الخاصرة
+                </button>
+                <button type="button" class="chat-quick-chip" onclick="quickSelectSymptom('ألم في مفصل الركبة وخشونة عند صعود السلم')">
+                  🦴 خشونة الركبة والمفاصل
+                </button>
+                <button type="button" class="chat-quick-chip" onclick="quickSelectSymptom('احتقان شديد بالحلق وصعوبة بلع مع ألم بالأسنان')">
+                  🗣️ احتقان الحلق واللوزتين
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Conversation Container (User questions, AI reasoning, diagnosis, doctor cards) -->
+          <div id="dynamicChatThread"></div>
+        </div>
+
+        <!-- Chat Input Dock -->
+        <div class="chat-input-dock">
+          <div class="chat-input-row">
+            <input type="text" id="aiUserInput" class="chat-input-field" placeholder="صف ما تشعر به هنا... (مثال: ألم في الصدر، كحة مستمرة، مغص حاد، تيبس بالكتف)..." onkeydown="handleInputKey(event)">
+            <button class="chat-send-btn" id="aiSendBtn" type="button" onclick="sendAiMessage()" title="إرسال للطبيب الذكي">
+              <i class="ti ti-send-2"></i>
+              <span>إرسال</span>
+            </button>
+          </div>
+
+          <div class="chat-input-sub-row">
+            <div class="chat-media-actions">
+              <button type="button" class="chat-mini-action" onclick="openVoiceModal()" title="تحدث بصوتك">
+                <i class="ti ti-microphone" style="color:var(--cyan)"></i> تسجيل صوتي
               </button>
-              <button type="button" class="popular-pill" onclick="quickSelectSymptom('ألم في الركبة والمفاصل عند صعود السلم')">
-                <i class="ti ti-bone"></i> العظام والمفاصل
+              <button type="button" class="chat-mini-action" onclick="openImageModal()" title="تحليل بالصورة أو الأشعة">
+                <i class="ti ti-photo" style="color:var(--purple)"></i> رفع تحليل / صورة
               </button>
-              <button type="button" class="popular-pill" onclick="quickSelectSymptom('خفقان سريع في نبضات القلب مع ضيق تنفس خفيف')">
-                <i class="ti ti-heartbeat"></i> القلب والضغط
+              <button type="button" class="chat-mini-action" onclick="handleChipClick('تحدث مع الدكتور')" title="حجز فوري">
+                <i class="ti ti-stethoscope" style="color:var(--accent)"></i> تحدث مع طبيب بشري
               </button>
-              <button type="button" class="popular-pill" onclick="quickSelectSymptom('حرقان ومغص حاد بالمعدة بعد الوجبات')">
-                <i class="ti ti-pill"></i> الجهاز الهضمي والقولون
-              </button>
-              <button type="button" class="popular-pill" onclick="quickSelectSymptom('ألم حاد في الضرس مع انتفاخ اللثة')">
-                <i class="ti ti-dental"></i> صحة الأسنان
-              </button>
-              <button type="button" class="popular-pill" onclick="quickSelectSymptom('طفح جلدي أحمر مع حكة مستمرة')">
-                <i class="ti ti-bandage"></i> الجلدية والحساسية
-              </button>
-              <button type="button" class="popular-pill" onclick="quickSelectSymptom('ارتفاع درجة حرارة الطفل مع رشح وسعال')">
-                <i class="ti ti-baby-carriage"></i> صحة الأطفال
-              </button>
+            </div>
+            <div class="chat-disclaimer-text">
+              <i class="ti ti-shield-check"></i> استرشاد طبي ذكي مشفر • للطوارئ اتصل بـ 123
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Left Side: Interactive Full-Body Clinical AI Scanner -->
-      <div class="hero-scanner-wrapper">
-        <!-- 1. Prominent Pain Locator Header Banner -->
-        <div class="pain-locator-banner">
-          <div class="pain-locator-top-badge">
+      <!-- 2. COMPANION SIDE 3D BODY PAIN LOCATOR (Auxiliary Side Tool) -->
+      <div class="companion-scanner-card" id="sideScannerCard">
+        <!-- Companion Banner -->
+        <div class="companion-banner">
+          <div class="companion-top-badge">
             <span class="locator-blink-dot"></span>
             <i class="ti ti-target-arrow"></i>
-            <span>محدد مكان الألم السريري التفاعلي</span>
+            <span>أداة تشريحية مساعدة</span>
           </div>
-          <h3 class="pain-locator-title">
-            أين تشعر بالألم؟ <span class="gradient-emerald">اضغط على العضو المصاب بالمجسم</span> 📍
+          <h3 class="companion-title">
+            محدد موضع الألم <span class="gradient-emerald">التفاعلي 📍</span>
           </h3>
-          <p class="pain-locator-subtitle">
-            انقر مباشرةً على أي منطقة أو مفصل يؤلمك في جسمك، وسيقوم طبيب طبابة الذكي بتشخيص حالتك وتوجيهك لأفضل طبيب معتمد فوراً.
+          <p class="companion-subtitle">
+            انقر على أي عضو أو مفصل يؤلمك ليتم تحليله فوراً في الشات بوت 👈
           </p>
         </div>
 
-        <!-- 2. The 3D Scanner Stage -->
-        <div class="hero-scanner-stage" id="patientScannerStage">
-          <!-- Background Hologram Grid -->
+        <!-- 3D Scanner Stage (Locked 1:1 Canvas with 16 Clickable Zones) -->
+        <div class="companion-scanner-stage" id="patientScannerStage">
+          <!-- Ambient Hologram Grid -->
           <div class="scanner-ambient-grid"></div>
-
           <!-- Laser Scan Line -->
           <div class="laser-scanner"></div>
 
-          <!-- 1:1 Locked Anatomical Canvas for Male Body with Clickable Organs -->
+          <!-- 1:1 Anatomical Canvas with All 16 Clickable Organs -->
           <div class="scanner-canvas">
-            <!-- Full Body Male Scan Image Asset -->
             <img src="full-body-ai-scan.jpg" alt="مسح سريري كامل لجسم المريض بالذكاء الاصطناعي" class="hero-scanner-img" id="scannerBodyImg">
 
             <!-- 1. Head, Brain & Eyes Click Zone (Whole Cranium Clickable) -->
@@ -1827,10 +2137,11 @@
               <i class="ti ti-sparkles"></i> 16 موضع سريري نشط
             </div>
           </div>
-        </div>
+          </div><!-- End .scanner-canvas -->
+        </div><!-- End .companion-scanner-stage -->
 
         <!-- Quick Organ System Navigation Tabs -->
-        <div class="organ-tabs-bar">
+        <div class="companion-organ-tabs">
           <button class="organ-tab-btn active" onclick="selectOrganTab(this, 'فحص طبي شامل لكافة أجهزة الجسم والمؤشرات الحيوية')">
             <i class="ti ti-scan"></i> مسح شامل
           </button>
@@ -1859,68 +2170,8 @@
             <i class="ti ti-bone"></i> العظام والمفاصل
           </button>
         </div>
-      </div>
-    </div>
-
-    <!-- ==================== LIVE INTERACTIVE CHAT STREAM ==================== -->
-    <div class="chat-stream-section" id="aiChatStream">
-      <div class="chat-head-row">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="width:36px;height:36px;border-radius:10px;background:rgba(31,230,168,0.2);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;">
-            <i class="ti ti-robot"></i>
-          </div>
-          <div>
-            <h3 style="font-size:16px;font-weight:800;color:#ffffff;margin:0;">جلسة الفحص السريري مع المساعد الذكي</h3>
-            <div style="font-size:11.5px;color:var(--text-secondary);">استجابة سريرية فورية مدعومة ببروتوكولات الفحص العالمية</div>
-          </div>
-        </div>
-        <button type="button" class="action-chip" onclick="resetChatStream()">
-          <i class="ti ti-rotate-clockwise"></i> استشارة جديدة
-        </button>
-      </div>
-
-      <!-- User Query Bubble -->
-      <div class="chat-user-bubble" id="chatUserBubble">
-        <i class="ti ti-user"></i>
-        <span id="chatUserMsg">...</span>
-      </div>
-
-      <!-- AI Response Container -->
-      <div class="chat-ai-response" id="chatAiResponseBox">
-        <div class="ai-speaker-tag">
-          <i class="ti ti-sparkles"></i> طبيب طبابة الذكي:
-        </div>
-        <div class="ai-diag-text" id="aiDiagText">
-          جاري تحليل شكواك السريرية ومراجعة الأعراض...
-        </div>
-
-        <!-- Recommended Doctors Grid -->
-        <div class="rec-doctors-title">
-          <i class="ti ti-stethoscope"></i> أفضل الأطباء المعتمدين والمناسبين لحالتك:
-        </div>
-        <div class="rec-doctors-grid" id="recDoctorsGrid">
-          <!-- Injected via JS -->
-        </div>
-
-        <!-- The Big Conversion Hook -->
-        <div class="onboard-hook-card">
-          <div class="hook-info-group">
-            <div class="hook-icon-wrap">
-              <i class="ti ti-award"></i>
-            </div>
-            <div>
-              <div class="hook-title">احفظ استشارتك وفعل ملفك الصحي المتكامل مجاناً 🌟</div>
-              <div class="hook-desc">
-                احتفظ بهذه الخطة الطبية، فعل متتبع أدويتك اليومي، وتعرف على مؤشر عافيتك (Health Score) برقم هاتفك فقط.
-              </div>
-            </div>
-          </div>
-          <button type="button" class="btn-create-profile" onclick="openLoginModal('onboard')">
-            <i class="ti ti-user-check"></i> تفعيل ملفي الطبي الآن (10 ثوانٍ)
-          </button>
-        </div>
-      </div>
-    </div>
+      </div><!-- End .companion-scanner-card -->
+    </div><!-- End .hero-layout-grid -->
   </main>
 
   <!-- ==================== STATS & TRUST FOOTER BAR ==================== -->
@@ -2205,29 +2456,62 @@
       }
     }
 
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function quickSelectSymptom(text) {
+      const input = document.getElementById('aiUserInput');
+      if(input) input.value = text;
+      processSymptomInput(text);
+      if(input) input.value = '';
+    }
+
     function triggerAiTriageFast() {
       const input = document.getElementById('aiUserInput');
       const text = (input && input.value.trim()) ? input.value.trim() : 'أعاني من إجهاد وصداع مستمر ومغص خفيف بعد الأكل';
       processSymptomInput(text);
+      if(input) input.value = '';
     }
 
     function processSymptomInput(query) {
-      const chatSection = document.getElementById('aiChatStream');
-      const userMsgEl = document.getElementById('chatUserMsg');
-      const diagTextEl = document.getElementById('aiDiagText');
-      const docsGridEl = document.getElementById('recDoctorsGrid');
+      const dynamicThread = document.getElementById('dynamicChatThread');
+      const viewport = document.getElementById('chatMessagesViewport');
 
-      if(!chatSection) return;
+      if(!dynamicThread || !viewport) return;
 
-      chatSection.classList.add('active');
-      userMsgEl.textContent = query;
-      diagTextEl.textContent = 'جاري تحليل الشكوى السريرية ومطابقتها مع بروتوكولات الفحص الذكي...';
-      docsGridEl.innerHTML = '';
+      // 1. Append User Bubble
+      const userRow = document.createElement('div');
+      userRow.className = 'chat-bubble-row user-row';
+      userRow.innerHTML = `
+        <div class="chat-msg-avatar user-avatar"><i class="ti ti-user"></i></div>
+        <div class="chat-msg-content user-content">
+          <div class="chat-sender-name user-name"><i class="ti ti-user"></i> أنت:</div>
+          <div class="chat-text">${escapeHtml(query)}</div>
+        </div>
+      `;
+      dynamicThread.appendChild(userRow);
 
-      // Scroll chat into smooth view
-      chatSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // 2. Append Thinking Bubble
+      const thinkingRow = document.createElement('div');
+      thinkingRow.className = 'chat-bubble-row ai-row';
+      thinkingRow.id = 'activeAiThinking';
+      thinkingRow.innerHTML = `
+        <div class="chat-msg-avatar"><i class="ti ti-robot"></i></div>
+        <div class="chat-msg-content ai-content">
+          <div class="chat-sender-name"><i class="ti ti-sparkles"></i> طبيب طبابة الذكي:</div>
+          <div class="ai-thinking-indicator">
+            <span class="thinking-dot"></span><span class="thinking-dot"></span><span class="thinking-dot"></span>
+            <span>جاري الفحص ومطابقة الأعراض مع البروتوكولات السريرية...</span>
+          </div>
+        </div>
+      `;
+      dynamicThread.appendChild(thinkingRow);
+      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
 
-      // Match Knowledge Base
+      // 3. Match Knowledge Base
       let matchedData = CLINICAL_KNOWLEDGE['default'];
       const q = query.toLowerCase();
       if(q.includes('صداع') || q.includes('رأس') || q.includes('عصب') || q.includes('مخ') || q.includes('دماغ') || q.includes('عين') || q.includes('نظر')) {
@@ -2254,19 +2538,8 @@
         matchedData = CLINICAL_KNOWLEDGE['طفل'];
       }
 
-      // Simulate streaming response
+      // 4. Stream response
       setTimeout(() => {
-        diagTextEl.innerHTML = `
-          <strong style="color:var(--accent);display:block;margin-bottom:6px;font-size:16px;">
-            <i class="ti ti-activity"></i> التقييم السريري المبدئي: ${matchedData.title}
-          </strong>
-          ${matchedData.diag}
-          <div style="margin-top:12px;padding:10px 14px;background:rgba(31,230,168,0.1);border-radius:10px;border-right:3px solid var(--accent);font-size:13px;">
-            <i class="ti ti-check"></i> <strong>التخصص الموصى به:</strong> ${matchedData.spec}
-          </div>
-        `;
-
-        // Render Doctor Cards
         let docsHtml = '';
         matchedData.docs.forEach(doc => {
           docsHtml += `
@@ -2283,22 +2556,68 @@
                 </div>
               </div>
               <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--border)">
-                <span style="font-size:12px;color:var(--text-secondary)">الكشف: <strong style="color:#fff">${doc.fee}</strong></span>
+                <span style="font-size:11.5px;color:var(--text-secondary)">الكشف: <strong style="color:#fff">${doc.fee}</strong></span>
                 <a href="tababa-booking.html" class="doc-book-btn">
-                  <i class="ti ti-calendar-plus"></i> احجز موعدك الآن (${doc.time})
+                  <i class="ti ti-calendar-plus"></i> احجز الآن (${doc.time})
                 </a>
               </div>
             </div>
           `;
         });
-        docsGridEl.innerHTML = docsHtml;
-      }, 700);
+
+        thinkingRow.id = '';
+        thinkingRow.innerHTML = `
+          <div class="chat-msg-avatar"><i class="ti ti-robot"></i></div>
+          <div class="chat-msg-content ai-content">
+            <div class="chat-sender-name"><i class="ti ti-sparkles"></i> طبيب طبابة الذكي (التقييم السريري):</div>
+            
+            <div class="ai-assessment-header">
+              <span class="ai-assessment-title"><i class="ti ti-activity"></i> ${matchedData.title}</span>
+              <span class="ai-confidence-pill"><i class="ti ti-shield-check"></i> دقة فحص 96%</span>
+            </div>
+
+            <p class="chat-text" style="line-height:1.7;margin:6px 0 12px;">
+              ${matchedData.diag}
+            </p>
+
+            <div class="ai-rec-specialty-box">
+              <i class="ti ti-stethoscope"></i> <strong>التخصص الطبي الأنسب لحالتك:</strong> <span style="color:#ffffff;font-weight:800;">${matchedData.spec}</span>
+            </div>
+
+            <div class="rec-doctors-title">
+              <i class="ti ti-user-star"></i> أفضل الأطباء المعتمدين والمتاحين لحجز كشف فوري:
+            </div>
+
+            <div class="rec-doctors-grid">
+              ${docsHtml}
+            </div>
+
+            <div class="onboard-hook-card" style="margin-top:14px;">
+              <div class="hook-info-group">
+                <div class="hook-icon-wrap"><i class="ti ti-award"></i></div>
+                <div>
+                  <div class="hook-title">احفظ استشارتك وفعل ملفك الصحي مجاناً 🌟</div>
+                  <div class="hook-desc">احتفظ بهذه الخطة الطبية، تابع مؤشر عافيتك وجدول أدويتك برقم هاتفك فقط.</div>
+                </div>
+              </div>
+              <button type="button" class="btn-create-profile" onclick="openLoginModal('onboard')">
+                <i class="ti ti-user-check"></i> تفعيل ملفي الطبي الآن (10 ثوانٍ)
+              </button>
+            </div>
+          </div>
+        `;
+
+        viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+      }, 550);
     }
 
     function resetChatStream() {
-      const chatSection = document.getElementById('aiChatStream');
-      if(chatSection) chatSection.classList.remove('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const dynamicThread = document.getElementById('dynamicChatThread');
+      if(dynamicThread) dynamicThread.innerHTML = '';
+      const input = document.getElementById('aiUserInput');
+      if(input) input.value = '';
+      const viewport = document.getElementById('chatMessagesViewport');
+      if(viewport) viewport.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // Modal Handlers
