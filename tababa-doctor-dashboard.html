@@ -50,7 +50,7 @@
   max-width: calc(100vw - 40px) !important;
   max-height: calc(88vh - 60px) !important;
   height: auto !important;
-  z-index: 1060 !important;
+  z-index: 1065 !important;
   background: rgba(9, 15, 27, 0.98) !important;
   backdrop-filter: blur(28px) !important;
   -webkit-backdrop-filter: blur(28px) !important;
@@ -69,6 +69,7 @@
 }
 
 .sidebar-r.drawer-open {
+  display: flex !important;
   transform: translateY(0) scale(1) !important;
   opacity: 1 !important;
   pointer-events: auto !important;
@@ -84,7 +85,7 @@
   max-width: calc(100vw - 40px) !important;
   max-height: calc(88vh - 60px) !important;
   height: auto !important;
-  z-index: 1060 !important;
+  z-index: 1065 !important;
   background: rgba(9, 15, 27, 0.98) !important;
   backdrop-filter: blur(28px) !important;
   -webkit-backdrop-filter: blur(28px) !important;
@@ -103,19 +104,36 @@
 }
 
 .sidebar-l.drawer-open {
+  display: flex !important;
   transform: translateY(0) scale(1) !important;
   opacity: 1 !important;
   pointer-events: auto !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .sidebar-r, .sidebar-l {
-    top: 64px !important;
+    top: 76px !important;
+    width: min(480px, calc(100vw - 32px)) !important;
+    max-height: calc(85vh - 60px) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  .top-notch-trigger {
+    padding: 5px 10px !important;
+    font-size: 11px !important;
+  }
+  .sidebar-r, .sidebar-l {
+    top: 125px !important;
     right: 10px !important;
     left: 10px !important;
     width: auto !important;
     max-width: none !important;
-    max-height: calc(85vh - 50px) !important;
+    max-height: calc(82vh - 60px) !important;
     border-radius: 18px !important;
   }
 }
@@ -190,11 +208,13 @@
   border-radius: 18px !important;
   position: sticky !important;
   top: 10px !important;
-  z-index: 1030 !important;
+  z-index: 1070 !important;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
 }
 
 .top-notch-trigger {
+  position: relative !important;
+  z-index: 1075 !important;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2519,7 +2539,7 @@
 <script src="doctor-shared.js"></script>
 <script>
 // ============================= DASHBOARD LOCAL CONTROLLER =============================
-let currentQueueFilter = 'all';
+currentQueueFilter = 'all';
 let currentScheduleView = 'list'; // 'list' | 'timeline'
 
 // ============================= CLINICAL COCKPIT & CALCULATORS =============================
@@ -3127,15 +3147,6 @@ function aiSuggestAction(btn) {
   }
 }
 
-// ================= COLLAPSIBLE SIDEBAR DRAWERS CONTROLLER =================
-function toggleRightSidebar(force) {
-  const sbR = document.getElementById('rightSidebar') || document.querySelector('.sidebar-r');
-  const sbL = document.getElementById('leftSidebar') || document.querySelector('.sidebar-l');
-  const backdrop = document.getElementById('sidebarsBackdrop');
-  if (!sbR) return;
-
-  const isOpen = force !== undefined ? force : !sbR.classList.contains('drawer-open');
-
 // ================= TOP DROPDOWN SIDEBARS CONTROLLER =================
 function toggleRightSidebar(force) {
   const sbR = document.getElementById('rightSidebar') || document.querySelector('.sidebar-r');
@@ -3191,6 +3202,11 @@ function closeSidebars() {
   toggleRightSidebar(false);
   toggleLeftSidebar(false);
 }
+
+// Expose on window for inline handlers & external triggers
+window.toggleRightSidebar = toggleRightSidebar;
+window.toggleLeftSidebar = toggleLeftSidebar;
+window.closeSidebars = closeSidebars;
 
 // Close sidebars on Escape key
 document.addEventListener('keydown', (e) => {
