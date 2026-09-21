@@ -6,7 +6,7 @@
 <title>لوحة تحكم الطبيب الذكية (الرئيسية) - طبابا</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <link rel="stylesheet" href="doctor-shared.css">
 <link rel="stylesheet" href="responsive.css">
 <style>
@@ -198,19 +198,28 @@
 
 /* Tile Icon Circle */
 .act-icon-bubble {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 21px;
+  font-size: 24px;
   position: relative;
   transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.act-icon-bubble svg {
+  width: 26px;
+  height: 26px;
+  display: block;
 }
 
 .action-card-tile:hover .act-icon-bubble {
-  transform: scale(1.08);
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .act-title {
@@ -1412,7 +1421,13 @@
     <!-- 1. بدء كشف جديد -->
     <div class="action-card-tile c-consult" onclick="location.href='doctor-consultation.html'">
       <div class="act-icon-bubble" style="background:rgba(31,230,168,0.16);color:#1fe6a8">
-        <i class="ti ti-stethoscope"></i>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 4h-1a2 2 0 0 0 -2 2v3.5a6.5 6.5 0 0 0 13 0v-3.5a2 2 0 0 0 -2 -2h-1"></path>
+          <path d="M6 2v2"></path>
+          <path d="M14 2v2"></path>
+          <path d="M10 16v4a2 2 0 0 0 2 2h3a2 2 0 0 0 2 -2v-1"></path>
+          <circle cx="17" cy="17" r="2.5" fill="#1fe6a8"></circle>
+        </svg>
       </div>
       <div class="act-title">بدء كشف جديد</div>
       <span class="act-badge" style="background:rgba(31,230,168,0.2);color:#1fe6a8">
@@ -1423,7 +1438,12 @@
     <!-- 2. إدارة المرضى -->
     <div class="action-card-tile c-patients" onclick="location.href='doctor-patients.html'">
       <div class="act-icon-bubble" style="background:rgba(91,156,245,0.16);color:#5b9cf5">
-        <i class="ti ti-users"></i>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+          <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+        </svg>
       </div>
       <div class="act-title">إدارة المرضى</div>
       <span class="act-badge" style="background:rgba(91,156,245,0.2);color:#5b9cf5">5 رسائل جديدة</span>
@@ -1432,7 +1452,14 @@
     <!-- 3. عياداتي وفروعي -->
     <div class="action-card-tile c-clinics" onclick="location.href='doctor-clinics.html'">
       <div class="act-icon-bubble" style="background:rgba(242,184,75,0.16);color:#f2b84b">
-        <i class="ti ti-building-hospital"></i>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 21l18 0"></path>
+          <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path>
+          <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
+          <path d="M10 9l4 0"></path>
+          <path d="M12 7l0 4"></path>
+          <circle cx="17" cy="6" r="1.5" fill="#f2b84b"></circle>
+        </svg>
       </div>
       <div class="act-title">عياداتي وفروعي</div>
       <span class="act-badge" style="background:rgba(242,184,75,0.2);color:#f2b84b">3 فروع نشطة</span>
@@ -1441,7 +1468,12 @@
     <!-- 4. التقرير المالي -->
     <div class="action-card-tile c-financial" onclick="location.href='doctor-financial.html'">
       <div class="act-icon-bubble" style="background:rgba(16,185,129,0.16);color:#10b981">
-        <i class="ti ti-report-money"></i>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path>
+          <path d="M8 3m0 2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2z"></path>
+          <path d="M14 11h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5"></path>
+          <path d="M12 9.5v1.5m0 6v1.5"></path>
+        </svg>
       </div>
       <div class="act-title">التقرير المالي</div>
       <span class="act-badge" style="background:rgba(16,185,129,0.2);color:#10b981">+12% نمو اليوم</span>
@@ -1450,7 +1482,15 @@
     <!-- 5. الملف المهني -->
     <div class="action-card-tile c-profile" onclick="location.href='doctor-profile.html'">
       <div class="act-icon-bubble" style="background:rgba(168,85,247,0.16);color:#a855f7">
-        <i class="ti ti-user-cog"></i>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+          <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
+          <path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+          <path d="M19.001 15.5v1.5"></path>
+          <path d="M19.001 21v1.5"></path>
+          <path d="M22.001 19h-1.5"></path>
+          <path d="M17.001 19h-1.5"></path>
+        </svg>
       </div>
       <div class="act-title">الملف المهني</div>
       <span class="act-badge" style="background:rgba(168,85,247,0.2);color:#a855f7">تقييم 4.9 ★</span>
