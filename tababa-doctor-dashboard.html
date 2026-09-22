@@ -2907,6 +2907,7 @@ function renderHeroExamRoom() {
   const appts = getClinicAppointments();
   const nextPatient = appts.find(p => p.status === 'waiting') || appts[0] || PATIENTS[0];
   const cInfo = CLINIC_MAP[nextPatient.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
+  const isAiLead = nextPatient.leadSource === 'ai_chat' || (nextPatient.isFromLead && (nextPatient.sourceLabel && nextPatient.sourceLabel.includes('الشات')));
 
   mount.innerHTML = `
     <div class="exam-patient-info">
@@ -2915,13 +2916,18 @@ function renderHeroExamRoom() {
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <span class="exam-tag-status"><span class="live-pulse-dot"></span> غرفة الكشف جاهزة ومجهزة</span>
           <span style="font-size:12px;color:var(--text-muted)">المريض التالي بالانتظار الآن:</span>
+          ${isAiLead ? `
+            <span style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 9999px; padding: 2px 10px; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);">
+              <i class="ti ti-sparkles"></i> حجز جديد من الشات الطبي (${nextPatient.leadCode || 'مباشر'})
+            </span>
+          ` : ''}
         </div>
         <div style="font-size:17px;font-weight:900;color:#fff;margin-top:2px">
-          ${nextPatient.name} <span class="tiny" style="color:var(--text-muted)">(${nextPatient.patientId || 'TB-1045'})</span>
+          ${nextPatient.name} <span class="tiny" style="color:var(--text-muted)">(${nextPatient.patientId || nextPatient.leadCode || 'TB-1045'})</span>
           <span class="clinic-badge ${cInfo.tag}" style="margin-right:6px">${cInfo.short}</span>
         </div>
         <div class="tiny" style="color:var(--text-secondary);margin-top:2px">
-          ${nextPatient.age} سنة • ${nextPatient.complaint || nextPatient.condition || 'كشف ومتابعة'} • <span style="color:#f2b84b;font-weight:700">انتظار ${nextPatient.waitMin || 8} دقائق</span>
+          ${nextPatient.age} سنة • ${nextPatient.complaint || nextPatient.condition || 'كشف ومتابعة'} • <span style="color:#f2b84b;font-weight:700">انتظار ${nextPatient.waitMin || 2} دقائق</span>
         </div>
       </div>
     </div>
@@ -3002,10 +3008,11 @@ function renderSchedule() {
           const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
           const isDone = p.status === 'done';
           const isWaiting = p.status === 'waiting';
-          const statusLabel = isDone ? 'تم الكشف' : (isWaiting ? `في الانتظار (${p.waitMin} د)` : 'قادم');
+          const statusLabel = isDone ? 'تم الكشف' : (isWaiting ? `في الانتظار (${p.waitMin || 2} د)` : 'قادم');
+          const isAiBooking = p.leadSource === 'ai_chat' || (p.isFromLead && p.sourceLabel && p.sourceLabel.includes('الشات'));
 
           return `
-            <div class="queue-item ${isWaiting ? 'active-now' : ''}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;background:#0d1527;border:1px solid var(--border);border-radius:10px">
+            <div class="queue-item ${isWaiting ? 'active-now' : ''}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;background:#0d1527;border:1px solid ${isAiBooking ? 'rgba(16,185,129,0.35)' : 'var(--border)'};border-radius:10px">
               <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
                 <div class="priority-dot ${p.priority || 'normal'}"></div>
                 <div class="queue-avatar" style="width:36px;height:36px;font-size:13px">${initials(p.name)}</div>
@@ -3014,15 +3021,15 @@ function renderSchedule() {
                     ${p.name} 
                     <span class="clinic-badge ${cInfo.tag}" style="font-size:9.5px">${cInfo.short}</span>
                     ${p.isFromLead ? `
-                      <span class="pill xs" style="background:rgba(168,85,247,0.15);color:#c084fc;border:none;font-size:10px;font-weight:700">
-                        <i class="ti ti-target-arrow"></i> عبر ${p.sourceLabel || 'حملات التسويق'}
+                      <span class="pill xs" style="background:${isAiBooking ? 'rgba(16,185,129,0.18)' : 'rgba(168,85,247,0.15)'};color:${isAiBooking ? '#10b981' : '#c084fc'};border:1px solid ${isAiBooking ? 'rgba(16,185,129,0.35)' : 'transparent'};font-size:10px;font-weight:700">
+                        <i class="ti ti-${isAiBooking ? 'sparkles' : 'target-arrow'}"></i> عبر ${p.sourceLabel || (isAiBooking ? 'شات طبابا الطبي الذكي' : 'حملات التسويق')}
                       </span>
                     ` : ''}
                   </div>
                   <div class="queue-meta" style="margin-top:2px">
                     <span class="queue-time"><i class="ti ti-clock"></i> ${p.time || '10:00'}</span>
                     <span class="tiny" style="color:var(--text-secondary)">${p.complaint || p.condition || ''}</span>
-                    ${p.campaign ? `<span class="tiny" style="color:#a855f7">(${p.campaign})</span>` : ''}
+                    ${p.campaign ? `<span class="tiny" style="color:${isAiBooking ? '#10b981' : '#a855f7'}">(${p.campaign})</span>` : ''}
                     <span class="status-badge ${p.status}" style="font-size:10.5px">${statusLabel}</span>
                   </div>
                 </div>

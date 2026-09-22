@@ -53,6 +53,7 @@ const CLINIC_MAP = {
 
 // ============================= MARKETING & LEADS ATTRIBUTION =============================
 const MARKETING_SOURCES = {
+  ai_chat: { label: "شات طبابا الطبي الذكي", icon: "sparkles", color: "#10b981", bg: "rgba(16, 185, 129, 0.15)" },
   facebook_ads: { label: "إعلانات فيسبوك", icon: "brand-facebook", color: "#1877F2", bg: "rgba(24, 119, 242, 0.15)" },
   instagram_ads: { label: "إعلانات انستجرام", icon: "brand-instagram", color: "#E1306C", bg: "rgba(225, 48, 108, 0.15)" },
   google_ads: { label: "إعلانات جوجل", icon: "brand-google", color: "#EA4335", bg: "rgba(234, 67, 53, 0.15)" },
@@ -9389,6 +9390,127 @@ const NOTIFICATIONS = [
   {icon:'info',text:'3 رسائل غير مجاب عليها من محمود سيد (فرع الجيزة)',time:'منذ 35 دقيقة',type:'info',pid:3,clinicId:'clinic_giza'},
   {icon:'accent',text:'تقرير الكشف لنورهان علي تم حفظه بنجاح (فرع المنصورة)',time:'منذ ساعة',type:'accent',pid:7,clinicId:'clinic_mansoura'}
 ];
+
+// ============================= LIVE CLIENT-SIDE BOOKINGS SYNC =============================
+function syncLiveBookingsWithDoctorQueue() {
+  try {
+    const raw = localStorage.getItem('tababa_live_doctor_bookings');
+    if (!raw) return;
+    const liveList = JSON.parse(raw);
+    if (!Array.isArray(liveList) || !liveList.length) return;
+
+    liveList.forEach(lb => {
+      // Avoid duplicate insertion
+      const exists = PATIENTS.some(p => String(p.id) === String(lb.id) || (p.phone === lb.phone && p.leadCode === lb.leadCode));
+      if (exists) return;
+
+      const clinicTarget = lb.branchId || 'clinic_mansoura';
+      const painScore = lb.painScore != null ? Number(lb.painScore) : 6;
+      const zone = (lb.painDetails && lb.painDetails.zoneKey) ? lb.painDetails.zoneKey : (lb.painZone || 'abdomen');
+
+      const livePatientObj = {
+        id: lb.id,
+        name: lb.name || 'مريض جديد',
+        age: lb.age || 34,
+        gender: lb.gender || 'ذكر',
+        phone: lb.phone || '',
+        patientId: lb.leadCode || ('TB-' + Math.floor(1000 + Math.random() * 9000)),
+        isFromLead: true,
+        leadSource: lb.leadSource || 'ai_chat',
+        sourceLabel: (lb.leadSource === 'ai_chat' || !lb.leadSource) ? 'شات طبابا الطبي الذكي' : (lb.sourceLabel || 'الموقع الإلكتروني'),
+        campaign: 'تحويل سريري فوري عبر الشات الطبي الذكي',
+        csAgent: 'طبيب طبابا الذكي (AI Clinical Triage)',
+        leadCode: lb.leadCode || ('LD-' + Math.floor(1000 + Math.random() * 9000)),
+        convertedDate: lb.date || new Date().toISOString().split('T')[0],
+        clinics: [clinicTarget, 'clinic_mansoura', 'clinic_cairo'],
+        appointmentClinicId: clinicTarget,
+        condition: lb.specialty || 'استشارة سريرية',
+        diagnosis: lb.specialty ? (`فحص تخصص ${lb.specialty}`) : 'تقييم سريري أولي',
+        complaint: lb.complaint || 'طلب كشف واستشارة طبية',
+        status: 'waiting',
+        time: lb.time || 'الآن',
+        type: 'clinic',
+        priority: painScore >= 7 ? 'high' : 'normal',
+        waitMin: 2,
+        chronic: [],
+        allergies: [],
+        meds: [],
+        region: zone,
+        painLevel: painScore,
+        painDuration: (lb.painDetails && lb.painDetails.duration) || 'يوم واحد',
+        painSymptoms: [lb.complaint || 'ألم مستمر'],
+        painAreas: {
+          [zone]: {
+            level: painScore,
+            duration: (lb.painDetails && lb.painDetails.duration) || 'يوم واحد',
+            type: (lb.painDetails && lb.painDetails.nature) || 'ألم موضعي'
+          }
+        },
+        painDetails: lb.painDetails || null,
+        lastVisit: 'حجز فوري جديد',
+        nextFollowup: 'اليوم',
+        followupOverdue: false,
+        followupOverdueDays: 0,
+        treatmentStatus: 'active',
+        aiScore: painScore >= 8 ? 94 : 78,
+        treatmentPlan: 'تقييم سريري عاجل بناءً على التقييم المبدئي المحول من شات طبابا الذكي',
+        unreadMessages: 1,
+        isActive: true,
+        needsFollowup: true,
+        isNew: true,
+        needsAttention: true,
+        lastActivity: 'الآن',
+        lastActiveTime: 'اليوم ' + (lb.time || 'الآن'),
+        signals: {
+          followupOverdue: false,
+          unansweredMessages: 1,
+          treatmentOverdue: false,
+          symptomsWorsened: false,
+          missedAppointment: false
+        },
+        timeline: [
+          {
+            time: lb.time || 'الآن',
+            title: 'حجز سريري فوري عبر شات طبابا الذكي 🌟',
+            desc: `تم توثيق الشكوى المبدئية: "${lb.complaint}" وربطها بنجاح مع العيادة وقائمة الانتظار`,
+            type: 'consult'
+          }
+        ]
+      };
+
+      // Prepend to PATIENTS so it is immediately the next patient in waiting
+      PATIENTS.unshift(livePatientObj);
+
+      // Increment clinic stats
+      const clinicObj = CLINICS.find(c => c.id === clinicTarget) || CLINICS[0];
+      if (clinicObj && clinicObj.stats) {
+        clinicObj.stats.todayAppointments = (clinicObj.stats.todayAppointments || 0) + 1;
+        clinicObj.stats.activePatients = (clinicObj.stats.activePatients || 0) + 1;
+      }
+
+      // Add Notification
+      NOTIFICATIONS.unshift({
+        icon: 'sparkles',
+        text: `✨ مريض جديد قادم من الشات الطبي: ${livePatientObj.name} (${livePatientObj.condition})`,
+        time: 'الآن',
+        type: 'accent',
+        pid: livePatientObj.id,
+        clinicId: clinicTarget
+      });
+    });
+  } catch(e) {
+    console.error('Error in syncLiveBookingsWithDoctorQueue:', e);
+  }
+}
+syncLiveBookingsWithDoctorQueue();
+window.addEventListener('storage', (e) => {
+  if (e.key === 'tababa_live_doctor_bookings') {
+    syncLiveBookingsWithDoctorQueue();
+  }
+});
+window.addEventListener('tababa_new_booking', () => {
+  syncLiveBookingsWithDoctorQueue();
+});
 
 // ============================= APPLICATION STATE =============================
 let currentClinicId = localStorage.getItem("tababa_doctor_active_clinic") || "all"; // 'all' | 'clinic_mansoura' | 'clinic_cairo' | 'clinic_giza'

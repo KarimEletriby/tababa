@@ -2216,9 +2216,12 @@ let audioInterval = null;
 // ============================= INITIALIZATION =============================
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
-  const pid = parseInt(params.get('patient'));
-  if (pid && PATIENTS.some(x => x.id === pid)) {
-    activePatientId = pid;
+  const pidParam = params.get('patient');
+  if (pidParam) {
+    const matched = PATIENTS.find(x => String(x.id) === String(pidParam));
+    if (matched) {
+      activePatientId = matched.id;
+    }
   }
 
   renderPatientHeader();
@@ -2343,7 +2346,7 @@ function selectPatient(id) {
 }
 
 function getActivePatient() {
-  return PATIENTS.find(x => x.id === activePatientId) || PATIENTS[0];
+  return PATIENTS.find(x => String(x.id) === String(activePatientId)) || PATIENTS[0];
 }
 
 // ============================= PRIORITY BADGE LOGIC =============================
@@ -2363,6 +2366,7 @@ function renderPatientHeader() {
   const p = getActivePatient();
   const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
   const pri = getPriorityInfo(p);
+  const isAiLead = p.leadSource === 'ai_chat' || (p.isFromLead && p.sourceLabel && p.sourceLabel.includes('الشات'));
 
   container.innerHTML = `
     <div class="c-p-left">
@@ -2370,10 +2374,15 @@ function renderPatientHeader() {
       <div>
         <div class="c-p-title-row">
           <span class="c-p-name">${p.name}</span>
-          <span class="c-p-id">(${p.patientId})</span>
+          <span class="c-p-id">(${p.patientId || p.leadCode || 'TB-1045'})</span>
           <span class="c-p-clinic-tag">
             <i class="ti ti-building-hospital"></i> ${cInfo.name}
           </span>
+          ${isAiLead ? `
+            <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 9999px; padding: 2px 10px; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="ti ti-sparkles"></i> قادم من الشات الطبي (${p.leadCode || 'حجز مباشر'})
+            </span>
+          ` : ''}
         </div>
         <div class="c-p-submeta">
           <span>${p.age} سنة</span>
@@ -2439,12 +2448,12 @@ function renderScheduleList() {
   }
 
   container.innerHTML = filtered.map(p => {
-    const isCurrent = p.id === activePatientId;
+    const isCurrent = String(p.id) === String(activePatientId);
     const cInfo = CLINIC_MAP[p.appointmentClinicId] || CLINIC_MAP.clinic_mansoura;
     const isDone = p.status === 'done';
 
     return `
-      <div class="sched-card ${isCurrent ? 'active' : ''}" onclick="selectPatient(${p.id})" tabindex="0" role="button" aria-label="اختيار المريض ${p.name}" onkeydown="if(event.key==='Enter')selectPatient(${p.id})">
+      <div class="sched-card ${isCurrent ? 'active' : ''}" onclick="selectPatient('${p.id}')" tabindex="0" role="button" aria-label="اختيار المريض ${p.name}" onkeydown="if(event.key==='Enter')selectPatient('${p.id}')">
         <div class="sched-card-top">
           <div style="flex:1;min-width:0">
             <div class="sched-card-name">${p.name}</div>
@@ -2664,6 +2673,18 @@ function renderOverviewTab(p) {
       <div class="c-clinical-stack">
         <!-- Vitals Gauges -->
         ${renderVitalsGauges(p)}
+
+        ${(p.isFromLead || p.leadSource === 'ai_chat') ? `
+          <div class="c-clinical-card" style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.35); box-shadow: 0 0 16px rgba(16,185,129,0.08);">
+            <div class="c-card-lbl" style="color: #10b981; display: flex; align-items: center; gap: 6px; font-weight: 800;">
+              <i class="ti ti-sparkles"></i> ملخص التقييم السريري المحول من شات طبابا الذكي
+            </div>
+            <div style="font-size: 12.5px; color: var(--text-primary); line-height: 1.6; margin-top: 6px;">
+              قام المريض بتسجيل شكواه عبر شات طبابا الطبي، وتم توجيهه إلى هذا التخصص وحجز الكشف فورياً.
+              ${p.painDetails ? `<div style="margin-top:4px;color:#10b981;font-weight:700;">📍 بؤرة الألم المسجلة: ${p.painDetails.region} (شدة ${p.painDetails.severity}/10 - ${p.painDetails.severityLabel || ''})</div>` : ''}
+            </div>
+          </div>
+        ` : ''}
 
         <!-- 1. الشكوى الرئيسية -->
         <div class="c-clinical-card">

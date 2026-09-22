@@ -1105,13 +1105,29 @@
           احتفظ بهذا الكود — سيتم استخدامه لمتابعة الحجز والكشف
         </div>
         <div class="success-actions-row">
-          <button class="pill-btn solid" onclick="resetRegForm()">
+          <a href="tababa-doctor-dashboard.html" class="pill-btn solid" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
+            <i class="ti ti-stethoscope"></i> عرض حالة الحجز في شاشة الطبيب (تجربة حية)
+          </a>
+          <button class="pill-btn ghost" onclick="resetRegForm()">
             <i class="ti ti-plus"></i> تسجيل كشف آخر
           </button>
           <a href="tababa-homepage.html" class="pill-btn ghost">
             <i class="ti ti-home"></i> العودة للرئيسية
           </a>
         </div>
+      </div>
+
+      <!-- AI Chat Incoming Notification Banner -->
+      <div id="aiIncomingBanner" style="display:none; background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(6, 78, 59, 0.25)); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom: 6px;">
+          <span style="background: rgba(16, 185, 129, 0.25); color: #10b981; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-size: 15px;">
+            <i class="ti ti-sparkles"></i>
+          </span>
+          <span style="font-weight:800; font-size:14.5px; color:#10b981;">تم نقل بيانات تقييمك السريري من طبيب طبابا الذكي بنجاح</span>
+        </div>
+        <p id="aiIncomingDesc" style="font-size:12.5px; color:var(--text-secondary); margin:0; line-height:1.6;">
+          تم تجهيز التخصص وشكواك تلقائياً من المحادثة الطبية. يرجى إدخال اسمك ورقم هاتفك لتأكيد حجزك الفوري.
+        </p>
       </div>
 
       <!-- Dual Container Grid -->
@@ -1773,18 +1789,47 @@
 
     function autoSelectSpecialty(specName) {
       const select = document.getElementById('regSpecialty');
-      if (!select) return;
+      if (!select || !specName) return;
+      const s = decodeURIComponent(specName).trim().toLowerCase();
+      let matched = false;
       for (let opt of select.options) {
-        if (opt.value.includes(specName) || specName.includes(opt.value)) {
+        const o = opt.value.toLowerCase();
+        const t = opt.textContent.toLowerCase();
+        if (o.includes(s) || s.includes(o) || t.includes(s) || s.includes(t)) {
           select.value = opt.value;
-          select.style.borderColor = 'var(--accent)';
-          select.style.boxShadow = '0 0 12px rgba(31,230,168,0.4)';
-          setTimeout(() => {
-            select.style.borderColor = '';
-            select.style.boxShadow = '';
-          }, 1200);
+          matched = true;
           break;
         }
+      }
+      if (!matched) {
+        const keywords = [
+          { k: ['قلب', 'ضغط', 'شريان', 'أوعية'], val: 'أمراض القلب والأوعية الدموية' },
+          { k: ['عظام', 'مفصل', 'ركبة', 'عمود فقري'], val: 'جراحة العظام والمفاصل والعمود الفقري' },
+          { k: ['طفل', 'أطفال', 'ولادة'], val: 'طب الأطفال وحديثي الولادة' },
+          { k: ['أسنان', 'ضرس', 'لثة'], val: 'أسنان' },
+          { k: ['جلد', 'بشرة', 'حكة'], val: 'جلدية وتجميل' },
+          { k: ['مخ', 'أعصاب', 'صداع'], val: 'مخ وأعصاب' },
+          { k: ['أنف', 'أذن', 'حنجرة', 'حلق'], val: 'أنف وأذن وحنجرة' },
+          { k: ['مسالك', 'كلى', 'بول'], val: 'مسالك بولية' },
+          { k: ['نساء', 'توليد', 'حمل'], val: 'نساء وتوليد' },
+          { k: ['عيون', 'نظر'], val: 'عيون' },
+          { k: ['باطنة', 'هضم', 'معدة', 'شامل', 'عام'], val: 'باطنة عامة وجهاز هضمي' }
+        ];
+        for (let item of keywords) {
+          if (item.k.some(kw => s.includes(kw))) {
+            select.value = item.val;
+            matched = true;
+            break;
+          }
+        }
+      }
+      if (matched) {
+        select.style.borderColor = 'var(--accent)';
+        select.style.boxShadow = '0 0 12px rgba(31,230,168,0.4)';
+        setTimeout(() => {
+          select.style.borderColor = '';
+          select.style.boxShadow = '';
+        }, 1500);
       }
     }
 
@@ -1850,9 +1895,9 @@
         shakeInput('regPhone');
         return alert('من فضلك اكتب رقم هاتف صحيح ومكون من 10 أو 11 رقم');
       }
-      if (!complaint || complaint.length < 15) {
+      if (!complaint || complaint.length < 10) {
         shakeInput('regComplaint');
-        return alert('من فضلك اوصف شكواك بالتفصيل (على الأقل 15 حرف) لنتمكن من مساعدتك بدقة');
+        return alert('من فضلك اوصف شكواك بالتفصيل لنتمكن من مساعدتك بدقة');
       }
 
       const btn = document.getElementById('regSubmitBtn');
@@ -1915,6 +1960,46 @@
           }
         }
 
+        // Sync with Doctor Live Waiting Queue
+        try {
+          const liveBookings = JSON.parse(localStorage.getItem('tababa_live_doctor_bookings') || '[]');
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+          const urlParams = new URLSearchParams(window.location.search);
+          const docParam = urlParams.get('doctor');
+          const sourceParam = urlParams.get('source') || 'ai_chat';
+
+          const doctorBooking = {
+            id: Date.now(),
+            name: name,
+            age: 36,
+            gender: 'ذكر',
+            phone: phone,
+            city: city || 'المنصورة',
+            specialty: specialty || 'باطنة عامة وجهاز هضمي',
+            doctor: docParam ? decodeURIComponent(docParam) : 'د. وائل مجدي',
+            complaint: complaint,
+            painZone: painData ? painData.region : (activeZoneKey ? activeZoneKey : 'غير محدد'),
+            painScore: painData ? painData.severity : 6,
+            painDetails: painData,
+            branchId: (branchId && branchId.startsWith('clinic_')) ? branchId : 'clinic_mansoura',
+            status: 'waiting',
+            time: timeStr || 'الآن',
+            date: now.toISOString().split('T')[0],
+            isFromLead: true,
+            leadSource: sourceParam,
+            sourceLabel: sourceParam === 'ai_chat' ? 'شات طبابا الطبي الذكي' : 'صفحة الحجز المباشر',
+            leadCode: createdLeadId,
+            bookedAt: now.toISOString()
+          };
+
+          liveBookings.unshift(doctorBooking);
+          localStorage.setItem('tababa_live_doctor_bookings', JSON.stringify(liveBookings));
+          window.dispatchEvent(new Event('tababa_new_booking'));
+        } catch(e) {
+          console.error('Failed to sync live doctor booking:', e);
+        }
+
         document.getElementById('regLeadCode').textContent = createdLeadId;
         document.getElementById('regSuccessOverlay').classList.add('show');
 
@@ -1967,12 +2052,28 @@
       }
     }
 
-    // URL Parameters Handler (e.g. ?specialty=... or ?zone=... or ?doctor=...)
+    // URL Parameters Handler (e.g. ?specialty=... or ?zone=... or ?doctor=... or ?complaint=...)
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const specParam = urlParams.get('specialty');
       const zoneParam = urlParams.get('zone');
       const docParam = urlParams.get('doctor');
+      const complaintParam = urlParams.get('complaint');
+      const sourceParam = urlParams.get('source');
+
+      if (sourceParam === 'ai_chat' || complaintParam || docParam) {
+        const banner = document.getElementById('aiIncomingBanner');
+        const descEl = document.getElementById('aiIncomingDesc');
+        if (banner) {
+          banner.style.display = 'block';
+          if (docParam) {
+            descEl.innerHTML = `
+              تم ربط طلبك بطبيبك المختار: <strong style="color:#fff">${decodeURIComponent(docParam)}</strong>.
+              تم ملء تفاصيل التخصص والشكوى السريرية تلقائياً من محادثتك الطبية.
+            `;
+          }
+        }
+      }
 
       if (zoneParam && BODY_ZONES[zoneParam]) {
         selectBodyZone(zoneParam);
@@ -1980,9 +2081,15 @@
       if (specParam) {
         autoSelectSpecialty(specParam);
       }
-      if (docParam) {
+      if (complaintParam) {
         const compEl = document.getElementById('regComplaint');
         if (compEl) {
+          const docPrefix = docParam ? `طلب كشف مع ${decodeURIComponent(docParam)}: ` : '';
+          compEl.value = docPrefix + decodeURIComponent(complaintParam);
+        }
+      } else if (docParam) {
+        const compEl = document.getElementById('regComplaint');
+        if (compEl && !compEl.value.includes(decodeURIComponent(docParam))) {
           compEl.value = `طلب حجز واستشارة مع د. ${decodeURIComponent(docParam)}.\n` + compEl.value;
         }
       }
