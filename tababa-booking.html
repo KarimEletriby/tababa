@@ -809,22 +809,22 @@
       margin-top: 8px;
     }
 
-    /* ==================== SUCCESS OVERLAY ==================== */
+    /* ==================== SUCCESS OVERLAY & DIGITAL PATIENT PASS ==================== */
     .reg-success-overlay {
       display: none;
-      position: absolute;
+      position: fixed;
       inset: 0;
-      z-index: 20;
-      background: rgba(7, 11, 20, 0.95);
-      backdrop-filter: blur(14px);
-      border-radius: var(--radius);
+      z-index: 99999;
+      background: rgba(5, 9, 17, 0.96);
+      backdrop-filter: blur(16px);
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 18px;
+      justify-content: flex-start;
+      gap: 16px;
       text-align: center;
-      padding: 36px;
-      animation: regFadeIn 0.4s ease;
+      padding: 40px 20px 60px;
+      overflow-y: auto;
+      animation: regFadeIn 0.35s ease;
     }
 
     .reg-success-overlay.show {
@@ -832,53 +832,217 @@
     }
 
     .reg-success-icon {
-      width: 80px;
-      height: 80px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent), #0c7a58);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 42px;
+      font-size: 36px;
       color: #fff;
-      box-shadow: 0 0 44px rgba(31, 230, 168, 0.45);
+      box-shadow: 0 0 34px rgba(31, 230, 168, 0.45);
       animation: regPulse 1.5s infinite;
+      flex-shrink: 0;
     }
 
     .reg-success-title {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
-      color: var(--accent);
+      color: #fff;
     }
 
     .reg-success-msg {
-      font-size: 15px;
+      font-size: 14px;
       color: var(--text-secondary);
-      max-width: 460px;
-      line-height: 1.7;
+      max-width: 520px;
+      line-height: 1.6;
     }
 
-    .reg-success-code {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 22px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      border: 1px solid rgba(31, 230, 168, 0.35);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: 1px;
+    /* Digital Patient Pass Card (Boarding Pass Aesthetic) */
+    .patient-pass-card {
+      width: 100%;
+      max-width: 560px;
+      background: #0d1527;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 18px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(16, 185, 129, 0.08);
+      overflow: hidden;
+      text-align: right;
+      direction: rtl;
+      position: relative;
     }
 
-    .success-actions-row {
+    .patient-pass-header {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(13, 21, 39, 0.95));
+      border-bottom: 1px dashed rgba(16, 185, 129, 0.35);
+      padding: 14px 18px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .patient-pass-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 14.5px;
+      color: #fff;
+    }
+
+    .patient-pass-brand i {
+      color: #10b981;
+      font-size: 19px;
+    }
+
+    .patient-pass-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    .patient-pass-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
-      margin-top: 14px;
-      flex-wrap: wrap;
+    }
+
+    .pass-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 520px) {
+      .pass-info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pass-info-box {
+      background: #090f1d;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+    }
+
+    .pass-info-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pass-info-val {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .pass-code-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 78, 59, 0.2));
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pass-code-text {
+      font-size: 21px;
+      font-weight: 900;
+      color: #10b981;
+      letter-spacing: 1px;
+      font-family: monospace;
+    }
+
+    .patient-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      max-width: 560px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 520px) {
+      .patient-actions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn-patient-action {
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      font-family: inherit;
+    }
+
+    .btn-patient-action.whatsapp {
+      background: #25D366;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-patient-action.whatsapp:hover {
+      background: #1eb956;
+      transform: translateY(-2px);
+    }
+
+    .btn-patient-action.calendar {
+      background: rgba(91, 156, 245, 0.15);
+      color: #5b9cf5;
+      border-color: rgba(91, 156, 245, 0.35);
+    }
+
+    .btn-patient-action.calendar:hover {
+      background: rgba(91, 156, 245, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .btn-patient-action.maps {
+      background: rgba(242, 184, 75, 0.15);
+      color: #f2b84b;
+      border-color: rgba(242, 184, 75, 0.35);
+    }
+
+    .btn-patient-action.maps:hover {
+      background: rgba(242, 184, 75, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .btn-patient-action.home {
+      background: #111a2e;
+      color: var(--text-secondary);
+      border-color: var(--border);
+    }
+
+    .btn-patient-action.home:hover {
+      background: #18243e;
+      color: #fff;
     }
 
     @keyframes regFadeIn {
@@ -895,6 +1059,34 @@
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-6px); }
       40%, 80% { transform: translateX(6px); }
+    }
+
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #patientPassCard, #patientPassCard * {
+        visibility: visible !important;
+      }
+      #patientPassCard {
+        position: fixed !important;
+        top: 20px !important;
+        left: 20px !important;
+        right: 20px !important;
+        width: calc(100% - 40px) !important;
+        max-width: 100% !important;
+        background: #ffffff !important;
+        color: #111111 !important;
+        border: 2px solid #000000 !important;
+        box-shadow: none !important;
+      }
+      .patient-pass-header {
+        background: #f1f5f9 !important;
+        color: #000000 !important;
+      }
+      .patient-pass-brand, .pass-info-val, .pass-code-text {
+        color: #000000 !important;
+      }
     }
 
     /* ==================== EMERGENCY MODAL ==================== */
@@ -1092,26 +1284,94 @@
     <!-- Interactive Dual Container -->
     <section class="reg-wrapper" id="patientRegSection">
       
-      <!-- Success Overlay -->
+      <!-- Patient Digital Pass & Booking Success Overlay -->
       <div class="reg-success-overlay" id="regSuccessOverlay">
         <div class="reg-success-icon"><i class="ti ti-circle-check"></i></div>
-        <div class="reg-success-title">تم تسجيل طلب حجزك بنجاح! 🎉</div>
-        <div class="reg-success-msg">
-          تم استلام بياناتك وتوطين شكواك السريرية بنجاح، وسيقوم استشاري خدمة العملاء بالتواصل معك لتأكيد الموعد المناسب.
+        <div class="reg-success-title">تم تأكيد حجزك الطبي وتجهيز تذكرتك بنجاح! 🌟</div>
+        <div class="reg-success-msg" id="passPatientGreeting">
+          مرحباً بك، تم تسجيل موعدك الطبي وتثبيت كود الحجز بنجاح.
         </div>
-        <div class="reg-success-code" id="regLeadCode">LD-0000</div>
-        <div class="reg-success-msg" style="font-size:12.5px;margin-top:2px;">
-          <i class="ti ti-phone" style="color:var(--accent)"></i>
-          احتفظ بهذا الكود — سيتم استخدامه لمتابعة الحجز والكشف
+
+        <!-- Digital Patient Pass Ticket -->
+        <div class="patient-pass-card" id="patientPassCard">
+          <div class="patient-pass-header">
+            <div class="patient-pass-brand">
+              <i class="ti ti-activity-heartbeat"></i>
+              <span>طـبـابـا • تذكرة كشف واستشارة رقمية معتمدة</span>
+            </div>
+            <div class="patient-pass-status">
+              <span class="live-pulse-dot" style="background:#10b981"></span>
+              مؤكد بقائمة الانتظار
+            </div>
+          </div>
+
+          <div class="patient-pass-body">
+            <!-- Doctor & Specialty -->
+            <div class="pass-info-grid">
+              <div class="pass-info-box">
+                <div class="pass-info-lbl"><i class="ti ti-user-star"></i> الطبيب المعالج</div>
+                <div class="pass-info-val" id="passDoctorName" style="color:var(--accent)">د. وائل مجدي</div>
+              </div>
+              <div class="pass-info-box">
+                <div class="pass-info-lbl"><i class="ti ti-stethoscope"></i> التخصص الطبي</div>
+                <div class="pass-info-val" id="passSpecialtyName">باطنة عامة وجهاز هضمي</div>
+              </div>
+            </div>
+
+            <!-- Time & Clinic Branch -->
+            <div class="pass-info-grid">
+              <div class="pass-info-box">
+                <div class="pass-info-lbl"><i class="ti ti-clock"></i> الموعد المقترح والدور</div>
+                <div class="pass-info-val" id="passApptTime">اليوم (الفترة المسائية) • انتظار تقديري 15 د</div>
+              </div>
+              <div class="pass-info-box">
+                <div class="pass-info-lbl"><i class="ti ti-building-hospital"></i> الفرع أو العيادة</div>
+                <div class="pass-info-val" id="passBranchName">مركز طبابا — المنصورة</div>
+              </div>
+            </div>
+
+            <!-- Lead Code Bar -->
+            <div class="pass-code-banner">
+              <div>
+                <div style="font-size:11.5px;color:var(--text-secondary);margin-bottom:2px">كود الكشف الطبي (أظهره للاستقبال عند الحضور):</div>
+                <div class="pass-code-text" id="regLeadCode">LD-0000</div>
+              </div>
+              <div style="text-align:left">
+                <button type="button" class="pill-btn ghost sm" onclick="copyLeadCode()" style="font-size:11.5px;padding:5px 12px">
+                  <i class="ti ti-copy"></i> نسخ الكود
+                </button>
+              </div>
+            </div>
+
+            <!-- Complaint snippet -->
+            <div style="background:#090f1d;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--text-secondary);line-height:1.6">
+              <strong style="color:#fff"><i class="ti ti-file-description"></i> الشكوى المسجلة:</strong>
+              <span id="passComplaintSnippet">...</span>
+            </div>
+          </div>
         </div>
-        <div class="success-actions-row">
-          <a href="tababa-doctor-dashboard.html" class="pill-btn solid" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
-            <i class="ti ti-stethoscope"></i> عرض حالة الحجز في شاشة الطبيب (تجربة حية)
+
+        <!-- Helpful Patient Action Buttons -->
+        <div class="patient-actions-grid">
+          <a href="#" id="passWhatsappBtn" target="_blank" class="btn-patient-action whatsapp">
+            <i class="ti ti-brand-whatsapp" style="font-size:18px"></i> تأكيد الحضور عبر واتساب العيادة
           </a>
-          <button class="pill-btn ghost" onclick="resetRegForm()">
-            <i class="ti ti-plus"></i> تسجيل كشف آخر
+          <a href="#" id="passCalendarBtn" target="_blank" class="btn-patient-action calendar">
+            <i class="ti ti-calendar-plus" style="font-size:18px"></i> إضافة الموعد لتقويم هاتفي
+          </a>
+          <a href="#" id="passMapsBtn" target="_blank" class="btn-patient-action maps">
+            <i class="ti ti-map-pin" style="font-size:18px"></i> موقع العيادة (Google Maps)
+          </a>
+          <button type="button" onclick="window.print()" class="btn-patient-action home" style="border-color:rgba(255,255,255,0.15)">
+            <i class="ti ti-printer" style="font-size:18px"></i> طباعة / حفظ التذكرة PDF
           </button>
-          <a href="tababa-homepage.html" class="pill-btn ghost">
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;margin-top:4px">
+          <button type="button" class="pill-btn ghost sm" onclick="resetRegForm()">
+            <i class="ti ti-plus"></i> حجز كشف آخر
+          </button>
+          <a href="index.html" class="pill-btn ghost sm">
             <i class="ti ti-home"></i> العودة للرئيسية
           </a>
         </div>
@@ -1960,44 +2220,103 @@
           }
         }
 
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+        const urlParams = new URLSearchParams(window.location.search);
+        const docParam = urlParams.get('doctor');
+        const sourceParam = urlParams.get('source') || 'ai_chat';
+
+        const doctorBooking = {
+          id: Date.now(),
+          name: name,
+          age: 36,
+          gender: 'ذكر',
+          phone: phone,
+          city: city || 'المنصورة',
+          specialty: specialty || 'باطنة عامة وجهاز هضمي',
+          doctor: docParam ? decodeURIComponent(docParam) : 'د. وائل مجدي',
+          complaint: complaint,
+          painZone: painData ? painData.region : (activeZoneKey ? activeZoneKey : 'غير محدد'),
+          painScore: painData ? painData.severity : 6,
+          painDetails: painData,
+          branchId: (branchId && branchId.startsWith('clinic_')) ? branchId : 'clinic_mansoura',
+          status: 'waiting',
+          time: timeStr || 'الآن',
+          date: now.toISOString().split('T')[0],
+          isFromLead: true,
+          leadSource: sourceParam,
+          sourceLabel: sourceParam === 'ai_chat' ? 'شات طبابا الطبي الذكي' : 'صفحة الحجز المباشر',
+          leadCode: createdLeadId,
+          bookedAt: now.toISOString()
+        };
+
         // Sync with Doctor Live Waiting Queue
         try {
           const liveBookings = JSON.parse(localStorage.getItem('tababa_live_doctor_bookings') || '[]');
-          const now = new Date();
-          const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-          const urlParams = new URLSearchParams(window.location.search);
-          const docParam = urlParams.get('doctor');
-          const sourceParam = urlParams.get('source') || 'ai_chat';
-
-          const doctorBooking = {
-            id: Date.now(),
-            name: name,
-            age: 36,
-            gender: 'ذكر',
-            phone: phone,
-            city: city || 'المنصورة',
-            specialty: specialty || 'باطنة عامة وجهاز هضمي',
-            doctor: docParam ? decodeURIComponent(docParam) : 'د. وائل مجدي',
-            complaint: complaint,
-            painZone: painData ? painData.region : (activeZoneKey ? activeZoneKey : 'غير محدد'),
-            painScore: painData ? painData.severity : 6,
-            painDetails: painData,
-            branchId: (branchId && branchId.startsWith('clinic_')) ? branchId : 'clinic_mansoura',
-            status: 'waiting',
-            time: timeStr || 'الآن',
-            date: now.toISOString().split('T')[0],
-            isFromLead: true,
-            leadSource: sourceParam,
-            sourceLabel: sourceParam === 'ai_chat' ? 'شات طبابا الطبي الذكي' : 'صفحة الحجز المباشر',
-            leadCode: createdLeadId,
-            bookedAt: now.toISOString()
-          };
-
           liveBookings.unshift(doctorBooking);
           localStorage.setItem('tababa_live_doctor_bookings', JSON.stringify(liveBookings));
           window.dispatchEvent(new Event('tababa_new_booking'));
         } catch(e) {
           console.error('Failed to sync live doctor booking:', e);
+        }
+
+        // Populate Digital Patient Pass Ticket
+        const greetingEl = document.getElementById('passPatientGreeting');
+        if (greetingEl) {
+          greetingEl.innerHTML = `مرحباً بك يا <strong style="color:#fff">${name}</strong>، تم تسجيل طلب كشفك وتثبيت بيانات الموعد بنجاح.`;
+        }
+
+        const passDocEl = document.getElementById('passDoctorName');
+        if (passDocEl) passDocEl.textContent = doctorBooking.doctor;
+
+        const passSpecEl = document.getElementById('passSpecialtyName');
+        if (passSpecEl) passSpecEl.textContent = specialty;
+
+        const branchLabels = {
+          clinic_mansoura: { name: 'مركز طبابا الطبي — المنصورة (حي الجامعة)', maps: 'https://maps.google.com/?q=المنصورة+حي+الجامعة' },
+          clinic_cairo: { name: 'عيادة النور التخصصية — القاهرة (مدينة نصر)', maps: 'https://maps.google.com/?q=القاهرة+مدينة+نصر' },
+          clinic_giza: { name: 'عيادة فيوتشر كير — الجيزة (الشيخ زايد)', maps: 'https://maps.google.com/?q=الجيزة+الشيخ+زايد' },
+          telehealth: { name: 'استشارة أونلاين عبر الفيديو (عن بُعد)', maps: '' },
+          home_visit: { name: 'زيارة طبيب منزلية لموقعك', maps: '' }
+        };
+        const bInfo = branchLabels[branchId] || branchLabels.clinic_mansoura;
+
+        const passBranchEl = document.getElementById('passBranchName');
+        if (passBranchEl) passBranchEl.textContent = bInfo.name;
+
+        const passTimeEl = document.getElementById('passApptTime');
+        if (passTimeEl) passTimeEl.textContent = `${doctorBooking.date} (${timeStr || 'الفترة المسائية'}) • انتظار تقديري 15 د`;
+
+        const passSnippet = document.getElementById('passComplaintSnippet');
+        if (passSnippet) {
+          const shortComp = complaint.length > 90 ? complaint.substring(0, 90) + '...' : complaint;
+          passSnippet.textContent = shortComp;
+        }
+
+        // 1. WhatsApp Button
+        const waBtn = document.getElementById('passWhatsappBtn');
+        if (waBtn) {
+          const waMsg = `أهلاً عيادة طبابا، قمت بحجز موعد بكود (${createdLeadId}) باسم (${name}) لتخصص (${specialty}) مع (${doctorBooking.doctor}). برجاء تأكيد الحضور والموعد.`;
+          waBtn.href = `https://wa.me/201012345678?text=${encodeURIComponent(waMsg)}`;
+        }
+
+        // 2. Google Calendar Button
+        const calBtn = document.getElementById('passCalendarBtn');
+        if (calBtn) {
+          const calTitle = `كشف طبي مع ${doctorBooking.doctor} - طبابا`;
+          const calDetails = `كود الحجز: ${createdLeadId}\nالمريض: ${name}\nالهاتف: ${phone}\nالتخصص: ${specialty}\nالشكوى: ${complaint}`;
+          calBtn.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calTitle)}&details=${encodeURIComponent(calDetails)}&location=${encodeURIComponent(bInfo.name)}`;
+        }
+
+        // 3. Google Maps Button
+        const mapsBtn = document.getElementById('passMapsBtn');
+        if (mapsBtn) {
+          if (bInfo.maps) {
+            mapsBtn.href = bInfo.maps;
+            mapsBtn.style.display = 'inline-flex';
+          } else {
+            mapsBtn.style.display = 'none';
+          }
         }
 
         document.getElementById('regLeadCode').textContent = createdLeadId;
@@ -2006,6 +2325,19 @@
         btn.disabled = false;
         btn.innerHTML = '<i class="ti ti-send"></i> تأكيد طلب الحجز الآن — فريقنا هيتواصل معاك فوراً';
       }, 1000);
+    }
+
+    function copyLeadCode() {
+      const code = document.getElementById('regLeadCode')?.textContent;
+      if (code && navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(() => {
+          alert(`تم نسخ كود الكشف (${code}) بنجاح ✓`);
+        }).catch(() => {
+          prompt('انسخ كود الكشف يدوياً:', code);
+        });
+      } else if (code) {
+        prompt('انسخ كود الكشف يدوياً:', code);
+      }
     }
 
     function detectUrgency(complaint, painData) {
