@@ -1292,12 +1292,150 @@
   }
 
   /* Specific accents for action tiles */
-  .patient-action-tile.tile-appt::before { background: #1fe6a8; }
-  .patient-action-tile.tile-rx::before { background: #5b9cf5; }
-  .patient-action-tile.tile-labs::before { background: #a855f7; }
+  .patient-action-tile.tile-overview::before { background: var(--accent); }
+  .patient-action-tile.tile-appt::before { background: #5b9cf5; }
+  .patient-action-tile.tile-rx::before { background: #a855f7; }
+  .patient-action-tile.tile-labs::before { background: #14b8a6; }
   .patient-action-tile.tile-chat::before { background: #f2665c; }
   .patient-action-tile.tile-ins::before { background: #f2b84b; }
-  .patient-action-tile.tile-emergency::before { background: #ef4444; }
+
+  /* Patient Welcome Banner */
+  .patient-welcome-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(31, 230, 168, 0.08) 0%, rgba(13, 21, 37, 0.95) 100%);
+    border: 1px solid rgba(31, 230, 168, 0.22);
+    border-radius: var(--radius);
+    padding: 18px 24px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+  .patient-welcome-banner h2 {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin: 0 0 4px 0;
+  }
+  .patient-welcome-banner p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .welcome-quick-cta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Today Priorities Dual Grid */
+  .today-priorities-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 980px) {
+    .today-priorities-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .today-priorities-grid .appointment-banner {
+    margin-bottom: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Due Dose Quick Card */
+  .due-dose-quick-card {
+    background: linear-gradient(145deg, rgba(168, 85, 247, 0.07) 0%, rgba(17, 26, 44, 0.95) 100%);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  }
+  .due-dose-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .due-dose-tag {
+    background: rgba(168, 85, 247, 0.18);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c084fc;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .due-dose-time {
+    color: #fbbf24;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .due-dose-body {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .due-dose-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(168, 85, 247, 0.2);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c084fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .due-dose-details h4 {
+    margin: 0 0 3px 0;
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .due-dose-details p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  /* Booking Teaser Card */
+  .booking-teaser-card {
+    background: linear-gradient(135deg, rgba(31, 230, 168, 0.1) 0%, rgba(17, 26, 44, 0.95) 100%);
+    border: 1px solid rgba(31, 230, 168, 0.3);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  }
+  .booking-teaser-card:hover {
+    border-color: var(--accent);
+  }
 
   .tile-icon-bubble {
     width: 42px; height: 42px;
@@ -1955,23 +2093,15 @@
 
   /* 5. FLOATING EMERGENCY BUTTON & MODAL */
   .emergency-fab{
-    position:fixed;bottom:24px;left:24px;z-index:998;display:flex;align-items:center;gap:8px;
-    background:linear-gradient(135deg,#e53935,#b71c1c);color:#fff;padding:12px 20px;border-radius:999px;
-    font-weight:900;font-size:14px;box-shadow:0 6px 24px rgba(229,57,53,0.5);cursor:pointer;
-    border:2px solid rgba(255,255,255,0.25);transition:all .25s ease;
+    display: none !important;
   }
-  .emergency-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 30px rgba(229,57,53,0.7);}
-  .emergency-fab .pulse-ring{
-    position:absolute;inset:-4px;border-radius:999px;border:2px solid #e53935;
-    animation:pulse-ring 2s infinite;pointer-events:none;
-  }
-  .emergency-fab i{font-size:20px;}
 
   /* 5.1. FLOATING PATIENT SUPPORT WIDGET (خدمة ومساعدة المريض) */
   .patient-support-fab {
     position: fixed;
     bottom: 24px;
-    right: 24px;
+    left: 24px;
+    right: auto;
     z-index: 998;
     display: flex;
     align-items: center;
@@ -2420,8 +2550,8 @@ html, body {
     <button class="pill xs danger-fill" onclick="if(typeof openEmergModal==='function')openEmergModal();else location.href='tel:123';" style="font-size:11px;padding:5px 9px;">
       <i class="ti ti-alert-triangle"></i> طوارئ 123
     </button>
-    <a href="tababa-doctor-dashboard.html" class="pill xs ghost" title="بوابة الطبيب" style="font-size:11px;padding:5px 9px;">
-      <i class="ti ti-stethoscope"></i> الطبيب
+    <a href="tababa-booking.html" class="pill xs solid" style="font-size:11px;padding:5px 10px;background:linear-gradient(135deg,#059669,#10b981);color:#03261b;font-weight:800;border:none;" title="حجز كشف طبي">
+      <i class="ti ti-calendar-plus"></i> حجز كشف
     </a>
   </div>
 </header>
@@ -2432,7 +2562,7 @@ html, body {
   <div class="m-nav-header">
     <div style="display:flex;align-items:center;gap:8px">
       <span style="font-weight:900;font-size:17px;color:var(--text-primary)">طبابا</span>
-      <span class="pill xs solid">منصة صحتك</span>
+      <span class="pill xs solid">بوابة المريض الصحية</span>
     </div>
     <button class="drawer-close" onclick="toggleMobileNav()"><i class="ti ti-x"></i></button>
   </div>
@@ -2454,6 +2584,22 @@ html, body {
       <a class="m-nav-item" href="tababa-homepage.html">
         <i class="ti ti-home"></i><span>الصفحة الرئيسية</span>
       </a>
+      <a class="m-nav-item" href="tababa-booking.html" style="background:rgba(31,230,168,0.12);color:var(--accent);font-weight:800">
+        <i class="ti ti-calendar-plus"></i><span>حجز كشف وتوطين الألم 3D</span>
+        <span class="pill xs solid" style="margin-right:auto">حجز الآن</span>
+      </a>
+      <a class="m-nav-item" href="javascript:void(0)" onclick="switchCrmTab('appointments');toggleMobileNav();">
+        <i class="ti ti-calendar-event"></i><span>مواعيدي واستشاراتي</span>
+      </a>
+      <a class="m-nav-item" href="javascript:void(0)" onclick="switchCrmTab('prescriptions');toggleMobileNav();">
+        <i class="ti ti-pill"></i><span>صيدليتي والروشتات</span>
+      </a>
+      <a class="m-nav-item" href="javascript:void(0)" onclick="switchCrmTab('labs');toggleMobileNav();">
+        <i class="ti ti-file-analytics"></i><span>سجلاتي والتحاليل</span>
+      </a>
+      <a class="m-nav-item" href="javascript:void(0)" onclick="switchCrmTab('chat');toggleMobileNav();">
+        <i class="ti ti-messages"></i><span>محادثات الأطباء والـ AI</span>
+      </a>
       <a class="m-nav-item" href="tababa-doctors.html">
         <i class="ti ti-stethoscope"></i><span>الأطباء والعيادات</span>
       </a>
@@ -2462,13 +2608,6 @@ html, body {
       </a>
       <a class="m-nav-item" href="tababa-articles.html">
         <i class="ti ti-file-text"></i><span>المقالات الطبية الموثوقة</span>
-      </a>
-      <a class="m-nav-item" href="tababa-booking.html">
-        <i class="ti ti-calendar-plus"></i><span>حجز كشف طبي</span>
-      </a>
-      <a class="m-nav-item" href="tababa-doctor-dashboard.html" style="background:var(--accent-soft);color:var(--accent);font-weight:700">
-        <i class="ti ti-building-hospital"></i><span>لوحة تحكم الطبيب (Doctor OS)</span>
-        <span class="pill xs solid" style="margin-right:auto">طبيب</span>
       </a>
       <a class="m-nav-item" href="javascript:void(0)" onclick="if(typeof openEmergModal==='function')openEmergModal();toggleMobileNav();">
         <i class="ti ti-alert-triangle" style="color:var(--danger)"></i><span>طوارئ طبية سريعة</span>
@@ -2506,24 +2645,21 @@ html, body {
       <a class="navitem" href="#"><i class="ti ti-heart"></i>المفضلة</a>
     </nav>
 
-    <div class="card chatcard">
-      <div class="chathead">
-        <div class="avatar">د</div>
+    <div class="card chatcard" style="padding:16px;">
+      <div class="chathead" style="margin-bottom:12px;">
+        <div class="avatar" style="background:linear-gradient(135deg,var(--accent),#0c5e44);"><i class="ti ti-robot" style="font-size:18px;"></i></div>
         <div style="flex:1">
-          <div class="title">تحدث مع دكتورتك</div>
-          <div class="tiny">طبيبك الشخصي الذكي</div>
+          <div class="title">المستشار الطبي الذكي</div>
+          <div class="tiny">طبيبك السريري الشخصي</div>
         </div>
       </div>
-      <div class="status" style="margin-bottom:10px"><span class="dot"></span>متصل الآن</div>
-      <div class="bubble" id="sideGreetingBubble">
-        مرحباً يا كريم! 👋 أنا دكتورتك في طبابا، طبيبتك الشخصية الذكية. كيف يمكنني مساعدتك اليوم؟
-        <div class="tiny">03:17 PM</div>
-      </div>
-      <button class="pill solid chat-cta" onclick="switchActionTab('talk', document.querySelector('.action-tab-btn:last-child'))"><i class="ti ti-microphone"></i>تحدث مع الدكتور</button>
-      <div class="chat-input">
-        <input type="text" placeholder="اكتب سؤالك هنا..." id="quickSideInput">
-        <button class="send-btn" aria-label="إرسال" onclick="sendQuickSide()"><i class="ti ti-send-2"></i></button>
-      </div>
+      <div class="status" style="margin-bottom:10px"><span class="dot"></span>متصل 24/7 • مدعوم بملفك</div>
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:12px;">
+        جاهز للإجابة عن تفاعلات أدويتك، تفسير تحاليلك، وأي أعراض تشعر بها بدقة سريرية.
+      </p>
+      <button class="pill solid chat-cta" style="width:100%;justify-content:center;" onclick="switchCrmTab('chat')">
+        <i class="ti ti-messages"></i> فتح المحادثة الطبية
+      </button>
     </div>
 
     <div class="util-row">
@@ -2536,7 +2672,7 @@ html, body {
   <!-- CENTER COLUMN -->
   <main>
     <div class="topbar">
-      <!-- 6. Family Profile Switcher on Top -->
+      <!-- Family Profile Switcher on Top -->
       <div class="topbar-right">
         <div class="family-switcher">
           <button class="family-btn" onclick="toggleFamilyDropdown()" id="currentProfileBtn">
@@ -2587,62 +2723,71 @@ html, body {
           <span>حجز كشف الآن</span>
         </a>
         <button type="button" class="emergency-main-btn" onclick="openEmergencyModal()" title="طلب طوارئ طبية فورية 24/7">
-          <i class="ti ti-ambulance"></i>
-          <span>طلب طوارئ 24/7</span>
-          <span class="pulse-dot-red"></span>
+          <i class="ti ti-alert-triangle"></i>
+          <span>طوارئ 123</span>
         </button>
-        <a class="pill sm" href="tababa-doctor-dashboard.html"><i class="ti ti-user-plus"></i>انضم كطبيب</a>
-        <span class="pill solid sm"><i class="ti ti-door-exit"></i>تسجيل الخروج</span>
+        <span class="pill solid sm" onclick="alert('تم تسجيل الخروج بنجاح.');location.reload();" style="cursor:pointer;"><i class="ti ti-door-exit"></i>تسجيل الخروج</span>
       </div>
     </div>
 
     <!-- ==================== PATIENT CRM COMMAND HUB (مسارات التحكم الصحي السريعة) ==================== -->
     <div class="patient-crm-hub" id="patientCrmHub">
-      <!-- 1. مواعيدي واستشاراتي -->
-      <div class="patient-action-tile tile-appt" onclick="switchCrmTab('appointments')">
+      <!-- 1. نظرة عامة (اليوم) -->
+      <div class="patient-action-tile tile-overview active" onclick="switchCrmTab('overview')">
         <div class="tile-icon-bubble" style="background:rgba(31,230,168,0.18);color:#1fe6a8;border:1px solid rgba(31,230,168,0.3)">
+          <i class="ti ti-layout-dashboard"></i>
+        </div>
+        <div class="tile-title">نظرة عامة (اليوم)</div>
+        <span class="tile-badge" style="background:rgba(31,230,168,0.18);color:#1fe6a8;border:1px solid rgba(31,230,168,0.3)">
+          <span class="pulse-dot" style="display:inline-block;width:5px;height:5px;background:#1fe6a8;border-radius:50%;margin-left:3px;"></span> ملخصك الصحي
+        </span>
+      </div>
+
+      <!-- 2. مواعيدي واستشاراتي -->
+      <div class="patient-action-tile tile-appt" onclick="switchCrmTab('appointments')">
+        <div class="tile-icon-bubble" style="background:rgba(91,156,245,0.18);color:#5b9cf5;border:1px solid rgba(91,156,245,0.3)">
           <i class="ti ti-calendar-event"></i>
         </div>
         <div class="tile-title">مواعيدي واستشاراتي</div>
-        <span class="tile-badge" style="background:rgba(31,230,168,0.18);color:#1fe6a8;border:1px solid rgba(31,230,168,0.3)">
-          <span class="pulse-dot" style="display:inline-block;width:5px;height:5px;background:#1fe6a8;border-radius:50%;margin-left:3px;"></span> موعد اليوم 06:00 م
+        <span class="tile-badge" style="background:rgba(91,156,245,0.18);color:#5b9cf5;border:1px solid rgba(91,156,245,0.3)">
+          اليوم 06:00 م (فيديو)
         </span>
       </div>
 
-      <!-- 2. صيدليتي والروشتات -->
+      <!-- 3. صيدليتي والروشتات -->
       <div class="patient-action-tile tile-rx" onclick="switchCrmTab('prescriptions')">
-        <div class="tile-icon-bubble" style="background:rgba(91,156,245,0.18);color:#5b9cf5;border:1px solid rgba(91,156,245,0.3)">
+        <div class="tile-icon-bubble" style="background:rgba(168,85,247,0.18);color:#a855f7;border:1px solid rgba(168,85,247,0.3)">
           <i class="ti ti-pill"></i>
         </div>
         <div class="tile-title">صيدليتي والروشتات</div>
-        <span class="tile-badge" style="background:rgba(91,156,245,0.18);color:#5b9cf5;border:1px solid rgba(91,156,245,0.3)">
-          2 دواء • توصيل فوري 🛵
+        <span class="tile-badge" style="background:rgba(168,85,247,0.18);color:#a855f7;border:1px solid rgba(168,85,247,0.3)">
+          جرعة 09:00 م ⏱️
         </span>
       </div>
 
-      <!-- 3. سجلاتي والتحاليل -->
+      <!-- 4. سجلاتي والتحاليل -->
       <div class="patient-action-tile tile-labs" onclick="switchCrmTab('labs')">
-        <div class="tile-icon-bubble" style="background:rgba(168,85,247,0.18);color:#a855f7;border:1px solid rgba(168,85,247,0.3)">
+        <div class="tile-icon-bubble" style="background:rgba(20,184,166,0.18);color:#14b8a6;border:1px solid rgba(20,184,166,0.3)">
           <i class="ti ti-file-analytics"></i>
         </div>
         <div class="tile-title">سجلاتي والتحاليل</div>
-        <span class="tile-badge" style="background:rgba(168,85,247,0.18);color:#a855f7;border:1px solid rgba(168,85,247,0.3)">
+        <span class="tile-badge" style="background:rgba(20,184,166,0.18);color:#14b8a6;border:1px solid rgba(20,184,166,0.3)">
           3 تقارير معتمدة ✓
         </span>
       </div>
 
-      <!-- 4. محادثات الأطباء -->
+      <!-- 5. محادثات الأطباء والـ AI -->
       <div class="patient-action-tile tile-chat" onclick="switchCrmTab('chat')">
         <div class="tile-icon-bubble" style="background:rgba(242,102,92,0.18);color:#f2665c;border:1px solid rgba(242,102,92,0.3)">
           <i class="ti ti-messages"></i>
         </div>
         <div class="tile-title">محادثات الأطباء والـ AI</div>
         <span class="tile-badge" style="background:rgba(242,102,92,0.18);color:#ff8e85;border:1px solid rgba(242,102,92,0.3)">
-          متابعة مجانية (6 أيام)
+          متابعة مفتوحة (6 أيام)
         </span>
       </div>
 
-      <!-- 5. التأمين والمحفظة -->
+      <!-- 6. التأمين والمحفظة -->
       <div class="patient-action-tile tile-ins" onclick="switchCrmTab('wallet')">
         <div class="tile-icon-bubble" style="background:rgba(242,184,75,0.18);color:#f2b84b;border:1px solid rgba(242,184,75,0.3)">
           <i class="ti ti-wallet"></i>
@@ -2652,364 +2797,161 @@ html, body {
           بوبا 80% • 450 نقطة
         </span>
       </div>
-
-      <!-- 6. طلب طوارئ 24/7 -->
-      <div class="patient-action-tile tile-emergency" onclick="openEmergencyModal()">
-        <div class="tile-icon-bubble" style="background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid rgba(239,68,68,0.35)">
-          <i class="ti ti-ambulance"></i>
-        </div>
-        <div class="tile-title" style="color:#ef4444">طلب طوارئ 24/7</div>
-        <span class="tile-badge" style="background:rgba(239,68,68,0.22);color:#ff8e85;border-color:rgba(239,68,68,0.35)">
-          <span class="pulse-dot" style="display:inline-block;width:5px;height:5px;background:#ef4444;border-radius:50%;margin-left:3px;"></span> إسعاف وطبيب فوري
-        </span>
-      </div>
     </div>
 
     <!-- TAB 1: OVERVIEW COCKPIT (VIEW CONTAINER) -->
     <div class="crm-view-section active" id="crm-view-overview">
 
-    <!-- HEALTH SCORE & STREAK MOTIVATION CARD -->
-    <div class="patient-score-card" id="patientScoreCard" style="margin-bottom:20px;">
-      <div class="score-card-main">
-        <div class="score-circle-wrap">
-          <div class="score-circle-inner">
-            <span class="score-number" id="patientScoreVal">88</span>
-            <span class="score-denom">/100</span>
-          </div>
+      <!-- Patient Welcome Greeting Banner -->
+      <div class="patient-welcome-banner">
+        <div class="welcome-text">
+          <h2>أهلاً بك يا كريم 🌿</h2>
+          <p>متابعة صحية دقيقة لحالتك، مواعيدك، وجدول علاجك اليومي في مكان واحد بكل هدوء ووضوح.</p>
         </div>
-        <div class="score-meta">
-          <div class="score-title-row">
-            <div class="score-title" id="patientScoreTitle">مؤشر عافيتك والالتزام الصحي</div>
-            <span class="score-status-badge" id="patientScoreBadge">ممتاز جداً 🌟</span>
+        <div class="welcome-quick-cta">
+          <a href="tababa-booking.html" class="pill solid sm" style="background:linear-gradient(135deg,#059669,#10b981);font-weight:800;"><i class="ti ti-plus"></i> حجز كشف جديد</a>
+          <button type="button" class="pill ghost sm" onclick="switchCrmTab('chat')"><i class="ti ti-sparkles"></i> استشارة الطبيب والـ AI</button>
+        </div>
+      </div>
+
+      <!-- HEALTH SCORE & STREAK MOTIVATION CARD -->
+      <div class="patient-score-card" id="patientScoreCard" style="margin-bottom:20px;">
+        <div class="score-card-main">
+          <div class="score-circle-wrap">
+            <div class="score-circle-inner">
+              <span class="score-number" id="patientScoreVal">88</span>
+              <span class="score-denom">/100</span>
+            </div>
           </div>
-          <div class="score-desc" id="patientScoreDesc">
-            أداؤك الصحي هذا الأسبوع أفضل بنسبة <strong>15%</strong> مقارنة بالشهر السابق. استمرارك يضمن وقاية متكاملة!
-          </div>
-          <div class="habits-bar">
-            <div class="habit-chip" id="waterHabitChip">
-              <span class="habit-icon">💧</span>
-              <div class="habit-info">
-                <span class="habit-label">شرب الماء اليوم</span>
-                <span class="habit-val" id="waterCountText">5 من 8 أكواب</span>
+          <div class="score-meta">
+            <div class="score-title-row">
+              <div class="score-title" id="patientScoreTitle">مؤشر عافيتك والالتزام الصحي</div>
+              <span class="score-status-badge" id="patientScoreBadge">ممتاز جداً 🌟</span>
+            </div>
+            <div class="score-desc" id="patientScoreDesc">
+              أداؤك الصحي هذا الأسبوع أفضل بنسبة <strong>15%</strong> مقارنة بالشهر السابق. استمرارك يضمن وقاية متكاملة!
+            </div>
+            <div class="habits-bar">
+              <div class="habit-chip" id="waterHabitChip">
+                <span class="habit-icon">💧</span>
+                <div class="habit-info">
+                  <span class="habit-label">شرب الماء اليوم</span>
+                  <span class="habit-val" id="waterCountText">5 من 8 أكواب</span>
+                </div>
+                <button class="habit-add-btn" type="button" title="أضف كوب ماء" onclick="addWaterCup(event)">+1 كوب</button>
               </div>
-              <button class="habit-add-btn" type="button" title="أضف كوب ماء" onclick="addWaterCup(event)">+1 كوب</button>
-            </div>
 
-            <div class="habit-chip">
-              <span class="habit-icon">🚶‍♂️</span>
-              <div class="habit-info">
-                <span class="habit-label">النشاط البدني</span>
-                <span class="habit-val" id="habitStepsVal">6,420 / 8,000 خطوة</span>
+              <div class="habit-chip">
+                <span class="habit-icon">🚶‍♂️</span>
+                <div class="habit-info">
+                  <span class="habit-label">النشاط البدني</span>
+                  <span class="habit-val" id="habitStepsVal">6,420 / 8,000 خطوة</span>
+                </div>
+              </div>
+
+              <div class="habit-chip">
+                <span class="habit-icon">💊</span>
+                <div class="habit-info">
+                  <span class="habit-label">الالتزام بالجرعات</span>
+                  <span class="habit-val" id="habitMedStatus">2 من 3 جرعات (66%)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="score-card-stats">
+          <div class="streak-badge-box">
+            <div class="streak-icon">🔥</div>
+            <div class="streak-val" id="streakDaysCount">12 يوم</div>
+            <div class="streak-lbl" id="streakDescLbl">التزام متواصل بالعلاج</div>
+          </div>
+
+          <div class="reward-points-box">
+            <div class="points-val"><i class="ti ti-gift" style="font-size:16px;"></i> <span id="carePointsVal">450</span> <span style="font-size:11px;font-weight:normal;">نقطة</span></div>
+            <div class="points-lbl">نقاط رعاية طبابا (خصم 20% على كشفك القادم)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TODAY PRIORITIES: DUAL FOCUS GRID -->
+      <div class="today-priorities-grid">
+        <!-- Priority 1: Today's Upcoming Appointment -->
+        <div class="appointment-banner" id="appointmentBanner">
+          <div class="banner-top-row">
+            <div class="banner-badge-group">
+              <span class="live-tag"><span class="pulse-dot"></span> موعد اليوم المرتقب</span>
+              <span class="confirmed-tag" id="bannerStatusTag"><i class="ti ti-video"></i> استشارة فيديو أونلاين</span>
+            </div>
+            <div class="countdown-container">
+              <span class="countdown-lbl">متبقي:</span>
+              <div class="countdown-boxes">
+                <div class="cd-box"><span class="val" id="cdHours">04</span><span class="unit">ساعة</span></div>
+                <span class="cd-sep">:</span>
+                <div class="cd-box"><span class="val" id="cdMinutes">28</span><span class="unit">دقيقة</span></div>
+                <span class="cd-sep">:</span>
+                <div class="cd-box"><span class="val" id="cdSeconds">15</span><span class="unit">ثانية</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="banner-content">
+            <div class="banner-doc">
+              <div class="banner-avatar">و</div>
+              <div class="banner-meta">
+                <h3>د. وائل مجدي</h3>
+                <div class="sub">
+                  <span><i class="ti ti-heart-rate-monitor" style="color:var(--accent)"></i> استشاري أمراض القلب والأوعية</span>
+                  <span>•</span>
+                  <span><i class="ti ti-calendar-event"></i> اليوم 06:00 م</span>
+                  <span>•</span>
+                  <span><i class="ti ti-device-laptop"></i> عيادة افتراضية</span>
+                </div>
               </div>
             </div>
 
-            <div class="habit-chip">
-              <span class="habit-icon">💊</span>
-              <div class="habit-info">
-                <span class="habit-label">الالتزام بالجرعات</span>
-                <span class="habit-val" id="habitMedStatus">2 من 3 جرعات (66%)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="score-card-stats">
-        <div class="streak-badge-box">
-          <div class="streak-icon">🔥</div>
-          <div class="streak-val" id="streakDaysCount">12 يوم</div>
-          <div class="streak-lbl" id="streakDescLbl">التزام متواصل بالعلاج</div>
-        </div>
-
-        <div class="reward-points-box">
-          <div class="points-val"><i class="ti ti-gift" style="font-size:16px;"></i> <span id="carePointsVal">450</span> <span style="font-size:11px;font-weight:normal;">نقطة</span></div>
-          <div class="points-lbl">نقاط رعاية طبابا (خصم 20% على كشفك القادم)</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 1. UPCOMING APPOINTMENT BANNER (Prominent Top Banner) -->
-    <div class="appointment-banner" id="appointmentBanner">
-      <div class="banner-top-row">
-        <div class="banner-badge-group">
-          <span class="live-tag"><span class="pulse-dot"></span> موعد اليوم المرتقب</span>
-          <span class="confirmed-tag" id="bannerStatusTag"><i class="ti ti-video"></i> استشارة فيديو أونلاين</span>
-        </div>
-        <div class="countdown-container">
-          <span class="countdown-lbl">متبقي على الموعد:</span>
-          <div class="countdown-boxes">
-            <div class="cd-box"><span class="val" id="cdHours">04</span><span class="unit">ساعة</span></div>
-            <span class="cd-sep">:</span>
-            <div class="cd-box"><span class="val" id="cdMinutes">28</span><span class="unit">دقيقة</span></div>
-            <span class="cd-sep">:</span>
-            <div class="cd-box"><span class="val" id="cdSeconds">15</span><span class="unit">ثانية</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="banner-content">
-        <div class="banner-doc">
-          <div class="banner-avatar">و</div>
-          <div class="banner-meta">
-            <h3>د. وائل مجدي</h3>
-            <div class="sub">
-              <span><i class="ti ti-heart-rate-monitor" style="color:var(--accent)"></i> استشاري أمراض القلب والأوعية الدموية</span>
-              <span>•</span>
-              <span><i class="ti ti-calendar-event"></i> اليوم 06:00 م</span>
-              <span>•</span>
-              <span><i class="ti ti-device-laptop"></i> عيادة افتراضية</span>
+            <div class="banner-actions">
+              <button class="btn-confirm" id="confirmAttendanceBtn" onclick="confirmAppointmentAttendance()">
+                <i class="ti ti-circle-check"></i>
+                <span>تأكيد الحضور الآن</span>
+              </button>
+              <button class="pill ghost sm" onclick="enterWaitingRoom()"><i class="ti ti-login"></i>غرفة الانتظار</button>
+              <button class="pill ghost sm" onclick="rescheduleAppointment()"><i class="ti ti-calendar-time"></i>تعديل</button>
             </div>
           </div>
         </div>
 
-        <div class="banner-actions">
-          <button class="btn-confirm" id="confirmAttendanceBtn" onclick="confirmAppointmentAttendance()">
-            <i class="ti ti-circle-check"></i>
-            <span>تأكيد الحضور الآن</span>
-          </button>
-          <button class="pill ghost sm" onclick="enterWaitingRoom()"><i class="ti ti-login"></i>غرفة الانتظار</button>
-          <button class="pill ghost sm" onclick="rescheduleAppointment()"><i class="ti ti-calendar-time"></i>تعديل</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== 2. DAILY MEDICATION SCHEDULE (TODAY'S DOSES) ==================== -->
-    <div class="daily-med-schedule-section" id="dailyMedScheduleSection">
-      <div class="sched-header">
-        <div class="sched-title-group">
-          <div class="sched-icon-badge">
-            <i class="ti ti-pill"></i>
+        <!-- Priority 2: Next Due Medication Dose -->
+        <div class="due-dose-quick-card" id="todayDueMedCard">
+          <div class="due-dose-head">
+            <span class="due-dose-tag"><i class="ti ti-bell-ringing"></i> الجرعة الدوائية القادمة</span>
+            <span class="due-dose-time"><i class="ti ti-alarm"></i> مساءً 09:00 م (بعد ساعتين)</span>
           </div>
+
+          <div class="due-dose-body">
+            <div class="due-dose-icon">
+              <i class="ti ti-pill"></i>
+            </div>
+            <div class="due-dose-details">
+              <h4>أوجمنتين 1 جم (Augmentin 1g)</h4>
+              <p><i class="ti ti-info-circle"></i> قرص واحد بعد وجبة العشاء (مضاد حيوي - اليوم 5 من 7)</p>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:3px;"><i class="ti ti-user-md"></i> بإشراف: د. أحمد سامي</div>
+            </div>
+          </div>
+
           <div>
-            <div class="sched-title-row">
-              <h3 class="sched-title">جدول أدوية اليوم والتذكير الذكي بالجرعات</h3>
-              <span class="sched-pulse-badge"><span class="pulse-dot"></span> مباشر اليوم</span>
+            <button type="button" class="pill solid" id="sched-dose-btn-3" onclick="toggleMedDose(3)" style="width:100%;justify-content:center;background:linear-gradient(135deg,#059669,#10b981);font-weight:800;padding:11px;font-size:13.5px;">
+              <i class="ti ti-circle-check"></i> <span id="sched-dose-btn-text-3">تأكيد تناول الجرعة الآن ✓</span>
+            </button>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--text-muted);margin-top:8px;">
+              <span id="overviewMedCounterText">2 من 3 جرعات مكتملة اليوم (66%)</span>
+              <a href="javascript:void(0)" onclick="switchCrmTab('prescriptions')" style="color:#60a5fa;text-decoration:none;font-weight:700;">
+                عرض جدول الأدوية بالكامل (3 جرعات) ←
+              </a>
             </div>
-            <p class="sched-subtitle">متابعة دقيقة لمواعيد علاجك والجرعات المقررة سريرياً مع تأكيد التناول بضغطة واحدة</p>
           </div>
-        </div>
-
-        <div class="sched-actions-top">
-          <div class="sched-counter-pill" id="overviewMedCounterBadge">
-            <i class="ti ti-checklist" style="color:var(--accent)"></i>
-            <span id="overviewMedCounterText">2 من 3 جرعات مكتملة</span>
-            <span class="sched-pct-badge" id="overviewMedPctBadge">66%</span>
-          </div>
-          <button type="button" class="pill ghost sm" onclick="switchCrmTab('prescriptions')" style="border-color:rgba(91,156,245,0.3);color:#60a5fa;">
-            <i class="ti ti-prescription"></i> صيدليتي وروشتاتي
-          </button>
-          <button type="button" class="pill solid sm" onclick="refillMedsAction()">
-            <i class="ti ti-truck-delivery"></i> صرف وتوصيل الأدوية 🛵
-          </button>
         </div>
       </div>
-
-      <!-- Schedule Progress Bar -->
-      <div class="sched-progress-wrap">
-        <div class="sched-progress-track">
-          <div class="sched-progress-fill" id="overviewMedProgressBar" style="width:66%"></div>
-        </div>
-        <div class="sched-progress-legend">
-          <span><i class="ti ti-check" style="color:var(--accent)"></i> الجرعات المأخوذة: <strong>2</strong></span>
-          <span class="next-dose-txt"><i class="ti ti-alarm" style="color:#f2b84b"></i> الجرعة القادمة: <strong>09:00 م (بعد ساعتين و 15 دقيقة)</strong></span>
-          <span>إجمالي جدول اليوم: <strong>3 جرعات</strong></span>
-        </div>
-      </div>
-
-      <!-- Schedule Cards Grid -->
-      <div class="sched-cards-grid">
-
-        <!-- CARD 1: Morning Dose (Concor 5mg) -->
-        <div class="sched-dose-card taken" id="sched-dose-card-1">
-          <div class="dose-card-head">
-            <div class="dose-time-tag">
-              <i class="ti ti-sun"></i>
-              <span>صباحاً 08:00 ص</span>
-            </div>
-            <span class="dose-status-pill taken" id="sched-dose-status-1">
-              <i class="ti ti-check"></i> تم التناول 08:15 ص
-            </span>
-          </div>
-
-          <div class="dose-card-body">
-            <div class="dose-med-icon concor">
-              <i class="ti ti-heart-rate-monitor"></i>
-            </div>
-            <div class="dose-med-details">
-              <h4 class="dose-med-name">كونكور 5 مجم (Concor 5mg)</h4>
-              <span class="dose-sci-name">بيسوبرولول فومارات • Bisoprolol Fumarate</span>
-              <div class="dose-instruction">
-                <i class="ti ti-info-circle"></i>
-                <span>قرص واحد (5mg) بعد الإفطار مع كوب ماء</span>
-              </div>
-              <div class="dose-meta-row">
-                <span class="dose-target"><i class="ti ti-shield-check"></i> تنظيم ضربات القلب واستقرار الضغط</span>
-                <span class="dose-doc"><i class="ti ti-user-md"></i> د. وائل مجدي</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="dose-card-foot">
-            <button type="button" class="dose-toggle-btn taken" id="sched-dose-btn-1" onclick="toggleMedDose(1)">
-              <i class="ti ti-check"></i>
-              <span id="sched-dose-btn-text-1">جرعة الصباح مأخوذة</span>
-            </button>
-            <button type="button" class="dose-ask-btn" title="اسأل المستشار الذكي عن كونكور" onclick="askMainAiPrompt('هل كونكور 5 مجم يؤخذ مع الأكل ولا قبله؟ وما هي نصائح استخدامه؟')">
-              <i class="ti ti-sparkles"></i> استفسار
-            </button>
-          </div>
-        </div>
-
-        <!-- CARD 2: Afternoon Dose (Augmentin 1g) -->
-        <div class="sched-dose-card taken" id="sched-dose-card-2">
-          <div class="dose-card-head">
-            <div class="dose-time-tag">
-              <i class="ti ti-sun-high"></i>
-              <span>ظهراً 02:00 م</span>
-            </div>
-            <span class="dose-status-pill taken" id="sched-dose-status-2">
-              <i class="ti ti-check"></i> تم التناول 02:20 م
-            </span>
-          </div>
-
-          <div class="dose-card-body">
-            <div class="dose-med-icon augmentin">
-              <i class="ti ti-shield-half-filled"></i>
-            </div>
-            <div class="dose-med-details">
-              <h4 class="dose-med-name">أوجمنتين 1 جم (Augmentin 1g)</h4>
-              <span class="dose-sci-name">أموكسيسيلين + كلافولانات البوتاسيوم</span>
-              <div class="dose-instruction">
-                <i class="ti ti-info-circle"></i>
-                <span>قرص واحد (1000mg) بعد وجبة الغداء مباشرة</span>
-              </div>
-              <div class="dose-meta-row">
-                <span class="dose-target"><i class="ti ti-virus-off"></i> مضاد حيوي واسع المجال (اليوم 5 من 7)</span>
-                <span class="dose-doc"><i class="ti ti-user-md"></i> د. أحمد سامي</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="dose-card-foot">
-            <button type="button" class="dose-toggle-btn taken" id="sched-dose-btn-2" onclick="toggleMedDose(2)">
-              <i class="ti ti-check"></i>
-              <span id="sched-dose-btn-text-2">جرعة الظهيرة مأخوذة</span>
-            </button>
-            <button type="button" class="dose-ask-btn" title="اسأل المستشار الذكي عن أوجمنتين" onclick="askMainAiPrompt('هل أوجمنتين 1 جم يسبب أي مغص أو تعب بالمعدة وكيف أتجنبه؟')">
-              <i class="ti ti-sparkles"></i> استفسار
-            </button>
-          </div>
-        </div>
-
-        <!-- CARD 3: Evening Dose (Augmentin 1g) - PENDING & HIGHLIGHTED -->
-        <div class="sched-dose-card pending highlight" id="sched-dose-card-3">
-          <div class="dose-card-head">
-            <div class="dose-time-tag active-alarm">
-              <i class="ti ti-moon-stars"></i>
-              <span>مساءً 09:00 م</span>
-            </div>
-            <span class="dose-status-pill pending" id="sched-dose-status-3">
-              <span class="pulse-dot orange"></span> الموعد المرتقب ⏱️
-            </span>
-          </div>
-
-          <div class="dose-card-body">
-            <div class="dose-med-icon augmentin active-pulse">
-              <i class="ti ti-alarm"></i>
-            </div>
-            <div class="dose-med-details">
-              <div class="dose-title-with-badge">
-                <h4 class="dose-med-name">أوجمنتين 1 جم (الجرعة المسائية)</h4>
-                <span class="dose-highlight-tag">حان موعدها قريباً</span>
-              </div>
-              <span class="dose-sci-name">الجرعة الثانية اليومية (فاصل 12 ساعة)</span>
-              <div class="dose-instruction warn-highlight">
-                <i class="ti ti-clock"></i>
-                <span>قرص واحد (1000mg) بعد وجبة العشاء أو مع كوب زبادي</span>
-              </div>
-              <div class="dose-meta-row">
-                <span class="dose-target" style="color:#fbbf24;"><i class="ti ti-bell-ringing"></i> تذكير بالمنبه عبر إشعار SMS</span>
-                <span class="dose-doc"><i class="ti ti-user-md"></i> د. أحمد سامي</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="dose-card-foot">
-            <button type="button" class="dose-toggle-btn action" id="sched-dose-btn-3" onclick="toggleMedDose(3)">
-              <i class="ti ti-circle-check"></i>
-              <span id="sched-dose-btn-text-3">تأكيد تناول الجرعة الآن ✓</span>
-            </button>
-            <button type="button" class="dose-ask-btn" title="اسأل المستشار الذكي عن الجرعة المسائية" onclick="askMainAiPrompt('ماذا أفعل لو نسيت جرعة أوجمنتين المسائية وتأخرت ساعة؟')">
-              <i class="ti ti-sparkles"></i> استفسار
-            </button>
-          </div>
-        </div>
-
-        <!-- CARD 4: PRN (As Needed) - Panadol Joint -->
-        <div class="sched-dose-card prn" id="sched-dose-card-4">
-          <div class="dose-card-head">
-            <div class="dose-time-tag">
-              <i class="ti ti-first-aid-kit"></i>
-              <span>عند اللزوم (PRN)</span>
-            </div>
-            <span class="dose-status-pill prn" id="sched-dose-status-4">
-              مسكن مفاصل وعظام
-            </span>
-          </div>
-
-          <div class="dose-card-body">
-            <div class="dose-med-icon panadol">
-              <i class="ti ti-bone"></i>
-            </div>
-            <div class="dose-med-details">
-              <h4 class="dose-med-name">بانادول جوينت 665 مجم (Panadol Joint)</h4>
-              <span class="dose-sci-name">باراسيتامول ممتد المفعول • Paracetamol SR</span>
-              <div class="dose-instruction">
-                <i class="ti ti-info-circle"></i>
-                <span>قرص عند اشتداد ألم أسفل الظهر أو الركبة (بحد أقصى مرتين يومياً)</span>
-              </div>
-              <div class="dose-meta-row">
-                <span class="dose-target"><i class="ti ti-shield-check"></i> آمن مع كونكور وأوجمنتين</span>
-                <span class="dose-doc"><i class="ti ti-user-md"></i> د. محمد رضا</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="dose-card-foot">
-            <button type="button" class="dose-toggle-btn prn-btn" id="sched-dose-btn-4" onclick="recordPrnDose()">
-              <i class="ti ti-plus"></i>
-              <span id="sched-dose-btn-text-4">تسجيل أخذ جرعة مسكن</span>
-            </button>
-            <button type="button" class="dose-ask-btn" title="اسأل المستشار الذكي عن المسكنات" onclick="askMainAiPrompt('هل بانادول جوينت آمن لمريض الضغط وما هو الحد الأقصى منه؟')">
-              <i class="ti ti-sparkles"></i> استفسار
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Schedule Footer Clinical Tips & Refill Strip -->
-      <div class="sched-footer-strip">
-        <div class="sched-tip-box">
-          <div class="sched-tip-icon"><i class="ti ti-bulb"></i></div>
-          <div class="sched-tip-content">
-            <strong>إرشادات صيدلانية معتمدة من طبابا:</strong>
-            <span>أدوية الضغط (كونكور) والمضاد الحيوي (أوجمنتين) متوافقة تماماً ولا تعارض كيميائي بينهما. احرص على إكمال مدة المضاد الحيوي كاملة (7 أيام) حتى مع زوال الأعراض.</span>
-          </div>
-        </div>
-        <div class="sched-stock-alert">
-          <div class="stock-info">
-            <i class="ti ti-alert-triangle" style="color:#f2b84b"></i>
-            <span>مخزون شريط أوجمنتين يكفي حتى <strong>غداً مساءً</strong></span>
-          </div>
-          <button type="button" class="pill solid sm" onclick="refillMedsAction()" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 0 16px rgba(16,185,129,0.3);">
-            <i class="ti ti-truck-delivery"></i> إعادة طلب الصرف الآن 🛵
-          </button>
-        </div>
-      </div>
-
-    </div>
-    <!-- ==================== END DAILY MEDICATION SCHEDULE ==================== -->
 
     <!-- 3. VITALS & BIOMARKERS TRACKER -->
     <div class="vitals-section" style="margin-top:20px; margin-bottom:20px;">
@@ -3284,165 +3226,24 @@ html, body {
       </div>
     </div>
 
-    <div class="popular-label">أو اختر تخصصك مباشرة</div>
-    <div class="cat-row">
-      <div class="cat-item selected" data-specialty="general" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-stethoscope"></i></div><span>باطنة عامة</span></div>
-      <div class="cat-item" data-specialty="dental" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-tooth"></i></div><span>أسنان</span></div>
-      <div class="cat-item" data-specialty="dermatology" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-droplet"></i></div><span>جلدية</span></div>
-      <div class="cat-item" data-specialty="orthopedic" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-bone"></i></div><span>عظام</span></div>
-      <div class="cat-item" data-specialty="obgyn" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-woman"></i></div><span>نساء وتوليد</span></div>
-      <div class="cat-item" data-specialty="pediatric" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-baby-carriage"></i></div><span>أطفال</span></div>
-      <div class="cat-item" data-specialty="ophthalmology" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-eye"></i></div><span>عيون</span></div>
-      <div class="cat-item" data-specialty="cardiology" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-heart"></i></div><span>قلب</span></div>
-      <div class="cat-item" data-specialty="neurology" onclick="selectSpecialty(this)"><div class="cat-circle"><i class="ti ti-brain"></i></div><span>مخ وأعصاب</span></div>
-    </div>
-
-    <!-- 3. RECOMMENDED DOCTORS ROW -->
-    <div class="recommended-section">
-      <div class="section-head">
-        <div>
-          <h2 class="section-title"><i class="ti ti-star" style="color:var(--accent)"></i> أطباء موصى بهم اليوم</h2>
-          <p class="section-sub">أطباء استشاريون معتمدون بأعلى تقييمات، متاحون الآن للحجز الفوري دون انتظار</p>
-        </div>
-        <a href="tababa-doctors.html" class="pill ghost sm">عرض جميع الأطباء (1,200+) <i class="ti ti-arrow-left"></i></a>
-      </div>
-
-      <div class="recommended-grid">
-        <!-- Doc 1 -->
-        <div class="rec-card">
-          <div>
-            <div class="rec-head">
-              <div class="rec-avatar">أ</div>
-              <div class="rec-meta">
-                <div class="name">د. أحمد سامي <i class="ti ti-circle-check-filled verified-badge" title="طبيب معتمد"></i></div>
-                <div class="spec">استشاري باطنة وجهاز هضمي</div>
-              </div>
-            </div>
-            <div class="rec-info-row">
-              <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> 4.9 (320 تقييم)</span>
-              <span style="font-weight:700;color:var(--accent)">150 ج.م</span>
-            </div>
-            <div class="rec-info-row">
-              <span><i class="ti ti-clock"></i> متاح اليوم 5:00 م</span>
-              <span style="color:var(--accent-dim);font-size:11px">يقبل بوبا و AXA</span>
-            </div>
-            <div class="rec-modes">
-              <span class="mode-pill"><i class="ti ti-video"></i> فيديو</span>
-              <span class="mode-pill"><i class="ti ti-building-hospital"></i> عيادة</span>
-            </div>
-          </div>
-          <button class="pill solid rec-book-btn" onclick="quickBookDoc(this, 'د. أحمد سامي')">احجز الآن</button>
-        </div>
-
-        <!-- Doc 2 -->
-        <div class="rec-card">
-          <div>
-            <div class="rec-head">
-              <div class="rec-avatar" style="background:linear-gradient(135deg,#6ee7c9,#12b587);">ل</div>
-              <div class="rec-meta">
-                <div class="name">د. لمياء خالد <i class="ti ti-circle-check-filled verified-badge" title="طبيب معتمد"></i></div>
-                <div class="spec">استشارية أمراض القلب والقسطرة</div>
-              </div>
-            </div>
-            <div class="rec-info-row">
-              <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> 4.9 (410 تقييم)</span>
-              <span style="font-weight:700;color:var(--accent)">320 ج.م</span>
-            </div>
-            <div class="rec-info-row">
-              <span><i class="ti ti-clock"></i> متاح اليوم 6:30 م</span>
-              <span style="color:var(--accent-dim);font-size:11px">يقبل متلايف</span>
-            </div>
-            <div class="rec-modes">
-              <span class="mode-pill"><i class="ti ti-video"></i> فيديو</span>
-              <span class="mode-pill"><i class="ti ti-phone-call"></i> صوتي</span>
-            </div>
-          </div>
-          <button class="pill solid rec-book-btn" onclick="quickBookDoc(this, 'د. لمياء خالد')">احجز الآن</button>
-        </div>
-
-        <!-- Doc 3 -->
-        <div class="rec-card">
-          <div>
-            <div class="rec-head">
-              <div class="rec-avatar">ك</div>
-              <div class="rec-meta">
-                <div class="name">د. كريم عادل <i class="ti ti-circle-check-filled verified-badge" title="طبيب معتمد"></i></div>
-                <div class="spec">أخصائي جراحة وزراعة الأسنان</div>
-              </div>
-            </div>
-            <div class="rec-info-row">
-              <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> 4.8 (210 تقييم)</span>
-              <span style="font-weight:700;color:var(--accent)">200 ج.م</span>
-            </div>
-            <div class="rec-info-row">
-              <span><i class="ti ti-clock"></i> متاح اليوم 7:00 م</span>
-              <span style="color:var(--accent-dim);font-size:11px">تأمين وكاش</span>
-            </div>
-            <div class="rec-modes">
-              <span class="mode-pill"><i class="ti ti-building-hospital"></i> عيادة</span>
-            </div>
-          </div>
-          <button class="pill solid rec-book-btn" onclick="quickBookDoc(this, 'د. كريم عادل')">احجز الآن</button>
-        </div>
-
-        <!-- Doc 4 -->
-        <div class="rec-card">
-          <div>
-            <div class="rec-head">
-              <div class="rec-avatar" style="background:linear-gradient(135deg,#ff9472,#f2709c);">أ</div>
-              <div class="rec-meta">
-                <div class="name">د. أميرة سعد <i class="ti ti-circle-check-filled verified-badge" title="طبيب معتمد"></i></div>
-                <div class="spec">استشارية طب الأطفال وحديثي الولادة</div>
-              </div>
-            </div>
-            <div class="rec-info-row">
-              <span><i class="ti ti-star-filled" style="color:#f2b84b"></i> 4.9 (530 تقييم)</span>
-              <span style="font-weight:700;color:var(--accent)">180 ج.م</span>
-            </div>
-            <div class="rec-info-row">
-              <span><i class="ti ti-clock"></i> متاح اليوم 8:00 م</span>
-              <span style="color:var(--accent-dim);font-size:11px">يقبل بوبا و AXA</span>
-            </div>
-            <div class="rec-modes">
-              <span class="mode-pill"><i class="ti ti-video"></i> فيديو</span>
-              <span class="mode-pill"><i class="ti ti-home"></i> منزلي</span>
-            </div>
-          </div>
-          <button class="pill solid rec-book-btn" onclick="quickBookDoc(this, 'د. أميرة سعد')">احجز الآن</button>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- Quick booking CTA card linking to dedicated booking page -->
-    <div class="promo" style="margin-top:24px;background:linear-gradient(135deg,rgba(31,230,168,0.12) 0%,rgba(17,26,44,0.95) 100%);border:1px solid var(--accent-dim);display:flex;justify-content:space-between;align-items:center;padding:22px 28px;border-radius:var(--radius);flex-wrap:wrap;gap:16px;">
+    <!-- QUICK BOOKING & SPECIALTIES TEASER -->
+    <div class="booking-teaser-card">
       <div style="display:flex;align-items:center;gap:16px;">
-        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#0c7a58);display:flex;align-items:center;justify-content:center;font-size:24px;color:#03261b;flex-shrink:0;box-shadow:0 0 20px rgba(31,230,168,0.35);">
+        <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#0c7a58);display:flex;align-items:center;justify-content:center;font-size:26px;color:#03261b;flex-shrink:0;box-shadow:0 0 20px rgba(31,230,168,0.35);">
           <i class="ti ti-activity-heartbeat"></i>
         </div>
         <div>
-          <h3 style="font-size:17px;font-weight:900;color:var(--text-primary);margin-bottom:4px;">احجز كشفك الطبي وحدد موضع الألم عبر المجسم السريري 3D</h3>
-          <p style="font-size:13px;color:var(--text-secondary);margin:0;">توطين ذكي لبؤر الألم (VAS 0-10) وتوجيه فوري لأفضل الأطباء المتخصصين خلال 15 دقيقة</p>
+          <h3 style="font-size:17.5px;font-weight:900;color:var(--text-primary);margin-bottom:4px;">تحتاج إلى حجز كشف جديد أو استشارة طبية تخصصية؟</h3>
+          <p style="font-size:13px;color:var(--text-secondary);margin:0;">حدد موضع ألمك سريرياً على المجسم 3D واحصل على توجيه فوري لأكفأ الاستشاريين المعتمدين خلال 15 دقيقة</p>
         </div>
       </div>
-      <a href="tababa-booking.html" class="pill solid" style="font-size:14px;font-weight:800;padding:12px 24px;box-shadow:0 4px 18px rgba(31,230,168,0.3);text-decoration:none;">
-        <i class="ti ti-calendar-plus"></i> حجز كشف الآن
-      </a>
-    </div>
-
-    <div class="bottom-row">
-      <div class="promo">
-        <div class="promo-orb"></div>
-        <h3>عندك تقرير طبي أو نتيجة تحاليل؟ — ارفعها وهنساعدك تفهم محتواها</h3>
-        <button class="pill solid" onclick="switchActionTab('upload', document.querySelector('.action-tab-btn:first-child'))"><i class="ti ti-file-upload"></i>ارفع تقريرك الطبي</button>
-      </div>
-      <div class="stats">
-        <div class="stat"><div class="num">+150</div><div class="lbl">تخصص وخدمة طبية</div></div>
-        <div class="stat"><div class="num">+25,000</div><div class="lbl">حجز مكتمل بنجاح</div></div>
-        <div class="stat"><div class="num">4.8</div><div class="lbl">متوسط التقييم</div></div>
-        <div class="stat"><div class="num">+1,200</div><div class="lbl">طبيب وعيادة معتمدة</div></div>
-        <div class="stat"><div class="num">+50,000</div><div class="lbl">مستخدم يثقون بطبابا</div></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <a href="tababa-booking.html" class="pill solid" style="font-size:14px;font-weight:800;padding:12px 24px;box-shadow:0 4px 18px rgba(31,230,168,0.35);text-decoration:none;">
+          <i class="ti ti-calendar-plus"></i> حجز كشف وتوطين الألم 3D
+        </a>
+        <a href="tababa-doctors.html" class="pill ghost" style="font-size:13px;padding:11px 18px;text-decoration:none;">
+          <i class="ti ti-search"></i> استكشاف كل الأطباء والعيادات (1,200+)
+        </a>
       </div>
     </div>
     </div> <!-- /#crm-view-overview -->
@@ -4165,9 +3966,9 @@ html, body {
     <div class="mb-nav-fab" style="background:linear-gradient(135deg,#f2665c,#c93b32);"><i class="ti ti-alert-triangle"></i></div>
     <span>طوارئ</span>
   </a>
-  <a href="tababa-doctor-dashboard.html" class="mb-nav-btn ">
-    <i class="ti ti-heart-rate-monitor"></i>
-    <span>لوحة الطبيب</span>
+  <a href="tababa-booking.html" class="mb-nav-btn">
+    <i class="ti ti-calendar-plus"></i>
+    <span>حجز كشف</span>
   </a>
 </nav>
 
@@ -4184,6 +3985,7 @@ function switchCrmTab(tabKey) {
 
   // 1. Update action command hub cards
   const tileMapping = {
+    overview: 'tile-overview',
     appointments: 'tile-appt',
     prescriptions: 'tile-rx',
     labs: 'tile-labs',
@@ -4191,7 +3993,7 @@ function switchCrmTab(tabKey) {
     wallet: 'tile-ins'
   };
   document.querySelectorAll('.patient-action-tile').forEach(tile => tile.classList.remove('active'));
-  if(tabKey !== 'overview' && tileMapping[tabKey]) {
+  if(tileMapping[tabKey]) {
     const activeTile = document.querySelector('.patient-action-tile.' + tileMapping[tabKey]);
     if(activeTile) activeTile.classList.add('active');
   }
