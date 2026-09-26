@@ -350,7 +350,8 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 35px rgba(31, 230, 168, 0.16);
       display: flex;
       flex-direction: column;
-      height: 770px;
+      height: 100%;
+      min-height: 870px;
       overflow: hidden;
       backdrop-filter: blur(20px);
       position: relative;
@@ -754,7 +755,8 @@
       flex-direction: column;
       gap: 10px;
       backdrop-filter: blur(16px);
-      height: 770px;
+      min-height: 870px;
+      height: auto;
       width: 100%;
       max-width: 100%;
       justify-self: stretch;
@@ -839,11 +841,18 @@
 
     /* ================= SPECIALTY DOCTOR SELECTOR HUB ================= */
     .specialty-doctor-picker-hub {
-      padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(165deg, rgba(14, 26, 45, 0.94) 0%, rgba(8, 16, 28, 0.98) 100%);
+      border: 1.5px solid rgba(31, 230, 168, 0.3);
+      border-radius: 20px;
+      padding: 16px 20px;
+      margin-top: 14px;
+      margin-bottom: 24px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.55), 0 0 30px rgba(31, 230, 168, 0.12);
+      backdrop-filter: blur(16px);
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 12px;
+      position: relative;
     }
 
     .spec-hub-header {
@@ -936,6 +945,256 @@
       color: var(--accent);
       padding: 1px 6px;
       border-radius: 10px;
+    }
+
+    /* ================= INLINE DOCTORS SCROLL TRAY ================= */
+    .inline-doctors-scroll-tray {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 4px;
+      background: rgba(8, 16, 28, 0.72);
+      border: 1px solid rgba(31, 230, 168, 0.22);
+      border-radius: 14px;
+      padding: 10px 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .inline-docs-bar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .inline-docs-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .inline-docs-label strong {
+      color: var(--accent);
+    }
+
+    .inline-docs-count-hint {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-carousel-nav {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #94a3b8;
+      border-radius: 8px;
+      width: 26px;
+      height: 24px;
+      padding: 0;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-carousel-nav:hover {
+      background: rgba(31, 230, 168, 0.2);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-view-all-modal-trigger {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--accent);
+      border-radius: 8px;
+      padding: 3px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-view-all-modal-trigger:hover {
+      background: rgba(31, 230, 168, 0.2);
+      border-color: var(--accent);
+    }
+
+    .inline-docs-carousel {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 4px 1px 6px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(31, 230, 168, 0.35) rgba(255, 255, 255, 0.04);
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
+
+    .inline-docs-carousel::-webkit-scrollbar {
+      height: 6px;
+    }
+    .inline-docs-carousel::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px;
+    }
+    .inline-docs-carousel::-webkit-scrollbar-thumb {
+      background: rgba(31, 230, 168, 0.35);
+      border-radius: 4px;
+    }
+
+    .inline-doc-card {
+      min-width: 235px;
+      max-width: 250px;
+      flex-shrink: 0;
+      background: rgba(14, 26, 45, 0.92);
+      border: 1.5px solid rgba(31, 230, 168, 0.25);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      scroll-snap-align: start;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .inline-doc-card:hover {
+      background: rgba(18, 36, 62, 0.98);
+      border-color: rgba(31, 230, 168, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(31, 230, 168, 0.2);
+    }
+
+    .inline-doc-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .inline-doc-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1fe6a8, #059669);
+      color: #03261b;
+      font-size: 16px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(31, 230, 168, 0.3);
+    }
+
+    .inline-doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .inline-doc-name-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .inline-doc-name {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .inline-verified-icon {
+      color: var(--accent);
+      font-size: 12px;
+      display: inline-flex;
+    }
+
+    .inline-doc-role {
+      font-size: 11px;
+      color: #94a3b8;
+      margin: 2px 0 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .inline-doc-meta-pills {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .inline-pill-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .inline-pill-item strong {
+      color: #ffffff;
+    }
+
+    .inline-doc-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .inline-doc-fee {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .inline-doc-fee strong {
+      color: var(--accent);
+      font-size: 12.5px;
+    }
+
+    .btn-inline-book {
+      background: linear-gradient(135deg, #1fe6a8 0%, #059669 100%);
+      color: #03261b;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-inline-book:hover {
+      box-shadow: 0 2px 10px rgba(31, 230, 168, 0.45);
+      transform: translateY(-1px);
     }
 
     /* ================= RECOMMENDED DOCTORS MODAL STYLES ================= */
@@ -2458,7 +2717,6 @@
                 <div class="tooltip-action">انقر لتحليل ألم القدم والكاحل ←</div>
               </div>
             </button>
-          </div>
 
           <!-- Floating HUD Badge Top Right -->
           <div class="scanner-float-badge top-right">
@@ -2492,11 +2750,13 @@
           </div>
           </div><!-- End .scanner-canvas -->
         </div><!-- End .companion-scanner-stage -->
+      </div><!-- End .companion-scanner-card -->
+    </div><!-- End .hero-layout-grid -->
 
-        <!-- Specialty Doctor Selector Hub -->
-        <div class="specialty-doctor-picker-hub">
-          <div class="spec-hub-header">
-            <div class="spec-hub-title">
+    <!-- Specialty Doctor Selector Hub (Full-width Interactive Section with Horizontal Doctor Scroll) -->
+    <section class="specialty-doctor-picker-hub" id="specialtyDoctorHub">
+      <div class="spec-hub-header">
+        <div class="spec-hub-title">
               <i class="ti ti-stethoscope" style="color:var(--accent);font-size:15px;"></i>
               <span>اختر طبيبك بحسب التخصص:</span>
             </div>
@@ -2507,82 +2767,108 @@
 
           <div class="spec-tabs-scroll-row">
             <!-- 1. المخ والأعصاب -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('neurology')">
+            <button type="button" class="spec-pill-btn active" onclick="selectSpecialtyForInline('neurology')">
               <i class="ti ti-brain"></i>
               <span>المخ والأعصاب</span>
               <span class="spec-badge">3 أطباء</span>
             </button>
             <!-- 2. القلب والأوعية -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('cardiology')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('cardiology')">
               <i class="ti ti-heart-rate-monitor"></i>
               <span>القلب والأوعية</span>
               <span class="spec-badge">3 أطباء</span>
             </button>
             <!-- 3. العظام والمفاصل -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('orthopedic')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('orthopedic')">
               <i class="ti ti-bone"></i>
               <span>العظام والمفاصل</span>
               <span class="spec-badge">3 أطباء</span>
             </button>
             <!-- 4. الباطنة والجهاز الهضمي -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('internal_digestive')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('internal_digestive')">
               <i class="ti ti-ripple"></i>
               <span>الباطنة والهضمي</span>
               <span class="spec-badge">3 أطباء</span>
             </button>
             <!-- 5. الأنف والأذن والحنجرة -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('ent')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('ent')">
               <i class="ti ti-dental"></i>
               <span>الأنف والأذن والحنجرة</span>
               <span class="spec-badge">2 أطباء</span>
             </button>
             <!-- 6. طب وجراحة الأسنان -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('dental')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('dental')">
               <i class="ti ti-dental"></i>
               <span>طب وجراحة الأسنان</span>
               <span class="spec-badge">3 أطباء</span>
             </button>
             <!-- 7. الجلدية والتجميل -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('dermatology')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('dermatology')">
               <i class="ti ti-sparkles"></i>
               <span>الجلدية والتجميل</span>
               <span class="spec-badge">3 أطباء</span>
             </button>
             <!-- 8. الصدرية والرئتان -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('pulmonology')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('pulmonology')">
               <i class="ti ti-wind"></i>
               <span>الصدر والجهاز التنفسي</span>
               <span class="spec-badge">2 أطباء</span>
             </button>
             <!-- 9. المسالك البولية والكلى -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('urology')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('urology')">
               <i class="ti ti-droplet"></i>
               <span>المسالك والكلى</span>
               <span class="spec-badge">2 أطباء</span>
             </button>
             <!-- 10. الأطفال وحديثي الولادة -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('pediatrics')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('pediatrics')">
               <i class="ti ti-baby-carriage"></i>
               <span>الأطفال وحديثي الولادة</span>
               <span class="spec-badge">2 أطباء</span>
             </button>
             <!-- 11. العيون وجراحة الليزك -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('ophthalmology')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('ophthalmology')">
               <i class="ti ti-eye"></i>
               <span>العيون والليزر</span>
               <span class="spec-badge">2 أطباء</span>
             </button>
             <!-- 12. النساء والتوليد -->
-            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('obgyn')">
+            <button type="button" class="spec-pill-btn" onclick="selectSpecialtyForInline('obgyn')">
               <i class="ti ti-gender-female"></i>
               <span>النساء والتوليد</span>
               <span class="spec-badge">2 أطباء</span>
             </button>
           </div>
-        </div>
-      </div><!-- End .companion-scanner-card -->
-    </div><!-- End .hero-layout-grid -->
-  </main>
+
+          <!-- INLINE DOCTORS HORIZONTAL SCROLL TRAY ("سكروول تحت يوريني باقي الدكاتره") -->
+          <div class="inline-doctors-scroll-tray" id="inlineDoctorsTray">
+            <div class="inline-docs-bar-header">
+              <div class="inline-docs-label" id="inlineDocsLabel">
+                <i class="ti ti-user-star" style="color:var(--accent);"></i>
+                <span id="inlineDocsSpecTitle">أطباء <strong>المخ والأعصاب</strong> المتاحون للحجز:</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="inline-docs-count-hint" id="inlineDocsCountHint">
+                  <i class="ti ti-arrows-left-right"></i> اسحب أفقياً لتصفح باقي الأطباء
+                </span>
+                <button type="button" class="btn-carousel-nav" onclick="scrollInlineDoctors('prev')" title="السابق" aria-label="السابق">
+                  <i class="ti ti-chevron-right"></i>
+                </button>
+                <button type="button" class="btn-carousel-nav" onclick="scrollInlineDoctors('next')" title="التالي" aria-label="التالي">
+                  <i class="ti ti-chevron-left"></i>
+                </button>
+                <button type="button" class="btn-view-all-modal-trigger" onclick="openCurrentSpecialtyModal()" title="تكبير القائمة واستعراض التفاصيل الكاملة">
+                  <i class="ti ti-arrows-maximize"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="inline-docs-carousel" id="inlineDocsCarousel">
+              <!-- Dynamically populated with doctor cards for selected specialty -->
+            </div>
+          </div>
+        </section><!-- End .specialty-doctor-picker-hub -->
+      </main>
 
   <!-- ==================== STATS & TRUST FOOTER BAR ==================== -->
   <footer class="ai-stats-strip">
@@ -3031,14 +3317,94 @@
       }
     };
 
+    let currentInlineSpecialtyKey = 'neurology';
+
+    function selectSpecialtyForInline(specKey) {
+      const data = SPECIALTY_DOCTORS_REGISTRY[specKey];
+      if (!data) return;
+      currentInlineSpecialtyKey = specKey;
+
+      // 1. Update active pill button in pills scroll row
+      document.querySelectorAll('.spec-pill-btn').forEach(btn => {
+        btn.classList.remove('active');
+        const oc = btn.getAttribute('onclick') || '';
+        if (oc.includes(`'${specKey}'`) || oc.includes(`"${specKey}"`)) {
+          btn.classList.add('active');
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
+      });
+
+      // 2. Update Header Title & Count Hint
+      const titleEl = document.getElementById('inlineDocsSpecTitle');
+      if (titleEl) {
+        titleEl.innerHTML = `أطباء <strong>${data.name}</strong> المتاحون للحجز:`;
+      }
+      const countHint = document.getElementById('inlineDocsCountHint');
+      if (countHint) {
+        countHint.innerHTML = `<i class="ti ti-arrows-left-right"></i> ${data.doctors.length} استشاريين • اسحب للتصفح`;
+      }
+
+      // 3. Render doctor cards into #inlineDocsCarousel
+      const carousel = document.getElementById('inlineDocsCarousel');
+      if (carousel) {
+        let cardsHtml = '';
+        data.doctors.forEach(doc => {
+          const avatarInitial = doc.name.replace(/^د\.\s*/, '').charAt(0) || 'ط';
+          const cleanFeeNum = (doc.fee || '').replace(/[^0-9]/g, '') || '280';
+          cardsHtml += `
+            <div class="inline-doc-card" onclick="bookDoctorDirect('${escapeHtml(doc.name)}', '${escapeHtml(data.name)}', '${cleanFeeNum}', '${escapeHtml(doc.city)}')">
+              <div class="inline-doc-top">
+                <div class="inline-doc-avatar">${avatarInitial}</div>
+                <div class="inline-doc-info">
+                  <div class="inline-doc-name-row">
+                    <h4 class="inline-doc-name">${doc.name}</h4>
+                    <span class="inline-verified-icon" title="طبيب معتمد"><i class="ti ti-circle-check-filled"></i></span>
+                  </div>
+                  <div class="inline-doc-role">${doc.title}</div>
+                </div>
+              </div>
+
+              <div class="inline-doc-meta-pills">
+                <span class="inline-pill-item"><i class="ti ti-star-filled" style="color:#f59e0b;"></i> <strong>${doc.rating}</strong> (${doc.reviews})</span>
+                <span class="inline-pill-item"><i class="ti ti-award" style="color:var(--accent);"></i> ${doc.exp} سنين</span>
+                <span class="inline-pill-item"><i class="ti ti-map-pin" style="color:#38bdf8;"></i> ${doc.city.split('،')[0]}</span>
+                <span class="inline-pill-item"><i class="ti ti-clock" style="color:#a855f7;"></i> ${doc.time}</span>
+              </div>
+
+              <div class="inline-doc-bottom-row">
+                <div class="inline-doc-fee">الكشف: <strong>${doc.fee}</strong></div>
+                <button type="button" class="btn-inline-book">
+                  <span>احجز الآن</span>
+                  <i class="ti ti-arrow-left"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+        carousel.innerHTML = cardsHtml;
+        carousel.scrollLeft = 0;
+      }
+    }
+
+    function scrollInlineDoctors(direction) {
+      const carousel = document.getElementById('inlineDocsCarousel');
+      if (!carousel) return;
+      const scrollAmount = 260;
+      const isRtl = document.dir === 'rtl' || getComputedStyle(carousel).direction === 'rtl';
+      const delta = (direction === 'next') ? (isRtl ? -scrollAmount : scrollAmount) : (isRtl ? scrollAmount : -scrollAmount);
+      carousel.scrollBy({ left: delta, behavior: 'smooth' });
+    }
+
+    function openCurrentSpecialtyModal() {
+      openSpecialtyDoctors(currentInlineSpecialtyKey);
+    }
+
     function openSpecialtyDoctors(specKey) {
       const data = SPECIALTY_DOCTORS_REGISTRY[specKey];
       if (!data) return;
 
-      // Update active state in pills row
-      document.querySelectorAll('.spec-pill-btn').forEach(btn => btn.classList.remove('active'));
-      const activeBtn = Array.from(document.querySelectorAll('.spec-pill-btn')).find(b => b.textContent.includes(data.name.split(' ')[0]));
-      if(activeBtn) activeBtn.classList.add('active');
+      // Also sync inline specialty selection
+      selectSpecialtyForInline(specKey);
 
       const iconEl = document.getElementById('specModalIcon');
       const titleEl = document.getElementById('specModalTitle');
@@ -3364,10 +3730,18 @@
       location.href = 'tababa-homepage.html';
     }
 
-    // Automatic Specialty Modal Trigger via URL params (e.g. ?openSpec=cardiology or ?openSpec=all)
+    // Automatic Specialty Modal Trigger & Inline Tray initialization
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const specParam = urlParams.get('openSpec') || urlParams.get('specialty');
+
+      // Initialize inline doctors carousel with URL specialty or default to 'neurology'
+      if (specParam && SPECIALTY_DOCTORS_REGISTRY[specParam]) {
+        selectSpecialtyForInline(specParam);
+      } else {
+        selectSpecialtyForInline('neurology');
+      }
+
       if (specParam) {
         if (specParam === 'all') {
           openAllSpecialtiesModal();
