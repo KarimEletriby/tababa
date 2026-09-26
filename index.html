@@ -306,26 +306,33 @@
       margin: 0;
     }
 
-    /* ================= MAIN HERO GRID (CHAT CENTERPIECE + SIDE COMPANION) ================= */
+    /* ================= MAIN HERO GRID (CHAT CENTERPIECE + EXPANSIVE 3D SCANNER) ================= */
     .hero-layout-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 375px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(500px, 600px);
       align-items: stretch;
-      gap: 32px;
+      gap: 28px;
       margin-bottom: 30px;
     }
 
-    @media (max-width: 1280px) and (min-width: 1081px) {
+    @media (max-width: 1400px) and (min-width: 1151px) {
       .hero-layout-grid {
-        grid-template-columns: minmax(0, 1fr) 350px;
-        gap: 20px;
+        grid-template-columns: minmax(0, 1fr) 500px;
+        gap: 22px;
       }
     }
 
-    @media (max-width: 1080px) {
+    @media (max-width: 1150px) and (min-width: 1025px) {
+      .hero-layout-grid {
+        grid-template-columns: minmax(0, 1fr) 460px;
+        gap: 18px;
+      }
+    }
+
+    @media (max-width: 1024px) {
       .hero-layout-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 28px;
       }
       .nav-links-row {
         display: none;
@@ -343,7 +350,7 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 35px rgba(31, 230, 168, 0.16);
       display: flex;
       flex-direction: column;
-      height: 720px;
+      height: 770px;
       overflow: hidden;
       backdrop-filter: blur(20px);
       position: relative;
@@ -738,24 +745,25 @@
 
     /* ================= 2. COMPANION SIDE 3D SCANNER CARD (THE SIDE TOOL) ================= */
     .companion-scanner-card {
-      background: linear-gradient(160deg, rgba(14, 26, 45, 0.92) 0%, rgba(9, 17, 30, 0.97) 100%);
-      border: 1px solid rgba(31, 230, 168, 0.28);
+      background: linear-gradient(160deg, rgba(14, 26, 45, 0.94) 0%, rgba(9, 17, 30, 0.98) 100%);
+      border: 1.5px solid rgba(31, 230, 168, 0.32);
       border-radius: 22px;
       padding: 16px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 35px rgba(31, 230, 168, 0.14);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       backdrop-filter: blur(16px);
-      height: 720px;
+      height: 770px;
       width: 100%;
-      max-width: 375px;
-      justify-self: end;
+      max-width: 100%;
+      justify-self: stretch;
     }
 
-    @media (max-width: 1080px) {
+    @media (max-width: 1024px) {
       .companion-scanner-card {
-        max-width: 100%;
+        max-width: 640px;
+        margin: 0 auto;
         height: auto;
       }
     }
@@ -790,7 +798,7 @@
     }
 
     .companion-title {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 900;
       color: #ffffff;
       margin: 0;
@@ -798,7 +806,7 @@
     }
 
     .companion-subtitle {
-      font-size: 11.5px;
+      font-size: 12px;
       color: var(--text-secondary);
       margin: 0;
       line-height: 1.4;
@@ -807,54 +815,67 @@
     .companion-scanner-stage {
       position: relative;
       flex: 1;
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(31, 230, 168, 0.2);
-      background: radial-gradient(circle at 50% 40%, rgba(14, 30, 50, 0.8) 0%, rgba(6, 13, 23, 0.98) 75%);
+      border: 1px solid rgba(31, 230, 168, 0.25);
+      background: radial-gradient(circle at 50% 40%, rgba(14, 30, 50, 0.85) 0%, rgba(6, 13, 23, 0.98) 75%);
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 400px;
+      min-height: 520px;
     }
 
     .companion-scanner-card .scanner-canvas {
-      max-width: 360px;
+      width: 100%;
+      max-width: 550px;
+      aspect-ratio: 1 / 1;
+      height: auto;
     }
 
     .companion-scanner-card .organ-click-zone {
-      transform: translate(-50%, -50%) scale(0.82);
+      transform: translate(-50%, -50%) scale(1);
       transform-origin: center center;
     }
 
     .companion-organ-tabs {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
       gap: 6px;
-      justify-content: center;
-      padding-top: 4px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 6px 2px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .companion-organ-tabs::-webkit-scrollbar {
+      display: none;
     }
 
     .companion-organ-tabs .organ-tab-btn {
-      padding: 5px 9px;
-      font-size: 11px;
+      padding: 6px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border);
       color: var(--text-secondary);
-      border-radius: 8px;
+      border-radius: 20px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       transition: all 0.2s;
       font-family: inherit;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .companion-organ-tabs .organ-tab-btn:hover,
     .companion-organ-tabs .organ-tab-btn.active {
-      background: rgba(31, 230, 168, 0.15);
-      border-color: rgba(31, 230, 168, 0.4);
+      background: rgba(31, 230, 168, 0.18);
+      border-color: rgba(31, 230, 168, 0.45);
       color: var(--accent);
+      transform: translateY(-1px);
     }
 
     .hero-scanner-stage {
@@ -875,7 +896,7 @@
     .scanner-canvas {
       position: relative;
       width: 100%;
-      max-width: 480px;
+      max-width: 550px;
       aspect-ratio: 1 / 1;
       margin: 0 auto;
       display: flex;
@@ -1254,7 +1275,16 @@
         padding: 4px;
       }
       .scanner-canvas {
-        max-width: 350px;
+        max-width: min(92vw, 420px);
+      }
+      .companion-scanner-stage {
+        min-height: 380px;
+      }
+      .companion-scanner-card .scanner-canvas {
+        max-width: min(92vw, 420px);
+      }
+      .companion-scanner-card .organ-click-zone {
+        transform: translate(-50%, -50%) scale(0.85);
       }
       .scanner-bottom-hud {
         font-size: 10px;
