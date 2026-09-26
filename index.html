@@ -837,45 +837,355 @@
       transform-origin: center center;
     }
 
-    .companion-organ-tabs {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      gap: 6px;
-      padding: 6px 2px;
+    /* ================= SPECIALTY DOCTOR SELECTOR HUB ================= */
+    .specialty-doctor-picker-hub {
+      padding-top: 8px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
     }
 
-    .companion-organ-tabs::-webkit-scrollbar {
+    .spec-hub-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .spec-hub-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .spec-hub-all-btn {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(31, 230, 168, 0.1);
+      border: 1px solid rgba(31, 230, 168, 0.32);
+      border-radius: 20px;
+      padding: 3px 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .spec-hub-all-btn:hover {
+      background: rgba(31, 230, 168, 0.2);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .spec-tabs-scroll-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding: 2px 1px 4px;
+    }
+
+    .spec-tabs-scroll-row::-webkit-scrollbar {
       display: none;
     }
 
-    .companion-organ-tabs .organ-tab-btn {
+    .spec-pill-btn {
       padding: 6px 12px;
       font-size: 11.5px;
       font-weight: 700;
       background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
       border-radius: 20px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      transition: all 0.2s;
+      gap: 6px;
+      transition: all 0.22s ease;
       font-family: inherit;
       white-space: nowrap;
       flex-shrink: 0;
     }
 
-    .companion-organ-tabs .organ-tab-btn:hover,
-    .companion-organ-tabs .organ-tab-btn.active {
-      background: rgba(31, 230, 168, 0.18);
-      border-color: rgba(31, 230, 168, 0.45);
+    .spec-pill-btn:hover {
+      background: rgba(31, 230, 168, 0.16);
+      border-color: rgba(31, 230, 168, 0.55);
       color: var(--accent);
       transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(31, 230, 168, 0.2);
+    }
+
+    .spec-pill-btn.active {
+      background: rgba(31, 230, 168, 0.22);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .spec-badge {
+      font-size: 9.5px;
+      font-weight: 800;
+      background: rgba(31, 230, 168, 0.18);
+      color: var(--accent);
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* ================= RECOMMENDED DOCTORS MODAL STYLES ================= */
+    .spec-modal-box {
+      max-width: 720px;
+      width: 94%;
+      background: linear-gradient(165deg, rgba(14, 26, 45, 0.98) 0%, rgba(8, 16, 28, 0.99) 100%);
+      border: 1.5px solid rgba(31, 230, 168, 0.35);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(31, 230, 168, 0.18);
+      position: relative;
+    }
+
+    .spec-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .spec-modal-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .spec-modal-icon-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(31, 230, 168, 0.15);
+      border: 1px solid rgba(31, 230, 168, 0.35);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .spec-doc-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 480px;
+      overflow-y: auto;
+      padding: 4px 2px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(31, 230, 168, 0.3) transparent;
+    }
+
+    .spec-doc-grid::-webkit-scrollbar {
+      width: 6px;
+    }
+    .spec-doc-grid::-webkit-scrollbar-thumb {
+      background: rgba(31, 230, 168, 0.3);
+      border-radius: 4px;
+    }
+
+    .spec-doc-card {
+      background: rgba(18, 32, 54, 0.7);
+      border: 1.5px solid rgba(31, 230, 168, 0.22);
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .spec-doc-card:hover {
+      background: rgba(22, 42, 70, 0.95);
+      border-color: rgba(31, 230, 168, 0.65);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(31, 230, 168, 0.2);
+    }
+
+    .spec-doc-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .spec-doc-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1fe6a8 0%, #059669 100%);
+      color: #03261b;
+      font-size: 20px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(31, 230, 168, 0.35);
+    }
+
+    .spec-doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .spec-doc-name-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .spec-doc-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .verified-pill {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--accent);
+      background: rgba(31, 230, 168, 0.14);
+      border: 1px solid rgba(31, 230, 168, 0.3);
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .spec-doc-sub {
+      font-size: 12.5px;
+      color: #94a3b8;
+      margin: 3px 0 0;
+      line-height: 1.4;
+    }
+
+    .spec-doc-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      padding: 8px 12px;
+    }
+
+    .spec-doc-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .spec-doc-meta-item strong {
+      color: #ffffff;
+    }
+
+    .spec-doc-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    .spec-doc-fee {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .spec-doc-fee strong {
+      color: var(--accent);
+      font-size: 15px;
+    }
+
+    .btn-book-doc-now {
+      background: linear-gradient(135deg, #1fe6a8 0%, #059669 100%);
+      color: #03261b;
+      font-weight: 800;
+      font-size: 12.5px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-book-doc-now:hover {
+      box-shadow: 0 4px 16px rgba(31, 230, 168, 0.5);
+      transform: translateY(-1px);
+    }
+
+    /* ALL SPECIALTIES GRID IN MODAL */
+    .all-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      max-height: 460px;
+      overflow-y: auto;
+      padding: 4px 2px;
+    }
+
+    .all-spec-card {
+      background: rgba(18, 32, 54, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .all-spec-card:hover {
+      background: rgba(31, 230, 168, 0.14);
+      border-color: rgba(31, 230, 168, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    .all-spec-icon {
+      font-size: 26px;
+      color: var(--accent);
+    }
+
+    .all-spec-name {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .all-spec-count {
+      font-size: 10.5px;
+      color: var(--text-muted);
     }
 
     .hero-scanner-stage {
@@ -2183,35 +2493,92 @@
           </div><!-- End .scanner-canvas -->
         </div><!-- End .companion-scanner-stage -->
 
-        <!-- Quick Organ System Navigation Tabs -->
-        <div class="companion-organ-tabs">
-          <button class="organ-tab-btn active" onclick="selectOrganTab(this, 'فحص طبي شامل لكافة أجهزة الجسم والمؤشرات الحيوية')">
-            <i class="ti ti-scan"></i> مسح شامل
-          </button>
-          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'صداع مزمن وإجهاد عصبي مع زغللة بالعينين')">
-            <i class="ti ti-brain"></i> الرأس والمخ
-          </button>
-          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'احتقان شديد بالحلق وصعوبة بلع مع ألم بالأسنان والجيوب الأنفية')">
-            <i class="ti ti-dental"></i> الحلق والأسنان
-          </button>
-          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'خفقان سريع في نبضات القلب مع ضيق تنفس خفيف')">
-            <i class="ti ti-heart-rate-monitor"></i> القلب والشرايين
-          </button>
-          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'ضيق في التنفس مع سعال متكرر وألم خفيف بالصدر')">
-            <i class="ti ti-wind"></i> الصدر والرئتان
-          </button>
-          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'حرقان ومغص حاد بالمعدة بعد الوجبات وارتجاع')">
-            <i class="ti ti-ripple"></i> المعدة والكبد
-          </button>
-          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'انتفاخ وتقلصات متكررة بالقولون مع عسر هضم')">
-            <i class="ti ti-activity"></i> القولون والأمعاء
-          </button>
-          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'ألم حاد ومغص كلوي في الجانبين مع حرقان بالبول')">
-            <i class="ti ti-droplet"></i> الكلى والمسالك
-          </button>
-          <button class="organ-tab-btn" onclick="selectOrganTab(this, 'ألم في مفصل الركبة وخشونة عند صعود السلم')">
-            <i class="ti ti-bone"></i> العظام والمفاصل
-          </button>
+        <!-- Specialty Doctor Selector Hub -->
+        <div class="specialty-doctor-picker-hub">
+          <div class="spec-hub-header">
+            <div class="spec-hub-title">
+              <i class="ti ti-stethoscope" style="color:var(--accent);font-size:15px;"></i>
+              <span>اختر طبيبك بحسب التخصص:</span>
+            </div>
+            <button type="button" class="spec-hub-all-btn" onclick="openAllSpecialtiesModal()">
+              <i class="ti ti-grid-dots"></i> كافة التخصصات (12)
+            </button>
+          </div>
+
+          <div class="spec-tabs-scroll-row">
+            <!-- 1. المخ والأعصاب -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('neurology')">
+              <i class="ti ti-brain"></i>
+              <span>المخ والأعصاب</span>
+              <span class="spec-badge">3 أطباء</span>
+            </button>
+            <!-- 2. القلب والأوعية -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('cardiology')">
+              <i class="ti ti-heart-rate-monitor"></i>
+              <span>القلب والأوعية</span>
+              <span class="spec-badge">3 أطباء</span>
+            </button>
+            <!-- 3. العظام والمفاصل -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('orthopedic')">
+              <i class="ti ti-bone"></i>
+              <span>العظام والمفاصل</span>
+              <span class="spec-badge">3 أطباء</span>
+            </button>
+            <!-- 4. الباطنة والجهاز الهضمي -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('internal_digestive')">
+              <i class="ti ti-ripple"></i>
+              <span>الباطنة والهضمي</span>
+              <span class="spec-badge">3 أطباء</span>
+            </button>
+            <!-- 5. الأنف والأذن والحنجرة -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('ent')">
+              <i class="ti ti-dental"></i>
+              <span>الأنف والأذن والحنجرة</span>
+              <span class="spec-badge">2 أطباء</span>
+            </button>
+            <!-- 6. طب وجراحة الأسنان -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('dental')">
+              <i class="ti ti-dental"></i>
+              <span>طب وجراحة الأسنان</span>
+              <span class="spec-badge">3 أطباء</span>
+            </button>
+            <!-- 7. الجلدية والتجميل -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('dermatology')">
+              <i class="ti ti-sparkles"></i>
+              <span>الجلدية والتجميل</span>
+              <span class="spec-badge">3 أطباء</span>
+            </button>
+            <!-- 8. الصدرية والرئتان -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('pulmonology')">
+              <i class="ti ti-wind"></i>
+              <span>الصدر والجهاز التنفسي</span>
+              <span class="spec-badge">2 أطباء</span>
+            </button>
+            <!-- 9. المسالك البولية والكلى -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('urology')">
+              <i class="ti ti-droplet"></i>
+              <span>المسالك والكلى</span>
+              <span class="spec-badge">2 أطباء</span>
+            </button>
+            <!-- 10. الأطفال وحديثي الولادة -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('pediatrics')">
+              <i class="ti ti-baby-carriage"></i>
+              <span>الأطفال وحديثي الولادة</span>
+              <span class="spec-badge">2 أطباء</span>
+            </button>
+            <!-- 11. العيون وجراحة الليزك -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('ophthalmology')">
+              <i class="ti ti-eye"></i>
+              <span>العيون والليزر</span>
+              <span class="spec-badge">2 أطباء</span>
+            </button>
+            <!-- 12. النساء والتوليد -->
+            <button type="button" class="spec-pill-btn" onclick="openSpecialtyDoctors('obgyn')">
+              <i class="ti ti-gender-female"></i>
+              <span>النساء والتوليد</span>
+              <span class="spec-badge">2 أطباء</span>
+            </button>
+          </div>
         </div>
       </div><!-- End .companion-scanner-card -->
     </div><!-- End .hero-layout-grid -->
@@ -2351,6 +2718,52 @@
       <button type="button" class="btn-start-analysis" style="padding:10px 22px;font-size:13px;" onclick="simulateVoiceFinish()">
         <i class="ti ti-check"></i> إنهاء التسجيل والتحليل السريري
       </button>
+    </div>
+  </div>
+
+  <!-- SPECIALTY DOCTORS RECOMMENDATION MODAL -->
+  <div class="modal-backdrop" id="specialtyDoctorsModal" onclick="handleModalOverlay(event, 'specialtyDoctorsModal')">
+    <div class="spec-modal-box">
+      <button class="modal-close" onclick="closeModal('specialtyDoctorsModal')"><i class="ti ti-x"></i></button>
+      
+      <div class="spec-modal-header">
+        <div class="spec-modal-title-row">
+          <div class="spec-modal-icon-badge" id="specModalIcon">
+            <i class="ti ti-stethoscope"></i>
+          </div>
+          <div>
+            <h3 style="font-size:18px;font-weight:900;color:#ffffff;margin:0 0 4px;" id="specModalTitle">أفضل استشاريي التخصص</h3>
+            <p style="font-size:12.5px;color:var(--text-secondary);margin:0;" id="specModalSubtitle">أطباء معتمدون ومتاحون للحجز الفوري — انقر على أي طبيب للانتقال لصفحة الحجز مباشرة</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="spec-doc-grid" id="specDocListContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL SPECIALTIES MODAL (BROWSE ALL 12 SPECIALTIES) -->
+  <div class="modal-backdrop" id="allSpecialtiesModal" onclick="handleModalOverlay(event, 'allSpecialtiesModal')">
+    <div class="spec-modal-box">
+      <button class="modal-close" onclick="closeModal('allSpecialtiesModal')"><i class="ti ti-x"></i></button>
+      
+      <div class="spec-modal-header">
+        <div class="spec-modal-title-row">
+          <div class="spec-modal-icon-badge">
+            <i class="ti ti-grid-dots"></i>
+          </div>
+          <div>
+            <h3 style="font-size:18px;font-weight:900;color:#ffffff;margin:0 0 4px;">كافة التخصصات الطبية المعتمدة (12 تخصص)</h3>
+            <p style="font-size:12.5px;color:var(--text-secondary);margin:0;">اختر التخصص المطلوب لاستعراض أفضل الاستشاريين المتاحين للحجز الفوري</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="all-specs-grid" id="allSpecsGridContainer">
+        <!-- Rendered dynamically -->
+      </div>
     </div>
   </div>
 
@@ -2498,6 +2911,228 @@
       if(input) input.value = text;
       processSymptomInput(text);
       if(input) input.value = '';
+    }
+
+    // ================= SPECIALTY DOCTORS DIRECTORY (12 SPECIALTIES) =================
+    const SPECIALTY_DOCTORS_REGISTRY = {
+      neurology: {
+        name: 'المخ والأعصاب',
+        icon: 'ti-brain',
+        desc: 'تشخيص وعلاج الصداع المزمن، آلام العمود الفقري، والاضطرابات العصبية الدقيقة',
+        doctors: [
+          { name: 'د. طارق العوضي', title: 'استشاري المخ والأعصاب وجراحة العمود الفقري', exp: 16, rating: 4.92, reviews: 310, city: 'الدقي، الجيزة', fee: '300 ج.م', time: 'اليوم 05:30 م' },
+          { name: 'د. حسام الدين', title: 'استشاري أمراض المخ والأعصاب والسكتات الدماغية', exp: 14, rating: 4.88, reviews: 245, city: 'مدينة نصر، القاهرة', fee: '280 ج.م', time: 'اليوم 07:00 م' },
+          { name: 'د. مريم عبد الله', title: 'أخصائية المخ والأعصاب والكهرباء الدماغية', exp: 8, rating: 4.75, reviews: 132, city: 'المنصورة — شارع جيهان', fee: '250 ج.م', time: 'غداً 04:30 م' }
+        ]
+      },
+      cardiology: {
+        name: 'القلب والأوعية الدموية',
+        icon: 'ti-heart-rate-monitor',
+        desc: 'استشاريو أمراض القلب، قسطرة الشرايين، وفحص ضغط الدم واستقرار النبض',
+        doctors: [
+          { name: 'د. وائل مجدي', title: 'استشاري أمراض القلب وقسطرة الشرايين التاجية', exp: 18, rating: 4.95, reviews: 334, city: 'المعادي، القاهرة', fee: '280 ج.م', time: 'اليوم 06:00 م' },
+          { name: 'د. ياسر رضوان', title: 'استشاري الباطنة والقلب والضغط الشرياني', exp: 16, rating: 4.86, reviews: 220, city: 'التجمع الخامس، القاهرة', fee: '300 ج.م', time: 'غداً 03:30 م' },
+          { name: 'د. لمياء خالد', title: 'أخصائية أمراض القلب وإيكو القلب بالموجات الصوتية', exp: 10, rating: 4.80, reviews: 156, city: 'المنصورة — شارع قناة السويس', fee: '260 ج.م', time: 'اليوم 08:00 م' }
+        ]
+      },
+      orthopedic: {
+        name: 'العظام والمفاصل والعمود الفقري',
+        icon: 'ti-bone',
+        desc: 'مناظير المفاصل، جراحة العمود الفقري، وعلاج خشونة الركبة والأوتار',
+        doctors: [
+          { name: 'د. حسام الشريف', title: 'استشاري جراحة العظام ومناظير المفاصل', exp: 17, rating: 4.88, reviews: 280, city: 'المهندسين، الجيزة', fee: '320 ج.م', time: 'اليوم 07:00 م' },
+          { name: 'د. محمد رضا', title: 'استشاري جراحة العظام وإصابات الملاعب', exp: 16, rating: 4.90, reviews: 265, city: 'مصر الجديدة، القاهرة', fee: '300 ج.م', time: 'اليوم 05:00 م' },
+          { name: 'د. منى الشاذلي', title: 'استشارية الروماتيزم والتأهيل الحركي', exp: 12, rating: 4.91, reviews: 195, city: 'المنصورة — حي المشاية', fee: '250 ج.م', time: 'اليوم 06:00 م' }
+        ]
+      },
+      internal_digestive: {
+        name: 'الباطنة والجهاز الهضمي',
+        icon: 'ti-ripple',
+        desc: 'علاج ارتجاع المريء، جرثومة المعدة، القولون العصبي، وأمراض الكبد والسكر',
+        doctors: [
+          { name: 'د. نهال سالم', title: 'استشارية الجهاز الهضمي والكبد ومناظير المعدة', exp: 15, rating: 4.92, reviews: 290, city: 'التجمع الخامس، القاهرة', fee: '290 ج.م', time: 'اليوم 08:00 م' },
+          { name: 'د. أحمد سامي', title: 'استشاري الباطنة العامة وأمراض السكر والغدد', exp: 12, rating: 4.82, reviews: 212, city: 'مدينة نصر، القاهرة', fee: '250 ج.م', time: 'اليوم 05:00 م' },
+          { name: 'د. عاصم فودة', title: 'استشاري الباطنة ومناظير القولون', exp: 14, rating: 4.85, reviews: 178, city: 'المنصورة — شارع جيهان', fee: '220 ج.م', time: 'غداً 05:00 م' }
+        ]
+      },
+      ent: {
+        name: 'الأنف والأذن والحنجرة',
+        icon: 'ti-dental',
+        desc: 'مناظير الجيوب الأنفية، علاج الحلق واللوزتين، وفحص السمع والتوازن',
+        doctors: [
+          { name: 'د. سامح عبد الوهاب', title: 'استشاري جراحة الأنف والأذن والحنجرة والمناظير', exp: 16, rating: 4.93, reviews: 310, city: 'المنصورة — شارع الجيش', fee: '260 ج.م', time: 'اليوم 05:30 م' },
+          { name: 'د. طارق مصطفى', title: 'استشاري جراحة الحنجرة والسمعيات', exp: 13, rating: 4.86, reviews: 194, city: 'الدقي، الجيزة', fee: '270 ج.م', time: 'غداً 06:00 م' }
+        ]
+      },
+      dental: {
+        name: 'طب وجراحة الأسنان',
+        icon: 'ti-dental',
+        desc: 'زراعة وتجميل الأسنان، علاج الجذور، تقويم الفكين، وتبييض الأسنان',
+        doctors: [
+          { name: 'د. كريم عادل', title: 'استشاري زراعة وتجميل الأسنان وابتسامة هوليود', exp: 10, rating: 4.91, reviews: 301, city: 'الدقي، الجيزة', fee: '220 ج.م', time: 'اليوم 04:30 م' },
+          { name: 'د. مروان النجار', title: 'استشاري علاج الجذور واللثة المجهري', exp: 11, rating: 4.90, reviews: 240, city: 'المنصورة — حي الجامعة', fee: '200 ج.م', time: 'اليوم 06:30 م' },
+          { name: 'د. سارة فؤاد', title: 'أخصائية تقويم الأسنان وتعديل إطباق الفكين', exp: 7, rating: 4.75, reviews: 98, city: 'مصر الجديدة، القاهرة', fee: '200 ج.م', time: 'غداً 05:00 م' }
+        ]
+      },
+      dermatology: {
+        name: 'الجلدية والتجميل والليزر',
+        icon: 'ti-sparkles',
+        desc: 'علاج حب الشباب، الأكزيما، تساقط الشعر، وإجراءات الليزر والتجميل',
+        doctors: [
+          { name: 'د. ياسمين حسن', title: 'استشارية الأمراض الجلدية والليزر وتجميل الوجه', exp: 14, rating: 4.85, reviews: 410, city: 'الزمالك، القاهرة', fee: '280 ج.م', time: 'اليوم 05:00 م' },
+          { name: 'د. ريهام العسال', title: 'استشارية الجلدية والعلاج بالليزر والبلازما', exp: 13, rating: 4.94, reviews: 290, city: 'مصر الجديدة، القاهرة', fee: '260 ج.م', time: 'اليوم 06:30 م' },
+          { name: 'د. عمرو الديب', title: 'أخصائي الأمراض الجلدية والتناسلية والعلاج الضوئي', exp: 9, rating: 4.70, reviews: 187, city: 'الإسكندرية — سموحة', fee: '220 ج.م', time: 'غداً 04:00 م' }
+        ]
+      },
+      pulmonology: {
+        name: 'الصدرية والجهاز التنفسي',
+        icon: 'ti-wind',
+        desc: 'علاج حساسية الصدر، الربو الشعبي، السعال المزمن، ومناظير الرئة',
+        doctors: [
+          { name: 'د. خالد عبد الرحمن', title: 'استشاري الأمراض الصدرية والحساسية والمناظير', exp: 15, rating: 4.91, reviews: 260, city: 'المنصورة — شارع البحر', fee: '270 ج.م', time: 'اليوم 05:00 م' },
+          { name: 'د. عاصم الجمل', title: 'استشاري أمراض الصدر ومناظير الشعب الهوائية', exp: 14, rating: 4.87, reviews: 215, city: 'مصر الجديدة، القاهرة', fee: '260 ج.م', time: 'غداً 04:30 م' }
+        ]
+      },
+      urology: {
+        name: 'الكلى والمسالك البولية',
+        icon: 'ti-droplet',
+        desc: 'تفتيت الحصوات بالليزر، علاج التهابات المسالك، ومناظير الكلى والبروستاتا',
+        doctors: [
+          { name: 'د. أشرف قنديل', title: 'استشاري جراحة المسالك البولية وتفتيت الحصوات', exp: 18, rating: 4.92, reviews: 320, city: 'المنصورة — شارع بنك مصر', fee: '290 ج.م', time: 'اليوم 06:00 م' },
+          { name: 'د. كريم عبد الباقي', title: 'استشاري أمراض الكلى والباطنة وزراعة الكلى', exp: 14, rating: 4.89, reviews: 235, city: 'الدقي، الجيزة', fee: '270 ج.م', time: 'غداً 05:00 م' }
+        ]
+      },
+      pediatrics: {
+        name: 'الأطفال وحديثي الولادة',
+        icon: 'ti-baby-carriage',
+        desc: 'متابعة نمو الرضع والمبتسرين، علاج حساسية ونزلات الأطفال، وتطعيمات',
+        doctors: [
+          { name: 'د. شريف الديب', title: 'استشاري طب الأطفال وحديثي الولادة ورعاية المبتسرين', exp: 16, rating: 4.95, reviews: 360, city: 'المنصورة — شارع المختلط', fee: '250 ج.م', time: 'اليوم 06:30 م' },
+          { name: 'د. أميرة سعد', title: 'استشارية طب الأطفال وأمراض النمو والمناعة', exp: 11, rating: 4.90, reviews: 298, city: 'مدينة نصر، القاهرة', fee: '220 ج.م', time: 'غداً 05:30 م' }
+        ]
+      },
+      ophthalmology: {
+        name: 'العيون وجراحة الليزك',
+        icon: 'ti-eye',
+        desc: 'تصحيح الإبصار بالليزك، إزالة المياه البيضاء، وفحص قاع العين والشبكية',
+        doctors: [
+          { name: 'د. سامح فوزي', title: 'استشاري جراحة العيون والليزك والمياه البيضاء', exp: 15, rating: 4.82, reviews: 221, city: 'المهندسين، الجيزة', fee: '260 ج.م', time: 'اليوم 05:00 م' },
+          { name: 'د. ريهام عصام', title: 'أخصائية طب وجراحة العيون وعلاج ضغط العين', exp: 8, rating: 4.70, reviews: 140, city: 'المنصورة — حي الجامعة', fee: '200 ج.م', time: 'غداً 06:00 م' }
+        ]
+      },
+      obgyn: {
+        name: 'النساء والتوليد وعلاج العقم',
+        icon: 'ti-gender-female',
+        desc: 'متابعة الحمل الحرج، السونار رباعي الأبعاد، الحقن المجهري، ومناظير الرحم',
+        doctors: [
+          { name: 'د. نور الهدى', title: 'استشارية أمراض النساء والتوليد والحقن المجهري', exp: 13, rating: 4.90, reviews: 389, city: 'الشيخ زايد، الجيزة', fee: '280 ج.م', time: 'اليوم 05:30 م' },
+          { name: 'د. إيمان طلعت', title: 'استشارية النساء والتوليد ومتابعة الحمل الحرج', exp: 11, rating: 4.75, reviews: 176, city: 'مصر الجديدة، القاهرة', fee: '240 ج.م', time: 'غداً 06:00 م' }
+        ]
+      }
+    };
+
+    function openSpecialtyDoctors(specKey) {
+      const data = SPECIALTY_DOCTORS_REGISTRY[specKey];
+      if (!data) return;
+
+      // Update active state in pills row
+      document.querySelectorAll('.spec-pill-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.spec-pill-btn')).find(b => b.textContent.includes(data.name.split(' ')[0]));
+      if(activeBtn) activeBtn.classList.add('active');
+
+      const iconEl = document.getElementById('specModalIcon');
+      const titleEl = document.getElementById('specModalTitle');
+      const subtitleEl = document.getElementById('specModalSubtitle');
+      const container = document.getElementById('specDocListContainer');
+
+      if (iconEl) iconEl.innerHTML = `<i class="ti ${data.icon}"></i>`;
+      if (titleEl) titleEl.textContent = `أفضل استشاريي ${data.name} 🌟`;
+      if (subtitleEl) subtitleEl.textContent = `${data.desc} • ${data.doctors.length} استشاريين متاحين للحجز الفوري`;
+
+      if (container) {
+        let html = '';
+        data.doctors.forEach(doc => {
+          const avatarInitial = doc.name.replace(/^د\.\s*/, '').charAt(0) || 'ط';
+          const cleanFeeNum = (doc.fee || '').replace(/[^0-9]/g, '') || '280';
+          html += `
+            <div class="spec-doc-card" onclick="bookDoctorDirect('${escapeHtml(doc.name)}', '${escapeHtml(data.name)}', '${cleanFeeNum}', '${escapeHtml(doc.city)}')">
+              <div class="spec-doc-top">
+                <div class="spec-doc-avatar">${avatarInitial}</div>
+                <div class="spec-doc-info">
+                  <div class="spec-doc-name-line">
+                    <h4 class="spec-doc-name">${doc.name}</h4>
+                    <span class="verified-pill"><i class="ti ti-circle-check"></i> استشاري معتمد</span>
+                  </div>
+                  <div class="spec-doc-sub">${doc.title}</div>
+                </div>
+              </div>
+
+              <div class="spec-doc-meta-row">
+                <div class="spec-doc-meta-item">
+                  <i class="ti ti-star-filled" style="color:#f59e0b;"></i>
+                  <strong>${doc.rating}</strong> (${doc.reviews} تقييم)
+                </div>
+                <div class="spec-doc-meta-item">
+                  <i class="ti ti-award" style="color:var(--accent);"></i>
+                  <strong>${doc.exp}</strong> سنوات خبرة
+                </div>
+                <div class="spec-doc-meta-item">
+                  <i class="ti ti-map-pin" style="color:#38bdf8;"></i>
+                  <span>${doc.city}</span>
+                </div>
+                <div class="spec-doc-meta-item">
+                  <i class="ti ti-clock" style="color:#a855f7;"></i>
+                  <span style="color:#38bdf8;">${doc.time}</span>
+                </div>
+              </div>
+
+              <div class="spec-doc-footer">
+                <div class="spec-doc-fee">سعر الكشف: <strong>${doc.fee}</strong></div>
+                <button type="button" class="btn-book-doc-now">
+                  <span>احجز كشفك الآن</span>
+                  <i class="ti ti-arrow-left"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      }
+
+      // Close all specs modal if open
+      closeModal('allSpecialtiesModal');
+      // Open doctors modal
+      openModal('specialtyDoctorsModal');
+    }
+
+    function openAllSpecialtiesModal() {
+      const container = document.getElementById('allSpecsGridContainer');
+      if (container) {
+        let html = '';
+        Object.keys(SPECIALTY_DOCTORS_REGISTRY).forEach(key => {
+          const spec = SPECIALTY_DOCTORS_REGISTRY[key];
+          html += `
+            <div class="all-spec-card" onclick="openSpecialtyDoctors('${key}')">
+              <div class="all-spec-icon"><i class="ti ${spec.icon}"></i></div>
+              <div class="all-spec-name">${spec.name}</div>
+              <div class="all-spec-count">${spec.doctors.length} استشاريين متاحين</div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      }
+      openModal('allSpecialtiesModal');
+    }
+
+    function bookDoctorDirect(docName, specName, fee, city) {
+      const cleanFee = (fee || '').toString().replace(/[^0-9]/g, '') || '280';
+      const url = `tababa-booking.html?doctor=${encodeURIComponent(docName)}&specialty=${encodeURIComponent(specName)}&fee=${encodeURIComponent(cleanFee)}&city=${encodeURIComponent(city)}&source=specialty_picker`;
+      window.location.href = url;
+    }
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if(modal) modal.classList.add('show');
     }
 
     function selectOrganTab(tabBtn, text) {
@@ -2728,6 +3363,19 @@
       // Directly transition patient into their active profile on tababa-homepage.html!
       location.href = 'tababa-homepage.html';
     }
+
+    // Automatic Specialty Modal Trigger via URL params (e.g. ?openSpec=cardiology or ?openSpec=all)
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const specParam = urlParams.get('openSpec') || urlParams.get('specialty');
+      if (specParam) {
+        if (specParam === 'all') {
+          openAllSpecialtiesModal();
+        } else if (SPECIALTY_DOCTORS_REGISTRY[specParam]) {
+          openSpecialtyDoctors(specParam);
+        }
+      }
+    });
   </script>
 </body>
 </html>
